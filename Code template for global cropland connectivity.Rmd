@@ -18,19 +18,15 @@ output:
 ========================================================
 
 
-# Introduction and set values of parameters (No change needed)
+
+ This R script analysis the invasion and dispersal risk of pest and disease based on the density of global cropland and the distance among them.
+
+# Uploading libraries needed and geographic scale of analysis
 
 ```{r, warning=FALSE, message=FALSE}
 #----------------------------------------------------------
-#----------------------------------------------------------
-## 1.0 Introduction
-##
-# This R script analysis the invasion and dispersal risk of pest and disease based on the density
-# of global cropland and the distance among them.
+## Load the following packages
 
-#----------------------------------------------------------
-## 1.1 Load the following packages
-##
 library(raster)
 library(rgdal)
 library(dismo)
@@ -50,7 +46,7 @@ library("colorspace")
 data("countriesLow")
 library(viridis)
 #----------------------------------------------------------
-#------------ Set palette
+#------------ Setting color palettes
 palette1 <- c( "#F4E156FF", "#F6D746FF", "#F8CD37FF", "#FAC329FF", "#FBB91EFF", "#FCAF13FF", 
                    "#FCA50BFF", "#FB9C06FF", "#FA9207FF", "#F8890CFF", "#F68013FF", "#F37819FF",
                    "#F06F20FF", "#EC6727FF", "#E85F2EFF", "#E25834FF", "#DD5139FF", "#D74B3FFF",
@@ -76,6 +72,7 @@ palette1 <- c( "#F4E156FF", "#F6D746FF", "#F8CD37FF", "#FAC329FF", "#FBB91EFF", 
 
 paldif <- diverge_hcl(12,h=c(128,330),c=98,l=c(65,90)) # palette for different map
 
+## Setting geographic scale of analysis
 #----------- East hemisphere-------------------
 latifrom <- -58 #latitude: 
 latito <- 60
