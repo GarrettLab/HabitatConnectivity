@@ -92,10 +92,14 @@ west_ext <- extent(-140, -34, -58, 60)
 
 ```
 
-# Import crop data (Need changes for different crops)
+# Parameters and data input (Need changes for different crops)
+
+Here a raster file with information about the distribution of cropland is required. Global maps of cropland are publicly available including [EarthStat](http://www.earthstat.org/harvested-area-yield-175-crops/) and [MapSpam](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DHXBJX). These sources provide data about harvested area of crops around the world as fraction on the total land or hectares. We have also used data from the [Global Biodiversity Information Facility](https://www.gbif.org/), but this requires a transformation from csv to raster files, allocation of georeferenced point locations into pixels and scaling of the number of points falling in each pixels in a range between 0 and 1.
+
+For simplicity, here we present an example of global cropland connectivity analysis for avocado.
 
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
-##
+
 #----------------------------------------------------------
 #----------------------------------------------------------
 ## 1.2 Customize crop and values of parameters
@@ -108,20 +112,25 @@ gamma<-0.2                                       ###
 gamma1<-0.3                                      ###
 gamma2<-1                                        ###
 crop<-'avocado'                                  ###
-cutoff<-9.943357e-07  #cropland density cutoff        ###
+cutoff<-0.0001  #cropland density cutoff        ###
 cutoffadja <- 0 # cutoff of adjancecy matrix     ###
 #----------------------------------------------------------
 #----------------------------------------------------------
 #----------------------------------------------------------
-## Read in a .tif file and get data.frame lon/ lat /cropland density
-##plantain_HarvestedAreaFraction
+
+## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
 
 cropharvest <- raster("avocado_HarvestedAreaFraction.tif")
-#cropharvestB <- raster("banana_HarvestedAreaFraction.tif")
-#cropharvest <- sum(cropharvestA, cropharvestB)
-#cropharvestMapSpam <- raster("") # MapSpam data need to convert unit in Hectar into harvested area fraction by deviding 10000
 
+## If a crop has more than one raster file, you can sum the cropland density of each file.
+#cropharvestB <- raster("otherCrop_HarvestedAreaFraction.tif")
+#cropharvest <- sum(cropharvestA, cropharvestB)
+
+## If you are using information from MapSpam make the following transformation:
+#cropharvestMapSpam <- raster("Filename.tif") 
+#cropharvest<-MapSpam / 10000 # MapSpam data need to convert unit in Hectares into harvested area fraction by deviding 10000
 ```
+
 
 
 # Total mean aggregation resolution = 1 (Need changes for different resolution)
