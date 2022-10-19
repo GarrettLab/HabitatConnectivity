@@ -14,12 +14,9 @@ output:
     df_print: paged
 ---
 
-
 ========================================================
 
-
-
- This R script analysis the invasion and dispersal risk of pest and disease based on the density of global cropland and the distance among them.
+This R script analysis the invasion and dispersal risk of pest and disease based on the density of global cropland and the distance among them.
 
 # Uploading libraries needed and geographic scale of analysis
 
@@ -128,8 +125,6 @@ cropharvest <- raster("avocado_HarvestedAreaFraction.tif")
 #cropharvest<-MapSpam / 10000 # MapSpam data need to convert unit in Hectares into harvested area fraction by deviding 10000
 ```
 
-
-
 # Total mean aggregation resolution = 1 (Need changes for different resolution)
 
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
@@ -180,7 +175,9 @@ dvse <- distVincentyEllipsoid(c(0,0), cbind(1, 0)) # reference of standard dista
 distance_matrix <- TemMat
 
 ```
+
 #Global cropland density map
+
 ```{r, fig.width=20, fig.height=10, dpi=400}
 
 cropharvestAGGTM_crop1 <- crop(cropharvestAGGTM, extent(-180, 180, -60, 80))	
@@ -212,7 +209,8 @@ plot(mean_index_raster_CAM, main = paste('Crop area density: ', crop), col = pal
 
 #plot(cropharvestAGGTM, col = palette1)
 ```
-# CCRI calculated by Inverse power-law function 
+
+# CCRI calculated by Inverse power-law function
 
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
 #CCRI BY Inverse power-law function 
@@ -287,7 +285,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
 
 ```
 
-# CCRI calculated by negative exponential function 
+# CCRI calculated by negative exponential function
 
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
 
@@ -368,8 +366,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
 
 ```
 
-
-## sensitivity analysis CCRI BY Inverse power-law function and negative exponential 
+## sensitivity analysis CCRI BY Inverse power-law function and negative exponential
 
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
 
@@ -393,6 +390,7 @@ index8 <- CCRI_negExponential_function(gamma2, cutoffadja, distance_matrix, lon,
 ```
 
 # Land mean aggregation resolution = 1
+
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
 
 # aggregated resolution
@@ -439,7 +437,7 @@ distance_matrix <- TemMat
 
 ```
 
-## sensitivity analysis CCRI BY Inverse power-law function and negative exponential 
+## sensitivity analysis CCRI BY Inverse power-law function and negative exponential
 
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
 
@@ -461,7 +459,7 @@ index16 <- CCRI_negExponential_function(gamma2, cutoffadja, distance_matrix, lon
 
 ```
 
-# Complete sensitivity analysis of CCRI 
+# Complete sensitivity analysis of CCRI
 
 ```{r ,fig.width=6, fig.height=7, dpi=150}
 
@@ -509,7 +507,7 @@ plot(mean_index_raster_west, col = palette1, zlim= c(0.000000000000, 1), xaxt='n
 
 ```
 
-# Western Complete sensitivity analysis of Variance of CCRI 
+# Western Complete sensitivity analysis of Variance of CCRI
 
 ```{r ,fig.width=6, fig.height=7, dpi=150}
 
@@ -539,8 +537,7 @@ plot(Variance_mean_index_raster_west_disagg, col = palette1, zlim= z_var_w, xaxt
 
 ```
 
-
-# Western difference map 
+# Western difference map
 
 ```{r ,fig.width=6, fig.height=7, dpi=150}
 paldif4 <- diverge_hcl(51, c = 100, l = c(20, 90), power = 1.3  )
@@ -628,7 +625,7 @@ distance_matrix <- TemMat
 
 ```
 
-## sensitivity analysis of CCRI BY Inverse power-law function and negative exponential 
+## sensitivity analysis of CCRI BY Inverse power-law function and negative exponential
 
 ```{r ,fig.width=9, fig.height=6.0, dpi=150}
 
@@ -692,7 +689,7 @@ distance_matrix <- TemMat
 
 ```
 
-## land mean eastern sensitivity analysis of CCRI BY Inverse power-law function and negative exponential 
+## land mean eastern sensitivity analysis of CCRI BY Inverse power-law function and negative exponential
 
 ```{r ,fig.width=9, fig.height=6.0, dpi=150}
 
@@ -708,7 +705,7 @@ index32 <- CCRI_negExponential_function(gamma2, cutoffadja, distance_matrix, lon
 
 ```
 
-# Eastern Complete sensitivity analysis of CCRI 
+# Eastern Complete sensitivity analysis of CCRI
 
 ```{r ,fig.width=9, fig.height=6.0, dpi=150}
 
@@ -744,7 +741,7 @@ plot(mean_index_raster_east, col = palette1, zlim= c(0.000000000000, 1), xaxt='n
 
 ```
 
-# Eastern Complete sensitivity analysis of Variance of CCRI 
+# Eastern Complete sensitivity analysis of Variance of CCRI
 
 ```{r ,fig.width=9, fig.height=6.0, dpi=150}
 
@@ -774,10 +771,7 @@ plot(Variance_mean_index_raster_east_disagg, col = palette1, zlim= z_var, xaxt='
 
 ```
 
-
-
-
-# Eestern difference map 
+# Eestern difference map
 
 ```{r ,fig.width=9, fig.height=6, dpi=150}
 
@@ -821,8 +815,6 @@ plot(mean_index_raster_diff_disagg_east, col=paldif4, zlim=zr2, xaxt='n',  yaxt=
 
 ```
 
-
-
 # combind East and west CCRI, they was analysis seperatedly first
 
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
@@ -861,7 +853,6 @@ plot(EWcropMeanCCRI, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',
 
 ```
 
-
 # combind East and West Variance map, they were analysis seperatedly first
 
 ```{r ,fig.width=11.75, fig.height=6.0, dpi=400}
@@ -891,8 +882,8 @@ zr2 <- range(-maxrankE,maxrankE)
 plot(countriesLow, add=TRUE, border = "white")   
 ```
 
-
 Saving mean, variance and difference of CCRI and CD in the format ".tif"
+
 ```{r}
 maintitleMeanCCRI <- paste(crop, "Mean CCRI global avocado 1 Monfreda varian probabilistic.tif")
 writeRaster(EWcropMeanCCRI, maintitleMeanCCRI, overwrite = TRUE)
@@ -903,4 +894,3 @@ writeRaster(EWcropMeanVar, maintitleVarianceCCRI, overwrite = TRUE)
 maintitleDifferenceCCRI_CD <- paste(crop, "Difference CCRI & CD global avocado 1 Monfreda variant probabilistic.tif")
 writeRaster(EWcropMeanDiff, maintitleDifferenceCCRI_CD, overwrite = TRUE)
 ```
-
