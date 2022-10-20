@@ -869,7 +869,7 @@ plot(EWcropMeanDiff, col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, 
 plot(countriesLow, add=TRUE, border = "white")   
 # ```
 
-Saving mean, variance and difference of CCRI and CD in the format ".tif"
+# Saving mean, variance and difference of CCRI and CD in the format ".tif"
 
 # ```{r}
 maintitleMeanCCRI <- paste(crop, "Mean CCRI global avocado 1 Monfreda varian probabilistic.tif")
