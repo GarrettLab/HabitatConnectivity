@@ -104,8 +104,9 @@ cutoffadja <- 0 # cutoff of adjancecy matrix     ###
 #----------------------------------------------------------
 
 ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
-
-cropharvest <- raster("avocado_HarvestedAreaFraction.tif")
+cropharvest <- geodata::crop_monfreda(crop = "avocado", path = tempdir())
+cropharvest <- raster(cropharvest$avocado_HarvestedAreaFraction)
+#cropharvest <- raster("avocado_HarvestedAreaFraction.tif")
 
 ## If a crop has more than one raster file, you can sum the cropland density of each file.
 #cropharvestB <- raster("otherCrop_HarvestedAreaFraction.tif")
