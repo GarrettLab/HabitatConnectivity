@@ -1,4 +1,5 @@
 # dependencies and libraries ----------------------------------------------
+library(rlist)
 library(raster)
 library(rgdal)
 library(dismo)
@@ -50,7 +51,13 @@ palette1 <- c( "#F4E156FF", "#F6D746FF", "#F8CD37FF", "#FAC329FF", "#FBB91EFF", 
                           
 paldif <- diverge_hcl(12,h=c(128,330),c=98,l=c(65,90)) # palette for different map
 
-# Set geographical scale --------------------------------------------------
+# source level variables --------------------------------------------------
+# Result of CCRI requests
+result_index_list <- list()
+
+
+# Initialize --------------------------------------------------
+is_initialized <- FALSE
 initializeCroplandData <- function(crop_name, resolution, geo_scale, cutoff)
 {
   ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
@@ -127,9 +134,16 @@ initializeCroplandData <- function(crop_name, resolution, geo_scale, cutoff)
   
   plot(mean_index_raster_CAM, main = paste('Crop area density: ', crop), col = palette1, zlim = zrWorldMean, xaxt = 'n', yaxt = 'n', axes = F, box = F, add = TRUE)
   
+  is_initialized = TRUE
 }
 
-CCRI_powerlaw <- function(beta_val)
+# inverse power law -------------------------------------------------------
+CCRI_powerlaw <- function(beta_vals)
 {
-
+  if(!is_initialized)
+  {
+    stop("Not initialized. Call initializeCroplandData()")
+  }
+  index1 <- CCRI_powerlaw_function(beta0, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
+  result_index_list <<- list.append(result_index_list, index1)
 }
