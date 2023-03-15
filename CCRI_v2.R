@@ -192,3 +192,4 @@ SenstivityAnalysis <- function()
   plot(mean_index_raster, col = palette1, zlim= c(0, 1), main=paste('Mean cropland connectivity risk index from sensitivity analysis: avocado, resolution = 1'), cex.main=0.7)
   plot(countriesLow, add=TRUE)
 }
+#TODO execute each of the functions and add interactive mode
