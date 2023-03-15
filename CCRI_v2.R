@@ -19,10 +19,10 @@ library("colorspace")
 data("countriesLow")
 library(viridis)
 # external source ----------------------------------------------
-source("CCRI.r")
+source("CCRI.R", echo = FALSE)
 
 # load config ----------------------------------------------
-config <- config::get(file = "configuration/parameters.yml")
+config <- config::get(file = "configurations/parameters.yaml")
 
 # Setting color palettes----------------------------------------------------------
 
@@ -62,7 +62,7 @@ initializeCroplandData <- function(crop_name, resolution, geo_scale, cutoff)
 {
   ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
   cropharvest <- geodata::crop_monfreda(crop = crop_name, path = tempdir())
-  cropharvest <- raster(names(cropharvest))
+  cropharvest <- raster(terra::sources(cropharvest))
   # aggregated resolution
   Resolution <- resolution # Set aggregated resolution, for example, assign 12 for 1 degree.
   
@@ -71,22 +71,22 @@ initializeCroplandData <- function(crop_name, resolution, geo_scale, cutoff)
   cropharvestAGGTM <- cropharvestAGG / Resolution / Resolution #TOTAL MEAN
   plot(cropharvestAGGTM, col = palette1)
   #----------- crop cropland area for the west hemisphere ----------
-  cropharvestAGGTM_crop <- crop(cropharvestAGGTM, geo_scale)	
+  cropharvestAGGTM_crop <<- crop(cropharvestAGGTM, geo_scale)	
   plot(cropharvestAGGTM_crop, col = palette1)
   #----------- Extract cropland density data -----------------------
   CropValues <- getValues(cropharvestAGGTM_crop)
-  CropValuesAzero <- which(CropValues > cutoff) # find the cells with value > 0.0001
-  cropValue <- CropValues[CropValuesAzero]
+  CropValuesAzero <<- which(CropValues > cutoff) # find the cells with value > 0.0001
+  cropValue <<- CropValues[CropValuesAzero]
   #----------- Extract xy corrdination for "povalue" cells ---------
-  lon <- NULL # xmin
-  lat <- NULL # ymax
+  lon <<- NULL # xmin
+  lat <<- NULL # ymax
   
   for(i in 1:length(CropValuesAzero)){
     temp <- extentFromCells(cropharvestAGGTM_crop, CropValuesAzero[i])
     AVxminO <- temp[1]
-    lon <- c(lon, AVxminO)
+    lon <<- c(lon, AVxminO)
     AVymaxO <- temp[4]
-    lat <- c(lat, AVymaxO)
+    lat <<- c(lat, AVymaxO)
   }
   
   #---------------------------------------------------------------
@@ -102,7 +102,7 @@ initializeCroplandData <- function(crop_name, resolution, geo_scale, cutoff)
   for (i in 1:nrow(latilongimatr)) {
     TemMat[i, ] <- distVincentyEllipsoid(latilongimatr[i,], latilongimatr)/dvse
   }
-  distance_matrix <- TemMat
+  distance_matrix <<- TemMat
   # ```
   
   #Global cropland density map
@@ -137,13 +137,58 @@ initializeCroplandData <- function(crop_name, resolution, geo_scale, cutoff)
   is_initialized = TRUE
 }
 
-# inverse power law -------------------------------------------------------
-CCRI_powerlaw <- function(beta_vals)
+validate_index_cal <- function(params)
 {
+  ready <- TRUE
   if(!is_initialized)
   {
     stop("Not initialized. Call initializeCroplandData()")
   }
-  index1 <- CCRI_powerlaw_function(beta0, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
-  result_index_list <<- list.append(result_index_list, index1)
+  if(!is.list(beta_vals))
+  {
+    warning("argument is not a list")
+    ready <- FALSE;
+  }
+  return(ready)
+}
+
+# inverse power law -------------------------------------------------------
+CCRI_powerlaw <- function(beta_vals)
+{
+  if(!validate_index_cal(beta_vals))
+    return(0)
+  
+  index_list <- lapply(beta_vals, CCRI_powerlaw_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
+  result_index_list <- list.append(result_index_list, index_list)
+  return(1)
+}
+
+# negative exponential function -------------------------------------------
+CCRI_negative_exponential <- function(gamma_vals)
+{
+  if(!validate_index_cal(gamma_vals))
+    return(0)
+  
+  index_list <- CCRI_negExponential_function(gamma00, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
+  result_index_list <- list.append(result_index_list, index_list)
+  return(1)
+}
+
+# Sensitivity analysis ----------------------------------------------------
+
+SenstivityAnalysis <- function()
+{
+  initializeCroplandData(config$`CCRI parameters`$crop, config$`CCRI parameters`$Resolution, 
+                         extend(config$`CCRI parameters`$longitude_latitude[1]), config$`CCRI parameters`$cuttoff)
+  mean_index_raster <- sum (result_index_list) / 16
+  
+  mean_index_raster_diff <- mean_index_raster
+  Variance_mean_index_raster_west <- mean_index_raster
+  
+  mean_index_raster_val <- getValues(mean_index_raster)
+  zeroId <- which(mean_index_raster_val == 0)
+  mean_index_raster[zeroId] <- NaN
+  
+  plot(mean_index_raster, col = palette1, zlim= c(0, 1), main=paste('Mean cropland connectivity risk index from sensitivity analysis: avocado, resolution = 1'), cex.main=0.7)
+  plot(countriesLow, add=TRUE)
 }
