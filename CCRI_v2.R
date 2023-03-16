@@ -22,7 +22,10 @@ library(viridis)
 source("CCRI.R", echo = FALSE)
 
 # load config ----------------------------------------------
-config <- config::get(file = "configurations/parameters.yaml")
+LoadConfig <- function()
+{
+  config <<- config::get(file = "configurations/parameters.yaml") 
+}
 
 # Setting color palettes----------------------------------------------------------
 
@@ -56,21 +59,38 @@ paldif <- diverge_hcl(12,h=c(128,330),c=98,l=c(65,90)) # palette for different m
 result_index_list <- list()
 
 
-# Initialize --------------------------------------------------
-is_initialized <- FALSE
-initializeCroplandData <- function(crop_name, resolution, geo_scale, cutoff)
+# Utility functions -------------------------------------------------------
+# Calculate crop harvest raster -------------------------------------------
+
+getCropHarvestRaster <- function(crop_name)
 {
-  ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
   cropharvest <- geodata::crop_monfreda(crop = crop_name, path = tempdir())
   cropharvest <- raster(terra::sources(cropharvest))
+  return(cropharvest)
+}
+getCropHarvestRasterSum <- function(crop_names)
+{
+  #crop_harvest1 + crop_harvest2 +.....n
+  cropharvests <- lapply(crop_names, getCropHarvestRaster)
+  Reduce('+', cropharvests)
+}
+
+# Initialize --------------------------------------------------
+is_initialized <- FALSE
+InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cutoff, aggregateMethod)
+{
+  ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
+  # TODO:do the above outside this function
+  # cropharvest <- getCropHarvestRasterSum(crop_names)
+  
   # aggregated resolution
   Resolution <- resolution # Set aggregated resolution, for example, assign 12 for 1 degree.
   
-  #----------- total mean aggregration -----------------------------
-  cropharvestAGG <- aggregate(cropharvest, fact = Resolution, fun=sum, na.action = na.omit)
+  #----------- aggregration -----------------------------
+  cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit)
   cropharvestAGGTM <- cropharvestAGG / Resolution / Resolution #TOTAL MEAN
   plot(cropharvestAGGTM, col = palette1)
-  #----------- crop cropland area for the west hemisphere ----------
+  #----------- crop cropland area for the given extent ----------
   cropharvestAGGTM_crop <<- crop(cropharvestAGGTM, geo_scale)	
   plot(cropharvestAGGTM_crop, col = palette1)
   #----------- Extract cropland density data -----------------------
@@ -174,13 +194,39 @@ CCRI_negative_exponential <- function(gamma_vals)
   return(1)
 }
 
+
+# Utility functions -------------------------------------------------------
+
+GetGeographicScales <- function()
+{
+  performGlobalAnalysis <- config$`CCRI parameters`$Longitude_Latitude$Global
+  geoScales = list()
+  if(performGlobalAnalysis)
+  {
+    geoScales <- list(config$`CCRI parameters`$Longitude_Latitude$EastExt, config$`CCRI parameters`$Longitude_Latitude$WestExt)
+  }
+  geoScales <- list.append(geoScales, config$`CCRI parameters`$Longitude_Latitude$CustomExt)
+  #extent(as.numeric(unlist(geoScales)))
+}
 # Sensitivity analysis ----------------------------------------------------
 
 SenstivityAnalysis <- function()
 {
-  initializeCroplandData(config$`CCRI parameters`$crop, config$`CCRI parameters`$Resolution, 
-                         extend(config$`CCRI parameters`$longitude_latitude[1]), config$`CCRI parameters`$cuttoff)
-  mean_index_raster <- sum (result_index_list) / 16
+  geoScales <- GetGeographicScales()
+  geoAreaExt <- extent(as.numeric(unlist(GetGeographicScales()[1]))) #list
+  
+  cropharvest <- getCropHarvestRasterSum(as.list(config$`CCRI parameters`$crop)) #list
+  
+  aggregateMethod <- config$`CCRI parameters`$aggregationStrategy #list
+  
+  # TODO: per cutoff or cropland threshold
+  InitializeCroplandData(cropharvest, config$`CCRI parameters`$Resolution, 
+                         geoAreaExt, config$`CCRI parameters`$cuttoff, aggregateMethod[1])
+  
+  InitializeCroplandData(cropharvest, config$`CCRI parameters`$Resolution, 
+                         geoAreaExt, config$`CCRI parameters`$cuttoff, aggregateMethod[2])
+  
+  mean_index_raster <- sum (unlist(result_index_list)) / 16
   
   mean_index_raster_diff <- mean_index_raster
   Variance_mean_index_raster_west <- mean_index_raster
