@@ -18,7 +18,7 @@ default:
       Global: TRUE
       WestExt: [-24, 180, -58, 60] #long_from, long_to, lat_from, lat_to
       EastExt: [-24, 180, -58, 60]
-      CustomExt: [[bunch of 4 nos], [a,b,c,d]]
+      CustomExt: [] # set this to NA/Empty if not required
     Resolution: 12
     Network_metrics:
       InversePowerLaw: ["betweeness", "node_strength", "sum_of_nearest_neghbors", "node_degree", "eigenvector centrality"]

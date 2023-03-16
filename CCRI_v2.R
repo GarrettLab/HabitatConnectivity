@@ -205,7 +205,11 @@ GetGeographicScales <- function()
   {
     geoScales <- list(config$`CCRI parameters`$Longitude_Latitude$EastExt, config$`CCRI parameters`$Longitude_Latitude$WestExt)
   }
-  geoScales <- list.append(geoScales, config$`CCRI parameters`$Longitude_Latitude$CustomExt)
+  customScales <- config$`CCRI parameters`$Longitude_Latitude$CustomExt
+  if(!(is.null(customScales) || is.na(customScales) || length(customScales) == 0))
+    geoScales <- list.append(geoScales, customScales)
+  
+  return(geoScales)
   #extent(as.numeric(unlist(geoScales)))
 }
 # Sensitivity analysis ----------------------------------------------------
