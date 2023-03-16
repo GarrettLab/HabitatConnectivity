@@ -230,7 +230,7 @@ SenstivityAnalysis <- function()
   InitializeCroplandData(cropharvest, config$`CCRI parameters`$Resolution, 
                          geoAreaExt, config$`CCRI parameters`$cuttoff, aggregateMethod[2])
   
-  mean_index_raster <- sum (unlist(result_index_list)) / 16
+  mean_index_raster <- sum (unlist(result_index_list)) / length(result_index_list)
   
   mean_index_raster_diff <- mean_index_raster
   Variance_mean_index_raster_west <- mean_index_raster
