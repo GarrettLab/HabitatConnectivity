@@ -212,34 +212,112 @@ GetGeographicScales <- function()
   return(geoScales)
   #extent(as.numeric(unlist(geoScales)))
 }
+
+
+# method to calculate zero raster -----------------------------------------
+
+CalculateZeroRaster <- function(geoScale, mean_index_raster)
+{
+  #cropharvest_grey <- cropharvest
+  #greyVal <- getValues(cropharvest_grey)
+  #ValCell <- which(greyVal > 0)
+  #cropharvest_grey[ValCell] <- 0
+  #writeRaster(cropharvest_grey, "ZeroRaster.tif")
+  #------------------------------------------------------------
+  #--- remove pixels outside of boundary
+  #TODO: is there any other way to get 0 raster?
+  ZeroRaster <- raster("ZeroRaster.tif")
+  extZero <- crop(ZeroRaster, geoScale)
+  mean_index_raster <- disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method ='' )
+  mean_index_raster_ext <- mean_index_raster + extZero
+  plot(mean_index_raster_ext, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',  
+       yaxt='n', axes=F, box=F, main=paste('Mean cropland connectivity risk index from sensitivity analysis:', config$`CCRI parameters`$Crops), 
+       cex.main=0.7)
+  plot(countriesLow, add=TRUE)
+  
+  #------------------------------------------------------------
+  map_grey_background <- raster("map_grey_background.tif")
+  
+  #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
+  map_grey_background_ext <- crop(map_grey_background, geoScale)
+  plot(map_grey_background_ext, col = "grey75",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
+       main=paste('Mean cropland connectivity risk index from sensitivity analysis: avocado'), cex.main=0.7)
+  plot(mean_index_raster_ext, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',  
+       yaxt='n', axes=F, box=F, add = TRUE)
+  
+  map_grey_background_ext
+  #plot(countriesLow, add=TRUE, border = "white")
+  
+}
+
+
+# Complete sensitivity analysis of Variance of CCRI -------------
+CCRIVariance <- function(indexes, map_grey_background_ext)
+{
+  # ```{r ,fig.width=6, fig.height=7, dpi=150}
+  Variance_mean_index_ext <- apply(do.call(cbind, indexes), 1, var)
+  
+  Variance_mean_index_ext[] <- Variance_mean_index_ext
+  z_var_w <- range(Variance_mean_index_ext[which(Variance_mean_index_ext > 0)])
+  plot(Variance_mean_index_ext, col = palette1, zlim= z_var_w, xaxt='n',  
+       yaxt='n', axes=F, box=F)
+  plot(countriesLow, add=TRUE)
+  #----------------------------------------------------
+  
+  Variance_mean_index_raster_ext_disagg <- disaggregate(Variance_mean_index_ext, fact = c(Resolution, Resolution), method ='' )
+  Variance_mean_index_raster_ext_disagg <- Variance_mean_index_raster_ext_disagg + West_Zero
+  plot(Variance_mean_index_raster_ext_disagg, col = palette1, zlim= z_var_w, xaxt='n',   cex.main=0.7,
+       yaxt='n', axes=F, box=F, main=paste('Variance in cropland connectivity risk index from sensitivity analysis:', crop))
+  plot(countriesLow, add=TRUE)
+  
+  
+  plot(map_grey_background_ext, col = "grey75",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
+       main=paste('Variance in cropland connectivity risk index from sensitivity analysis:', config$`CCRI parameters`$Crops), cex.main=0.7)
+  plot(Variance_mean_index_raster_ext_disagg, col = palette1, zlim= z_var_w, xaxt='n',  
+       yaxt='n', axes=F, box=F, add = TRUE)
+  
+}
+
 # Sensitivity analysis ----------------------------------------------------
 
 SenstivityAnalysis <- function()
 {
-  geoScales <- GetGeographicScales()
-  geoAreaExt <- extent(as.numeric(unlist(GetGeographicScales()[1]))) #list
-  
-  cropharvest <- getCropHarvestRasterSum(as.list(config$`CCRI parameters`$crop)) #list
-  
+  # crop data
+  cropharvest <- getCropHarvestRasterSum(as.list(config$`CCRI parameters`$Crops)) #list
   aggregateMethod <- config$`CCRI parameters`$aggregationStrategy #list
   
-  # TODO: per cutoff or cropland threshold
-  InitializeCroplandData(cropharvest, config$`CCRI parameters`$Resolution, 
-                         geoAreaExt, config$`CCRI parameters`$cuttoff, aggregateMethod[1])
+  # maps
+  geoScales <- GetGeographicScales()
   
-  InitializeCroplandData(cropharvest, config$`CCRI parameters`$Resolution, 
-                         geoAreaExt, config$`CCRI parameters`$cuttoff, aggregateMethod[2])
-  
-  mean_index_raster <- sum (unlist(result_index_list)) / length(result_index_list)
-  
-  mean_index_raster_diff <- mean_index_raster
-  Variance_mean_index_raster_west <- mean_index_raster
-  
-  mean_index_raster_val <- getValues(mean_index_raster)
-  zeroId <- which(mean_index_raster_val == 0)
-  mean_index_raster[zeroId] <- NaN
-  
-  plot(mean_index_raster, col = palette1, zlim= c(0, 1), main=paste('Mean cropland connectivity risk index from sensitivity analysis: avocado, resolution = 1'), cex.main=0.7)
-  plot(countriesLow, add=TRUE)
+  #resolution
+  resolution <- config$`CCRI parameters`$Resolution
+  for (geoScale in geoScales)
+  {
+    geoAreaExt <- extent(as.numeric(unlist(geoScale))) #list
+    
+    # TODO: per cutoff or cropland threshold
+    InitializeCroplandData(cropharvest, resolution, 
+                           geoAreaExt, config$`CCRI parameters`$cuttoff, aggregateMethod[1])
+    
+    InitializeCroplandData(cropharvest, resolution, 
+                           geoAreaExt, config$`CCRI parameters`$cuttoff, aggregateMethod[2])
+    
+    mean_index_raster <- sum (unlist(result_index_list)) / length(result_index_list)
+    mean_index_raster_diff <- mean_index_raster
+    Variance_mean_index_raster_west <- mean_index_raster
+    
+    mean_index_raster_val <- getValues(mean_index_raster)
+    zeroId <- which(mean_index_raster_val == 0)
+    mean_index_raster[zeroId] <- NaN
+    
+    plot(mean_index_raster, col = palette1, zlim= c(0, 1),
+         main=paste("Mean cropland connectivity risk index from sensitivity analysis: ",
+                    config$`CCRI parameters`$Crops , "resolution = ", config$`CCRI parameters`$Resolution), cex.main=0.7)
+    plot(countriesLow, add=TRUE)
+    
+    #TODO: also add line 470 - 571 in original source
+    map_grey_background_ext <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
+    CCRIVariance(result_index_list, map_grey_background_ext)
+  }
 }
 #TODO execute each of the functions and add interactive mode
