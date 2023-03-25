@@ -19,7 +19,7 @@ library("colorspace")
 data("countriesLow")
 library(viridis)
 # external source ----------------------------------------------
-source("CCRI.R", echo = FALSE)
+#source("CCRI.R", echo = FALSE)
 
 # load config ----------------------------------------------
 LoadConfig <- function()
@@ -77,20 +77,20 @@ getCropHarvestRasterSum <- function(crop_names)
 
 # Initialize --------------------------------------------------
 is_initialized <- FALSE
-InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cutoff, aggregateMethod) {
+InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cutoff, aggMethod) {
   ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
   # cropharvest <- getCropHarvestRasterSum(crop_names)
   # aggregated resolution
   Resolution <- resolution # Set aggregated resolution, for example, assign 12 for 1 degree.
   #----------- aggregration -----------------------------
-  cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit)
-  if(aggregateMethod == "sum") {
+  cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun = aggMethod, na.action = na.omit)
+  if(aggMethod == "sum") {
     #cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit)
     cropharvestAGGTM <- cropharvestAGG / Resolution / Resolution #TOTAL MEAN
     plot(cropharvestAGGTM, col = palette1)
     #----------- crop cropland area for the given extent ----------
     cropharvestAGGTM_crop <<- crop(cropharvestAGGTM, geo_scale)	
-  } else if(aggregateMethod == "mean"){
+  } else if(aggMethod == "mean"){
     #cropharvestAGGLM <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit) # land mean
     cropharvestAGGLM <- cropharvestAGG
     plot(cropharvestAGGLM, col = palette1)
@@ -343,6 +343,158 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   #plot(countriesLow, add=TRUE, border = "white")
 }
 
+
+# CCRI functions ----------------------------------------------------------
+
+
+CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber)   {
+  ##############################################
+  #### create adjacency matrix
+  
+  distancematr <- distance_matrix # pairwise distance matrix
+  #---- end of code
+  distancematrexp <- distancematr^(-beta) #use function C=AX^(-beta), here A=1, X=distancematr
+  cropmatr <- cropValue # complete gravity model with crop data
+  cropmatr1 <- matrix(cropmatr, , 1 )
+  cropmatr2 <- matrix(cropmatr, 1, )
+  
+  cropmatrix <- cropmatr1 %*% cropmatr2
+  cropmatrix <- as.matrix(cropmatrix)
+  cropdistancematr <- distancematrexp * cropmatrix # adjacecy matrix
+  logicalmatr <- cropdistancematr > cutoffadja # adjacency matrix after threshold
+  stan <- cropdistancematr * logicalmatr
+  stan <- round(stan, 6) # use round() because betweenness() may have problem when do the calculation
+  cropdistancematrix <- graph.adjacency(stan,mode=c("undirected"),diag=F,weighted=T)#create adjacency matrix
+  ##############################################
+  ## sum of nearest neighbors degree
+  knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
+  knnpref0[is.na(knnpref0)]<-0
+  degreematr<-degree(cropdistancematrix)
+  knnpref<-knnpref0*degreematr
+  if(max(knnpref)==0){knnprefp=0}else
+    if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/6}
+  
+  ##############################################
+  #### node degree, node strengh 
+  ####
+  nodestrength<-graph.strength(cropdistancematrix) 
+  nodestrength[is.na(nodestrength)]<-0
+  if(max(nodestrength)==0){nodestr=0}else
+    if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/6}
+  ##############################################
+  #### betweenness centrality
+  #### 
+  #weight method 0:
+  #between<-betweenness(cropdistancematrix, weights = 1/E(cropdistancematrix)$weight)
+  #weight method 1: 
+  #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
+  #weight method 2:
+  between<-betweenness(cropdistancematrix, weights = (1-1/exp(E(cropdistancematrix)$weight)))
+  
+  between[is.na(between)]<-0
+  if(max(between)==0){betweenp=0}else
+    if(max(between)>0){betweenp=between/max(between)/2}
+  ##############################################
+  #### eigenvector and eigenvalues
+  #### 
+  eigenvectorvalues<-evcent(cropdistancematrix)
+  ev<-eigenvectorvalues$vector
+  ev[is.na(ev)]<-0
+  if(max(ev)==0){evp=0}else
+    if(max(ev)!=0){evp=ev/max(ev)/6}
+  ##############################################
+  #### CCRI is a weighted mean of 4 network metric
+  ####    
+  index<-knnprefp+evp+betweenp+nodestr
+  
+  indexpre<-cropRaster
+  indexpre[]<-0
+  indexpre[CellNumber]<- index
+  indexv<-indexpre
+  return(indexv)
+}
+
+# ```
+
+# CCRI calculated by negative exponential function
+
+# ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
+
+CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber)   {
+  ##############################################
+  #### create adjacency matrix
+  ####
+  distancematr <- distance_matrix
+  #---- end of code
+  
+  eulernumber<-exp(1)
+  distancematrexponential <- eulernumber ^ (-gamma * distancematr)# exponential model
+  cropmatr <- cropValue # complete gravity model with crop data
+  cropmatr1 <- matrix(cropmatr,,1) # complete gravity model with crop data
+  cropmatr2 <- matrix(cropmatr,1,)
+  cropmatrix <- cropmatr1 %*% cropmatr2
+  cropmatrix <- as.matrix(cropmatrix)
+  cropdistancematr <- distancematrexponential * cropmatrix
+  logicalmatr <- cropdistancematr > cutoffadja
+  stan <- cropdistancematr * logicalmatr
+  stan <- round(stan, 6) # use round() because betweenness() may have problem when do the calculation
+  cropdistancematrix<-graph.adjacency(stan,mode=c("undirected"),diag=F,weighted=T)#create adjacency matrix
+  ##############################################
+  #### create network for all the selected nodes
+  ####
+  #V(cropdistancematrix)$color=colororder
+  V(cropdistancematrix)$label.cex=0.7
+  edgeweight<-E(cropdistancematrix)$weight*4000
+  E(cropdistancematrix)$color="red"
+  #plot(cropdistancematrix,vertex.size=povalue*300,edge.arrow.size=0.2,edge.width=edgeweight,vertex.label=NA,main=paste(crop, sphere1, 'adjacency matrix threshold>',cutoffadja, ', beta=',beta)) # network with weighted node sizes
+  # plot(cropdistancematrix,vertex.size=5,edge.arrow.size=0.2,edge.width=edgeweight,vertex.label=NA,main=paste(crop, sphere1, 'adjacency matrix threshold>',cutoffadja, ', beta=',beta)) # network with identical node size
+  knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
+  knnpref0[is.na(knnpref0)]<-0
+  degreematr<-degree(cropdistancematrix)
+  knnpref<-knnpref0*degreematr
+  if(max(knnpref)==0){knnprefp=0}else
+    if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/6}
+  
+  ##############################################
+  #### node degree, node strengh 
+  ####
+  nodestrength<-graph.strength(cropdistancematrix) 
+  nodestrength[is.na(nodestrength)]<-0
+  if(max(nodestrength)==0){nodestr=0}else
+    if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/6}
+  ##############################################
+  #### betweenness centrality
+  #### 
+  #weight method 0
+  #between<-betweenness(cropdistancematrix, weights = 1/E(cropdistancematrix)$weight)
+  #weight method 1: 
+  #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
+  #weight method 2:
+  between<-betweenness(cropdistancematrix, weights = (1-1/exp(E(cropdistancematrix)$weight)))
+  between[is.na(between)]<-0
+  if(max(between)==0){betweenp=0}else
+    if(max(between)>0){betweenp=between/max(between)/2}
+  ##############################################
+  #### eigenvector and eigenvalues
+  #### 
+  eigenvectorvalues<-evcent(cropdistancematrix)
+  ev<-eigenvectorvalues$vector
+  ev[is.na(ev)]<-0
+  if(max(ev)==0){evp=0}else
+    if(max(ev)!=0){evp=ev/max(ev)/6}
+  ##############################################
+  #### plot index layer
+  ####    
+  index<-knnprefp+evp+betweenp+nodestr
+  
+  indexpre<-cropRaster
+  indexpre[]<-0
+  indexpre[CellNumber] <- index
+  indexv<-indexpre
+  return(indexv)
+  
+}
+
 # Sensitivity analysis ----------------------------------------------------
 
 SenstivityAnalysis <- function()
@@ -350,11 +502,12 @@ SenstivityAnalysis <- function()
   LoadConfig()
   
   #cuttoff adjacencey matrix
-  cutoff <<- config$`CCRI parameters`$LinkWeight[0]
+  cutoff <<- config$`CCRI parameters`$CropLandThreshold[1]
+  cutoffadja <<- config$`CCRI parameters`$LinkWeight[1]
   
   # crop data
   cropharvest <- getCropHarvestRasterSum(as.list(config$`CCRI parameters`$Crops)) #list
-  aggregateMethod <- config$`CCRI parameters`$aggregationStrategy #list
+  aggregateMethod <- config$`CCRI parameters`$AggregationStrategy #list
   
   # maps
   geoScales <- GetGeographicScales()
