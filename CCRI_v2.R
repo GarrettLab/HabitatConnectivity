@@ -77,62 +77,11 @@ getCropHarvestRasterSum <- function(crop_names)
 
 # Initialize --------------------------------------------------
 is_initialized <- FALSE
-InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cutoff, aggMethod) {
-  ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
-  # cropharvest <- getCropHarvestRasterSum(crop_names)
-  # aggregated resolution
-  Resolution <- resolution # Set aggregated resolution, for example, assign 12 for 1 degree.
-  #----------- aggregration -----------------------------
-  cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun = aggMethod, na.action = na.omit)
-  if(aggMethod == "sum") {
-    #cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit)
-    cropharvestAGGTM <- cropharvestAGG / Resolution / Resolution #TOTAL MEAN
-    plot(cropharvestAGGTM, col = palette1)
-    #----------- crop cropland area for the given extent ----------
-    cropharvestAGGTM_crop <<- crop(cropharvestAGGTM, geo_scale)	
-  } else if(aggMethod == "mean"){
-    #cropharvestAGGLM <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit) # land mean
-    cropharvestAGGLM <- cropharvestAGG
-    plot(cropharvestAGGLM, col = palette1)
-    #----------- crop cropland area for the given extent ----------
-    cropharvestAGGLM_crop <<- crop(cropharvestAGGLM, geo_scale)	
-    plot(cropharvestAGGLM_crop, col = palette1)
-  } 
-  
-  plot(cropharvestAGGTM_crop, col = palette1)
-  #----------- Extract cropland density data -----------------------
-  CropValues <- getValues(cropharvestAGGTM_crop)
-  CropValuesAzero <<- which(CropValues > cutoff) # find the cells with value > 0.0001
-  cropValue <<- CropValues[CropValuesAzero]
-  #----------- Extract xy corrdination for "povalue" cells ---------
-  lon <<- NULL # xmin
-  lat <<- NULL # ymax
-  
-  for(i in 1:length(CropValuesAzero)){
-    temp <- extentFromCells(cropharvestAGGTM_crop, CropValuesAzero[i])
-    AVxminO <- temp[1]
-    lon <<- c(lon, AVxminO)
-    AVymaxO <- temp[4]
-    lat <<- c(lat, AVymaxO)
-  }
-  
-  #---------------------------------------------------------------
-  # Prepare arguments elements values for the CCRI funtions
-  cropdata1 <- data.frame(lon, lat, cropValue)
-  #adjustConstant <- 2 # to adjust the distance and make sure the distance >1
-  latilongimatr <- cropdata1[ ,c(1:2)]# save the latitude and longitude as new matrix  
-  #---- use Geosphere package, function distVincentyEllipsoid() is used to calculate the distance, defult distance is meter
-  dvse <- distVincentyEllipsoid(c(0,0), cbind(1, 0)) # reference of standard distance in meter for one degree
-  latilongimatr <- as.matrix(latilongimatr)
-  TemMat <- matrix(-999, nrow( latilongimatr),nrow(latilongimatr))
-  
-  for (i in 1:nrow(latilongimatr)) {
-    TemMat[i, ] <- distVincentyEllipsoid(latilongimatr[i,], latilongimatr)/dvse
-  }
-  distance_matrix <<- TemMat
-  # ```
-  
-  #Global cropland density map
+
+#Global cropland density map---------------------------------------------------------------
+# Only when user has enabled global analysis
+GlobalAnalysis <- function()
+{
   
   # ```{r, fig.width=20, fig.height=10, dpi=400}
   
@@ -160,8 +109,63 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cut
        main=paste('Mean in crop area fraction:', crop), cex.main=1.6)
   
   plot(mean_index_raster_CAM, main = paste('Crop area density: ', crop), col = palette1, zlim = zrWorldMean, xaxt = 'n', yaxt = 'n', axes = F, box = F, add = TRUE)
+}
+
+InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cutoff, aggMethod) {
+  ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
+  # cropharvest <- getCropHarvestRasterSum(crop_names)
+  # aggregated resolution
+  Resolution <- resolution # Set aggregated resolution, for example, assign 12 for 1 degree.
+  #----------- aggregration -----------------------------
+  cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun = aggMethod, na.action = na.omit)
+  if(aggMethod == "sum") {
+    #cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit)
+    cropharvestAGGTM <- cropharvestAGG / Resolution / Resolution #TOTAL MEAN
+    plot(cropharvestAGGTM, col = palette1)
+    #----------- crop cropland area for the given extent ----------
+    cropharvestAGGTM_crop <<- crop(cropharvestAGGTM, geo_scale)	
+    plot(cropharvestAGGTM_crop, col = palette1)
+  } else if(aggMethod == "mean"){
+    #cropharvestAGGLM <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit) # land mean
+    cropharvestAGGLM <- cropharvestAGG
+    plot(cropharvestAGGLM, col = palette1)
+    #----------- crop cropland area for the given extent ----------
+    cropharvestAGGLM_crop <<- crop(cropharvestAGGLM, geo_scale)	
+    plot(cropharvestAGGLM_crop, col = palette1)
+  }
+  #----------- Extract cropland density data -----------------------
+  CropValues <- getValues(cropharvestAGGTM_crop)
+  CropValuesAzero <<- which(CropValues > cutoff) # find the cells with value > 0.0001
+  cropValue <<- CropValues[CropValuesAzero]
+  #----------- Extract xy corrdination for "povalue" cells ---------
+  lon <<- NULL # xmin
+  lat <<- NULL # ymax
   
-  is_initialized = TRUE
+  for(i in 1:length(CropValuesAzero)){
+    temp <- extentFromCells(cropharvestAGGTM_crop, CropValuesAzero[i])
+    AVxminO <- temp[1]
+    lon <<- c(lon, AVxminO)
+    AVymaxO <- temp[4]
+    lat <<- c(lat, AVymaxO)
+  }
+  
+  #---------------------------------------------------------------
+  # Prepare arguments elements values for the CCRI funtions
+  cropdata1 <- data.frame(lon, lat, cropValue)
+  #adjustConstant <- 2 # to adjust the distance and make sure the distance >1
+  latilongimatr <- cropdata1[ ,c(1:2)]# save the latitude and longitude as new matrix  
+  #---- use Geosphere package, function distVincentyEllipsoid() is used to calculate the distance, defult distance is meter
+  dvse <- distVincentyEllipsoid(c(0,0), cbind(1, 0)) # reference of standard distance in meter for one degree
+  latilongimatr <- as.matrix(latilongimatr)
+  TemMat <- matrix(-999, nrow( latilongimatr),nrow(latilongimatr))
+  
+  #TODO: set round limit programitcally
+  for (i in 1:nrow(latilongimatr)) {
+    TemMat[i, ] <- distVincentyEllipsoid(round(latilongimatr[i,], 5), latilongimatr)/dvse
+  }
+  distance_matrix <<- TemMat
+  
+  is_initialized <- TRUE
 }
 
 
