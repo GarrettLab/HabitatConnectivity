@@ -165,18 +165,18 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cut
   }
   distance_matrix <<- TemMat
   
-  is_initialized <- TRUE
+  is_initialized <<- TRUE
 }
 
 
-validate_index_cal <- function(params)
+validate_index_cal <- function(vals_list)
 {
   ready <- TRUE
   if(!is_initialized)
   {
     stop("Not initialized. Call initializeCroplandData()")
   }
-  if(!is.list(beta_vals))
+  if(!is.list(vals_list))
   {
     warning("argument is not a list")
     ready <- FALSE;
@@ -393,7 +393,9 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
   #weight method 1: 
   #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
   #weight method 2:
-  between<-betweenness(cropdistancematrix, weights = (1-1/exp(E(cropdistancematrix)$weight)))
+  weight_vec <- E(cropdistancematrix)$weight
+  weight_vec[is.na(weight_vec)] = 0
+  between<-betweenness(cropdistancematrix, weights = (1-1/exp(weight_vec)))
   
   between[is.na(between)]<-0
   if(max(between)==0){betweenp=0}else
