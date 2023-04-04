@@ -163,9 +163,12 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cut
   for (i in 1:nrow(latilongimatr)) {
     TemMat[i, ] <- distVincentyEllipsoid(round(latilongimatr[i,], 5), latilongimatr)/dvse
   }
+  
   distance_matrix <<- TemMat
   
   is_initialized <<- TRUE
+  
+  result_index_list <<- list()
 }
 
 
@@ -194,7 +197,7 @@ CCRI_powerlaw <- function(beta_vals)
     return(0)
   
   index_list <- lapply(beta_vals, CCRI_powerlaw_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
-  result_index_list <- list.append(result_index_list, index_list)
+  result_index_list <<- c(result_index_list, index_list)
   return(1)
 }
 
@@ -204,13 +207,19 @@ CCRI_negative_exponential <- function(gamma_vals)
   if(!validate_index_cal(gamma_vals))
     return(0)
   
-  index_list <- CCRI_negExponential_function(gamma00, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
-  result_index_list <- list.append(result_index_list, index_list)
+  index_list <- lapply(gamma_vals, CCRI_negExponential_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
+  result_index_list <<- c(result_index_list, index_list)
   return(1)
 }
 
 
 # Utility functions -------------------------------------------------------
+
+getWeightVector <- function(cropdistancematrix) {
+  weight_vec <- E(cropdistancematrix)$weight
+  weight_vec[is.na(weight_vec)] = 0
+  weight_vec <- weight_vec + 1e-10
+}
 
 GetGeographicScales <- function()
 {
@@ -350,7 +359,6 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
 
 # CCRI functions ----------------------------------------------------------
 
-
 CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber)   {
   ##############################################
   #### create adjacency matrix
@@ -393,10 +401,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
   #weight method 1: 
   #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
   #weight method 2:
-  weight_vec <- E(cropdistancematrix)$weight
-  weight_vec[is.na(weight_vec)] = 0
-  weight_vec <- weight_vec + 1e-10
-  between<-betweenness(cropdistancematrix, weights = (1-1/exp(weight_vec)))
+  between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
   
   between[is.na(between)]<-0
   if(max(between)==0){betweenp=0}else
@@ -477,7 +482,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
   #weight method 1: 
   #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
   #weight method 2:
-  between<-betweenness(cropdistancematrix, weights = (1-1/exp(E(cropdistancematrix)$weight)))
+  between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
   between[is.na(between)]<-0
   if(max(between)==0){betweenp=0}else
     if(max(between)>0){betweenp=between/max(between)/2}
@@ -529,6 +534,7 @@ SenstivityAnalysis <- function()
     for (aggMethod in aggregateMethod) 
     {
       InitializeCroplandData(cropharvest, resolution, geoAreaExt, config$`CCRI parameters`$CropLandThreshold[1], aggMethod)
+      #TODO: parallelize them
       CCRI_powerlaw(config$`CCRI parameters`$Beta)
       CCRI_negative_exponential(config$`CCRI parameters`$Gamma)
       
