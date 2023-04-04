@@ -395,6 +395,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
   #weight method 2:
   weight_vec <- E(cropdistancematrix)$weight
   weight_vec[is.na(weight_vec)] = 0
+  weight_vec <- weight_vec + 1e-10
   between<-betweenness(cropdistancematrix, weights = (1-1/exp(weight_vec)))
   
   between[is.na(between)]<-0
