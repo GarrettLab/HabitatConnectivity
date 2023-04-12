@@ -304,7 +304,7 @@ CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, 
 
 # difference map ----------------------------------------------------------
 
-CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop)
+CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroExtentRaster, map_grey_background_ext)
 {
   # difference map
   
@@ -332,7 +332,8 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   zr2 <- range(-maxrankW, maxrankW)
   
   #TODO: not required
-  plot(mean_index_raster_diff, main=paste('Difference in rank of cropland harvested area fraction and CCRI:', crop), col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, cex.main=0.7)
+  plot(mean_index_raster_diff, main=paste('Difference in rank of cropland harvested area fraction and CCRI:', 
+                                          paste(config$`CCRI parameters`$Crops, collapse = ",")), col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, cex.main=0.7)
   plot(countriesLow, add=TRUE)
   
   #mean_index_raster_diff[]
@@ -342,21 +343,22 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   #ZeroRaster <- raster("ZeroRaster.tif")
   #West_Zero <- crop(ZeroRaster, west_ext)
   mean_index_raster_diff_disagg <- disaggregate(mean_index_raster_diff, fact = c(Resolution, Resolution), method ='' )
-  mean_index_raster_diff_disagg_west <- mean_index_raster_diff_disagg + West_Zero
+  mean_index_raster_diff_disagg <- mean_index_raster_diff_disagg + zeroExtentRaster
   
+  cropNames <- paste(config$`CCRI parameters`$Crops, collapse = ", ")
   #TODO: not required
-  plot(mean_index_raster_diff_disagg_west,
-       main=paste('Difference in rank of cropland harvested area fraction and CCRI:',
-                  config$`CCRI parameters`$Crops), col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, cex.main=0.7)
+  plot(mean_index_raster_diff_disagg,
+       main=paste('Difference in rank of cropland harvested area fraction and CCRI:', cropNames),
+       col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, cex.main=0.7)
   plot(countriesLow, add=TRUE)
   
   #------------------------------------------------------------
   #map_grey_background <- raster("map_grey_background.tif")
   #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
   #map_grey_background_west <- crop(map_grey_background, west_ext)
-  plot(map_grey_background_west, col = "grey65",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
-       main=paste('Difference in rank of cropland harvested area fraction and CCRI:', crop), cex.main=0.7)
-  plot(mean_index_raster_diff_disagg_west, col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, add = TRUE)
+  plot(map_grey_background_ext, col = "grey65",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
+       main=paste('Difference in rank of cropland harvested area fraction and CCRI:', cropNames), cex.main=0.7)
+  plot(mean_index_raster_diff_disagg, col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, add = TRUE)
   #plot(countriesLow, add=TRUE, border = "white")
 }
 
@@ -561,12 +563,10 @@ SenstivityAnalysis <- function()
                     config$`CCRI parameters`$Crops , "resolution = ", config$`CCRI parameters`$Resolution), cex.main=0.7)
     plot(countriesLow, add=TRUE)
     
-    #map_grey_background_ext <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
     zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
     CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
-    #CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, map_grey_background_ext)
-    
-    CalculateDifferenceMap(mean_index_raster_diff)
+
+    CalculateDifferenceMap(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
   }
 }
 
