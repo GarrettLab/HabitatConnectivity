@@ -22,9 +22,10 @@ library(viridis)
 #source("CCRI.R", echo = FALSE)
 
 # load config ----------------------------------------------
-LoadConfig <- function()
+configFileFullPath <-  "configurations/parameters.yaml"
+LoadConfig <- function(filePath = configFileFullPath)
 {
-  config <<- config::get(file = "configurations/parameters.yaml") 
+  config <<- config::get(file = filePath) 
 }
 
 # Setting color palettes----------------------------------------------------------
@@ -540,6 +541,7 @@ SenstivityAnalysis <- function()
   resolution <- config$`CCRI parameters`$Resolution
   for (geoScale in geoScales)
   {
+    cat("\nRunning senstivity analysis for the extent - [", geoScale, "]")
     geoAreaExt <- extent(as.numeric(unlist(geoScale))) #list
     result_index_list <- list()
     # TODO: per cutoff or cropland threshold
