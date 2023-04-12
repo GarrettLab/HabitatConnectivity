@@ -561,11 +561,9 @@ SenstivityAnalysis <- function()
                     config$`CCRI parameters`$Crops , "resolution = ", config$`CCRI parameters`$Resolution), cex.main=0.7)
     plot(countriesLow, add=TRUE)
     
-    #map_grey_background_ext <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
     zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
     CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
-    #CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, map_grey_background_ext)
-    
+
     CalculateDifferenceMap(mean_index_raster_diff)
   }
 }
