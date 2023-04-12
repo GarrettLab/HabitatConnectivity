@@ -270,29 +270,27 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   
   plot(countriesLow, add=TRUE, border = "white")
   
-  return(map_grey_background_ext)
+  return (c(zeroRasterExtent = extZero, mapGreyBackGroundExtent = map_grey_background_ext, use.names = TRUE))
 
 }
 
 # Complete sensitivity analysis of Variance of CCRI -------------
-CCRIVariance <- function(indexes, map_grey_background_ext)
+CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, map_grey_background_ext)
 {
   # ```{r ,fig.width=6, fig.height=7, dpi=150}
   Variance_mean_index_ext <- apply(do.call(cbind, indexes), 1, var)
+
   
-  Variance_mean_index_ext[] <- Variance_mean_index_ext
+  variance_mean_index_raster[] <- Variance_mean_index_ext
   z_var_w <- range(Variance_mean_index_ext[which(Variance_mean_index_ext > 0)])
-  plot(Variance_mean_index_ext, col = palette1, zlim= z_var_w, xaxt='n',  
-       yaxt='n', axes=F, box=F)
+  plot(variance_mean_index_raster, col = palette1, zlim= z_var_w, xaxt='n',  
+       yaxt='n', axes=F, box=F, main = paste('Variance in Cropland Connectivity for range: ', paste(z_var_w, collapse = ' to ')))
   plot(countriesLow, add=TRUE)
+  
   #----------------------------------------------------
   
-  Variance_mean_index_raster_ext_disagg <- disaggregate(Variance_mean_index_ext, fact = c(Resolution, Resolution), method ='' )
-  Variance_mean_index_raster_ext_disagg <- Variance_mean_index_raster_ext_disagg + West_Zero
-
-  #TODO: Remove this plot..because of black lines  
-  plot(Variance_mean_index_raster_ext_disagg, col = palette1, zlim= z_var_w, xaxt='n',   cex.main=0.7,
-       yaxt='n', axes=F, box=F, main=paste('Variance in cropland connectivity risk index from sensitivity analysis:', crop))
+  Variance_mean_index_raster_ext_disagg <- disaggregate(variance_mean_index_raster, fact = c(Resolution, Resolution), method ='' )
+  Variance_mean_index_raster_ext_disagg <- Variance_mean_index_raster_ext_disagg + zeroExtentRaster
   
   
   #TODO: explore colors
@@ -550,9 +548,9 @@ SenstivityAnalysis <- function()
     }
     
     mean_index_raster <-  calc(stack(result_index_list), sum) / length(result_index_list)
-    mean_index_raster_diff <- mean_index_raster
     
-    #Variance_mean_index_raster_west <- mean_index_raster
+    mean_index_raster_diff <- mean_index_raster
+    variance_mean_index_raster <- mean_index_raster
     
     mean_index_raster_val <- getValues(mean_index_raster)
     zeroId <- which(mean_index_raster_val == 0)
@@ -563,9 +561,13 @@ SenstivityAnalysis <- function()
                     config$`CCRI parameters`$Crops , "resolution = ", config$`CCRI parameters`$Resolution), cex.main=0.7)
     plot(countriesLow, add=TRUE)
     
-    map_grey_background_ext <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
-    CCRIVariance(result_index_list, map_grey_background_ext)
+    #map_grey_background_ext <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
+    zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
+    CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
+    #CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, map_grey_background_ext)
+    
     CalculateDifferenceMap(mean_index_raster_diff)
   }
 }
+
 
