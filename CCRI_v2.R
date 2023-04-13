@@ -18,12 +18,16 @@ library(RColorBrewer)
 library("colorspace") 
 data("countriesLow")
 library(viridis)
-# external source ----------------------------------------------
-#source("CCRI.R", echo = FALSE)
+
+# Global constants --------------------------------------------------------
+
+kConfigFileFullPath <-  "configurations/parameters.yaml"
+kZeroRasterFilePath <- "ZeroRaster.tif"
+kMapGreyBackGroundTifFilePath <- "map_grey_background.tif"
 
 # load config ----------------------------------------------
-configFileFullPath <-  "configurations/parameters.yaml"
-LoadConfig <- function(filePath = configFileFullPath)
+
+LoadConfig <- function(filePath = kConfigFileFullPath)
 {
   config <<- config::get(file = filePath) 
 }
@@ -96,13 +100,13 @@ GlobalAnalysis <- function()
   zeroID <- which(mean_index_raster_val == 0)
   cropharvestAGGTM[zeroID] <- NaN
   
-  ZeroRaster <- raster("ZeroRaster.tif")
+  ZeroRaster <- raster(kZeroRasterFilePath)
   CAM_Zero <- crop(ZeroRaster, extent(-180, 180, -60, 80))
   mean_index_raster <- disaggregate(cropharvestAGGTM_crop1, fact = c(Resolution, Resolution), method = '')
   mean_index_raster_CAM <- mean_index_raster + CAM_Zero
   
   #Plotting cropland density
-  map_grey_background <- raster("map_grey_background.tif")
+  map_grey_background <- raster(kMapGreyBackGroundTifFilePath)
   
   map_grey_background_CAM <- crop(map_grey_background, extent(-180, 180, -60, 80))
   
@@ -249,7 +253,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   #------------------------------------------------------------
   #--- remove pixels outside of boundary
   #TODO: is there any other way to get 0 raster?
-  ZeroRaster <- raster("ZeroRaster.tif")
+  ZeroRaster <- raster(kZeroRasterFilePath)
   extZero <- crop(ZeroRaster, geoScale)
   mean_index_raster <- disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method ='' )
   mean_index_raster_ext <- mean_index_raster + extZero
@@ -260,7 +264,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   plot(countriesLow, add=TRUE)
   
   #------------------------------------------------------------
-  map_grey_background <- raster("map_grey_background.tif")
+  map_grey_background <- raster(kMapGreyBackGroundTifFilePath)
   
   #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
   map_grey_background_ext <- crop(map_grey_background, geoScale)
@@ -543,7 +547,7 @@ SenstivityAnalysis <- function()
   {
     cat("\nRunning senstivity analysis for the extent - [", geoScale, "]")
     geoAreaExt <- extent(as.numeric(unlist(geoScale))) #list
-    result_index_list <- list()
+    result_index_list <<- list()
     # TODO: per cutoff or cropland threshold
     for (aggMethod in aggregateMethod) 
     {
@@ -551,7 +555,8 @@ SenstivityAnalysis <- function()
       CalculateCCRI()
     }
     
-    mean_index_raster <-  calc(stack(result_index_list), sum) / length(result_index_list)
+    stackedRasters <- stack(result_index_list)
+    mean_index_raster <-  calc(stackedRasters, sum) / length(result_index_list)
     
     mean_index_raster_diff <- mean_index_raster
     variance_mean_index_raster <- mean_index_raster
