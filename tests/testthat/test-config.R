@@ -6,7 +6,6 @@ sys.source(file = "../../CCRI_v2.R", envir = testEnv, toplevel.env = testEnv)
 # Tests for Loading parameters via configuration file ---------------------
 
 test_that("Test 1: Loading default parameters configuration", {
-  print(getwd())
   default_file <- "../../configurations/parameters.yaml"
   expect_no_condition(testEnv$LoadConfig(filePath = default_file), message = "Default configuration exists and loaded")
 })
