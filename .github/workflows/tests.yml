@@ -1,0 +1,26 @@
+name: tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+    - '.github/workflows/tests.yml'
+    - '*'
+    - 'tests/testthat/*'
+  push:
+    paths:
+    - '.github/workflows/tests.yml'
+    - '*'
+    - 'tests/testthat/*'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
+      - name: Install dependencies
+        run: Rscript -e "install.packages(c('testthat', 'tidyverse', 'here'))"
+      - name: Run tests
+        run: test_dir("tests/testthat", reporter = "progress")
