@@ -145,7 +145,7 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cut
   #----------- Extract xy corrdination for "povalue" cells ---------
   lon <<- NULL # xmin
   lat <<- NULL # ymax
-  
+
   for(i in 1:length(CropValuesAzero)){
     temp <- extentFromCells(cropharvestAGGTM_crop, CropValuesAzero[i])
     AVxminO <- temp[1]
@@ -526,54 +526,67 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
 
 # Sensitivity analysis ----------------------------------------------------
 
+SensitivityAnalysisOnGeoExtentScale <- function(geoScale, aggregateMethods, cropHarvestRaster, croplandThreshold, resolution) {
+  cat("\nRunning senstivity analysis for the extent: [", geoScale, "], CC threshold: ", croplandThreshold)
+  geoAreaExt <- extent(as.numeric(unlist(geoScale))) #list
+  result_index_list <<- list()
+  # TODO: per cutoff or cropland threshold
+  for (aggMethod in aggregateMethods) 
+  {
+    InitializeCroplandData(cropHarvestRaster, resolution, geoAreaExt, cutoff = croplandThreshold, aggMethod)
+    CalculateCCRI()
+  }
+  
+  stackedRasters <- stack(result_index_list)
+  mean_index_raster <-  calc(stackedRasters, sum) / length(result_index_list)
+  
+  mean_index_raster_diff <- mean_index_raster
+  variance_mean_index_raster <- mean_index_raster
+  
+  mean_index_raster_val <- getValues(mean_index_raster)
+  zeroId <- which(mean_index_raster_val == 0)
+  mean_index_raster[zeroId] <- NaN
+  
+  plot(mean_index_raster, col = palette1, zlim= c(0, 1),
+       main=paste("Mean cropland connectivity risk index from sensitivity analysis: ",
+                  config$`CCRI parameters`$Crops , "resolution = ", config$`CCRI parameters`$Resolution), cex.main=0.7)
+  plot(countriesLow, add=TRUE)
+  
+  zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
+  CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
+  
+  CalculateDifferenceMap(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
+}
+
+SensitivityAnalysisOnCroplandThreshold <- function(croplandThresholds, geoScale, aggregateMethods, cropHarvestRaster, croplandThreshold, resolution) {
+  lapply(croplandThresholds, SensitivityAnalysisOnGeoExtentScale, geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, resolution = resolution)
+  # for (cutoff in croplandThresholds) {
+  #   SensitivityAnalysisOnGeoExtentScale(geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, croplandThreshold = cutoff, resolution = resolution)
+  # }
+}
+
 SenstivityAnalysis <- function()
 {
   LoadConfig()
   
   #cuttoff adjacencey matrix
-  cutoff <<- config$`CCRI parameters`$CropLandThreshold[1]
+  croplandThresholds <<- config$`CCRI parameters`$CropLandThreshold
   cutoffadja <<- config$`CCRI parameters`$LinkWeight[1]
   
   # crop data
   cropharvest <- getCropHarvestRasterSum(as.list(config$`CCRI parameters`$Crops)) #list
-  aggregateMethod <- config$`CCRI parameters`$AggregationStrategy #list
+  aggregateMethods <- config$`CCRI parameters`$AggregationStrategy #list
   
   # maps
   geoScales <- GetGeographicScales()
   
   #resolution
   resolution <- config$`CCRI parameters`$Resolution
-  for (geoScale in geoScales)
-  {
-    cat("\nRunning senstivity analysis for the extent - [", geoScale, "]")
-    geoAreaExt <- extent(as.numeric(unlist(geoScale))) #list
-    result_index_list <<- list()
-    # TODO: per cutoff or cropland threshold
-    for (aggMethod in aggregateMethod) 
-    {
-      InitializeCroplandData(cropharvest, resolution, geoAreaExt, config$`CCRI parameters`$CropLandThreshold[1], aggMethod)
-      CalculateCCRI()
-    }
-    
-    stackedRasters <- stack(result_index_list)
-    mean_index_raster <-  calc(stackedRasters, sum) / length(result_index_list)
-    
-    mean_index_raster_diff <- mean_index_raster
-    variance_mean_index_raster <- mean_index_raster
-    
-    mean_index_raster_val <- getValues(mean_index_raster)
-    zeroId <- which(mean_index_raster_val == 0)
-    mean_index_raster[zeroId] <- NaN
-    
-    plot(mean_index_raster, col = palette1, zlim= c(0, 1),
-         main=paste("Mean cropland connectivity risk index from sensitivity analysis: ",
-                    config$`CCRI parameters`$Crops , "resolution = ", config$`CCRI parameters`$Resolution), cex.main=0.7)
-    plot(countriesLow, add=TRUE)
-    
-    zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
-    CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
-
-    CalculateDifferenceMap(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
+  #lapply(geoScales, SensitivityAnalysisOnGeoExtentScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropharvest, resolution = resolution)
+  
+  for (geoScale in geoScales) {
+    SensitivityAnalysisOnCroplandThreshold(croplandThresholds = croplandThresholds, geoScale = geoScale, aggregateMethods = aggregateMethods, 
+                                           cropHarvestRaster = cropharvest, croplandThreshold = croplandThreshold, resolution = resolution)
   }
 }
 
