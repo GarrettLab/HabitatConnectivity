@@ -560,9 +560,6 @@ SensitivityAnalysisOnGeoExtentScale <- function(geoScale, aggregateMethods, crop
 
 SensitivityAnalysisOnCroplandThreshold <- function(croplandThresholds, geoScale, aggregateMethods, cropHarvestRaster, croplandThreshold, resolution) {
   lapply(croplandThresholds, SensitivityAnalysisOnGeoExtentScale, geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, resolution = resolution)
-  # for (cutoff in croplandThresholds) {
-  #   SensitivityAnalysisOnGeoExtentScale(geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, croplandThreshold = cutoff, resolution = resolution)
-  # }
 }
 
 SenstivityAnalysis <- function()
@@ -582,12 +579,13 @@ SenstivityAnalysis <- function()
   
   #resolution
   resolution <- config$`CCRI parameters`$Resolution
-  #lapply(geoScales, SensitivityAnalysisOnGeoExtentScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropharvest, resolution = resolution)
   
-  for (geoScale in geoScales) {
-    SensitivityAnalysisOnCroplandThreshold(croplandThresholds = croplandThresholds, geoScale = geoScale, aggregateMethods = aggregateMethods, 
-                                           cropHarvestRaster = cropharvest, croplandThreshold = croplandThreshold, resolution = resolution)
-  }
+  lapply(geoScales, SensitivityAnalysisOnCroplandThreshold, croplandThresholds = croplandThresholds, aggregateMethods = aggregateMethods,
+         cropHarvestRaster = cropharvest, croplandThreshold = croplandThreshold, resolution = resolution)
+  # for (geoScale in geoScales) {
+  #   SensitivityAnalysisOnCroplandThreshold(croplandThresholds = croplandThresholds, geoScale = geoScale, aggregateMethods = aggregateMethods, 
+  #                                          cropHarvestRaster = cropharvest, croplandThreshold = croplandThreshold, resolution = resolution)
+  # }
 }
 
 
