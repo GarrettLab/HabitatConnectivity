@@ -9,13 +9,18 @@ library("colorspace")
 data("countriesLow")
 library(viridis)
 library(terra)
-source("Utilities/ccri_helper.R")
+
 
 # Global constants --------------------------------------------------------
 
 kConfigFileFullPath <-  "configurations/parameters.yaml"
 kZeroRasterFilePath <- "ZeroRaster.tif"
 kMapGreyBackGroundTifFilePath <- "map_grey_background.tif"
+
+kUtilitiesDirPath <- "Utilities"
+kHelperFileName <- "ccri_helper.R"
+#cat(paste(c(kUtilitiesDirPath, kHelperFileName), collapse = "/"))
+source(paste(c(kUtilitiesDirPath, kHelperFileName), collapse = "/"))
 
 # load config ----------------------------------------------
 
@@ -196,7 +201,7 @@ CCRI_powerlaw <- function(beta_vals, betweenness_metric = FALSE, node_strength =
     return(0)
   
   index_list <- lapply(beta_vals, CCRI_powerlaw_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
-                       betweenness_metric, node_strength, sum_of_nearest_neghbors, eigenvector_centrality)
+                       betweenness_metric = betweenness_metric, node_strength = node_strength, sum_of_nearest_neghbors = sum_of_nearest_neghbors, eigenvector_centrality = eigenvector_centrality)
   result_index_list <<- c(result_index_list, index_list)
   return(1)
 }
