@@ -16,11 +16,14 @@ library(terra)
 kConfigFileFullPath <-  "configurations/parameters.yaml"
 kZeroRasterFilePath <- "ZeroRaster.tif"
 kMapGreyBackGroundTifFilePath <- "map_grey_background.tif"
+kHelperFilePath <- "Utilities/ccri_helper.R" 
 
-kUtilitiesDirPath <- "Utilities"
-kHelperFileName <- "ccri_helper.R"
-#cat(paste(c(kUtilitiesDirPath, kHelperFileName), collapse = "/"))
-source(paste(c(kUtilitiesDirPath, kHelperFileName), collapse = "/"))
+
+# Load helper functions ---------------------------------------------------
+
+LoadHelperFunctions <- function(helperFilePath = kHelperFilePath) {
+  source(kHelperFilePath)
+}
 
 # load config ----------------------------------------------
 
@@ -385,13 +388,13 @@ CalculateCCRI <- function(power_law_metrics = config$`CCRI parameters`$Network_m
   }
   opted_powerlaw_metrics <- check_metrics(power_law_metrics)
   CCRI_powerlaw(config$`CCRI parameters`$Beta, betweenness_metric = opted_powerlaw_metrics$betweeness, 
-                node_stregth = opted_powerlaw_metrics$node_strength, 
+                node_strength = opted_powerlaw_metrics$node_strength, 
                 sum_of_nearest_neghbors = opted_powerlaw_metrics$sum_of_nearest_neghbors, 
                 eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality)
   
-  opted_negative_exp_metrics <- check_metrics(neative_exponential_metrics)
+  opted_negative_exp_metrics <- check_metrics(negative_exponential_metrics)
   CCRI_negative_exponential(config$`CCRI parameters`$Gamma, betweenness_metric = opted_negative_exp_metrics$betweeness, 
-                            node_stregth = opted_negative_exp_metrics$node_strength, 
+                            node_strength = opted_negative_exp_metrics$node_strength, 
                             sum_of_nearest_neghbors = opted_negative_exp_metrics$sum_of_nearest_neghbors, 
                             eigenvector_centrality = opted_negative_exp_metrics$eigenvector_centrality)
 }
@@ -638,6 +641,7 @@ SensitivityAnalysisOnCroplandThreshold <- function(croplandThresholds, geoScale,
 
 SenstivityAnalysis <- function()
 {
+  LoadHelperFunctions()
   LoadConfig()
   
   #cuttoff adjacencey matrix
