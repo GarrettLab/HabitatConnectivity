@@ -67,12 +67,12 @@ result_index_list <- list()
 # Utility functions -------------------------------------------------------
 # Calculate crop harvest raster -------------------------------------------
 
-getCropHarvestRaster <- function(crop_name)
-{
-  cropharvest <- geodata::crop_monfreda(crop = crop_name, path = tempdir())
-  cropharvest <- raster(terra::sources(cropharvest))
+getCropHarvestRaster <- function(crop_name) {
+  cropharvest <- geodata::crop_monfreda(crop = crop_name, path = tempdir(), var = "area_f")
+  cropharvest <- raster::raster(terra::sources(cropharvest))
   return(cropharvest)
 }
+
 getCropHarvestRasterSum <- function(crop_names)
 {
   if(!is.vector(crop_names) || length(crop_names) == 0) {
