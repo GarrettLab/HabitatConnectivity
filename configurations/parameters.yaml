@@ -22,7 +22,7 @@ default:
       CustomExt: [] # set this to NA/Empty if not required
     Resolution: 24
     Network_metrics:
-      InversePowerLaw: ["betweeness", "node_strength", "sum_of_nearest_neghbors", "eigenvector centrality"]
+      InversePowerLaw: ["betweeness", "node_strength", "sum_of_nearest_neghbors", "eigenvector_centrality"]
       NegativeExponential: ["betweeness", "node_strength", "sum_of_nearest_neghbors", "eigenvector centrality"]
     OutcomeAnalysis:
       MeanCC: TRUE

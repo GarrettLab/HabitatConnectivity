@@ -9,6 +9,7 @@ library("colorspace")
 data("countriesLow")
 library(viridis)
 library(terra)
+source("Utilities/ccri_helper.R")
 
 # Global constants --------------------------------------------------------
 
@@ -189,23 +190,25 @@ validate_index_cal <- function(vals_list)
 # Aggregate -----------------------------------------------------
 
 # inverse power law -------------------------------------------------------
-CCRI_powerlaw <- function(beta_vals)
+CCRI_powerlaw <- function(beta_vals, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)
 {
   if(!validate_index_cal(beta_vals))
     return(0)
   
-  index_list <- lapply(beta_vals, CCRI_powerlaw_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
+  index_list <- lapply(beta_vals, CCRI_powerlaw_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
+                       betweenness_metric, node_strength, sum_of_nearest_neghbors, eigenvector_centrality)
   result_index_list <<- c(result_index_list, index_list)
   return(1)
 }
 
 # negative exponential function -------------------------------------------
-CCRI_negative_exponential <- function(gamma_vals)
+CCRI_negative_exponential <- function(gamma_vals, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)
 {
   if(!validate_index_cal(gamma_vals))
     return(0)
   
-  index_list <- lapply(gamma_vals, CCRI_negExponential_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero)
+  index_list <- lapply(gamma_vals, CCRI_negExponential_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
+                       betweenness_metric, node_strength, sum_of_nearest_neghbors, eigenvector_centrality)
   result_index_list <<- c(result_index_list, index_list)
   return(1)
 }
@@ -365,13 +368,31 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
 
 # CCRI functions ----------------------------------------------------------
 
-CalculateCCRI <- function() {
+CalculateCCRI <- function(power_law_metrics = config$`CCRI parameters`$Network_metrics$InversePowerLaw, 
+                          negative_exponential_metrics = config$`CCRI parameters`$Network_metrics$NegativeExponential) {
   #TODO: parallelize them
-  CCRI_powerlaw(config$`CCRI parameters`$Beta)
-  CCRI_negative_exponential(config$`CCRI parameters`$Gamma)
+  
+  if(!valid_vector_input(power_law_metrics)) {
+    stop("Input 'power_law_metrics' must be a non-empty vector of metric names for inverse power law.")
+  }
+  if(!valid_vector_input(negative_exponential_metrics)) {
+    stop("Input 'neative_exponential_metrics' must be a non-empty vector of metric names for negative power law.")
+  }
+  opted_powerlaw_metrics <- check_metrics(power_law_metrics)
+  CCRI_powerlaw(config$`CCRI parameters`$Beta, betweenness_metric = opted_powerlaw_metrics$betweeness, 
+                node_stregth = opted_powerlaw_metrics$node_strength, 
+                sum_of_nearest_neghbors = opted_powerlaw_metrics$sum_of_nearest_neghbors, 
+                eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality)
+  
+  opted_negative_exp_metrics <- check_metrics(neative_exponential_metrics)
+  CCRI_negative_exponential(config$`CCRI parameters`$Gamma, betweenness_metric = opted_negative_exp_metrics$betweeness, 
+                            node_stregth = opted_negative_exp_metrics$node_strength, 
+                            sum_of_nearest_neghbors = opted_negative_exp_metrics$sum_of_nearest_neghbors, 
+                            eigenvector_centrality = opted_negative_exp_metrics$eigenvector_centrality)
 }
 
-CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber)   {
+CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber, 
+                                   betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE) {
   ##############################################
   #### create adjacency matrix
   
@@ -389,22 +410,38 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
   stan <- cropdistancematr * logicalmatr
   stan <- round(stan, 6) # use round() because betweenness() may have problem when do the calculation
   cropdistancematrix <- graph.adjacency(stan,mode=c("undirected"),diag=F,weighted=T)#create adjacency matrix
+  
+  ##############################################
+  #### CCRI is a weighted mean of 4 network metric
+  ####  
+  index <- NULL
+  
   ##############################################
   ## sum of nearest neighbors degree
-  knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
-  knnpref0[is.na(knnpref0)]<-0
-  degreematr<-degree(cropdistancematrix)
-  knnpref<-knnpref0*degreematr
-  if(max(knnpref)==0){knnprefp=0}else
-    if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/6}
+  
+  if(sum_of_nearest_neghbors) {
+    
+    knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
+    knnpref0[is.na(knnpref0)]<-0
+    degreematr<-degree(cropdistancematrix)
+    knnpref<-knnpref0*degreematr
+    if(max(knnpref)==0){knnprefp=0}else
+      if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/6}
+    
+    index <- ifelse(is.null(index), knnprefp, index + knnprefp)
+  }
   
   ##############################################
   #### node degree, node strengh 
   ####
-  nodestrength<-graph.strength(cropdistancematrix) 
-  nodestrength[is.na(nodestrength)]<-0
-  if(max(nodestrength)==0){nodestr=0}else
-    if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/6}
+  if(node_strength) {
+    nodestrength<-graph.strength(cropdistancematrix) 
+    nodestrength[is.na(nodestrength)]<-0
+    if(max(nodestrength)==0){nodestr=0}else
+      if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/6}
+    
+    index <- ifelse(is.null(index), nodestr, index + nodestr)
+  }
   ##############################################
   #### betweenness centrality
   #### 
@@ -413,23 +450,31 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
   #weight method 1: 
   #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
   #weight method 2:
-  between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
+  if(betweenness_metric) {
+    between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
+    
+    between[is.na(between)]<-0
+    if(max(between)==0){betweenp=0}else
+      if(max(between)>0){betweenp=between/max(between)/2} 
+    
+    index <- ifelse(is.null(index), betweenp, index + betweenp)
+  }
   
-  between[is.na(between)]<-0
-  if(max(between)==0){betweenp=0}else
-    if(max(between)>0){betweenp=between/max(between)/2}
   ##############################################
   #### eigenvector and eigenvalues
   #### 
-  eigenvectorvalues<-evcent(cropdistancematrix)
-  ev<-eigenvectorvalues$vector
-  ev[is.na(ev)]<-0
-  if(max(ev)==0){evp=0}else
-    if(max(ev)!=0){evp=ev/max(ev)/6}
-  ##############################################
-  #### CCRI is a weighted mean of 4 network metric
-  ####    
-  index<-knnprefp+evp+betweenp+nodestr
+  if(eigenvector_centrality) {
+    eigenvectorvalues<-evcent(cropdistancematrix)
+    ev<-eigenvectorvalues$vector
+    ev[is.na(ev)]<-0
+    if(max(ev)==0){evp=0}else
+      if(max(ev)!=0){evp=ev/max(ev)/6}
+    
+    index <- ifelse(is.null(index), evp, index + evp)
+  }
+  
+  
+  #index<-knnprefp+evp+betweenp+nodestr
   
   indexpre<-cropRaster
   indexpre[]<-0
@@ -444,7 +489,8 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
 
 # ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
 
-CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber)   {
+CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber,
+                                        betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)   {
   ##############################################
   #### create adjacency matrix
   ####
@@ -472,20 +518,33 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
   E(cropdistancematrix)$color="red"
   #plot(cropdistancematrix,vertex.size=povalue*300,edge.arrow.size=0.2,edge.width=edgeweight,vertex.label=NA,main=paste(crop, sphere1, 'adjacency matrix threshold>',cutoffadja, ', beta=',beta)) # network with weighted node sizes
   # plot(cropdistancematrix,vertex.size=5,edge.arrow.size=0.2,edge.width=edgeweight,vertex.label=NA,main=paste(crop, sphere1, 'adjacency matrix threshold>',cutoffadja, ', beta=',beta)) # network with identical node size
-  knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
-  knnpref0[is.na(knnpref0)]<-0
-  degreematr<-degree(cropdistancematrix)
-  knnpref<-knnpref0*degreematr
-  if(max(knnpref)==0){knnprefp=0}else
-    if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/6}
+  
+  index <- NULL
+  
+  if(sum_of_nearest_neghbors) {
+    knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
+    knnpref0[is.na(knnpref0)]<-0
+    degreematr<-degree(cropdistancematrix)
+    knnpref<-knnpref0*degreematr
+    if(max(knnpref)==0){knnprefp=0}else
+      if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/6}
+    
+    index <- ifelse(is.null(index), knnprefp, index + knnprefp)
+  }
   
   ##############################################
   #### node degree, node strengh 
   ####
-  nodestrength<-graph.strength(cropdistancematrix) 
-  nodestrength[is.na(nodestrength)]<-0
-  if(max(nodestrength)==0){nodestr=0}else
-    if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/6}
+  if(node_strength) {
+  
+    nodestrength<-graph.strength(cropdistancematrix) 
+    nodestrength[is.na(nodestrength)]<-0
+    if(max(nodestrength)==0){nodestr=0}else
+      if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/6}
+    
+    index <- ifelse(is.null(index), nodestr, index + nodestr)
+  }
+  
   ##############################################
   #### betweenness centrality
   #### 
@@ -494,22 +553,33 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
   #weight method 1: 
   #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
   #weight method 2:
-  between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
-  between[is.na(between)]<-0
-  if(max(between)==0){betweenp=0}else
-    if(max(between)>0){betweenp=between/max(between)/2}
+  if(betweenness_metric) {
+    
+    between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
+    between[is.na(between)]<-0
+    if(max(between)==0){betweenp=0}else
+      if(max(between)>0){betweenp=between/max(between)/2}
+    
+    index <- ifelse(is.null(index), betweenp, index + betweenp)
+  }
+  
   ##############################################
   #### eigenvector and eigenvalues
   #### 
-  eigenvectorvalues<-evcent(cropdistancematrix)
-  ev<-eigenvectorvalues$vector
-  ev[is.na(ev)]<-0
-  if(max(ev)==0){evp=0}else
-    if(max(ev)!=0){evp=ev/max(ev)/6}
+  if(eigenvector_centrality) {
+    eigenvectorvalues<-evcent(cropdistancematrix)
+    ev<-eigenvectorvalues$vector
+    ev[is.na(ev)]<-0
+    if(max(ev)==0){evp=0}else
+      if(max(ev)!=0){evp=ev/max(ev)/6}
+    
+    index <- ifelse(is.null(index), evp, index + evp)
+  }
+  
   ##############################################
   #### plot index layer
   ####    
-  index<-knnprefp+evp+betweenp+nodestr
+  #index<-knnprefp+evp+betweenp+nodestr
   
   indexpre<-cropRaster
   indexpre[]<-0
@@ -522,14 +592,18 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
 # Sensitivity analysis ----------------------------------------------------
 
 SensitivityAnalysisOnGeoExtentScale <- function(geoScale, aggregateMethods, cropHarvestRaster, croplandThreshold, resolution) {
+  
   cat("\nRunning senstivity analysis for the extent: [", geoScale, "], CC threshold: ", croplandThreshold)
+  
   geoAreaExt <- extent(as.numeric(unlist(geoScale))) #list
   result_index_list <<- list()
   # TODO: per cutoff or cropland threshold
   for (aggMethod in aggregateMethods) 
   {
     InitializeCroplandData(cropHarvestRaster, resolution, geoAreaExt, cutoff = croplandThreshold, aggMethod)
-    CalculateCCRI()
+    
+    CalculateCCRI(power_law_metrics = config$`CCRI parameters`$Network_metrics$InversePowerLaw, 
+                  negative_exponential_metrics = config$`CCRI parameters`$Network_metrics$NegativeExponential)
   }
   
   stackedRasters <- stack(result_index_list)
