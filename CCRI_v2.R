@@ -1,23 +1,14 @@
 # dependencies and libraries ----------------------------------------------
 library(rlist)
 library(raster)
-library(rgdal)
 library(dismo)
-library(expm)
 library(igraph)
-library(maptools)
-library(rrcov)
-library(splines)
 library(rworldmap)
-library(mapdata)
-library(sp)
-library(maps)
-library(rgeos)
 library(geosphere)
-library(RColorBrewer)
 library("colorspace") 
 data("countriesLow")
 library(viridis)
+library(terra)
 
 # Global constants --------------------------------------------------------
 
@@ -75,6 +66,10 @@ getCropHarvestRaster <- function(crop_name)
 }
 getCropHarvestRasterSum <- function(crop_names)
 {
+  if(!is.vector(crop_names) || length(crop_names) == 0) {
+    stop("Input 'crop_names' must be a non-empty vector of crop names.")
+  }
+  
   #crop_harvest1 + crop_harvest2 +.....n
   cropharvests <- lapply(crop_names, getCropHarvestRaster)
   Reduce('+', cropharvests)
@@ -582,10 +577,6 @@ SenstivityAnalysis <- function()
   
   lapply(geoScales, SensitivityAnalysisOnCroplandThreshold, croplandThresholds = croplandThresholds, aggregateMethods = aggregateMethods,
          cropHarvestRaster = cropharvest, croplandThreshold = croplandThreshold, resolution = resolution)
-  # for (geoScale in geoScales) {
-  #   SensitivityAnalysisOnCroplandThreshold(croplandThresholds = croplandThresholds, geoScale = geoScale, aggregateMethods = aggregateMethods, 
-  #                                          cropHarvestRaster = cropharvest, croplandThreshold = croplandThreshold, resolution = resolution)
-  # }
 }
 
 
