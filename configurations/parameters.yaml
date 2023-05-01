@@ -13,7 +13,7 @@ default:
       - 1
     AggregationStrategy: [sum, mean]
     Crops: ["avocado"]
-    CropLandThreshold: [0.0002, 0.5, 0.8] #cuttoff - run SA for each of these
+    CropLandThreshold: [0.0015, 0.002, 0.0025] #cuttoff - run SA for each of these
     LinkWeight: [0, 0.000001, 0.5, 0.6]
     Longitude_Latitude: 
       Global: TRUE
