@@ -198,25 +198,25 @@ validate_index_cal <- function(vals_list)
 # Aggregate -----------------------------------------------------
 
 # inverse power law -------------------------------------------------------
-CCRI_powerlaw <- function(beta_vals, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)
+CCRI_powerlaw <- function(beta_vals, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE)
 {
   if(!validate_index_cal(beta_vals))
     return(0)
   
   index_list <- lapply(beta_vals, CCRI_powerlaw_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
-                       betweenness_metric = betweenness_metric, node_strength = node_strength, sum_of_nearest_neghbors = sum_of_nearest_neghbors, eigenvector_centrality = eigenvector_centrality)
+                       betweenness_metric = betweenness_metric, node_strength = node_strength, sum_of_nearest_neighbors = sum_of_nearest_neighbors, eigenvector_centrality = eigenvector_centrality)
   result_index_list <<- c(result_index_list, index_list)
   return(1)
 }
 
 # negative exponential function -------------------------------------------
-CCRI_negative_exponential <- function(gamma_vals, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)
+CCRI_negative_exponential <- function(gamma_vals, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE)
 {
   if(!validate_index_cal(gamma_vals))
     return(0)
   
   index_list <- lapply(gamma_vals, CCRI_negExponential_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
-                       betweenness_metric, node_strength, sum_of_nearest_neghbors, eigenvector_centrality)
+                       betweenness_metric, node_strength, sum_of_nearest_neighbors, eigenvector_centrality)
   result_index_list <<- c(result_index_list, index_list)
   return(1)
 }
@@ -400,7 +400,7 @@ CalculateCCRI <- function(power_law_metrics = config$`CCRI parameters`$Network_m
 }
 
 CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber, 
-                                   betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE) {
+                                   betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE) {
   ##############################################
   #### create adjacency matrix
   
@@ -427,7 +427,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
   ##############################################
   ## sum of nearest neighbors degree
   
-  if(sum_of_nearest_neghbors) {
+  if(sum_of_nearest_neighbors) {
     
     knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
     knnpref0[is.na(knnpref0)]<-0
@@ -498,7 +498,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
 # ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
 
 CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber,
-                                        betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)   {
+                                        betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE)   {
   ##############################################
   #### create adjacency matrix
   ####
@@ -529,7 +529,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
   
   index <- NULL
   
-  if(sum_of_nearest_neghbors) {
+  if(sum_of_nearest_neighbors) {
     knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
     knnpref0[is.na(knnpref0)]<-0
     degreematr<-degree(cropdistancematrix)
@@ -541,7 +541,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
   }
   
   ##############################################
-  #### node degree, node strengh 
+  #### node degree, node strength 
   ####
   if(node_strength) {
   
