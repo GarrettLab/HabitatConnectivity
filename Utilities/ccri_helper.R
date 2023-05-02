@@ -1,6 +1,6 @@
-source("Utilities/strings.R")
+library(this.path)
 
-cat(getwd())
+source(paste(this.dir(), "strings.R", sep = "/"))
 
 # utility functions for CCRI ----------------------------------------------
 
@@ -38,10 +38,10 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE, node_strength =
   w4 <- if (eigenvector_centrality & num_of_metrics > 0) weight/num_of_metrics else 0
   
   # handle division by zero
-  if (w1 == 0) w1 <- NA
-  if (w2 == 0) w2 <- NA
-  if (w3 == 0) w3 <- NA
-  if (w4 == 0) w4 <- NA
+  if (w1 != 0) w1 <- as.integer(1/w1)
+  if (w2 != 0) w2 <- as.integer(1/w2)
+  if (w3 != 0) w3 <- as.integer(1/w3)
+  if (w4 != 0) w4 <- as.integer(1/w4)
   
   # return the weights as a vector
   return(c(STR_BETWEENNESS = w1, STR_NODE_STRENGTH = w2, STR_NEAREST_NEIGHBORS_SUM = w3, STR_EIGEN_VECTOR_CENTRALITY = w4))
