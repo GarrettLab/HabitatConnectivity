@@ -9,7 +9,9 @@ library("colorspace")
 data("countriesLow")
 library(viridis)
 library(terra)
+library(this.path)
 
+source(paste(this.dir(), "Utilities/strings.R", sep = "/"))
 
 # Global constants --------------------------------------------------------
 
@@ -389,13 +391,13 @@ CalculateCCRI <- function(power_law_metrics = config$`CCRI parameters`$Network_m
   opted_powerlaw_metrics <- check_metrics(power_law_metrics)
   CCRI_powerlaw(config$`CCRI parameters`$Beta, betweenness_metric = opted_powerlaw_metrics$betweeness, 
                 node_strength = opted_powerlaw_metrics$node_strength, 
-                sum_of_nearest_neghbors = opted_powerlaw_metrics$sum_of_nearest_neghbors, 
+                sum_of_nearest_neighbors = opted_powerlaw_metrics$sum_of_nearest_neighbors, 
                 eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality)
   
   opted_negative_exp_metrics <- check_metrics(negative_exponential_metrics)
   CCRI_negative_exponential(config$`CCRI parameters`$Gamma, betweenness_metric = opted_negative_exp_metrics$betweeness, 
                             node_strength = opted_negative_exp_metrics$node_strength, 
-                            sum_of_nearest_neghbors = opted_negative_exp_metrics$sum_of_nearest_neghbors, 
+                            sum_of_nearest_neighbors = opted_negative_exp_metrics$sum_of_nearest_neighbors, 
                             eigenvector_centrality = opted_negative_exp_metrics$eigenvector_centrality)
 }
 
@@ -422,6 +424,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
   ##############################################
   #### CCRI is a weighted mean of 4 network metric
   ####  
+  metric_weights <- calculate_metrics_weight(betweenness_metric, node_strength, sum_of_nearest_neighbors, eigenvector_centrality)
   index <- NULL
   
   ##############################################
@@ -434,7 +437,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
     degreematr<-degree(cropdistancematrix)
     knnpref<-knnpref0*degreematr
     if(max(knnpref)==0){knnprefp=0}else
-      if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/6}
+      if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/metric_weights[[STR_NEAREST_NEIGHBORS_SUM]]}
     
     index <- ifelse(is.null(index), knnprefp, index + knnprefp)
   }
@@ -446,7 +449,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
     nodestrength<-graph.strength(cropdistancematrix) 
     nodestrength[is.na(nodestrength)]<-0
     if(max(nodestrength)==0){nodestr=0}else
-      if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/6}
+      if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/metric_weights[[STR_NODE_STRENGTH]]}
     
     index <- ifelse(is.null(index), nodestr, index + nodestr)
   }
@@ -463,7 +466,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
     
     between[is.na(between)]<-0
     if(max(between)==0){betweenp=0}else
-      if(max(between)>0){betweenp=between/max(between)/2} 
+      if(max(between)>0){betweenp=between/max(between)/metric_weights[[STR_BETWEENNESS]]} 
     
     index <- ifelse(is.null(index), betweenp, index + betweenp)
   }
@@ -476,7 +479,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
     ev<-eigenvectorvalues$vector
     ev[is.na(ev)]<-0
     if(max(ev)==0){evp=0}else
-      if(max(ev)!=0){evp=ev/max(ev)/6}
+      if(max(ev)!=0){evp=ev/max(ev)/metric_weights[[STR_EIGEN_VECTOR_CENTRALITY]]}
     
     index <- ifelse(is.null(index), evp, index + evp)
   }
@@ -527,6 +530,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
   #plot(cropdistancematrix,vertex.size=povalue*300,edge.arrow.size=0.2,edge.width=edgeweight,vertex.label=NA,main=paste(crop, sphere1, 'adjacency matrix threshold>',cutoffadja, ', beta=',beta)) # network with weighted node sizes
   # plot(cropdistancematrix,vertex.size=5,edge.arrow.size=0.2,edge.width=edgeweight,vertex.label=NA,main=paste(crop, sphere1, 'adjacency matrix threshold>',cutoffadja, ', beta=',beta)) # network with identical node size
   
+  metric_weights <- calculate_metrics_weight(betweenness_metric, node_strength, sum_of_nearest_neighbors, eigenvector_centrality)
   index <- NULL
   
   if(sum_of_nearest_neighbors) {
@@ -535,7 +539,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
     degreematr<-degree(cropdistancematrix)
     knnpref<-knnpref0*degreematr
     if(max(knnpref)==0){knnprefp=0}else
-      if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/6}
+      if(max(knnpref)>0){knnprefp=knnpref/max(knnpref)/metric_weights[[STR_NEAREST_NEIGHBORS_SUM]]}
     
     index <- ifelse(is.null(index), knnprefp, index + knnprefp)
   }
@@ -548,7 +552,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
     nodestrength<-graph.strength(cropdistancematrix) 
     nodestrength[is.na(nodestrength)]<-0
     if(max(nodestrength)==0){nodestr=0}else
-      if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/6}
+      if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/metric_weights[[STR_NODE_STRENGTH]]}
     
     index <- ifelse(is.null(index), nodestr, index + nodestr)
   }
@@ -566,7 +570,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
     between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
     between[is.na(between)]<-0
     if(max(between)==0){betweenp=0}else
-      if(max(between)>0){betweenp=between/max(between)/2}
+      if(max(between)>0){betweenp=between/max(between)/metric_weights[[STR_BETWEENNESS]]}
     
     index <- ifelse(is.null(index), betweenp, index + betweenp)
   }
@@ -579,7 +583,7 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
     ev<-eigenvectorvalues$vector
     ev[is.na(ev)]<-0
     if(max(ev)==0){evp=0}else
-      if(max(ev)!=0){evp=ev/max(ev)/6}
+      if(max(ev)!=0){evp=ev/max(ev)/metric_weights[[STR_EIGEN_VECTOR_CENTRALITY]]}
     
     index <- ifelse(is.null(index), evp, index + evp)
   }

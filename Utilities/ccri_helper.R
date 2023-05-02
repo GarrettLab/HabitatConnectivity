@@ -13,7 +13,7 @@ valid_vector_input <- function(vector_to_check) {
 }
 
 check_metrics <- function(metrics_list) {
-  valid_metrics <- c("betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality")
+  valid_metrics <- c(STR_BETWEENNESS, STR_NODE_STRENGTH, STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY)
   is_valid <- lapply(valid_metrics, function(x) x %in% metrics_list)
   names(is_valid) <- valid_metrics
   return(is_valid)
@@ -43,7 +43,10 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE, node_strength =
   if (w3 != 0) w3 <- as.integer(1/w3)
   if (w4 != 0) w4 <- as.integer(1/w4)
   
+  weights <- c(w1, w2, w3, w4)
+  names(weights) <- c(STR_BETWEENNESS, STR_NODE_STRENGTH, STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY)
+  
   # return the weights as a vector
-  return(c(STR_BETWEENNESS = w1, STR_NODE_STRENGTH = w2, STR_NEAREST_NEIGHBORS_SUM = w3, STR_EIGEN_VECTOR_CENTRALITY = w4))
+  return(weights)
 }
 
