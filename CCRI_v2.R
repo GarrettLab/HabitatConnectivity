@@ -244,10 +244,9 @@ GetGeographicScales <- function()
   }
   customScales <- config$`CCRI parameters`$Longitude_Latitude$CustomExt
   if(!(is.null(customScales) || is.na(customScales) || length(customScales) == 0))
-    geoScales <- list.append(geoScales, customScales)
+    geoScales <- c(geoScales, customScales)
   
   return(geoScales)
-  #extent(as.numeric(unlist(geoScales)))
 }
 
 
