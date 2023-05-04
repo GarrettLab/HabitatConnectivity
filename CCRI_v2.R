@@ -198,24 +198,24 @@ validate_index_cal <- function(vals_list)
 # Aggregate -----------------------------------------------------
 
 # inverse power law -------------------------------------------------------
-CCRI_powerlaw <- function(beta_vals, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)
+CCRI_powerlaw <- function(beta_vals, link_weight = 0, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)
 {
   if(!validate_index_cal(beta_vals))
     return(0)
   
-  index_list <- lapply(beta_vals, CCRI_powerlaw_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
+  index_list <- lapply(beta_vals, CCRI_powerlaw_function, cutoffadja = link_weight, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
                        betweenness_metric = betweenness_metric, node_strength = node_strength, sum_of_nearest_neghbors = sum_of_nearest_neghbors, eigenvector_centrality = eigenvector_centrality)
   result_index_list <<- c(result_index_list, index_list)
   return(1)
 }
 
 # negative exponential function -------------------------------------------
-CCRI_negative_exponential <- function(gamma_vals, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)
+CCRI_negative_exponential <- function(gamma_vals, link_weight = 0, betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)
 {
   if(!validate_index_cal(gamma_vals))
     return(0)
   
-  index_list <- lapply(gamma_vals, CCRI_negExponential_function, cutoffadja, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
+  index_list <- lapply(gamma_vals, CCRI_negExponential_function, cutoffadja = link_weight, distance_matrix, lon, lat, cropValue, cropharvestAGGTM_crop, CropValuesAzero,
                        betweenness_metric, node_strength, sum_of_nearest_neghbors, eigenvector_centrality)
   result_index_list <<- c(result_index_list, index_list)
   return(1)
@@ -376,7 +376,7 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
 
 # CCRI functions ----------------------------------------------------------
 
-CalculateCCRI <- function(power_law_metrics = config$`CCRI parameters`$Network_metrics$InversePowerLaw, 
+CalculateCCRI <- function(link_weight = 0, power_law_metrics = config$`CCRI parameters`$Network_metrics$InversePowerLaw, 
                           negative_exponential_metrics = config$`CCRI parameters`$Network_metrics$NegativeExponential) {
   #TODO: parallelize them
   
@@ -387,13 +387,13 @@ CalculateCCRI <- function(power_law_metrics = config$`CCRI parameters`$Network_m
     stop("Input 'neative_exponential_metrics' must be a non-empty vector of metric names for negative power law.")
   }
   opted_powerlaw_metrics <- check_metrics(power_law_metrics)
-  CCRI_powerlaw(config$`CCRI parameters`$Beta, betweenness_metric = opted_powerlaw_metrics$betweeness, 
+  CCRI_powerlaw(config$`CCRI parameters`$Beta, link_weight, betweenness_metric = opted_powerlaw_metrics$betweeness, 
                 node_strength = opted_powerlaw_metrics$node_strength, 
                 sum_of_nearest_neghbors = opted_powerlaw_metrics$sum_of_nearest_neghbors, 
                 eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality)
   
   opted_negative_exp_metrics <- check_metrics(negative_exponential_metrics)
-  CCRI_negative_exponential(config$`CCRI parameters`$Gamma, betweenness_metric = opted_negative_exp_metrics$betweeness, 
+  CCRI_negative_exponential(config$`CCRI parameters`$Gamma, link_weight, betweenness_metric = opted_negative_exp_metrics$betweeness, 
                             node_strength = opted_negative_exp_metrics$node_strength, 
                             sum_of_nearest_neghbors = opted_negative_exp_metrics$sum_of_nearest_neghbors, 
                             eigenvector_centrality = opted_negative_exp_metrics$eigenvector_centrality)
@@ -497,7 +497,7 @@ CCRI_powerlaw_function <- function(beta, cutoffadja, distance_matrix, lon, lat, 
 
 # ```{r ,fig.width=11.75, fig.height=6.0, dpi=150}
 
-CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber,
+CCRI_negExponential_function <-function(gamma, cutoffadja, distance_matrix, lon, lat, cropValue, cropRaster, CellNumber,
                                         betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neghbors = FALSE, eigenvector_centrality = FALSE)   {
   ##############################################
   #### create adjacency matrix
@@ -599,9 +599,9 @@ CCRI_negExponential_function <-function(gamma,cutoffadja, distance_matrix, lon, 
 
 # Sensitivity analysis ----------------------------------------------------
 
-SensitivityAnalysisOnGeoExtentScale <- function(geoScale, aggregateMethods, cropHarvestRaster, croplandThreshold, resolution) {
+SensitivityAnalysisOnGeoExtentScale <- function(link_weight = 0, geoScale, aggregateMethods, cropHarvestRaster, croplandThreshold, resolution) {
   
-  cat("\nRunning senstivity analysis for the extent: [", geoScale, "], CC threshold: ", croplandThreshold)
+  cat("\nRunning senstivity analysis for the extent: [", geoScale, "], CC threshold: ", croplandThreshold, "Link weight: ", link_weight)
   
   geoAreaExt <- extent(as.numeric(unlist(geoScale))) #list
   result_index_list <<- list()
@@ -610,7 +610,7 @@ SensitivityAnalysisOnGeoExtentScale <- function(geoScale, aggregateMethods, crop
   {
     InitializeCroplandData(cropHarvestRaster, resolution, geoAreaExt, cutoff = croplandThreshold, aggMethod)
     
-    CalculateCCRI(power_law_metrics = config$`CCRI parameters`$Network_metrics$InversePowerLaw, 
+    CalculateCCRI(link_weight, power_law_metrics = config$`CCRI parameters`$Network_metrics$InversePowerLaw, 
                   negative_exponential_metrics = config$`CCRI parameters`$Network_metrics$NegativeExponential)
   }
   
@@ -635,8 +635,12 @@ SensitivityAnalysisOnGeoExtentScale <- function(geoScale, aggregateMethods, crop
   CalculateDifferenceMap(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
 }
 
-SensitivityAnalysisOnCroplandThreshold <- function(croplandThresholds, geoScale, aggregateMethods, cropHarvestRaster, croplandThreshold, resolution) {
-  lapply(croplandThresholds, SensitivityAnalysisOnGeoExtentScale, geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, resolution = resolution)
+SensitivityAnalysisOnCroplandThreshold <- function(link_weights, croplandThresholds, geoScale, aggregateMethods, cropHarvestRaster, resolution) {
+  lapply(link_weights, SensitivityAnalysisOnLinkWeight, croplandThresholds = croplandThresholds, geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, resolution = resolution)
+}
+
+SensitivityAnalysisOnLinkWeight <- function(link_weight = 0, croplandThresholds, geoScale, aggregateMethods, cropHarvestRaster, croplandThreshold, resolution) {
+  lapply(croplandThresholds, SensitivityAnalysisOnGeoExtentScale, link_weight = link_weight, geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, resolution = resolution)
 }
 
 SenstivityAnalysis <- function()
@@ -646,7 +650,7 @@ SenstivityAnalysis <- function()
   
   #cuttoff adjacencey matrix
   croplandThresholds <<- config$`CCRI parameters`$CropLandThreshold
-  cutoffadja <<- config$`CCRI parameters`$LinkWeight[1]
+  #cutoffadja <<- config$`CCRI parameters`$LinkWeight
   
   # crop data
   cropharvest <- getCropHarvestRasterSum(as.list(config$`CCRI parameters`$Crops)) #list
@@ -658,8 +662,6 @@ SenstivityAnalysis <- function()
   #resolution
   resolution <- config$`CCRI parameters`$Resolution
   
-  lapply(geoScales, SensitivityAnalysisOnCroplandThreshold, croplandThresholds = croplandThresholds, aggregateMethods = aggregateMethods,
-         cropHarvestRaster = cropharvest, croplandThreshold = croplandThreshold, resolution = resolution)
+  lapply(geoScales, SensitivityAnalysisOnCroplandThreshold, link_weights = config$`CCRI parameters`$LinkWeight, croplandThresholds = croplandThresholds, aggregateMethods = aggregateMethods,
+         cropHarvestRaster = cropharvest, resolution = resolution)
 }
-
-
