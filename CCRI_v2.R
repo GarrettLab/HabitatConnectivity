@@ -237,17 +237,16 @@ getWeightVector <- function(cropdistancematrix) {
 GetGeographicScales <- function()
 {
   performGlobalAnalysis <- config$`CCRI parameters`$Longitude_Latitude$Global
-  geoScales = list()
+  geoScales <- list()
   if(performGlobalAnalysis)
   {
     geoScales <- list(config$`CCRI parameters`$Longitude_Latitude$EastExt, config$`CCRI parameters`$Longitude_Latitude$WestExt)
   }
   customScales <- config$`CCRI parameters`$Longitude_Latitude$CustomExt
   if(!(is.null(customScales) || is.na(customScales) || length(customScales) == 0))
-    geoScales <- list.append(geoScales, customScales)
+    geoScales <- c(geoScales, lapply(customScales,as.numeric) )
   
   return(geoScales)
-  #extent(as.numeric(unlist(geoScales)))
 }
 
 
