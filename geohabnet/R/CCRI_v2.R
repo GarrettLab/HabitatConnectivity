@@ -16,9 +16,9 @@ source(paste(this.dir(), "Utilities/strings.R", sep = "/"))
 # Global constants --------------------------------------------------------
 
 kConfigFileFullPath <-  "configurations/parameters.yaml"
-kZeroRasterFilePath <- "ZeroRaster.tif"
-kMapGreyBackGroundTifFilePath <- "map_grey_background.tif"
-kHelperFilePath <- "Utilities/ccri_helper.R" 
+kZeroRasterFilePath <- "Utilities/tifs/ZeroRaster.tif"
+kMapGreyBackGroundTifFilePath <- "configurations/map_grey_background.tif"
+kHelperFilePath <- "Utilities/tifs/ccri_helper.R" 
 
 
 # Load helper functions ---------------------------------------------------

@@ -14,5 +14,4 @@ LaTeX: pdfLaTeX
 
 BuildType: Package
 PackageUseDevtools: Yes
-PackagePath: /Users/kkeshav/Desktop/UFL/OPS/garrettLab/CC
 PackageInstallArgs: --no-multiarch --with-keep.source
