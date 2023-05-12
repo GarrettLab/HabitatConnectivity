@@ -1,24 +1,34 @@
 # dependencies and libraries ----------------------------------------------
 library(rlist)
 library(raster)
-library(dismo)
+library(dismo) #TODO: check if it's required
 library(igraph)
 library(rworldmap)
 library(geosphere)
 library("colorspace") 
-data("countriesLow")
-library(viridis)
-library(terra)
+library(viridis) #TODO: check if it's required
+library(terra) # TODO: check raster vs terra
 library(this.path)
+library(geodata)
+library(config)
+library(here)
 
-source(paste(this.dir(), "Utilities/strings.R", sep = "/"))
+#' @exportPattern ^[^\\.].*
+
+data("countriesLow")
+
+cat(paste(here::here()))
+#cat(paste(this.path(), "Utilities/strings.R", sep = "/"))
+
+#source(paste(this.dir(), "Utilities/strings.R", sep = "/"))
+source(paste(here::here(), "R/Utilities/strings.R", sep = "/"))
 
 # Global constants --------------------------------------------------------
 
-kConfigFileFullPath <-  "configurations/parameters.yaml"
-kZeroRasterFilePath <- "Utilities/tifs/ZeroRaster.tif"
-kMapGreyBackGroundTifFilePath <- "configurations/map_grey_background.tif"
-kHelperFilePath <- "Utilities/tifs/ccri_helper.R" 
+kConfigFileFullPath <-  "R/configurations/parameters.yaml"
+kZeroRasterFilePath <- "R/Utilities/tifs/ZeroRaster.tif"
+kMapGreyBackGroundTifFilePath <- "R/Utilities/tifs/map_grey_background.tif"
+kHelperFilePath <- "R/Utilities/ccri_helper.R" 
 
 
 # Load helper functions ---------------------------------------------------

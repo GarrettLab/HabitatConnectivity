@@ -1,9 +1,12 @@
 library(this.path)
+library(here)
 
+# #source(paste(this.dir(), "strings.R", sep = "/"))
+# cat(paste("this:", this.dir(), "strings.R", sep = "/"))
+# cat(paste("here- ", here::here(), "strings.R", sep = "/"))
 source(paste(this.dir(), "strings.R", sep = "/"))
 
 # utility functions for CCRI ----------------------------------------------
-
 
 valid_vector_input <- function(vector_to_check) {
   if (!is.vector(vector_to_check) || length(vector_to_check) == 0) {
@@ -18,6 +21,7 @@ check_metrics <- function(metrics_list) {
   names(is_valid) <- valid_metrics
   return(is_valid)
 }
+
 
 calculate_metrics_weight <- function(betweenness_metric = FALSE, node_strength = FALSE, sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE) {
   

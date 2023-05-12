@@ -20,7 +20,7 @@ default:
       WestExt: [-24, 180, -58, 60] #long_from, long_to, lat_from, lat_to
       EastExt: [-140, -34, -58, 60] # to 70
       CustomExt: [[-115, -75, 5, 32]] # set this to NA/Empty if not required #[32, 48, 2.9, 17]
-    Resolution: 12
+    Resolution: 24
     Network_metrics:
       InversePowerLaw: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
       NegativeExponential: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector centrality"]

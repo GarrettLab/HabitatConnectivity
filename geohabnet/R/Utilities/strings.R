@@ -5,7 +5,14 @@
 
 # CCRI metrics ------------------------------------------------------------
 
-STR_BETWEENNESS <- "betweeness"
-STR_NODE_STRENGTH <- "node_strength"
-STR_NEAREST_NEIGHBORS_SUM <- "sum_of_nearest_neighbors"
-STR_EIGEN_VECTOR_CENTRALITY <- "eigenvector_centrality"
+#' @keywords internal
+STR_BETWEENNESS <<- "betweeness"
+
+#' @keywords internal
+STR_NODE_STRENGTH <<- "node_strength"
+
+#' @keywords internal
+STR_NEAREST_NEIGHBORS_SUM <<- "sum_of_nearest_neighbors"
+
+#' @keywords internal
+STR_EIGEN_VECTOR_CENTRALITY <<- "eigenvector_centrality"
