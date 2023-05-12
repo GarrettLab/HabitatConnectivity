@@ -71,10 +71,6 @@ palette1 <- c( "#F4E156FF", "#F6D746FF", "#F8CD37FF", "#FAC329FF", "#FBB91EFF", 
                           
 paldif <- diverge_hcl(12,h=c(128,330),c=98,l=c(65,90)) # palette for different map
 
-# source level variables --------------------------------------------------
-# Result of CCRI requests
-result_index_list <- list()
-
 
 # Utility functions -------------------------------------------------------
 # Calculate crop harvest raster -------------------------------------------
@@ -97,7 +93,7 @@ getCropHarvestRasterSum <- function(crop_names)
 }
 
 # Initialize --------------------------------------------------
-is_initialized <- FALSE
+is_initialized <<- FALSE
 
 #Global cropland density map---------------------------------------------------------------
 # Only when user has enabled global analysis
@@ -142,17 +138,17 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cut
   if(aggMethod == "sum") {
     #cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit)
     cropharvestAGGTM <- cropharvestAGG / Resolution / Resolution #TOTAL MEAN
-    plot(cropharvestAGGTM, col = palette1) #map of cropland density
+    raster::plot(cropharvestAGGTM, col = palette1) #map of cropland density
     #----------- crop cropland area for the given extent ----------
     cropharvestAGGTM_crop <<- crop(cropharvestAGGTM, geo_scale)	
-    plot(cropharvestAGGTM_crop, col = palette1) #TODO: don't show this
+    raster::plot(cropharvestAGGTM_crop, col = palette1) #TODO: don't show this
   } else if(aggMethod == "mean"){
     #cropharvestAGGLM <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit) # land mean
     cropharvestAGGLM <- cropharvestAGG
-    plot(cropharvestAGGLM, col = palette1)
+    raster::plot(cropharvestAGGLM, col = palette1)
     #----------- crop cropland area for the given extent ----------
     cropharvestAGGLM_crop <<- crop(cropharvestAGGLM, geo_scale)	
-    plot(cropharvestAGGLM_crop, col = palette1)
+    raster::plot(cropharvestAGGLM_crop, col = palette1)
   }
   #----------- Extract cropland density data -----------------------
   CropValues <- getValues(cropharvestAGGTM_crop)
@@ -277,22 +273,22 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   mean_index_raster <- disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method ='' )
   mean_index_raster_ext <- mean_index_raster + extZero
   #TODO: remove this plot..use the one below with col = grey75
-  plot(mean_index_raster_ext, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',  
+  raster::plot(mean_index_raster_ext, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',  
        yaxt='n', axes=F, box=F, main=paste('Mean cropland connectivity risk index from sensitivity analysis:', config$`CCRI parameters`$Crops), 
        cex.main=0.7)
-  plot(countriesLow, add=TRUE)
+  raster::plot(countriesLow, add=TRUE)
   
   #------------------------------------------------------------
   map_grey_background <- raster(kMapGreyBackGroundTifFilePath)
   
   #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
   map_grey_background_ext <- crop(map_grey_background, geoScale)
-  plot(map_grey_background_ext, col = "grey75",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
+  raster::plot(map_grey_background_ext, col = "grey75",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
        main=paste('Mean cropland connectivity risk index from sensitivity analysis: avocado'), cex.main=0.7)
-  plot(mean_index_raster_ext, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',  
+  raster::plot(mean_index_raster_ext, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',  
        yaxt='n', axes=F, box=F, add = TRUE)
   
-  plot(countriesLow, add=TRUE, border = "white")
+  raster::plot(countriesLow, add=TRUE, border = "white")
   
   return (c(zeroRasterExtent = extZero, mapGreyBackGroundExtent = map_grey_background_ext, use.names = TRUE))
 
@@ -307,9 +303,9 @@ CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, 
   
   variance_mean_index_raster[] <- Variance_mean_index_ext
   z_var_w <- range(Variance_mean_index_ext[which(Variance_mean_index_ext > 0)])
-  plot(variance_mean_index_raster, col = palette1, zlim= z_var_w, xaxt='n',  
+  raster::plot(variance_mean_index_raster, col = palette1, zlim= z_var_w, xaxt='n',  
        yaxt='n', axes=F, box=F, main = paste('Variance in Cropland Connectivity for range: ', paste(z_var_w, collapse = ' to ')))
-  plot(countriesLow, add=TRUE)
+  raster::plot(countriesLow, add=TRUE)
   
   #----------------------------------------------------
   
@@ -318,11 +314,11 @@ CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, 
   
   
   #TODO: explore colors
-  plot(map_grey_background_ext, col = "grey75",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
+  raster::plot(map_grey_background_ext, col = "grey75",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
        main=paste('Variance in cropland connectivity risk index from sensitivity analysis:', config$`CCRI parameters`$Crops), cex.main=0.7)
-  plot(Variance_mean_index_raster_ext_disagg, col = palette1, zlim= z_var_w, xaxt='n',  
+  raster::plot(Variance_mean_index_raster_ext_disagg, col = palette1, zlim= z_var_w, xaxt='n',  
        yaxt='n', axes=F, box=F, add = TRUE)
-  plot(countriesLow, add=TRUE)
+  raster::plot(countriesLow, add=TRUE)
   
 }
 
@@ -356,9 +352,9 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   zr2 <- range(-maxrankW, maxrankW)
   
   #TODO: not required
-  plot(mean_index_raster_diff, main=paste('Difference in rank of cropland harvested area fraction and CCRI:', 
+  raster::plot(mean_index_raster_diff, main=paste('Difference in rank of cropland harvested area fraction and CCRI:', 
                                           paste(config$`CCRI parameters`$Crops, collapse = ",")), col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, cex.main=0.7)
-  plot(countriesLow, add=TRUE)
+  raster::plot(countriesLow, add=TRUE)
   
   #mean_index_raster_diff[]
   #--------------------------------------------------
@@ -371,18 +367,18 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   
   cropNames <- paste(config$`CCRI parameters`$Crops, collapse = ", ")
   #TODO: not required
-  plot(mean_index_raster_diff_disagg,
+  raster::plot(mean_index_raster_diff_disagg,
        main=paste('Difference in rank of cropland harvested area fraction and CCRI:', cropNames),
        col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, cex.main=0.7)
-  plot(countriesLow, add=TRUE)
+  raster::plot(countriesLow, add=TRUE)
   
   #------------------------------------------------------------
   #map_grey_background <- raster("map_grey_background.tif")
   #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
   #map_grey_background_west <- crop(map_grey_background, west_ext)
-  plot(map_grey_background_ext, col = "grey65",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
+  raster::plot(map_grey_background_ext, col = "grey65",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
        main=paste('Difference in rank of cropland harvested area fraction and CCRI:', cropNames), cex.main=0.7)
-  plot(mean_index_raster_diff_disagg, col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, add = TRUE)
+  raster::plot(mean_index_raster_diff_disagg, col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, add = TRUE)
   #plot(countriesLow, add=TRUE, border = "white")
 }
 
@@ -639,10 +635,10 @@ SensitivityAnalysisOnGeoExtentScale <- function(link_weight = 0, geoScale, aggre
   zeroId <- which(mean_index_raster_val == 0)
   mean_index_raster[zeroId] <- NaN
   
-  plot(mean_index_raster, col = palette1, zlim= c(0, 1),
+  terra::plot(mean_index_raster, col = palette1, zlim= c(0, 1),
        main=paste("Mean cropland connectivity risk index from sensitivity analysis: ",
                   config$`CCRI parameters`$Crops , "resolution = ", config$`CCRI parameters`$Resolution), cex.main=0.7)
-  plot(countriesLow, add=TRUE)
+  raster::plot(countriesLow, add=TRUE)
   
   zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
   CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)

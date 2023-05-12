@@ -22,6 +22,7 @@ Imports:
     terra,
     this.path,
     viridis,
-    config
+    config,
+    here
 Suggests: 
     testthat

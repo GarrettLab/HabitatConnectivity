@@ -18,4 +18,5 @@ if (!require(devtools)) {
 devtools::load_all()
 
 library(geohabnet)
+
 test_check("geohabnet")
