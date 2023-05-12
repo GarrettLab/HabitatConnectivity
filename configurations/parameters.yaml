@@ -1,30 +1,32 @@
 default:
   CCRI parameters:
-    Beta:
+    Beta: #TODO: rename DispersalParameterBeta
       - 0.5
       - 1
       - 1.5
       - 1.5
-    Gamma:
+    Gamma: #TODO: rename DispersalParameterGamma
       - 0.05
       - 0.1
       - 0.2
       - 0.3
       - 1
     AggregationStrategy: [sum, mean]
-    Crops: ["avocado"]
+    Crops: ["avocado"] #TODO: rename Hosts
     CropLandThreshold: [0.0015, 0.002, 0.0025] #cuttoff - run SA for each of these
-    LinkWeight: [0, 0.000001, 0.6] #TODO: rename link threshold
+                                               #TODO: rename HostDensityThreshold
+    LinkWeight: [0, 0.000001, 0.6] #TODO: rename LinkThreshold
+                                   #TODO: set default values proposed in the paper by Xing et al
     Longitude_Latitude: 
       Global: FALSE
       WestExt: [-24, 180, -58, 60] #long_from, long_to, lat_from, lat_to
       EastExt: [-140, -34, -58, 60] # to 70
       CustomExt: [[-115, -75, 5, 32]] # set this to NA/Empty if not required #[32, 48, 2.9, 17]
     Resolution: 12
-    Network_metrics:
+    Network_metrics: #TODO: rename NetworkMetrics
       InversePowerLaw: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
       NegativeExponential: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector centrality"]
-    OutcomeAnalysis:
+    OutcomeAnalysis: #TODO: rename PriorityMaps?
       MeanCC: TRUE
       Difference: TRUE
       Variance: TRUE
