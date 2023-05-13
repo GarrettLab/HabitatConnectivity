@@ -34,7 +34,8 @@ kHelperFilePath <- "R/Utilities/ccri_helper.R"
 # Load helper functions ---------------------------------------------------
 
 LoadHelperFunctions <- function(helperFilePath = kHelperFilePath) {
-  source(kHelperFilePath)
+  cat(paste("here: ", here::here()))
+  source(paste(here::here(), kHelperFilePath, sep = "/"))
 }
 
 # load config ----------------------------------------------
@@ -268,7 +269,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   #------------------------------------------------------------
   #--- remove pixels outside of boundary
   #TODO: is there any other way to get 0 raster?
-  ZeroRaster <- raster(kZeroRasterFilePath)
+  ZeroRaster <- raster(paste(here::here(), kZeroRasterFilePath, sep = "/"))
   extZero <- crop(ZeroRaster, geoScale)
   mean_index_raster <- disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method ='' )
   mean_index_raster_ext <- mean_index_raster + extZero
@@ -279,7 +280,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   raster::plot(countriesLow, add=TRUE)
   
   #------------------------------------------------------------
-  map_grey_background <- raster(kMapGreyBackGroundTifFilePath)
+  map_grey_background <- raster(paste(here::here(), kMapGreyBackGroundTifFilePath, sep = "/"))
   
   #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
   map_grey_background_ext <- crop(map_grey_background, geoScale)
@@ -657,7 +658,7 @@ SensitivityAnalysisOnLinkWeight <- function(link_weight = 0, croplandThresholds,
 SenstivityAnalysis <- function()
 {
   LoadHelperFunctions()
-  LoadConfig()
+  LoadConfig(paste(here::here(), kConfigFileFullPath, sep = "/"))
   
   #cuttoff adjacencey matrix
   croplandThresholds <<- config$`CCRI parameters`$CropLandThreshold

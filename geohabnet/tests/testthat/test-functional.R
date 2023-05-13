@@ -1,4 +1,5 @@
-# library("testthat")
+library("testthat")
+library(geohabnet)
 # testEnv2 <- new.env()
 # testEnv2$TEST_MODE <- TRUE
 # 
@@ -12,5 +13,5 @@ test_that("Test 4: Test Senstivity analysis run on default configuration", {
   # kMapGreyBackGroundTifFilePath = "../../R/Utilities/tifs/map_grey_background.tif"
   # kHelperFilePath = "../../R/Utilities/ccri_helper.R"
   
-  expect_no_condition(SenstivityAnalysis(), message = "Senstivity analysis completed")
+  expect_no_condition(geohabnet::SenstivityAnalysis(), message = "Senstivity analysis completed")
 })
