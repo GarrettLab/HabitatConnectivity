@@ -2,7 +2,7 @@ Package: geohabnet
 Title: geohabnet
 Version: 0.0.0.9000
 Authors@R: 
-    person("Aaron", "Plex", , "plexaaron@ufl.edu", role = c("aut", "cre"),
+    person("Garrett", "Lab", , "karengarrett@ufl.edu", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Geographical spatial analysis of cropland connectivity.
 License: file LICENSE
