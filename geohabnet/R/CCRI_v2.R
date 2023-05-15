@@ -363,6 +363,7 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   #--- remove pixels outside of boundary
   #ZeroRaster <- raster("ZeroRaster.tif")
   #West_Zero <- crop(ZeroRaster, west_ext)
+  #rasters <- adjust_rasterpair_extent(mean_index_raster_diff, zeroExtentRaster)
   mean_index_raster_diff_disagg <- disaggregate(mean_index_raster_diff, fact = c(Resolution, Resolution), method ='' )
   mean_index_raster_diff_disagg <- mean_index_raster_diff_disagg + zeroExtentRaster
   

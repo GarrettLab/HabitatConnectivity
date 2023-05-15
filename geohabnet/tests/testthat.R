@@ -8,14 +8,14 @@
 
 library(testthat)
 library(here)
-cat(here::here())
-cat("nxt")
-#setwd("../R")
-if (!require(devtools)) {
-  install.packages("devtools")
-  library(devtools)
-}
-devtools::load_all()
+# cat(here::here())
+# cat("nxt")
+# #setwd("../R")
+# if (!require(devtools)) {
+#   install.packages("devtools")
+#   library(devtools)
+# }
+# devtools::load_all()
 
 library(geohabnet)
 

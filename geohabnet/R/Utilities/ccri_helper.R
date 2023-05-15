@@ -54,3 +54,14 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE, node_strength =
   return(weights)
 }
 
+adjust_rasterpair_extent <- function(mean_index_raster_diff, zeroExtentRaster) {
+  ext_mean <- extent(mean_index_raster_diff)
+  ext_zero <- extent(zeroExtentRaster)
+  
+  # If the extents are different, adjust the extent of `zeroExtentRaster` to match `mean_index_raster_diff`
+  if (!isTRUE(ext_mean == ext_zero)) {
+    zeroExtentRaster <- crop(zeroExtentRaster, ext_mean)
+  }
+  return(list(raster1 = mean_index_raster_diff, raster2 = zeroExtentRaster))
+}
+
