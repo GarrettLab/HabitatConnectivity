@@ -54,6 +54,16 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE, node_strength =
   return(weights)
 }
 
+#' Adjust the extent of two raster objects and return them as a list
+#'
+#' This function takes two raster objects, `mean_index_raster_diff` and `zeroExtentRaster`,
+#' and adjusts the extent of `zeroExtentRaster` to match `mean_index_raster_diff` if their
+#' extents are different. The adjusted raster objects are returned as a list with named elements.
+#'
+#' @param mean_index_raster_diff A raster object representing the mean index difference
+#' @param zeroExtentRaster A raster object with an extent to be adjusted
+#' @return A list with adjusted raster objects: `raster1` and `raster2`
+#' @export
 adjust_rasterpair_extent <- function(mean_index_raster_diff, zeroExtentRaster) {
   ext_mean <- extent(mean_index_raster_diff)
   ext_zero <- extent(zeroExtentRaster)
@@ -62,6 +72,8 @@ adjust_rasterpair_extent <- function(mean_index_raster_diff, zeroExtentRaster) {
   if (!isTRUE(ext_mean == ext_zero)) {
     zeroExtentRaster <- crop(zeroExtentRaster, ext_mean)
   }
+  
   return(list(raster1 = mean_index_raster_diff, raster2 = zeroExtentRaster))
 }
+
 

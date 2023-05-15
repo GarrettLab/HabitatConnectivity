@@ -103,25 +103,25 @@ GlobalAnalysis <- function()
   
   # ```{r, fig.width=20, fig.height=10, dpi=400}
   
-  cropharvestAGGTM_crop1 <- crop(cropharvestAGGTM, extent(-180, 180, -60, 80))	
+  cropharvestAGGTM_crop1 <- crop(cropharvestAGGTM, raster::extent(-180, 180, -60, 80))	
   zrWorldMean <- range(0.1, max(getValues(cropharvestAGGTM_crop1)))
   
   #Removing pixels outside boundary
-  mean_index_raster_val <- getValues(cropharvestAGGTM_crop1)
+  mean_index_raster_val <- raster::getValues(cropharvestAGGTM_crop1)
   #structure(mean_index_raster_val)
   
   zeroID <- which(mean_index_raster_val == 0)
   cropharvestAGGTM[zeroID] <- NaN
   
   ZeroRaster <- raster(kZeroRasterFilePath)
-  CAM_Zero <- crop(ZeroRaster, extent(-180, 180, -60, 80))
+  CAM_Zero <- raster::crop(ZeroRaster, raster::extent(-180, 180, -60, 80))
   mean_index_raster <- disaggregate(cropharvestAGGTM_crop1, fact = c(Resolution, Resolution), method = '')
   mean_index_raster_CAM <- mean_index_raster + CAM_Zero
   
   #Plotting cropland density
   map_grey_background <- raster(kMapGreyBackGroundTifFilePath)
   
-  map_grey_background_CAM <- crop(map_grey_background, extent(-180, 180, -60, 80))
+  map_grey_background_CAM <- raster::crop(map_grey_background, raster::extent(-180, 180, -60, 80))
   
   plot(map_grey_background_CAM, col = "grey75",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
        main=paste('Mean in crop area fraction:', crop), cex.main=1.6)
@@ -160,7 +160,7 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, cut
   lat <<- NULL # ymax
 
   for(i in 1:length(CropValuesAzero)){
-    temp <- extentFromCells(cropharvestAGGTM_crop, CropValuesAzero[i])
+    temp <- raster::extentFromCells(cropharvestAGGTM_crop, CropValuesAzero[i])
     AVxminO <- temp[1]
     lon <<- c(lon, AVxminO)
     AVymaxO <- temp[4]
@@ -616,7 +616,7 @@ SensitivityAnalysisOnGeoExtentScale <- function(link_weight = 0, geoScale, aggre
   
   cat("\nRunning senstivity analysis for the extent: [", geoScale, "], CC threshold: ", croplandThreshold, "Link weight: ", link_weight)
   
-  geoAreaExt <- extent(as.numeric(unlist(geoScale))) #list
+  geoAreaExt <- raster::extent(as.numeric(unlist(geoScale))) #list
   result_index_list <<- list()
   # TODO: per cutoff or cropland threshold
   for (aggMethod in aggregateMethods) 
