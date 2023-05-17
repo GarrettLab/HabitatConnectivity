@@ -19,22 +19,21 @@ source(paste(here::here(), "R/Utilities/strings.R", sep = "/"))
 
 # Global constants --------------------------------------------------------
 
-kConfigFileFullPath <-  "R/configurations/parameters.yaml"
-kZeroRasterFilePath <- "R/Utilities/tifs/ZeroRaster.tif"
-kMapGreyBackGroundTifFilePath <- "R/Utilities/tifs/map_grey_background.tif"
-kHelperFilePath <- "R/Utilities/ccri_helper.R" 
+.kConfigFileFullPath <-  "R/configurations/parameters.yaml"
+.kZeroRasterFilePath <- "R/Utilities/tifs/ZeroRaster.tif"
+.kMapGreyBackGroundTifFilePath <- "R/Utilities/tifs/map_grey_background.tif"
+.kHelperFilePath <- "R/Utilities/ccri_helper.R" 
 
 
 # Load helper functions ---------------------------------------------------
 
-LoadHelperFunctions <- function(helperFilePath = kHelperFilePath) {
-  cat(paste("here: ", here::here()))
-  source(paste(here::here(), kHelperFilePath, sep = "/"))
+LoadHelperFunctions <- function(helperFilePath = .kHelperFilePath) {
+  source(paste(here::here(), .kHelperFilePath, sep = "/"))
 }
 
-# load config ----------------------------------------------
+# load parameters config ----------------------------------------------
 
-LoadConfig <- function(filePath = kConfigFileFullPath)
+LoadParameters <- function(filePath = .kConfigFileFullPath)
 {
   config <<- config::get(file = filePath) 
 }
@@ -107,13 +106,13 @@ GlobalAnalysis <- function()
   zeroID <- which(mean_index_raster_val == 0)
   cropharvestAGGTM[zeroID] <- NaN
   
-  ZeroRaster <- raster(kZeroRasterFilePath)
+  ZeroRaster <- raster(.kZeroRasterFilePath)
   CAM_Zero <- raster::crop(ZeroRaster, raster::extent(-180, 180, -60, 80))
   mean_index_raster <- disaggregate(cropharvestAGGTM_crop1, fact = c(Resolution, Resolution), method = '')
   mean_index_raster_CAM <- mean_index_raster + CAM_Zero
   
   #Plotting cropland density
-  map_grey_background <- raster(kMapGreyBackGroundTifFilePath)
+  map_grey_background <- raster(.kMapGreyBackGroundTifFilePath)
   
   map_grey_background_CAM <- raster::crop(map_grey_background, raster::extent(-180, 180, -60, 80))
   
@@ -263,7 +262,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   #------------------------------------------------------------
   #--- remove pixels outside of boundary
   #TODO: is there any other way to get 0 raster?
-  ZeroRaster <- raster(paste(here::here(), kZeroRasterFilePath, sep = "/"))
+  ZeroRaster <- raster(paste(here::here(), .kZeroRasterFilePath, sep = "/"))
   extZero <- crop(ZeroRaster, geoScale)
   mean_index_raster <- disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method ='' )
   mean_index_raster_ext <- mean_index_raster + extZero
@@ -274,7 +273,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   raster::plot(countriesLow, add=TRUE)
   
   #------------------------------------------------------------
-  map_grey_background <- raster(paste(here::here(), kMapGreyBackGroundTifFilePath, sep = "/"))
+  map_grey_background <- raster(paste(here::here(), .kMapGreyBackGroundTifFilePath, sep = "/"))
   
   #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
   map_grey_background_ext <- crop(map_grey_background, geoScale)
@@ -653,7 +652,7 @@ SensitivityAnalysisOnLinkWeight <- function(linkThreshold = 0, hostDensityThresh
 SenstivityAnalysis <- function()
 {
   LoadHelperFunctions()
-  LoadConfig(paste(here::here(), kConfigFileFullPath, sep = "/"))
+  LoadParameters(paste(here::here(), .kConfigFileFullPath, sep = "/"))
   
   #cuttoff adjacencey matrix
   croplandThresholds <<- config$`CCRI parameters`$HostDensityThreshold
