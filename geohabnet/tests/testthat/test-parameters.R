@@ -26,9 +26,16 @@ test_that("Test 4: Test with default parameters", {
   expect_true(file.exists(param_file))
 })
 
-test_that("Test 4: Test with custom path for saving file", {
+test_that("Test 4: Test to fetch currently used parameters.yaml", {
   save_path <- getwd()
   param_file <- get_parameters(out_path = save_path)
   expect_true(file.exists(param_file))
   file.remove(param_file)
+})
+
+test_that("Test 4: Test to set new parameters.yaml", {
+  new_param_file <- "params.yaml"
+  after_setting_new_param <- "../../R/configurations/parameters.yaml"
+  set_parameters(new_param_file)
+  expect_true(file.exists(after_setting_new_param))
 })

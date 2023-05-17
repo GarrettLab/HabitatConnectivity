@@ -18,8 +18,8 @@ default:
     PriorityMaps:
       MeanCC: TRUE
       Difference: TRUE
-      Variance: TRUE
+      Variance: FALSE
     SaveOutcomes:
-      MeanCC: TRUE
+      MeanCC: FALSE
       Difference: TRUE
       Variance: TRUE
