@@ -1,0 +1,34 @@
+default:
+  CCRI parameters:
+    Beta:
+      - 0.5
+      - 1
+      - 1.5
+      - 1.5
+    Gamma: 
+      - 0.05
+      - 0.1
+      - 0.2
+      - 0.3
+      - 1
+    AggregationStrategy: [sum, mean]
+    Crops: ["avocado"]
+    CropLandThreshold: [0.0015, 0.002, 0.0025] #cuttoff - run SA for each of these
+    LinkWeight: [0, 0.000001, 0.6]
+    Resolution: 24
+    Longitude_Latitude: 
+      Global: FALSE
+      WestExt: [-24, 180, -58, 60] #long_from, long_to, lat_from, lat_to
+      EastExt: [-140, -34, -58, 60] # to 70
+      CustomExt: [[-115, -75, 5, 32]] # set this to NA/Empty if not required #[32, 48, 2.9, 17], [-115, -75, 5, 32]
+    Network_metrics:
+      InversePowerLaw: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
+      NegativeExponential: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector centrality"]
+    OutcomeAnalysis:
+      MeanCC: TRUE
+      Difference: TRUE
+      Variance: TRUE
+    SaveOutcomes:
+      MeanCC: TRUE
+      Difference: TRUE
+      Variance: TRUE
