@@ -13,6 +13,8 @@ library(geodata)
 library(config)
 library(here)
 
+#' @exportPattern ^[^\\.].*
+
 data("countriesLow")
 
 source(paste(here::here(), "R/Utilities/strings.R", sep = "/"))
