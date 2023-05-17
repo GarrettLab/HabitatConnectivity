@@ -32,4 +32,5 @@ test_that("Test 4: Test with custom path for saving file", {
   save_path <- getwd()
   param_file <- get_parameters(out_path = save_path)
   expect_true(file.exists(param_file))
+  file.remove(param_file)
 })
