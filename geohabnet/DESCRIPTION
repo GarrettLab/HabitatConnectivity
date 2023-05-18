@@ -23,6 +23,8 @@ Imports:
     this.path,
     viridis,
     config,
-    here
+    here,
+    easycsv,
+    yaml
 Suggests: 
     testthat
