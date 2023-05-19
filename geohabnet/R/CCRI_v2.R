@@ -17,8 +17,6 @@ library(here)
 
 data("countriesLow")
 
-source(paste(here::here(), "R/Utilities/strings.R", sep = "/"))
-
 # Global constants --------------------------------------------------------
 
 .kConfigFileFullPath <-  "R/configurations/parameters.yaml"
@@ -29,9 +27,8 @@ source(paste(here::here(), "R/Utilities/strings.R", sep = "/"))
 
 # Load helper functions ---------------------------------------------------
 
-LoadHelperFunctions <- function(helperFilePath = .kHelperFilePath) {
-  source(paste(here::here(), .kHelperFilePath, sep = "/"))
-}
+source(paste(here::here(), "R/Utilities/strings.R", sep = "/"))
+source(paste(here::here(), .kHelperFilePath, sep = "/"))
 
 # load parameters config ----------------------------------------------
 
@@ -653,7 +650,6 @@ SensitivityAnalysisOnLinkWeight <- function(linkThreshold = 0, hostDensityThresh
 
 SenstivityAnalysis <- function()
 {
-  LoadHelperFunctions()
   LoadParameters(paste(here::here(), .kConfigFileFullPath, sep = "/"))
   
   #cuttoff adjacencey matrix
