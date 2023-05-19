@@ -19,7 +19,7 @@ data("countriesLow")
 
 # Global constants --------------------------------------------------------
 
-.kConfigFileFullPath <-  "R/configurations/parameters.yaml"
+.kConfigFileFullPath <-  paste(here::here(), "R/configurations/parameters.yaml", sep = "/")
 .kZeroRasterFilePath <- "R/Utilities/tifs/ZeroRaster.tif"
 .kMapGreyBackGroundTifFilePath <- "R/Utilities/tifs/map_grey_background.tif"
 .kHelperFilePath <- "R/Utilities/ccri_helper.R" 
@@ -650,7 +650,7 @@ SensitivityAnalysisOnLinkWeight <- function(linkThreshold = 0, hostDensityThresh
 
 SenstivityAnalysis <- function()
 {
-  LoadParameters(paste(here::here(), .kConfigFileFullPath, sep = "/"))
+  LoadParameters()
   
   #cuttoff adjacencey matrix
   croplandThresholds <<- config$`CCRI parameters`$HostDensityThreshold
