@@ -34,6 +34,7 @@ source(paste(here::here(), .kHelperFilePath, sep = "/"))
 
 LoadParameters <- function(filePath = .kConfigFileFullPath)
 {
+  cat(paste("hh ", filePath))
   config <<- config::get(file = filePath) 
 }
 
