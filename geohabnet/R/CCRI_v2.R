@@ -34,6 +34,7 @@ source(paste(here::here(), .kHelperFilePath, sep = "/"))
 
 LoadParameters <- function(filePath = .kConfigFileFullPath)
 {
+  filePath <- system.file("parameters.yaml", package = "geohabnet")
   cat(paste("hh ", filePath))
   config <<- config::get(file = filePath) 
 }
