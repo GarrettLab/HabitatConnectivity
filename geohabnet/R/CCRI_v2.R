@@ -34,7 +34,7 @@ source(paste(here::here(), .kHelperFilePath, sep = "/"))
 
 LoadParameters <- function(filePath = .kConfigFileFullPath)
 {
-  filePath <- system.file("parameters.yaml", package = "geohabnet")
+  filePath <- system.file("parameters.yaml", package = "geohabnet", mustWork = TRUE)
   cat(paste("hh ", filePath))
   config <<- config::get(file = filePath) 
 }
@@ -129,7 +129,7 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, hos
   # aggregated resolution
   Resolution <<- resolution # Set aggregated resolution, for example, assign 12 for 1 degree.
   #----------- aggregration -----------------------------
-  cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun = aggMethod, na.action = na.omit)
+  cropharvestAGG <- raster::aggregate(cropharvestRaster, fact = Resolution, fun = aggMethod, na.action = na.omit)
   if(aggMethod == "sum") {
     #cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit)
     cropharvestAGGTM <- cropharvestAGG / Resolution / Resolution #TOTAL MEAN
@@ -265,7 +265,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   #TODO: is there any other way to get 0 raster?
   ZeroRaster <- raster(paste(here::here(), .kZeroRasterFilePath, sep = "/"))
   extZero <- crop(ZeroRaster, geoScale)
-  mean_index_raster <- disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method ='' )
+  mean_index_raster <- raster::disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method ='' )
   mean_index_raster_ext <- mean_index_raster + extZero
   #TODO: remove this plot..use the one below with col = grey75
   raster::plot(mean_index_raster_ext, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',  
