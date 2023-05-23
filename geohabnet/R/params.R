@@ -1,5 +1,5 @@
 
-source(paste(here::here(), "R/ccri_helper.R", sep = "/"))
+# source(paste(here::here(), "R/ccri_helper.R", sep = "/"))
 
 .get_param_file_path <- function() {
   return(system.file("parameters.yaml", package = "geohabnet", mustWork = TRUE))
