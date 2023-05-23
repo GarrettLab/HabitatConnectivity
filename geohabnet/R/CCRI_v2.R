@@ -26,7 +26,9 @@ data("countriesLow")
 
 # Load helper functions ---------------------------------------------------
 
+cat("s1", file.exists(paste(here::here(), "R/Utilities/strings.R", sep = "/")))
 source(paste(here::here(), "R/Utilities/strings.R", sep = "/"))
+cat("s2", file.exists(paste(here::here(), .kHelperFilePath, sep = "/")))
 source(paste(here::here(), .kHelperFilePath, sep = "/"))
 
 # load parameters config ----------------------------------------------
@@ -392,14 +394,15 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
 
 # CCRI functions ----------------------------------------------------------
 
-CalculateCCRI <- function(linkThreshold = 0, power_law_metrics = config$`CCRI parameters`$NetworkMetrics$InversePowerLaw, 
+CalculateCCRI <- function(linkThreshold = 0,
+                          power_law_metrics = config$`CCRI parameters`$NetworkMetrics$InversePowerLaw, 
                           negative_exponential_metrics = config$`CCRI parameters`$NetworkMetrics$NegativeExponential) {
   #TODO: parallelize them
   
-  if(!valid_vector_input(power_law_metrics)) {
+  if(!.valid_vector_input(power_law_metrics)) {
     stop("Input 'power_law_metrics' must be a non-empty vector of metric names for inverse power law.")
   }
-  if(!valid_vector_input(negative_exponential_metrics)) {
+  if(!.valid_vector_input(negative_exponential_metrics)) {
     stop("Input 'neative_exponential_metrics' must be a non-empty vector of metric names for negative power law.")
   }
   opted_powerlaw_metrics <- check_metrics(power_law_metrics)

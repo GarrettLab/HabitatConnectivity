@@ -9,7 +9,7 @@ source(paste(this.dir(), "strings.R", sep = "/"))
 
 # utility functions for CCRI ----------------------------------------------
 
-valid_vector_input <- function(vector_to_check) {
+.valid_vector_input <- function(vector_to_check) {
   if (!is.vector(vector_to_check) || length(vector_to_check) == 0) {
     return(FALSE)
   }
