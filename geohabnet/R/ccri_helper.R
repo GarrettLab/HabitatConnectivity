@@ -2,9 +2,6 @@ library(this.path)
 library(here)
 library(yaml)
 
-# #source(paste(this.dir(), "strings.R", sep = "/"))
-# cat(paste("this:", this.dir(), "strings.R", sep = "/"))
-# cat(paste("here- ", here::here(), "strings.R", sep = "/"))
 source(paste(this.dir(), "strings.R", sep = "/"))
 
 # utility functions for CCRI ----------------------------------------------

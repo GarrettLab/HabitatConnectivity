@@ -22,12 +22,12 @@ data("countriesLow")
 .kConfigFileFullPath <-  system.file("parameters.yaml", package = "geohabnet", mustWork = TRUE)
 .kZeroRasterFilePath <- system.file("tifs", "ZeroRaster.tif", package = "geohabnet", mustWork = TRUE)
 .kMapGreyBackGroundTifFilePath <- system.file("tifs", "map_grey_background.tif", package = "geohabnet", mustWork = TRUE)
-.kHelperFilePath <- "R/Utilities/ccri_helper.R"
+.kHelperFilePath <- "R/ccri_helper.R"
 
 # Load helper functions ---------------------------------------------------
 
-cat("s1", file.exists(paste(here::here(), "R/Utilities/strings.R", sep = "/")))
-source(paste(here::here(), "R/Utilities/strings.R", sep = "/"))
+cat("s1", file.exists(paste(here::here(), "R/strings.R", sep = "/")))
+source(paste(here::here(), "R/strings.R", sep = "/"))
 cat("s2", file.exists(paste(here::here(), .kHelperFilePath, sep = "/")))
 source(paste(here::here(), .kHelperFilePath, sep = "/"))
 
@@ -441,7 +441,7 @@ CCRI_powerlaw_function <- function(dispersal_parameter_beta, linkThreshold, dist
   ##############################################
   #### CCRI is a weighted mean of 4 network metric
   ####  
-  metric_weights <- calculate_metrics_weight(betweenness_metric, node_strength, sum_of_nearest_neighbors, eigenvector_centrality)
+  metric_weights <- geohabnet::calculate_metrics_weight(betweenness_metric, node_strength, sum_of_nearest_neighbors, eigenvector_centrality)
   index <- NULL
   
   ##############################################
