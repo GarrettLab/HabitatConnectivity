@@ -449,7 +449,7 @@ CCRI_powerlaw_function <- function(dispersal_parameter_beta, linkThreshold, dist
   
   if(sum_of_nearest_neighbors) {
     
-    knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
+    knnpref0 <- igraph::graph.knn(cropdistancematrix,weights=NA)$knn
     knnpref0[is.na(knnpref0)]<-0
     degreematr<-degree(cropdistancematrix)
     knnpref<-knnpref0*degreematr
@@ -463,7 +463,7 @@ CCRI_powerlaw_function <- function(dispersal_parameter_beta, linkThreshold, dist
   #### node degree, node strengh 
   ####
   if(node_strength) {
-    nodestrength<-graph.strength(cropdistancematrix) 
+    nodestrength <- igraph::graph.strength(cropdistancematrix) 
     nodestrength[is.na(nodestrength)]<-0
     if(max(nodestrength)==0){nodestr=0}else
       if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/metric_weights[[STR_NODE_STRENGTH]]}
@@ -551,7 +551,7 @@ CCRI_negExponential_function <-function(dispersal_parameter_gamma_val, linkThres
   index <- NULL
   
   if(sum_of_nearest_neighbors) {
-    knnpref0<-graph.knn(cropdistancematrix,weights=NA)$knn
+    knnpref0 <- igraph::graph.knn(cropdistancematrix,weights=NA)$knn
     knnpref0[is.na(knnpref0)]<-0
     degreematr<-degree(cropdistancematrix)
     knnpref<-knnpref0*degreematr
@@ -566,7 +566,7 @@ CCRI_negExponential_function <-function(dispersal_parameter_gamma_val, linkThres
   ####
   if(node_strength) {
   
-    nodestrength<-graph.strength(cropdistancematrix) 
+    nodestrength <- igraph::graph.strength(cropdistancematrix) 
     nodestrength[is.na(nodestrength)]<-0
     if(max(nodestrength)==0){nodestr=0}else
       if(max(nodestrength)>0){nodestr=nodestrength/max(nodestrength)/metric_weights[[STR_NODE_STRENGTH]]}
