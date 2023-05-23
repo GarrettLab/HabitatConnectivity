@@ -175,13 +175,13 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, hos
   #adjustConstant <- 2 # to adjust the distance and make sure the distance >1
   latilongimatr <- cropdata1[ ,c(1:2)]# save the latitude and longitude as new matrix  
   #---- use Geosphere package, function distVincentyEllipsoid() is used to calculate the distance, defult distance is meter
-  dvse <- distVincentyEllipsoid(c(0,0), cbind(1, 0)) # reference of standard distance in meter for one degree
+  dvse <- geosphere::distVincentyEllipsoid(c(0,0), cbind(1, 0)) # reference of standard distance in meter for one degree
   latilongimatr <- as.matrix(latilongimatr)
   TemMat <- matrix(-999, nrow( latilongimatr),nrow(latilongimatr))
   
   #TODO: set round limit programitcally
   for (i in 1:nrow(latilongimatr)) {
-    TemMat[i, ] <- distVincentyEllipsoid(round(latilongimatr[i,], 5), latilongimatr)/dvse
+    TemMat[i, ] <- geosphere::distVincentyEllipsoid(round(latilongimatr[i,], 5), latilongimatr)/dvse
   }
   
   distance_matrix <<- TemMat
