@@ -479,7 +479,7 @@ CCRI_powerlaw_function <- function(dispersal_parameter_beta, linkThreshold, dist
   #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
   #weight method 2:
   if(betweenness_metric) {
-    between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
+    between <- igraph::betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
     
     between[is.na(between)]<-0
     if(max(between)==0){betweenp=0}else
@@ -584,7 +584,7 @@ CCRI_negExponential_function <-function(dispersal_parameter_gamma_val, linkThres
   #weight method 2:
   if(betweenness_metric) {
     
-    between<-betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
+    between <- igraph::betweenness(cropdistancematrix, weights = (1-1/exp(getWeightVector(cropdistancematrix))))
     between[is.na(between)]<-0
     if(max(between)==0){betweenp=0}else
       if(max(between)>0){betweenp=between/max(between)/metric_weights[[STR_BETWEENNESS]]}
