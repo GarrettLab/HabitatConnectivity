@@ -102,7 +102,7 @@ getCropHarvestRasterSum <- function(crop_names)
 
 #----------- Extract cropland density data -----------------------
 .extract_cropland_density <- function(cropharvestAGG_crop, hostDensityThreshold) {
-  CropValues <- getValues(cropharvestAGG_crop)
+  CropValues <- raster::getValues(cropharvestAGG_crop)
   CropValuesAzero <<- which(CropValues > hostDensityThreshold) # find the cells with value > 0.0001
   cropValue <<- CropValues[CropValuesAzero]
   return(.extract_lon_lat(CropValuesAzero, cropharvestAGG_crop))
@@ -119,7 +119,7 @@ GlobalAnalysis <- function()
   # ```{r, fig.width=20, fig.height=10, dpi=400}
   
   cropharvestAGGTM_crop1 <- crop(cropharvestAGGTM, raster::extent(-180, 180, -60, 80))	
-  zrWorldMean <- range(0.1, max(getValues(cropharvestAGGTM_crop1)))
+  zrWorldMean <- range(0.1, max(raster::getValues(cropharvestAGGTM_crop1)))
   
   #Removing pixels outside boundary
   mean_index_raster_val <- raster::getValues(cropharvestAGGTM_crop1)
@@ -638,7 +638,7 @@ SensitivityAnalysisOnGeoExtentScale <- function(linkThreshold = 0, geoScale, agg
   mean_index_raster_diff <- mean_index_raster
   variance_mean_index_raster <- mean_index_raster
   
-  mean_index_raster_val <- getValues(mean_index_raster)
+  mean_index_raster_val <- raster::getValues(mean_index_raster)
   zeroId <- which(mean_index_raster_val == 0)
   mean_index_raster[zeroId] <- NaN
   
@@ -648,7 +648,7 @@ SensitivityAnalysisOnGeoExtentScale <- function(linkThreshold = 0, geoScale, agg
   raster::plot(countriesLow, add=TRUE)
   
   zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
-  CCRIVariance(lapply(result_index_list, getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
+  CCRIVariance(lapply(result_index_list, raster::getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
   
   CalculateDifferenceMap(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
 }
