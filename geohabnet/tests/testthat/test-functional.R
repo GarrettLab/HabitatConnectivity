@@ -1,13 +1,10 @@
 library("testthat")
-library(geohabnet)
-# testEnv2 <- new.env()
-# testEnv2$TEST_MODE <- TRUE
-# 
-# sys.source(file = "../../CCRI_v2.R", envir = testEnv2, toplevel.env = testEnv2)
 
-context("functional tests on parameters combination")
+test_that("Test function to retreive crop raster data", {
+  expect_no_condition(geohabnet::getCropHarvestRaster("avocado"))
+})
 
-test_that("Test 4: Test Senstivity analysis run on default configuration", {
+test_that("Test Senstivity analysis run on default configuration", {
   
   expect_no_condition(geohabnet::SenstivityAnalysis(), message = "Senstivity analysis completed")
 })
