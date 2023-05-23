@@ -436,7 +436,7 @@ CCRI_powerlaw_function <- function(dispersal_parameter_beta, linkThreshold, dist
   logicalmatr <- cropdistancematr > linkThreshold # adjacency matrix after threshold
   stan <- cropdistancematr * logicalmatr
   stan <- round(stan, 6) # use round() because betweenness() may have problem when do the calculation
-  cropdistancematrix <- graph.adjacency(stan,mode=c("undirected"),diag=F,weighted=T)#create adjacency matrix
+  cropdistancematrix <- igraph::graph.adjacency(stan,mode=c("undirected"),diag=F,weighted=T)#create adjacency matrix
   
   ##############################################
   #### CCRI is a weighted mean of 4 network metric
@@ -536,7 +536,7 @@ CCRI_negExponential_function <-function(dispersal_parameter_gamma_val, linkThres
   logicalmatr <- cropdistancematr > linkThreshold
   stan <- cropdistancematr * logicalmatr
   stan <- round(stan, 6) # use round() because betweenness() may have problem when do the calculation
-  cropdistancematrix<-graph.adjacency(stan,mode=c("undirected"),diag=F,weighted=T)#create adjacency matrix
+  cropdistancematrix <- igraph::graph.adjacency(stan,mode=c("undirected"),diag=F,weighted=T)#create adjacency matrix
   ##############################################
   #### create network for all the selected nodes
   ####
