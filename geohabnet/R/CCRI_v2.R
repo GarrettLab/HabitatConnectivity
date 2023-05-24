@@ -64,7 +64,7 @@ palette1 <- c( "#F4E156FF", "#F6D746FF", "#F8CD37FF", "#FAC329FF", "#FBB91EFF", 
                           "#02020EFF", "#02020CFF", "#02010AFF", "#010108FF", "#010106FF", "#010005FF",
                           "#000004FF", "#000004FF", "#000004FF")
                           
-paldif <- diverge_hcl(12,h=c(128,330),c=98,l=c(65,90)) # palette for different map
+paldif <- colorspace::diverge_hcl(12,h=c(128,330),c=98,l=c(65,90)) # palette for different map
 
 
 # Utility functions -------------------------------------------------------
