@@ -316,7 +316,7 @@ CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, 
   
   #----------------------------------------------------
   
-  Variance_mean_index_raster_ext_disagg <- disaggregate(variance_mean_index_raster, fact = c(Resolution, Resolution), method ='' )
+  Variance_mean_index_raster_ext_disagg <- raster::disaggregate(variance_mean_index_raster, fact = c(Resolution, Resolution), method ='' )
   Variance_mean_index_raster_ext_disagg <- Variance_mean_index_raster_ext_disagg + zeroExtentRaster
   
   
