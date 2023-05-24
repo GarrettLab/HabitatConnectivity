@@ -542,8 +542,8 @@ CCRI_negExponential_function <-function(dispersal_parameter_gamma_val, linkThres
   ####
   #V(cropdistancematrix)$color=colororder
   igraph::V(cropdistancematrix)$label.cex=0.7
-  edgeweight<-E(cropdistancematrix)$weight*4000
-  E(cropdistancematrix)$color="red"
+  edgeweight <- igraph::E(cropdistancematrix)$weight*4000
+  igraph::E(cropdistancematrix)$color="red"
   #plot(cropdistancematrix,vertex.size=povalue*300,edge.arrow.size=0.2,edge.width=edgeweight,vertex.label=NA,main=paste(crop, sphere1, 'adjacency matrix threshold>',cutoffadja, ', beta=',beta)) # network with weighted node sizes
   # plot(cropdistancematrix,vertex.size=5,edge.arrow.size=0.2,edge.width=edgeweight,vertex.label=NA,main=paste(crop, sphere1, 'adjacency matrix threshold>',cutoffadja, ', beta=',beta)) # network with identical node size
   
