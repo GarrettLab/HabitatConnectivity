@@ -166,7 +166,7 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, hos
     cropharvestAGGLM <- cropharvestAGG
     raster::plot(cropharvestAGGLM, col = palette1)
     #----------- crop cropland area for the given extent ----------
-    cropharvestAGGLM_crop <<- crop(cropharvestAGGLM, geo_scale)	
+    cropharvestAGGLM_crop <<- raster::crop(cropharvestAGGLM, geo_scale)	
     raster::plot(cropharvestAGGLM_crop, col = palette1)
     .extract_cropland_density(cropharvestAGGLM_crop, hostDensityThreshold)
   }
