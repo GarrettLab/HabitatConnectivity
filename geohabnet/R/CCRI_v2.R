@@ -120,7 +120,7 @@ GlobalAnalysis <- function()
   
   # ```{r, fig.width=20, fig.height=10, dpi=400}
   
-  cropharvestAGGTM_crop1 <- crop(cropharvestAGGTM, raster::extent(-180, 180, -60, 80))	
+  cropharvestAGGTM_crop1 <- raster::crop(cropharvestAGGTM, raster::extent(-180, 180, -60, 80))	
   zrWorldMean <- range(0.1, max(raster::getValues(cropharvestAGGTM_crop1)))
   
   #Removing pixels outside boundary
@@ -288,7 +288,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   map_grey_background <- raster::raster(.kMapGreyBackGroundTifFilePath)
   
   #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
-  map_grey_background_ext <- crop(map_grey_background, geoScale)
+  map_grey_background_ext <- raster::crop(map_grey_background, geoScale)
   raster::plot(map_grey_background_ext, col = "grey75",  xaxt='n',  yaxt='n', axes=F, box=F, legend = F, 
        main=paste('Mean cropland connectivity risk index from sensitivity analysis:',
                   paste(config$`CCRI parameters`$Hosts, collapse = ",")), cex.main=0.7)
