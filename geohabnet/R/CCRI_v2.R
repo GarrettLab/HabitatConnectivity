@@ -244,7 +244,7 @@ CCRI_negative_exponential <- function(dispersal_parameter_gamma_vals, linkThresh
 # Utility functions -------------------------------------------------------
 
 getWeightVector <- function(cropdistancematrix) {
-  weight_vec <- E(cropdistancematrix)$weight
+  weight_vec <- igraph::E(cropdistancematrix)$weight
   weight_vec[is.na(weight_vec)] = 0
   weight_vec <- weight_vec + 1e-10
 }
