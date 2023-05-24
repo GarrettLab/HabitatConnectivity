@@ -130,13 +130,13 @@ GlobalAnalysis <- function()
   zeroID <- which(mean_index_raster_val == 0)
   cropharvestAGGTM[zeroID] <- NaN
   
-  ZeroRaster <- raster(.kZeroRasterFilePath)
+  ZeroRaster <- raster::raster(.kZeroRasterFilePath)
   CAM_Zero <- raster::crop(ZeroRaster, raster::extent(-180, 180, -60, 80))
-  mean_index_raster <- disaggregate(cropharvestAGGTM_crop1, fact = c(Resolution, Resolution), method = '')
+  mean_index_raster <- raster::disaggregate(cropharvestAGGTM_crop1, fact = c(Resolution, Resolution), method = '')
   mean_index_raster_CAM <- mean_index_raster + CAM_Zero
   
   #Plotting cropland density
-  map_grey_background <- raster(.kMapGreyBackGroundTifFilePath)
+  map_grey_background <- rastter::raster(.kMapGreyBackGroundTifFilePath)
   
   map_grey_background_CAM <- raster::crop(map_grey_background, raster::extent(-180, 180, -60, 80))
   
@@ -273,7 +273,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   #------------------------------------------------------------
   #--- remove pixels outside of boundary
   #TODO: is there any other way to get 0 raster?
-  ZeroRaster <- raster(.kZeroRasterFilePath)
+  ZeroRaster <- raster::raster(.kZeroRasterFilePath)
   extZero <- raster::crop(ZeroRaster, geoScale)
   mean_index_raster <- raster::disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method ='' )
   mean_index_raster_ext <- mean_index_raster + extZero
@@ -285,7 +285,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   raster::plot(rworldmap::countriesLow, add=TRUE)
   
   #------------------------------------------------------------
-  map_grey_background <- raster(.kMapGreyBackGroundTifFilePath)
+  map_grey_background <- raster::raster(.kMapGreyBackGroundTifFilePath)
   
   #Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
   map_grey_background_ext <- crop(map_grey_background, geoScale)
