@@ -343,7 +343,7 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   }
   
   # ```{r ,fig.width=6, fig.height=7, dpi=150}
-  paldif4 <- diverge_hcl(51, c = 100, l = c(20, 90), power = 1.3  )
+  paldif4 <- colorspace::diverge_hcl(51, c = 100, l = c(20, 90), power = 1.3  )
   
   #-----------------------------------------------------
   CCRI_ID <- which(mean_index_raster_diff[]>0)
