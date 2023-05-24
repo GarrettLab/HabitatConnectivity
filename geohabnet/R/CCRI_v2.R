@@ -282,7 +282,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
        yaxt='n', axes=F, box=F, main=paste('Mean cropland connectivity risk index from sensitivity analysis:',
                                            paste(config$`CCRI parameters`$Hosts, collapse = ",")), 
        cex.main=0.7)
-  raster::plot(countriesLow, add=TRUE)
+  raster::plot(rworldmap::countriesLow, add=TRUE)
   
   #------------------------------------------------------------
   map_grey_background <- raster(.kMapGreyBackGroundTifFilePath)
