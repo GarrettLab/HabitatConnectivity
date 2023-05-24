@@ -295,7 +295,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster)
   raster::plot(mean_index_raster_ext, col = palette1, zlim= c(0.000000000000, 1), xaxt='n',  
        yaxt='n', axes=F, box=F, add = TRUE)
   
-  raster::plot(countriesLow, add=TRUE, border = "white")
+  raster::plot(rworldmap::countriesLow, add=TRUE, border = "white")
   
   return (c(zeroRasterExtent = extZero, mapGreyBackGroundExtent = map_grey_background_ext, use.names = TRUE))
 
@@ -312,7 +312,7 @@ CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, 
   z_var_w <- range(Variance_mean_index_ext[which(Variance_mean_index_ext > 0)])
   raster::plot(variance_mean_index_raster, col = palette1, zlim= z_var_w, xaxt='n',  
        yaxt='n', axes=F, box=F, main = paste('Variance in Cropland Connectivity for range: ', paste(z_var_w, collapse = ' to ')))
-  raster::plot(countriesLow, add=TRUE)
+  raster::plot(rworldmap::countriesLow, add=TRUE)
   
   #----------------------------------------------------
   
@@ -326,7 +326,7 @@ CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, 
                   paste(config$`CCRI parameters`$Hosts, collapse = ",")), cex.main=0.7)
   raster::plot(Variance_mean_index_raster_ext_disagg, col = palette1, zlim= z_var_w, xaxt='n',  
        yaxt='n', axes=F, box=F, add = TRUE)
-  raster::plot(countriesLow, add=TRUE)
+  raster::plot(rworldmap::countriesLow, add=TRUE)
   
 }
 
@@ -362,7 +362,7 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   #TODO: not required
   raster::plot(mean_index_raster_diff, main=paste('Difference in rank of cropland harvested area fraction and CCRI:', 
                                           paste(config$`CCRI parameters`$Hosts, collapse = ",")), col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, cex.main=0.7)
-  raster::plot(countriesLow, add=TRUE)
+  raster::plot(rworldmap::countriesLow, add=TRUE)
   
   #mean_index_raster_diff[]
   #--------------------------------------------------
@@ -379,7 +379,7 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   raster::plot(mean_index_raster_diff_disagg,
        main=paste('Difference in rank of cropland harvested area fraction and CCRI:', cropNames),
        col=paldif4, zlim=zr2, xaxt='n',  yaxt='n', axes=F, box=F, cex.main=0.7)
-  raster::plot(countriesLow, add=TRUE)
+  raster::plot(rworldmap::countriesLow, add=TRUE)
   
   #------------------------------------------------------------
   #map_grey_background <- raster("map_grey_background.tif")
@@ -648,7 +648,7 @@ SensitivityAnalysisOnGeoExtentScale <- function(linkThreshold = 0, geoScale, agg
   terra::plot(mean_index_raster, col = palette1, zlim= c(0, 1),
        main=paste("Mean cropland connectivity risk index from sensitivity analysis: ",
                   config$`CCRI parameters`$Crops , "resolution = ", config$`CCRI parameters`$Resolution), cex.main=0.7)
-  raster::plot(countriesLow, add=TRUE)
+  raster::plot(rworldmap::countriesLow, add=TRUE)
   
   zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
   CCRIVariance(lapply(result_index_list, raster::getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
