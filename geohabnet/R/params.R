@@ -1,8 +1,8 @@
 
-source(paste(here::here(), "R/Utilities/ccri_helper.R", sep = "/"))
+# source(paste(here::here(), "R/ccri_helper.R", sep = "/"))
 
 .get_param_file_path <- function() {
-  return(paste(this.proj(), "R/configurations/parameters.yaml", sep = "/"))
+  return(system.file("parameters.yaml", package = "geohabnet", mustWork = TRUE))
 }
 
 .get_directoryfromuser <- function() {
@@ -32,7 +32,7 @@ get_parameters <- function(iwindow = FALSE, out_path = getwd()) {
   
   params_file_path <- .get_param_file_path()
   .copy_file(params_file_path, out_path)
-  print(paste("parameters are now available at - ", out_path, "/parameters.yaml"))
+  print("parameters fetched successfully")
   return(file.path(paste(out_path, "parameters.yaml", sep = "/")))
 }
 

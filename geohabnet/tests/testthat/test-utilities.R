@@ -3,7 +3,7 @@ library(this.path)
 
 testEnv3 <- new.env()
 
-test_filename <- paste(this.dir(), "../../R/Utilities/ccri_helper.R", sep = "/")
+test_filename <- paste(this.dir(), "../../R/ccri_helper.R", sep = "/")
 sys.source(file = test_filename, envir = testEnv3, toplevel.env = testEnv3)
 
 context("utilities function tests")
