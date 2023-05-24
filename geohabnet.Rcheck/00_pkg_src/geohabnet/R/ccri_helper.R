@@ -2,11 +2,7 @@ library(this.path)
 library(here)
 library(yaml)
 
-# Global constants --------------------------------------------------------
-
-.kparameters_file_type <-  "parameters"
-.kzeroraster_file_type <- "zero_raster"
-.kmapgreybackground_file_type <- "map_grey_background"
+# source(paste(this.dir(), "strings.R", sep = "/"))
 
 # utility functions for CCRI ----------------------------------------------
 
@@ -55,19 +51,4 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE, node_strength =
   # return the weights as a vector
   return(weights)
 }
-
-.get_helper_filepath <- function(file_type) {
-  if (file_type == "parameters") {
-    file_path <- system.file("parameters.yaml", package = "geohabnet", mustWork = TRUE)
-  } else if (file_type == "zero_raster") {
-    file_path <- system.file("tifs", "ZeroRaster.tif", package = "geohabnet", mustWork = TRUE)
-  } else if (file_type == "map_grey_background") {
-    file_path <- system.file("tifs", "map_grey_background.tif", package = "geohabnet", mustWork = TRUE)
-  } else {
-    stop("Invalid file_type parameter. Supported options are 'config', 'zero_raster', and 'map_grey_background'.")
-  }
-  
-  return(file_path)
-}
-
 
