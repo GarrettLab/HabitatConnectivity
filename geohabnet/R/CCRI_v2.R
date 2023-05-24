@@ -371,7 +371,7 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
   #ZeroRaster <- raster("ZeroRaster.tif")
   #West_Zero <- crop(ZeroRaster, west_ext)
   #rasters <- adjust_rasterpair_extent(mean_index_raster_diff, zeroExtentRaster)
-  mean_index_raster_diff_disagg <- disaggregate(mean_index_raster_diff, fact = c(Resolution, Resolution), method ='' )
+  mean_index_raster_diff_disagg <- raster::disaggregate(mean_index_raster_diff, fact = c(Resolution, Resolution), method ='' )
   mean_index_raster_diff_disagg <- mean_index_raster_diff_disagg + zeroExtentRaster
   
   cropNames <- paste(config$`CCRI parameters`$Crops, collapse = ", ")
@@ -492,7 +492,7 @@ CCRI_powerlaw_function <- function(dispersal_parameter_beta, linkThreshold, dist
   #### eigenvector and eigenvalues
   #### 
   if(eigenvector_centrality) {
-    eigenvectorvalues<-evcent(cropdistancematrix)
+    eigenvectorvalues<-igraph::evcent(cropdistancematrix)
     ev<-eigenvectorvalues$vector
     ev[is.na(ev)]<-0
     if(max(ev)==0){evp=0}else
@@ -596,7 +596,7 @@ CCRI_negExponential_function <-function(dispersal_parameter_gamma_val, linkThres
   #### eigenvector and eigenvalues
   #### 
   if(eigenvector_centrality) {
-    eigenvectorvalues<-evcent(cropdistancematrix)
+    eigenvectorvalues<-igraph::evcent(cropdistancematrix)
     ev<-eigenvectorvalues$vector
     ev[is.na(ev)]<-0
     if(max(ev)==0){evp=0}else
@@ -635,8 +635,8 @@ SensitivityAnalysisOnGeoExtentScale <- function(linkThreshold = 0, geoScale, agg
                   negative_exponential_metrics = config$`CCRI parameters`$NetworkMetrics$NegativeExponential)
   }
   
-  stackedRasters <- stack(result_index_list)
-  mean_index_raster <-  calc(stackedRasters, sum) / length(result_index_list)
+  stackedRasters <- raster::stack(result_index_list)
+  mean_index_raster <-  raster::calc(stackedRasters, sum) / length(result_index_list)
   
   mean_index_raster_diff <- mean_index_raster
   variance_mean_index_raster <- mean_index_raster
