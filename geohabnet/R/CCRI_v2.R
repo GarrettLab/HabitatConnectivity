@@ -122,13 +122,12 @@ GlobalAnalysis <- function() {
   plot(mean_index_raster_CAM, main = paste("Crop area density: ", crop), col = palette1, zlim = zrWorldMean, xaxt = "n", yaxt = "n", axes = F, box = F, add = TRUE)
 }
 
-InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, hostDensityThreshold, aggMethod) {
-  ## Read cropland data in a .tif file and get data.frame lon/ lat /cropland density
-  # cropharvest <- getCropHarvestRasterSum(crop_names)
+initialize_cropland_data <- function(cropharvest_raster, resolution, geo_scale, host_density_threshold, agg_method) {
+
   # aggregated resolution
   Resolution <<- resolution # Set aggregated resolution, for example, assign 12 for 1 degree.
   #----------- aggregration -----------------------------
-  cropharvestAGG <- raster::aggregate(cropharvestRaster, fact = Resolution, fun = aggMethod, na.action = na.omit)
+  cropharvestAGG <- raster::aggregate(cropharvest_raster, fact = Resolution, fun = agg_method, na.action = na.omit)
   if (aggMethod == "sum") {
     # cropharvestAGG <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit)
     cropharvestAGGTM <- cropharvestAGG / Resolution / Resolution # TOTAL MEAN
@@ -136,7 +135,7 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, hos
     #----------- crop cropland area for the given extent ----------
     cropharvestAGGTM_crop <<- raster::crop(cropharvestAGGTM, geo_scale)
     raster::plot(cropharvestAGGTM_crop, col = palette1) # TODO: don't show this
-    .extract_cropland_density(cropharvestAGGTM_crop, hostDensityThreshold)
+    .extract_cropland_density(cropharvestAGGTM_crop, host_density_threshold)
   } else if (aggMethod == "mean") {
     # cropharvestAGGLM <- aggregate(cropharvestRaster, fact = Resolution, fun=quote(aggregateMethod), na.action = na.omit) # land mean
     cropharvestAGGLM <- cropharvestAGG
@@ -144,7 +143,7 @@ InitializeCroplandData <- function(cropharvestRaster, resolution, geo_scale, hos
     #----------- crop cropland area for the given extent ----------
     cropharvestAGGLM_crop <<- raster::crop(cropharvestAGGLM, geo_scale)
     raster::plot(cropharvestAGGLM_crop, col = palette1)
-    .extract_cropland_density(cropharvestAGGLM_crop, hostDensityThreshold)
+    .extract_cropland_density(cropharvestAGGLM_crop, host_density_threshold)
   }
 
   #---------------------------------------------------------------
@@ -225,7 +224,7 @@ getWeightVector <- function(cropdistancematrix) {
   weight_vec <- weight_vec + 1e-10
 }
 
-GetGeographicScales <- function() {
+get_geographic_scales <- function() {
   performGlobalAnalysis <- config$`CCRI parameters`$Longitude_Latitude$Global
   geoScales <- list()
   if (performGlobalAnalysis) {
@@ -245,12 +244,12 @@ GetGeographicScales <- function() {
 
 # method to calculate zero raster -----------------------------------------
 
-CalculateZeroRaster <- function(geoScale, mean_index_raster) {
+calculate_zero_raster <- function(geoscale, mean_index_raster) {
   #------------------------------------------------------------
   #--- remove pixels outside of boundary
   # TODO: is there any other way to get 0 raster?
-  ZeroRaster <- raster::raster(.get_helper_filepath(.kzeroraster_file_type))
-  extZero <- raster::crop(ZeroRaster, geoScale)
+  zero_raster <- raster::raster(.get_helper_filepath(.kzeroraster_file_type))
+  extZero <- raster::crop(zero_raster, geoscale)
   mean_index_raster <- raster::disaggregate(mean_index_raster, fact = c(Resolution, Resolution), method = "")
   mean_index_raster_ext <- mean_index_raster + extZero
   # TODO: remove this plot..use the one below with col = grey75
@@ -268,7 +267,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster) {
   map_grey_background <- raster::raster(.get_helper_filepath(.kmapgreybackground_file_type))
 
   # Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
-  map_grey_background_ext <- raster::crop(map_grey_background, geoScale)
+  map_grey_background_ext <- raster::crop(map_grey_background, geoscale)
   raster::plot(map_grey_background_ext,
     col = "grey75", xaxt = "n", yaxt = "n", axes = F, box = F, legend = F,
     main = paste(
@@ -287,7 +286,7 @@ CalculateZeroRaster <- function(geoScale, mean_index_raster) {
 }
 
 # Complete sensitivity analysis of Variance of CCRI -------------
-CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, map_grey_background_ext) {
+ccri_variance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, map_grey_background_ext) {
   # ```{r ,fig.width=6, fig.height=7, dpi=150}
   Variance_mean_index_ext <- apply(do.call(cbind, indexes), 1, var)
 
@@ -323,7 +322,7 @@ CCRIVariance <- function(indexes, variance_mean_index_raster, zeroExtentRaster, 
 
 # difference map ----------------------------------------------------------
 
-CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroExtentRaster, map_grey_background_ext) {
+calculate_difference_map <- function(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroExtentRaster, map_grey_background_ext) {
   # difference map
 
   if (missing(cropharvestAGGTM_crop) || missing(cropharvestAGGLM_crop)) {
@@ -388,11 +387,14 @@ CalculateDifferenceMap <- function(mean_index_raster_diff, cropharvestAGGTM_crop
 
 # CCRI functions ----------------------------------------------------------
 
-CalculateCCRI <- function(linkThreshold = 0,
-                          power_law_metrics = config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
-                          negative_exponential_metrics = config$`CCRI parameters`$NetworkMetrics$NegativeExponential) {
-  # TODO: parallelize them
+calculate_ccri <- function(
+    link_threshold = 0,
+    power_law_metrics = 
+      config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+    negative_exponential_metrics = 
+      config$`CCRI parameters`$NetworkMetrics$NegativeExponential) {
 
+    # TODO: parallelize them
   if (!.valid_vector_input(power_law_metrics)) {
     stop("Input 'power_law_metrics' must be a non-empty vector of metric names for inverse power law.")
   }
@@ -400,7 +402,7 @@ CalculateCCRI <- function(linkThreshold = 0,
     stop("Input 'neative_exponential_metrics' must be a non-empty vector of metric names for negative power law.")
   }
   opted_powerlaw_metrics <- check_metrics(power_law_metrics)
-  CCRI_powerlaw(config$`CCRI parameters`$DispersalParameterBeta, linkThreshold,
+  CCRI_powerlaw(config$`CCRI parameters`$DispersalParameterBeta, link_threshold,
     betweenness_metric = opted_powerlaw_metrics$betweeness,
     node_strength = opted_powerlaw_metrics$node_strength,
     sum_of_nearest_neighbors = opted_powerlaw_metrics$sum_of_nearest_neighbors,
@@ -408,7 +410,7 @@ CalculateCCRI <- function(linkThreshold = 0,
   )
 
   opted_negative_exp_metrics <- check_metrics(negative_exponential_metrics)
-  CCRI_negative_exponential(config$`CCRI parameters`$DispersalParameterGamma, linkThreshold,
+  CCRI_negative_exponential(config$`CCRI parameters`$DispersalParameterGamma, link_threshold,
     betweenness_metric = opted_negative_exp_metrics$betweeness,
     node_strength = opted_negative_exp_metrics$node_strength,
     sum_of_nearest_neighbors = opted_negative_exp_metrics$sum_of_nearest_neighbors,
@@ -638,24 +640,26 @@ CCRI_negExponential_function <- function(dispersal_parameter_gamma_val, linkThre
 
 # Sensitivity analysis ----------------------------------------------------
 
-SensitivityAnalysisOnGeoExtentScale <- function(linkThreshold = 0, geoScale, aggregateMethods, cropHarvestRaster, hostDensityThreshold, resolution) {
-  cat("\nRunning senstivity analysis for the extent: [", geoScale, "], Link threshold: ", linkThreshold, "Host density threshold: ", hostDensityThreshold)
+sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scale, aggregate_methods, cropharvest_raster, host_density_threshold, resolution) {
+  cat("\nRunning senstivity analysis for the extent: [", geo_scale, "], Link threshold: ", link_threshold, "Host density threshold: ", host_density_threshold)
 
-  geoAreaExt <- raster::extent(as.numeric(unlist(geoScale))) # list
+  geo_areaext <- raster::extent(as.numeric(unlist(geo_scale))) # list
   result_index_list <<- list()
   # TODO: per cutoff or cropland threshold
-  for (aggMethod in aggregateMethods)
+  for (agg_method in aggregate_methods)
   {
-    InitializeCroplandData(cropHarvestRaster, resolution, geoAreaExt, hostDensityThreshold = hostDensityThreshold, aggMethod)
+    initialize_cropland_data(cropharvest_raster, resolution, geo_areaext,
+                             hostDensityThreshold = host_density_threshold,
+                             agg_method)
 
-    CalculateCCRI(linkThreshold,
+    calculate_ccri(link_threshold,
       power_law_metrics = config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
       negative_exponential_metrics = config$`CCRI parameters`$NetworkMetrics$NegativeExponential
     )
   }
 
-  stackedRasters <- raster::stack(result_index_list)
-  mean_index_raster <- raster::calc(stackedRasters, sum) / length(result_index_list)
+  stacked_rasters <- raster::stack(result_index_list)
+  mean_index_raster <- raster::calc(stacked_rasters, sum) / length(result_index_list)
 
   mean_index_raster_diff <- mean_index_raster
   variance_mean_index_raster <- mean_index_raster
@@ -668,44 +672,66 @@ SensitivityAnalysisOnGeoExtentScale <- function(linkThreshold = 0, geoScale, agg
     col = palette1, zlim = c(0, 1),
     main = paste(
       "Mean cropland connectivity risk index from sensitivity analysis: ",
-      config$`CCRI parameters`$Crops, "resolution = ", config$`CCRI parameters`$Resolution
+      config$`CCRI parameters`$Crops, "resolution = ",
+      config$`CCRI parameters`$Resolution
     ), cex.main = 0.7
   )
   raster::plot(rworldmap::countriesLow, add = TRUE)
 
-  zeroRasterResults <- CalculateZeroRaster(geoAreaExt, mean_index_raster)
-  CCRIVariance(lapply(result_index_list, raster::getValues), variance_mean_index_raster, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
+  zero_raster_results <- calculate_zero_raster(geo_areaext, mean_index_raster)
+  ccri_variance(lapply(result_index_list, raster::getValues),
+               variance_mean_index_raster, zero_raster_results$zeroRasterExtent,
+               zero_raster_results$mapGreyBackGroundExtent)
 
-  CalculateDifferenceMap(mean_index_raster_diff, cropharvestAGGTM_crop, cropharvestAGGLM_crop, zeroRasterResults$zeroRasterExtent, zeroRasterResults$mapGreyBackGroundExtent)
+  calculate_difference_map(mean_index_raster_diff, cropharvestAGGTM_crop,
+                         cropharvestAGGLM_crop,
+                         zero_raster_results$zeroRasterExtent,
+                         zero_raster_results$mapGreyBackGroundExtent)
 }
 
-SensitivityAnalysisOnCroplandThreshold <- function(linkThresholds, hostDensityThresholds, geoScale, aggregateMethods, cropHarvestRaster, resolution) {
-  lapply(linkThresholds, SensitivityAnalysisOnLinkWeight, hostDensityThresholds = hostDensityThresholds, geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, resolution = resolution)
+sensitivity_analysis_on_cropland_threshold <- function(link_thresholds,
+                                                   host_density_thresholds,
+                                                   geo_scale, aggregate_methods,
+                                                   cropharvest_raster,
+                                                   resolution) {
+  lapply(link_thresholds, sensitivity_analysis_on_link_weight,
+         host_density_thresholds = host_density_thresholds,
+         geo_scale = geo_scale, aggregate_methods = aggregate_methods,
+         cropharvest_raster = cropharvest_raster, resolution = resolution)
 }
 
-SensitivityAnalysisOnLinkWeight <- function(linkThreshold = 0, hostDensityThresholds, geoScale, aggregateMethods, cropHarvestRaster, resolution) {
-  lapply(hostDensityThresholds, SensitivityAnalysisOnGeoExtentScale, linkThreshold = linkThreshold, geoScale = geoScale, aggregateMethods = aggregateMethods, cropHarvestRaster = cropHarvestRaster, resolution = resolution)
+sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
+                                            host_density_thresholds, geo_scale,
+                                            aggregate_methods,
+                                            cropharvest_raster,
+                                            resolution) {
+  lapply(host_density_thresholds, sensitivity_analysis_on_geoextent_scale,
+         link_threshold = link_threshold, geo_scale = geo_scale,
+         aggregate_methods = aggregate_methods,
+         cropharvest_raster = cropharvest_raster, resolution = resolution)
 }
 
-SenstivityAnalysis <- function() {
+senstivity_analysis <- function() {
   load_parameters()
 
   # cuttoff adjacencey matrix
-  croplandThresholds <<- config$`CCRI parameters`$HostDensityThreshold
-  # cutoffadja <<- config$`CCRI parameters`$LinkWeight
+  cropland_thresholds <<- config$`CCRI parameters`$HostDensityThreshold
 
   # crop data
-  cropharvest <- get_cropharvest_raster_sum(as.list(config$`CCRI parameters`$Hosts)) # list
-  aggregateMethods <- config$`CCRI parameters`$AggregationStrategy # list
+  cropharvest <- get_cropharvest_raster_sum(as.list(
+    config$`CCRI parameters`$Hosts)) # list
+  agg_methods <- config$`CCRI parameters`$AggregationStrategy # list
 
   # maps
-  geoScales <- GetGeographicScales()
+  geo_scales <- get_geographic_scales()
 
   # resolution
   resolution <- config$`CCRI parameters`$Resolution
 
-  lapply(geoScales, SensitivityAnalysisOnCroplandThreshold,
-    linkThresholds = config$`CCRI parameters`$LinkThreshold, hostDensityThresholds = croplandThresholds, aggregateMethods = aggregateMethods,
-    cropHarvestRaster = cropharvest, resolution = resolution
+  lapply(geo_scales, sensitivity_analysis_on_cropland_threshold,
+         link_thresholds = config$`CCRI parameters`$LinkThreshold,
+         host_density_thresholds = cropland_thresholds,
+         aggregate_methods = agg_methods, cropharvest_raster = cropharvest,
+         resolution = resolution
   )
 }
