@@ -9,5 +9,4 @@
 ** testing if installed package can be loaded from temporary location
 ** testing if installed package can be loaded from final location
 ** testing if installed package keeps a record of temporary installation path
-ERROR: hard-coded installation path: please report to the package maintainer and use ‘--no-staged-install’
-* removing ‘/Users/kkeshav/Desktop/UFL/OPS/garrettLab/CC/geohabnet.Rcheck/geohabnet’
+* DONE (geohabnet)

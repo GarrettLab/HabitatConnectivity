@@ -1,18 +1,3 @@
-# dependencies and libraries ----------------------------------------------
-library(rlist)
-library(raster)
-library(dismo) # TODO: check if it's required
-library(igraph)
-library(rworldmap)
-library(geosphere)
-library("colorspace")
-library(viridis) # TODO: check if it's required
-library(terra) # TODO: check raster vs terra
-library(this.path)
-library(geodata)
-library(config)
-library(here)
-
 #' @exportPattern ^[^\\.].*
 
 # load parameters config ----------------------------------------------
@@ -125,7 +110,7 @@ GlobalAnalysis <- function() {
   mean_index_raster_CAM <- mean_index_raster + CAM_Zero
 
   # Plotting cropland density
-  map_grey_background <- rastter::raster(.get_helper_filepath(.kmapgreybackground_file_type))
+  map_grey_background <- raster::raster(.get_helper_filepath(.kmapgreybackground_file_type))
 
   map_grey_background_CAM <- raster::crop(map_grey_background, raster::extent(-180, 180, -60, 80))
 

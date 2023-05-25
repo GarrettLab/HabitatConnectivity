@@ -1,0 +1,19 @@
+Package: geohabnet
+Title: Analysis of cropland connectivity
+Version: 0.0.0.9000
+Authors@R: 
+    person("Garrett", "Lab", , "karengarrett@ufl.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Geographical spatial analysis of cropland connectivity.
+License: file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: colorspace, config, geodata, geosphere, igraph, raster,
+        rworldmap, terra, here, easycsv, yaml
+Suggests: testthat
+NeedsCompilation: no
+Packaged: 2023-05-25 17:12:13 UTC; kkeshav
+Author: Garrett Lab [aut, cre] (YOUR-ORCID-ID)
+Maintainer: Garrett Lab <karengarrett@ufl.edu>
+Built: R 4.2.3; ; 2023-05-25 17:12:25 UTC; unix

@@ -15,8 +15,155 @@
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
 * checking serialization versions ... OK
-* checking whether package ‘geohabnet’ can be installed ... ERROR
-Installation failed.
-See ‘/Users/kkeshav/Desktop/UFL/OPS/garrettLab/CC/geohabnet.Rcheck/00install.out’ for details.
+* checking whether package ‘geohabnet’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking for future file timestamps ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... NOTE
+Namespace in Imports field not imported from: ‘here’
+  All declared Imports should be used.
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+.extract_cropland_density: no visible binding for '<<-' assignment to
+  ‘CropValuesAzero’
+.extract_cropland_density: no visible binding for '<<-' assignment to
+  ‘cropValue’
+.extract_cropland_density: no visible binding for global variable
+  ‘CropValuesAzero’
+.extract_lon_lat: no visible binding for '<<-' assignment to ‘lon’
+.extract_lon_lat: no visible binding for '<<-' assignment to ‘lat’
+.extract_lon_lat: no visible binding for global variable ‘lon’
+.extract_lon_lat: no visible binding for global variable ‘lat’
+CCRIVariance: no visible binding for global variable ‘var’
+CCRIVariance: no visible binding for global variable ‘Resolution’
+CCRIVariance: no visible binding for global variable ‘config’
+CCRI_negative_exponential: no visible binding for global variable
+  ‘distance_matrix’
+CCRI_negative_exponential: no visible binding for global variable ‘lon’
+CCRI_negative_exponential: no visible binding for global variable ‘lat’
+CCRI_negative_exponential: no visible binding for global variable
+  ‘cropValue’
+CCRI_negative_exponential: no visible binding for global variable
+  ‘cropharvestAGGTM_crop’
+CCRI_negative_exponential: no visible binding for global variable
+  ‘CropValuesAzero’
+CCRI_negative_exponential: no visible binding for '<<-' assignment to
+  ‘result_index_list’
+CCRI_negative_exponential: no visible binding for global variable
+  ‘result_index_list’
+CCRI_powerlaw: no visible binding for global variable ‘distance_matrix’
+CCRI_powerlaw: no visible binding for global variable ‘lon’
+CCRI_powerlaw: no visible binding for global variable ‘lat’
+CCRI_powerlaw: no visible binding for global variable ‘cropValue’
+CCRI_powerlaw: no visible binding for global variable
+  ‘cropharvestAGGTM_crop’
+CCRI_powerlaw: no visible binding for global variable ‘CropValuesAzero’
+CCRI_powerlaw: no visible binding for '<<-' assignment to
+  ‘result_index_list’
+CCRI_powerlaw: no visible binding for global variable
+  ‘result_index_list’
+CalculateCCRI: no visible binding for global variable ‘config’
+CalculateDifferenceMap: no visible binding for global variable ‘config’
+CalculateDifferenceMap: no visible binding for global variable
+  ‘Resolution’
+CalculateZeroRaster: no visible binding for global variable
+  ‘Resolution’
+CalculateZeroRaster: no visible binding for global variable ‘config’
+GetGeographicScales: no visible binding for global variable ‘config’
+GlobalAnalysis: no visible binding for global variable ‘Resolution’
+GlobalAnalysis: no visible binding for global variable ‘crop’
+InitializeCroplandData: no visible binding for '<<-' assignment to
+  ‘Resolution’
+InitializeCroplandData: no visible binding for global variable
+  ‘Resolution’
+InitializeCroplandData: no visible binding for global variable
+  ‘na.omit’
+InitializeCroplandData: no visible binding for '<<-' assignment to
+  ‘cropharvestAGGTM_crop’
+InitializeCroplandData: no visible binding for global variable
+  ‘cropharvestAGGTM_crop’
+InitializeCroplandData: no visible binding for '<<-' assignment to
+  ‘cropharvestAGGLM_crop’
+InitializeCroplandData: no visible binding for global variable
+  ‘cropharvestAGGLM_crop’
+InitializeCroplandData: no visible binding for global variable ‘lon’
+InitializeCroplandData: no visible binding for global variable ‘lat’
+InitializeCroplandData: no visible binding for global variable
+  ‘cropValue’
+InitializeCroplandData: no visible binding for '<<-' assignment to
+  ‘distance_matrix’
+InitializeCroplandData: no visible binding for '<<-' assignment to
+  ‘is_initialized’
+SensitivityAnalysisOnGeoExtentScale: no visible binding for '<<-'
+  assignment to ‘result_index_list’
+SensitivityAnalysisOnGeoExtentScale: no visible binding for global
+  variable ‘config’
+SensitivityAnalysisOnGeoExtentScale: no visible binding for global
+  variable ‘result_index_list’
+SensitivityAnalysisOnGeoExtentScale: no visible binding for global
+  variable ‘cropharvestAGGTM_crop’
+SensitivityAnalysisOnGeoExtentScale: no visible binding for global
+  variable ‘cropharvestAGGLM_crop’
+SenstivityAnalysis: no visible binding for '<<-' assignment to
+  ‘croplandThresholds’
+SenstivityAnalysis: no visible binding for global variable ‘config’
+SenstivityAnalysis: no visible binding for global variable
+  ‘croplandThresholds’
+load_parameters: no visible binding for '<<-' assignment to ‘config’
+validate_index_cal: no visible binding for global variable
+  ‘is_initialized’
+Undefined global functions or variables:
+  CropValuesAzero Resolution config crop cropValue
+  cropharvestAGGLM_crop cropharvestAGGTM_crop croplandThresholds
+  distance_matrix is_initialized lat lon na.omit result_index_list var
+Consider adding
+  importFrom("stats", "na.omit", "var")
+to your NAMESPACE file.
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  ‘CCRIVariance’ ‘CCRI_negExponential_function’
+  ‘CCRI_negative_exponential’ ‘CCRI_powerlaw’ ‘CCRI_powerlaw_function’
+  ‘CalculateCCRI’ ‘CalculateDifferenceMap’ ‘CalculateZeroRaster’
+  ‘GetGeographicScales’ ‘GlobalAnalysis’ ‘InitializeCroplandData’
+  ‘STR_BETWEENNESS’ ‘STR_EIGEN_VECTOR_CENTRALITY’
+  ‘STR_NEAREST_NEIGHBORS_SUM’ ‘STR_NODE_STRENGTH’
+  ‘SensitivityAnalysisOnCroplandThreshold’
+  ‘SensitivityAnalysisOnGeoExtentScale’
+  ‘SensitivityAnalysisOnLinkWeight’ ‘SenstivityAnalysis’
+  ‘calculate_metrics_weight’ ‘check_metrics’ ‘getWeightVector’
+  ‘get_cropharvest_raster’ ‘get_cropharvest_raster_sum’
+  ‘load_parameters’ ‘paldif’ ‘palette1’ ‘validate_index_cal’
+All user-level objects in a package should have documentation entries.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking examples ... NONE
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... [54s/75s] OK
+  Running ‘testthat.R’ [54s/75s]
+* checking for non-standard things in the check directory ... OK
+* checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 ERROR
+Status: 1 WARNING, 2 NOTEs
