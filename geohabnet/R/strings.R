@@ -1,7 +1,4 @@
-
 # contains string literals. -----------------------------------------------
-# since there's no way to declare read only constants in R, this is the only way to implement single source of 
-
 
 # CCRI metrics ------------------------------------------------------------
 
