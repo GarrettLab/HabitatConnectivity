@@ -17,7 +17,8 @@ test_that("Test 2: Loading custom parameters configuration", {
 test_that("Test 3: Loading invalid parameters configuration", {
   wrong_path <- "some random path that does not exist"
   expect_false(file.exists(wrong_path))
-  expect_error(LoadParameters(filepath = wrong_path), message = "Failed to load parameters configuration from provided path")
+  expect_error(LoadParameters(filepath = wrong_path),
+               message = "Failed to load parameters configuration from provided path")
 })
 
 test_that("Test 4: Test with default parameters", {

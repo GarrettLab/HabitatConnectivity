@@ -24,17 +24,6 @@ Type 'q()' to quit R.
 > # * https://testthat.r-lib.org/reference/test_package.html#special-files
 > 
 > library(testthat)
-> library(here)
-here() starts at /Users/kkeshav/Desktop/UFL/OPS/garrettLab/CC
-> # cat(here::here())
-> # cat("nxt")
-> # #setwd("../R")
-> # if (!require(devtools)) {
-> #   install.packages("devtools")
-> #   library(devtools)
-> # }
-> # devtools::load_all()
-> 
 > library(geohabnet)
 > 
 > test_check("geohabnet")
@@ -44,15 +33,24 @@ Content type 'application/zip' length 6271196 bytes (6.0 MB)
 downloaded 6.0 MB
 
 
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  0 Host density threshold:  0.0015
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  0 Host density threshold:  0.002
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  0 Host density threshold:  0.0025
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  1e-06 Host density threshold:  0.0015
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  1e-06 Host density threshold:  0.002
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  1e-06 Host density threshold:  0.0025
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  6e-04 Host density threshold:  0.0015
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  6e-04 Host density threshold:  0.002
-Running senstivity analysis for the extent: [ -115 -75 5 32 ], Link threshold:  6e-04 Host density threshold:  0.0025[1] "parameters fetched successfully"
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  0 Host density threshold:  0.0015
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  0 Host density threshold:  0.002
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  0 Host density threshold:  0.0025
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  1e-06 Host density threshold:  0.0015
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  1e-06 Host density threshold:  0.002
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  1e-06 Host density threshold:  0.0025
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  6e-04 Host density threshold:  0.0015
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  6e-04 Host density threshold:  0.002
+Running senstivity analysis for the extent: [ -115 -75 5 32 ],
+      Link threshold:  6e-04 Host density threshold:  0.0025[1] "parameters fetched successfully"
 [1] "parameters fetched successfully"
 [ FAIL 0 | WARN 27 | SKIP 0 | PASS 21 ]
 
@@ -62,382 +60,382 @@ Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateZeroRaster(geoAreaExt, mean_index_raster)
- 17. mean_index_raster + extZero
+ 15. geohabnet::calculate_zero_raster(geo_areaext, mean_index_raster)
+ 17. mean_index_raster + ext_zero
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CCRIVariance(...)
- 17. Variance_mean_index_raster_ext_disagg + zeroExtentRaster
+ 15. geohabnet::ccri_variance(...)
+ 17. variance_mean_index_raster_ext_disagg + zero_extent_raster
 ── Warning ('test-functional.R:8:3'): System test - Test Senstivity analysis run on default configuration ──
 Raster objects have different extents. Result for their intersection is returned
 Backtrace:
   1. testthat::expect_no_condition(...)
        at test-functional.R:8:2
-  8. geohabnet::SenstivityAnalysis()
+  8. geohabnet::senstivity_analysis()
   9. base::lapply(...)
  10. geohabnet (local) FUN(X[[i]], ...)
  11. base::lapply(...)
  12. geohabnet (local) FUN(X[[i]], ...)
  13. base::lapply(...)
  14. geohabnet (local) FUN(X[[i]], ...)
- 15. geohabnet::CalculateDifferenceMap(...)
- 17. mean_index_raster_diff_disagg + zeroExtentRaster
+ 15. geohabnet::calculate_difference_map(...)
+ 17. mean_index_raster_diff_disagg + zero_extent_raster
 
 [ FAIL 0 | WARN 27 | SKIP 0 | PASS 21 ]
 > 
 > proc.time()
    user  system elapsed 
- 45.349   8.547  74.498 
+ 44.454   6.593  57.293 

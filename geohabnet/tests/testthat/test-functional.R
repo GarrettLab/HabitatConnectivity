@@ -5,5 +5,5 @@ test_that("System test - Test function to retreive crop raster data", {
 })
 
 test_that("System test - Test Senstivity analysis run on default configuration", {
-  expect_no_condition(geohabnet::link_threshold(), message = "Senstivity analysis completed")
+  expect_no_condition(geohabnet::senstivity_analysis(), message = "Senstivity analysis completed")
 })

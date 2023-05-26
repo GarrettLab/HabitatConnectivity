@@ -9,11 +9,13 @@ License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Imports: colorspace, config, geodata, geosphere, igraph, raster,
-        rworldmap, terra, here, easycsv, yaml
-Suggests: testthat
+Imports: colorspace (>= 2.1.0), config (>= 0.3.1), geodata (>= 0.5.8),
+        geosphere (>= 1.5.18), igraph (>= 1.4.2), raster (>= 3.6.20),
+        rworldmap (>= 1.3.6), terra (>= 1.7.29), easycsv (>= 1.0.8),
+        yaml (>= 2.3.7)
+Suggests: lintr (>= 3.0.2), testthat (>= 3.1.7)
 NeedsCompilation: no
-Packaged: 2023-05-25 17:12:13 UTC; kkeshav
+Packaged: 2023-05-26 14:29:59 UTC; kkeshav
 Author: Garrett Lab [aut, cre] (YOUR-ORCID-ID)
 Maintainer: Garrett Lab <karengarrett@ufl.edu>
-Built: R 4.2.3; ; 2023-05-25 17:12:25 UTC; unix
+Built: R 4.2.3; ; 2023-05-26 14:30:12 UTC; unix

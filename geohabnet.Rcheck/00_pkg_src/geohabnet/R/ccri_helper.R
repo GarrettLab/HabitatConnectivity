@@ -4,7 +4,7 @@ library(yaml)
 
 # Global constants --------------------------------------------------------
 
-.kparameters_file_type <-  "parameters"
+.kparameters_file_type <- "parameters"
 .kzeroraster_file_type <- "zero_raster"
 .kmapgreybackground_file_type <- "map_grey_background"
 
@@ -18,8 +18,10 @@ library(yaml)
 }
 
 check_metrics <- function(metrics_list) {
-  valid_metrics <- c(STR_BETWEENNESS, STR_NODE_STRENGTH,
-                     STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY)
+  valid_metrics <- c(
+    STR_BETWEENNESS, STR_NODE_STRENGTH,
+    STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY
+  )
   is_valid <- lapply(valid_metrics, function(x) x %in% metrics_list)
   names(is_valid) <- valid_metrics
   return(is_valid)
@@ -30,11 +32,12 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
                                      node_strength = FALSE,
                                      sum_of_nearest_neighbors = FALSE,
                                      eigenvector_centrality = FALSE) {
-
   # initialize weights and counters
   weight <- 1
-  num_of_metrics <- sum(c(node_strength, sum_of_nearest_neighbors,
-                          eigenvector_centrality))
+  num_of_metrics <- sum(c(
+    node_strength, sum_of_nearest_neighbors,
+    eigenvector_centrality
+  ))
   # calculate weights for each metric
   if (betweenness_metric) {
     w1 <- weight / 2
@@ -69,8 +72,10 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
   if (w4 != 0) w4 <- as.integer(1 / w4)
 
   weights <- c(w1, w2, w3, w4)
-  names(weights) <- c(STR_BETWEENNESS, STR_NODE_STRENGTH,
-                      STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY)
+  names(weights) <- c(
+    STR_BETWEENNESS, STR_NODE_STRENGTH,
+    STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY
+  )
 
   # return the weights as a vector
   return(weights)
@@ -78,14 +83,19 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
 
 .get_helper_filepath <- function(file_type) {
   if (file_type == "parameters") {
-    file_path <- system.file("parameters.yaml", package = "geohabnet",
-                             mustWork = TRUE)
+    file_path <- system.file("parameters.yaml",
+      package = "geohabnet",
+      mustWork = TRUE
+    )
   } else if (file_type == "zero_raster") {
-    file_path <- system.file("tifs", "ZeroRaster.tif", package = "geohabnet",
-                             mustWork = TRUE)
+    file_path <- system.file("tifs", "ZeroRaster.tif",
+      package = "geohabnet",
+      mustWork = TRUE
+    )
   } else if (file_type == "map_grey_background") {
     file_path <- system.file("tifs", "map_grey_background.tif",
-                             package = "geohabnet", mustWork = TRUE)
+      package = "geohabnet", mustWork = TRUE
+    )
   } else {
     stop("Invalid file_type parameter. Supported options are 'config',
          'zero_raster', and 'map_grey_background'.")
@@ -105,8 +115,10 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
   # Check the structure of nested sections
   for (key in names(existing_section)) {
     if (is.list(existing_section[[key]]) && is.list(provided_section[[key]])) {
-      .check_nested_structure(existing_section[[key]], provided_section[[key]],
-                              paste(section_name, key, sep = " > "))
+      .check_nested_structure(
+        existing_section[[key]], provided_section[[key]],
+        paste(section_name, key, sep = " > ")
+      )
     }
   }
 }
