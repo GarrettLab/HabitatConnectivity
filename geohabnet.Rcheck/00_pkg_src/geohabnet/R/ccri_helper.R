@@ -1,5 +1,3 @@
-library(this.path)
-library(here)
 library(yaml)
 
 # Global constants --------------------------------------------------------
@@ -143,4 +141,32 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
   }
   # If the function reaches this point, the YAML structures match
   return(TRUE)
+}
+
+#' Load Parameters from YAML File
+#'
+#' This function loads parameters from a YAML file and stores them in an object.
+#'
+#' @param filepath Path to the YAML file containing the parameters. By default, it
+#'   takes the value of ".kparameters_file_type" which is set to "parameters.yaml".
+#'
+#' @return None (Assigns the loaded parameters to the "parameters_config" object)
+#'
+#' @importFrom config get
+#'
+#' @examples
+#' # Load parameters from default file
+#' load_parameters()
+#'
+#' # Load parameters from custom file
+#' load_parameters("custom_parameters.yaml")
+#'
+#' @export
+load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_type)) {
+  parameters_config <- config::get(file = filepath)
+  return(parameters_config)
+}
+
+.get_cs_host_names <- function(param_config = load_parameters()) {
+  return(paste(param_config$`CCRI parameters`$Crops, collapse = ", "))
 }

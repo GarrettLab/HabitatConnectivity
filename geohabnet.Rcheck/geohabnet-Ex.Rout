@@ -1,0 +1,165 @@
+
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "geohabnet"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> base::assign(".ExTimings", "geohabnet-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('geohabnet')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("load_parameters")
+> ### * load_parameters
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: load_parameters
+> ### Title: Load Parameters from YAML File
+> ### Aliases: load_parameters
+> 
+> ### ** Examples
+> 
+> # Load parameters from default file
+> load_parameters()
+$`CCRI parameters`
+$`CCRI parameters`$DispersalParameterBeta
+$`CCRI parameters`$DispersalParameterBeta[[1]]
+[1] 0.5
+
+$`CCRI parameters`$DispersalParameterBeta[[2]]
+[1] 1
+
+$`CCRI parameters`$DispersalParameterBeta[[3]]
+[1] 1.5
+
+
+$`CCRI parameters`$DispersalParameterGamma
+$`CCRI parameters`$DispersalParameterGamma[[1]]
+[1] 0.05
+
+$`CCRI parameters`$DispersalParameterGamma[[2]]
+[1] 1
+
+$`CCRI parameters`$DispersalParameterGamma[[3]]
+[1] 0.2
+
+$`CCRI parameters`$DispersalParameterGamma[[4]]
+[1] 0.3
+
+$`CCRI parameters`$DispersalParameterGamma[[5]]
+[1] 1
+
+
+$`CCRI parameters`$LinkThreshold
+$`CCRI parameters`$LinkThreshold[[1]]
+[1] 0
+
+$`CCRI parameters`$LinkThreshold[[2]]
+[1] 1e-06
+
+$`CCRI parameters`$LinkThreshold[[3]]
+[1] 6e-04
+
+
+$`CCRI parameters`$Longitude_Latitude
+$`CCRI parameters`$Longitude_Latitude$CustomExt
+$`CCRI parameters`$Longitude_Latitude$CustomExt[[1]]
+[1] -115  -75    5   32
+
+
+$`CCRI parameters`$Longitude_Latitude$Global
+[1] FALSE
+
+$`CCRI parameters`$Longitude_Latitude$WestExt
+[1] -24 180 -58  60
+
+$`CCRI parameters`$Longitude_Latitude$EastExt
+[1] -140  -34  -58   60
+
+
+$`CCRI parameters`$NetworkMetrics
+$`CCRI parameters`$NetworkMetrics$InversePowerLaw
+[1] "betweeness"               "node_strength"           
+[3] "sum_of_nearest_neighbors" "eigenvector_centrality"  
+
+$`CCRI parameters`$NetworkMetrics$NegativeExponential
+[1] "betweeness"               "node_strength"           
+[3] "sum_of_nearest_neighbors" "eigenvector_centrality"  
+
+
+$`CCRI parameters`$PriorityMaps
+$`CCRI parameters`$PriorityMaps$MeanCC
+[1] TRUE
+
+$`CCRI parameters`$PriorityMaps$Difference
+[1] TRUE
+
+$`CCRI parameters`$PriorityMaps$Variance
+[1] FALSE
+
+
+$`CCRI parameters`$SaveOutcomes
+$`CCRI parameters`$SaveOutcomes$MeanCC
+[1] FALSE
+
+$`CCRI parameters`$SaveOutcomes$Difference
+[1] TRUE
+
+$`CCRI parameters`$SaveOutcomes$Variance
+[1] TRUE
+
+
+$`CCRI parameters`$AggregationStrategy
+[1] "sum"  "mean"
+
+$`CCRI parameters`$Hosts
+[1] "avocado"
+
+$`CCRI parameters`$HostDensityThreshold
+[1] 0.0015 0.0020 0.0025
+
+$`CCRI parameters`$Resolution
+[1] 24
+
+
+attr(,"config")
+[1] "default"
+attr(,"file")
+[1] "/Users/kkeshav/Desktop/UFL/OPS/garrettLab/CC/geohabnet.Rcheck/geohabnet/parameters.yaml"
+> 
+> # Load parameters from custom file
+> load_parameters("custom_parameters.yaml")
+Error in config::get(file = filepath) : 
+  Config file custom_parameters.yaml not found in current working directory or parent directories
+Calls: load_parameters -> <Anonymous>
+Execution halted

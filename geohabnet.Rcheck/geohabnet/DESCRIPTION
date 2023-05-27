@@ -2,8 +2,9 @@ Package: geohabnet
 Title: Analysis of cropland connectivity
 Version: 0.0.0.9000
 Authors@R: 
-    person("Garrett", "Lab", , "karengarrett@ufl.edu", role = c("aut", "cre"),
+    person("Garrett", "Lab", , "karengarrett@ufl.edu", role = c("aut"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
+           person("Krishna", "Keshav", , "kkeshav@ufl.edu", role = c("cre"))
 Description: Geographical spatial analysis of cropland connectivity.
 License: file LICENSE
 Encoding: UTF-8
@@ -12,10 +13,10 @@ RoxygenNote: 7.2.3
 Imports: colorspace (>= 2.1.0), config (>= 0.3.1), geodata (>= 0.5.8),
         geosphere (>= 1.5.18), igraph (>= 1.4.2), raster (>= 3.6.20),
         rworldmap (>= 1.3.6), terra (>= 1.7.29), easycsv (>= 1.0.8),
-        yaml (>= 2.3.7)
+        yaml (>= 2.3.7), stats (>= 4.2.3), utils (>= 4.2.3)
 Suggests: lintr (>= 3.0.2), testthat (>= 3.1.7)
 NeedsCompilation: no
-Packaged: 2023-05-26 14:29:59 UTC; kkeshav
-Author: Garrett Lab [aut, cre] (YOUR-ORCID-ID)
-Maintainer: Garrett Lab <karengarrett@ufl.edu>
-Built: R 4.2.3; ; 2023-05-26 14:30:12 UTC; unix
+Packaged: 2023-05-26 19:32:41 UTC; kkeshav
+Author: Krishna Keshav [cre]
+Maintainer: Krishna Keshav <kkeshav@ufl.edu>
+Built: R 4.2.3; ; 2023-05-26 19:32:53 UTC; unix
