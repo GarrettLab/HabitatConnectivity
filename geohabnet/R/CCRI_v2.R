@@ -84,6 +84,9 @@ get_cropharvest_raster_sum <- function(crop_names) {
 is_initialized <- FALSE
 parameters_config <- load_parameters()
 result_index_list <- list()
+distance_matrix <- NULL
+cropharvest_agglm_crop <- NULL
+cropharvest_aggtm_crop <- NULL
 
 # Global cropland density map---------------------------------------------------------------
 # Only when user has enabled global analysis
@@ -143,7 +146,7 @@ initialize_cropland_data <- function(cropharvest_raster, resolution, geo_scale, 
     raster::plot(cropharvest_agglm_crop, col = palette1)
     density_data <- .extract_cropland_density(cropharvest_agglm_crop, host_density_threshold)
   }
-  
+
   if(is.null(density_data) || (!is.list(density_data))) {
     stop("unable to extract density data, longitude/latitude")
   }
@@ -164,7 +167,7 @@ initialize_cropland_data <- function(cropharvest_raster, resolution, geo_scale, 
     temp_matrix[i, ] <- geosphere::distVincentyEllipsoid(round(latilongimatr[i, ], 5), latilongimatr) / dvse
   }
 
-  distance_matrix <- temp_matrix
+  distance_matrix <<- temp_matrix
 
   is_initialized <- TRUE
   return(density_data)
@@ -189,7 +192,8 @@ validate_index_cal <- function(vals_list) {
 # inverse power law -------------------------------------------------------
 ccri_powerlaw <- function(dispersal_parameter_beta_vals, link_threshold = 0, betweenness_metric = FALSE,
                           node_strength = FALSE, sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE,
-                          crop_cells_above_threshold = NULL, thresholded_crop_values = NULL) {
+                          crop_cells_above_threshold = NULL, thresholded_crop_values = NULL,
+                          lon, lat) {
   if (!validate_index_cal(dispersal_parameter_beta_vals)) {
     return(0)
   }
@@ -209,8 +213,8 @@ ccri_powerlaw <- function(dispersal_parameter_beta_vals, link_threshold = 0, bet
 # negative exponential function -------------------------------------------
 ccri_negative_exponential <- function(dispersal_parameter_gamma_vals, link_threshold = 0, betweenness_metric = FALSE,
                                       node_strength = FALSE, sum_of_nearest_neighbors = FALSE,
-                                      eigenvector_centrality = FALSE, crop_cells_above_threshold,
-                                      thresholded_crop_values) {
+                                      eigenvector_centrality = FALSE, crop_cells_above_threshold = NULL,
+                                      thresholded_crop_values = NULL) {
 
   if (!validate_index_cal(dispersal_parameter_gamma_vals)) {
     return(0)
@@ -414,7 +418,9 @@ calculate_difference_map <- function(mean_index_raster_diff, cropharvest_aggtm_c
 calculate_ccri <- function(
     link_threshold = 0,
     power_law_metrics = parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
-    negative_exponential_metrics = parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential) {
+    negative_exponential_metrics = parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
+    lon, lat, crop_cells_above_threshold, thresholded_crop_values) {
+
   # TODO: parallelize them
   if (!.valid_vector_input(power_law_metrics)) {
     stop("Input 'power_law_metrics' must be a non-empty vector of metric names for inverse power law.")
@@ -427,8 +433,9 @@ calculate_ccri <- function(
     betweenness_metric = opted_powerlaw_metrics$betweeness,
     node_strength = opted_powerlaw_metrics$node_strength,
     sum_of_nearest_neighbors = opted_powerlaw_metrics$sum_of_nearest_neighbors,
-    eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality
-  )
+    eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality,
+    lon = lon, lat = lat,
+    crop_cells_above_threshold = crop_cells_above_threshold, thresholded_crop_values = thresholded_crop_values)
 
   opted_negative_exp_metrics <- check_metrics(negative_exponential_metrics)
   ccri_negative_exponential(parameters_config$`CCRI parameters`$DispersalParameterGamma,
@@ -440,13 +447,14 @@ calculate_ccri <- function(
     sum_of_nearest_neighbors =
       opted_negative_exp_metrics$sum_of_nearest_neighbors,
     eigenvector_centrality =
-      opted_negative_exp_metrics$eigenvector_centrality
-  )
+      opted_negative_exp_metrics$eigenvector_centrality,
+    lon = lon, lat = lat,
+    crop_cells_above_threshold = crop_cells_above_threshold, thresholded_crop_values = thresholded_crop_values)
 }
 
 ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold,
                                    distance_matrix, lon, lat,
-                                   thresholded_crop_values, crop_raster, cell_number,
+                                   thresholded_crop_values, crop_raster, crop_cells_above_threshold,
                                    betweenness_metric = FALSE,
                                    node_strength = FALSE,
                                    sum_of_nearest_neighbors = FALSE,
@@ -563,7 +571,7 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold,
 
   indexpre <- crop_raster
   indexpre[] <- 0
-  indexpre[cell_number] <- index
+  indexpre[crop_cells_above_threshold] <- index
   indexv <- indexpre
   return(indexv)
 }
@@ -577,7 +585,7 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold,
 ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val,
                                           link_threshold, distance_matrix,
                                           lon, lat, thresholded_crop_values, crop_raster,
-                                          cell_number, betweenness_metric = FALSE,
+                                          crop_cells_above_threshold, betweenness_metric = FALSE,
                                           node_strength = FALSE,
                                           sum_of_nearest_neighbors = FALSE,
                                           eigenvector_centrality = FALSE) {
@@ -697,7 +705,7 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val,
 
   indexpre <- crop_raster
   indexpre[] <- 0
-  indexpre[cell_number] <- index
+  indexpre[crop_cells_above_threshold] <- index
   indexv <- indexpre
   return(indexv)
 }
