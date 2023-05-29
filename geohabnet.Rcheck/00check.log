@@ -32,13 +32,29 @@
 * checking whether the namespace can be loaded with stated dependencies ... OK
 * checking whether the namespace can be unloaded cleanly ... OK
 * checking loading without being on the library search path ... OK
-* checking dependencies in R code ... NOTE
-Namespace in Imports field not imported from: ‘utils’
-  All declared Imports should be used.
+* checking dependencies in R code ... OK
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... OK
+* checking R code for possible problems ... NOTE
+ccri_negative_exponential: no visible binding for '<<-' assignment to
+  ‘result_index_list’
+ccri_powerlaw: no visible binding for '<<-' assignment to
+  ‘result_index_list’
+initialize_cropland_data: no visible binding for '<<-' assignment to
+  ‘cropharvest_aggtm_crop’
+initialize_cropland_data: no visible binding for '<<-' assignment to
+  ‘cropharvest_agglm_crop’
+initialize_cropland_data: no visible binding for '<<-' assignment to
+  ‘distance_matrix’
+initialize_cropland_data: no visible binding for '<<-' assignment to
+  ‘is_initialized’
+sensitivity_analysis_on_geoextent_scale: no visible binding for '<<-'
+  assignment to ‘result_index_list’
+sensitivity_analysis_on_geoextent_scale: no visible binding for '<<-'
+  assignment to ‘is_initialized’
+senstivity_analysis: no visible binding for '<<-' assignment to
+  ‘parameters_config’
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
@@ -52,8 +68,8 @@ Undocumented code objects:
   ‘ccri_negative_exponential’ ‘ccri_powerlaw’ ‘ccri_powerlaw_function’
   ‘ccri_variance’ ‘check_metrics’ ‘get_cropharvest_raster’
   ‘get_cropharvest_raster_sum’ ‘get_geographic_scales’
-  ‘global_analysis’ ‘initialize_cropland_data’ ‘is_initialized’
-  ‘paldif’ ‘palette1’ ‘sensitivity_analysis_on_cropland_threshold’
+  ‘global_analysis’ ‘initialize_cropland_data’ ‘paldif’ ‘palette1’
+  ‘sensitivity_analysis_on_cropland_threshold’
   ‘sensitivity_analysis_on_geoextent_scale’
   ‘sensitivity_analysis_on_link_weight’ ‘senstivity_analysis’
   ‘validate_index_cal’
@@ -190,26 +206,9 @@ Error in config::get(file = filepath) :
 Calls: load_parameters -> <Anonymous>
 Execution halted
 * checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  Error in `geohabnet::senstivity_analysis()`: object 'parameters_config' not found
-  Backtrace:
-      ▆
-   1. ├─testthat::expect_no_condition(...) at test-functional.R:8:2
-   2. │ └─testthat:::expect_no_(...)
-   3. │   └─testthat:::quasi_capture(enquo(object), NULL, capture)
-   4. │     ├─testthat (local) .capture(...)
-   5. │     │ └─rlang::try_fetch(...)
-   6. │     │   └─base::withCallingHandlers(...)
-   7. │     └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
-   8. └─geohabnet::senstivity_analysis()
-  
-  [ FAIL 1 | WARN 0 | SKIP 0 | PASS 20 ]
-  Error: Test failures
-  Execution halted
+* checking tests ... [52s/70s] OK
+  Running ‘testthat.R’ [52s/70s]
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 2 ERRORs, 1 WARNING, 1 NOTE
+Status: 1 ERROR, 1 WARNING, 1 NOTE
