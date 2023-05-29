@@ -9,11 +9,13 @@ set_parameters(new_parameters_file, iwindow = FALSE)
 \arguments{
 \item{new_parameters_file}{The path to the new parameters file.}
 
-\item{iwindow}{Logical indicating whether to prompt the user to select the new parameters file using a file selection window. Defaults to FALSE.}
+\item{iwindow}{Logical indicating whether to prompt the user to select the
+new parameters file using a file selection window. Defaults to FALSE.}
 }
 \value{
 None
 }
 \description{
-This function allows you to set the parameters by replacing the existing parameters file with a new one.
+This function allows you to set the parameters by replacing the existing
+parameters file with a new one.
 }

@@ -7,16 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(here)
-# cat(here::here())
-# cat("nxt")
-# #setwd("../R")
-# if (!require(devtools)) {
-#   install.packages("devtools")
-#   library(devtools)
-# }
-# devtools::load_all()
-
 library(geohabnet)
 
 test_check("geohabnet")
