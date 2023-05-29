@@ -144,7 +144,10 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
   }
 }
 
-# Check the structure of the provided YAML file, and make sure it matches the structure of the existing YAML file
+#' Check structure of YAML file
+#'
+#' Check the structure of the provided YAML file, and make sure it matches the structure of the existing YAML file.
+#'
 #' @param existing_yaml_file Path to the existing YAML file
 #' @param provided_yaml_file Path to the provided YAML file
 #' @return TRUE if the structures match, FALSE otherwise
@@ -195,7 +198,14 @@ load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_ty
 }
 
 .get_map_grey_background_extent <- function(geoscale) {
-      map_grey_background <- raster::raster(.get_helper_filepath(.kmapgreybackground_file_type))
-      map_grey_background_ext <- raster::crop(map_grey_background, geoscale)
-      return(map_grey_background_ext)
-  }
+  map_grey_background <- raster::raster(.get_helper_filepath(.kmapgreybackground_file_type))
+  map_grey_background_ext <- raster::crop(map_grey_background, geoscale)
+  return(map_grey_background_ext)
+}
+
+.get_weight_vector <- function(cropdistancematrix) {
+  weight_vec <- igraph::E(cropdistancematrix)$weight
+  weight_vec[is.na(weight_vec)] <- 0
+  weight_vec <- weight_vec + 1e-10
+  return(weight_vec)
+}

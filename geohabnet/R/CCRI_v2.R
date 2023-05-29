@@ -102,8 +102,8 @@ the$cropharvest_aggtm <- NULL
 the$cropharvest_agglm_crop <- NULL
 the$cropharvest_aggtm_crop <- NULL
 
-# Global cropland density map---------------------------------------------------------------
-# Only when user has enabled global analysis
+#' Global cropland density map
+#' Only when user has enabled global analysis
 #' @param map_grey_background_extent A raster object for map's grey background
 #' @param resolution resolution to plot raster and map
 #' @export
@@ -142,7 +142,15 @@ global_analysis <- function(map_grey_background_extent, resolution =
   )
 }
 
-initialize_cropland_data <- function(cropharvest_raster, resolution, geo_scale, host_density_threshold, agg_method) {
+#' intialize cropland data with geiven paramters, it will be later used to calculate CCRI and other functions
+#' @param cropharvest_raster A raster object for cropland harvest
+#' @param resolution resolution to plot raster and map  (default: 12)
+#' @param geo_scale A list of longitude and latitude values for cropland analysis
+#' @param host_density_threshold A threshold value for cropland density (default: 0)
+#' @param agg_method A method to aggregate cropland raster (default: "sum")
+#' @export
+initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_scale,
+                                     host_density_threshold = 0, agg_method = "sum") {
 
   #----------- aggregration -----------------------------
   cropharvest_agg <- raster::aggregate(cropharvest_raster, fact = resolution, fun = agg_method,
@@ -247,13 +255,6 @@ ccri_negative_exponential <- function(dispersal_parameter_gamma_vals, link_thres
 
 
 # Utility functions -------------------------------------------------------
-
-.get_weight_vector <- function(cropdistancematrix) {
-  weight_vec <- igraph::E(cropdistancematrix)$weight
-  weight_vec[is.na(weight_vec)] <- 0
-  weight_vec <- weight_vec + 1e-10
-  return(weight_vec)
-}
 
 get_geographic_scales <- function() {
   perform_global_analysis <- the$parameters_config$`CCRI parameters`$Longitude_Latitude$Global
