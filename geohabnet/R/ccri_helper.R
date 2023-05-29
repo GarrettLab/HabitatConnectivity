@@ -15,6 +15,14 @@ library(yaml)
   return(TRUE)
 }
 
+#' Check if metrics in the list are valid
+#'
+#' @param metrics_list A character vector of metrics to check
+#' @return A named logical vector indicating if each metric is valid or not
+#' @examples
+#' # return list of valid metrics
+#' check_metrics(list("betweeness", "invalid_metric"))
+#' @export
 check_metrics <- function(metrics_list) {
   valid_metrics <- c(
     STR_BETWEENNESS, STR_NODE_STRENGTH,
@@ -26,6 +34,21 @@ check_metrics <- function(metrics_list) {
 }
 
 
+#' calculate weights for each metric
+#' @param betweenness_metric A logical value indicating if the betweenness metric
+#'  should be used
+#' @param node_strength A logical value indicating if the node strength metric
+#' should be used
+#' @param sum_of_nearest_neighbors A logical value indicating if the sum of
+#' nearest neighbors metric should be used
+#' @param eigenvector_centrality A logical value indicating if the eigenvector
+#' centrality metric should be used
+#' @return A named vector of weights for each metric
+#' @examples
+#' # return weights for each metric
+#' calculate_metrics_weight(betweenness_metric = TRUE, node_strength = TRUE,
+#'                         sum_of_nearest_neighbors = TRUE, eigenvector_centrality = TRUE)
+#' @export
 calculate_metrics_weight <- function(betweenness_metric = FALSE,
                                      node_strength = FALSE,
                                      sum_of_nearest_neighbors = FALSE,
@@ -121,6 +144,10 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
   }
 }
 
+# Check the structure of the provided YAML file, and make sure it matches the structure of the existing YAML file
+#' @param existing_yaml_file Path to the existing YAML file
+#' @param provided_yaml_file Path to the provided YAML file
+#' @return TRUE if the structures match, FALSE otherwise
 .check_yaml_structure <- function(existing_yaml_file, provided_yaml_file) {
   # Read the existing YAML file
   existing_yaml <- yaml::yaml.load_file(existing_yaml_file)
@@ -150,7 +177,7 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
 #' @param filepath Path to the YAML file containing the parameters. By default, it
 #'   takes the value of ".kparameters_file_type" which is set to "parameters.yaml".
 #'
-#' @return None (Assigns the loaded parameters to the "parameters_config" object)
+#' @return object with parameters and values
 #'
 #' @importFrom config get
 #'
@@ -166,3 +193,9 @@ load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_ty
 .get_cs_host_names <- function(param_config = load_parameters()) {
   return(paste(param_config$`CCRI parameters`$Crops, collapse = ", "))
 }
+
+.get_map_grey_background_extent <- function(geoscale) {
+      map_grey_background <- raster::raster(.get_helper_filepath(.kmapgreybackground_file_type))
+      map_grey_background_ext <- raster::crop(map_grey_background, geoscale)
+      return(map_grey_background_ext)
+  }

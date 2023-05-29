@@ -37,6 +37,12 @@ paldif <- colorspace::diverge_hcl(12, h = c(128, 330), c = 98, l = c(65, 90))
 # Utility functions -------------------------------------------------------
 # Calculate crop harvest raster -------------------------------------------
 
+#' Takes crop name and returns raster from geodata package
+#' @param crop_name Name of the crop
+#' @return Raster object
+#' @export
+#' @examples
+#' get_cropharvest_raster("avocado")
 get_cropharvest_raster <- function(crop_name) {
   cropharvest <- geodata::crop_monfreda(
     crop = crop_name, path = tempdir(),
@@ -46,6 +52,12 @@ get_cropharvest_raster <- function(crop_name) {
   return(cropharvest)
 }
 
+#' Takes crop names and returns sum of their rasters
+#' @param crop_names A vector of crop names
+#' @return Raster object
+#' @export
+#' @examples
+#' get_cropharvest_raster_sum(c("avocado", "barley"))
 get_cropharvest_raster_sum <- function(crop_names) {
   if (!is.vector(crop_names) || length(crop_names) == 0) {
     stop("Input 'crop_names' must be a non-empty vector of crop names.")
@@ -92,6 +104,9 @@ the$cropharvest_aggtm_crop <- NULL
 
 # Global cropland density map---------------------------------------------------------------
 # Only when user has enabled global analysis
+#' @param map_grey_background_extent A raster object for map's grey background
+#' @param resolution resolution to plot raster and map
+#' @export
 global_analysis <- function(map_grey_background_extent, resolution =
                               the$parameters_config$`CCRI parameters`$Resolution) {
   # ```{r, fig.width=20, fig.height=10, dpi=400}
@@ -137,14 +152,14 @@ initialize_cropland_data <- function(cropharvest_raster, resolution, geo_scale, 
     the$cropharvest_aggtm <- cropharvest_agg / resolution / resolution # TOTAL MEAN
     raster::plot(the$cropharvest_aggtm, col = palette1) # map of cropland density
     #----------- crop cropland area for the given extent ----------
-    the$cropharvest_aggtm_crop<-raster::crop(the$cropharvest_aggtm, geo_scale)
+    the$cropharvest_aggtm_crop <- raster::crop(the$cropharvest_aggtm, geo_scale)
     raster::plot(the$cropharvest_aggtm_crop, col = palette1) # TODO: don't show this
     density_data <- .extract_cropland_density(the$cropharvest_aggtm_crop, host_density_threshold)
   } else if (agg_method == "mean") {
     cropharvest_agglm <- cropharvest_agg
     raster::plot(cropharvest_agglm, col = palette1)
     #----------- crop cropland area for the given extent ----------
-    the$cropharvest_agglm_crop<-raster::crop(cropharvest_agglm, geo_scale)
+    the$cropharvest_agglm_crop <- raster::crop(cropharvest_agglm, geo_scale)
     raster::plot(the$cropharvest_agglm_crop, col = palette1)
     density_data <- .extract_cropland_density(the$cropharvest_agglm_crop, host_density_threshold)
   }
@@ -169,9 +184,9 @@ initialize_cropland_data <- function(cropharvest_raster, resolution, geo_scale, 
     temp_matrix[i, ] <- geosphere::distVincentyEllipsoid(round(latilongimatr[i, ], 5), latilongimatr) / dvse
   }
 
-  the$distance_matrix<-temp_matrix
+  the$distance_matrix <- temp_matrix
 
-  the$is_initialized<-TRUE
+  the$is_initialized <- TRUE
   return(density_data)
 }
 
@@ -206,7 +221,7 @@ ccri_powerlaw <- function(dispersal_parameter_beta_vals, link_threshold = 0, bet
                        eigenvector_centrality = eigenvector_centrality
   )
 
-  the$result_index_list<-c(the$result_index_list, index_list)
+  the$result_index_list <- c(the$result_index_list, index_list)
   return(1)
 }
 
@@ -226,7 +241,7 @@ ccri_negative_exponential <- function(dispersal_parameter_gamma_vals, link_thres
     sum_of_nearest_neighbors, eigenvector_centrality
   )
 
-  the$result_index_list<-c(the$result_index_list, index_list)
+  the$result_index_list <- c(the$result_index_list, index_list)
   return(1)
 }
 
@@ -280,11 +295,8 @@ calculate_zero_raster <- function(geoscale, mean_index_raster,
   )
   raster::plot(rworldmap::countriesLow, add = TRUE)
 
-  #------------------------------------------------------------
-  map_grey_background <- raster::raster(.get_helper_filepath(.kmapgreybackground_file_type))
+  map_grey_background_ext <- .get_map_grey_background_extent(geoscale)
 
-  # Avocado <- raster("world Mean cropland connectivity risk index from sensitivity analysis_Avocado.tif")
-  map_grey_background_ext <- raster::crop(map_grey_background, geoscale)
   raster::plot(map_grey_background_ext,
     col = "grey75", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
     main = paste(
@@ -715,7 +727,7 @@ sensitivity_analysis_on_geoextent_scale <- function(
         "Host density threshold: ", host_density_threshold)
 
   geo_areaext <- raster::extent(as.numeric(unlist(geo_scale))) # list
-  the$result_index_list<-list()
+  the$result_index_list <- list()
 
   for (agg_method in aggregate_methods) {
     cropland_density_info <- initialize_cropland_data(cropharvest_raster, resolution, geo_areaext,
@@ -755,7 +767,7 @@ sensitivity_analysis_on_geoextent_scale <- function(
     mean_index_raster_diff, the$cropharvest_aggtm_crop, the$cropharvest_agglm_crop,
     zero_raster_results$zero_raster_extent, zero_raster_results$map_grey_background_extent)
 
-  the$is_initialized<-FALSE
+  the$is_initialized <- FALSE
   return(the$is_initialized)
 }
 

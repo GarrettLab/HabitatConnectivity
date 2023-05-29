@@ -11,7 +11,7 @@ load_parameters(filepath = .get_helper_filepath(.kparameters_file_type))
 takes the value of ".kparameters_file_type" which is set to "parameters.yaml".}
 }
 \value{
-None (Assigns the loaded parameters to the "parameters_config" object)
+object with parameters and values
 }
 \description{
 This function loads parameters from a YAML file and stores them in an object.
