@@ -16,6 +16,6 @@ Imports: colorspace (>= 2.1.0), config (>= 0.3.1), geodata (>= 0.5.8),
         yaml (>= 2.3.7), stats (>= 4.2.3)
 Suggests: lintr (>= 3.0.2), testthat (>= 3.1.7)
 NeedsCompilation: no
-Packaged: 2023-05-29 12:37:16 UTC; kkeshav
+Packaged: 2023-05-29 14:16:19 UTC; kkeshav
 Author: Krishna Keshav [cre]
 Maintainer: Krishna Keshav <kkeshav@ufl.edu>

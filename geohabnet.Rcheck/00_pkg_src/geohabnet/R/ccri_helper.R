@@ -158,9 +158,6 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
 #' # Load parameters from default file
 #' load_parameters()
 #'
-#' # Load parameters from custom file
-#' load_parameters("custom_parameters.yaml")
-#'
 #' @export
 load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_type)) {
   return(config::get(file = filepath))

@@ -33,9 +33,6 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 # Load parameters from default file
 load_parameters()
 
-# Load parameters from custom file
-load_parameters("custom_parameters.yaml")
-
 
 
 

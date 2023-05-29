@@ -157,9 +157,23 @@ attr(,"config")
 attr(,"file")
 [1] "/Users/kkeshav/Desktop/UFL/OPS/garrettLab/CC/geohabnet.Rcheck/geohabnet/parameters.yaml"
 > 
-> # Load parameters from custom file
-> load_parameters("custom_parameters.yaml")
-Error in config::get(file = filepath) : 
-  Config file custom_parameters.yaml not found in current working directory or parent directories
-Calls: load_parameters -> <Anonymous>
-Execution halted
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("load_parameters", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.052 0.005 0.058 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

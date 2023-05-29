@@ -20,7 +20,4 @@ This function loads parameters from a YAML file and stores them in an object.
 # Load parameters from default file
 load_parameters()
 
-# Load parameters from custom file
-load_parameters("custom_parameters.yaml")
-
 }
