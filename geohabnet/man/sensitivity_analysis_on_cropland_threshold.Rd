@@ -4,7 +4,7 @@
 \alias{sensitivity_analysis_on_cropland_threshold}
 \title{Calculate sensitivity analysis on cropland harvested area fraction
 This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
-It can be used as entry point for sensitivity analysis. Call initialize_cropland_data() before calling this function.}
+It can be used as entry point for sensitivity analysis.}
 \usage{
 sensitivity_analysis_on_cropland_threshold(
   link_thresholds,
@@ -34,5 +34,5 @@ A list of calculated CCRI values using negative exponential
 \description{
 Calculate sensitivity analysis on cropland harvested area fraction
 This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
-It can be used as entry point for sensitivity analysis. Call initialize_cropland_data() before calling this function.
+It can be used as entry point for sensitivity analysis.
 }

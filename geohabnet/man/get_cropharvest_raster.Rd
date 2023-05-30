@@ -14,7 +14,7 @@ Raster object
 }
 \description{
 Takes crop name and returns raster object. Currently,
-only supports crops listed in geodata::monfredaCrops()
+only supports crops listed in \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}
 }
 \examples{
 get_cropharvest_raster("avocado")

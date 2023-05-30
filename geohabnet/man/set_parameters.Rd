@@ -17,5 +17,5 @@ None
 }
 \description{
 This function allows you to set the parameters by replacing the existing
-parameters file with a new one.
+parameters file with a new one. Use \code{\link[=get_parameters]{get_parameters()}} to modify the parameter values.
 }

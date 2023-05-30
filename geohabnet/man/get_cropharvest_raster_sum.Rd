@@ -14,7 +14,7 @@ Raster object
 }
 \description{
 Takes crop names and returns raster object which is sum of raster of individual crops.
-Currently, only supports crops listed in geodata::monfredaCrops()
+Currently, only supports crops listed in \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}
 }
 \examples{
 get_cropharvest_raster_sum(c("avocado", "barley"))

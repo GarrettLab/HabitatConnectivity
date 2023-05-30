@@ -2,16 +2,12 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{senstivity_analysis}
 \alias{senstivity_analysis}
-\title{Calculate sensitivity analysis on parameters
-This function runs sensitivity analysis on parameters based on provided parameters thorugh set_parameters() function.
-It can be used as entry point for sensitivity analysis.
-Plots results of sensitivity analysis.}
+\title{Calculate sensitivity analysis on parameters}
 \usage{
 senstivity_analysis()
 }
 \description{
-Calculate sensitivity analysis on parameters
-This function runs sensitivity analysis on parameters based on provided parameters thorugh set_parameters() function.
+This function runs sensitivity analysis on parameters based on provided parameters through \code{\link[=set_parameters]{set_parameters()}}.
 It can be used as entry point for sensitivity analysis.
 Plots results of sensitivity analysis.
 }

@@ -39,7 +39,7 @@ get_parameters <- function(iwindow = FALSE, out_path = getwd()) {
 #' Set Parameters
 #'
 #' This function allows you to set the parameters by replacing the existing
-#' parameters file with a new one.
+#' parameters file with a new one. Use [get_parameters()] to modify the parameter values.
 #'
 #' @param new_parameters_file The path to the new parameters file.
 #' @param iwindow Logical indicating whether to prompt the user to select the
