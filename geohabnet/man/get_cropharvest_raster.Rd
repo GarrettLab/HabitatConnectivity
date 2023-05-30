@@ -2,7 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{get_cropharvest_raster}
 \alias{get_cropharvest_raster}
-\title{Takes crop name and returns raster from geodata package}
+\title{Get raster object for crop}
 \usage{
 get_cropharvest_raster(crop_name)
 }
@@ -13,7 +13,8 @@ get_cropharvest_raster(crop_name)
 Raster object
 }
 \description{
-Takes crop name and returns raster from geodata package
+Takes crop name and returns raster object. Currently,
+only supports crops listed in geodata::monfredaCrops()
 }
 \examples{
 get_cropharvest_raster("avocado")

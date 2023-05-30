@@ -2,7 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{get_cropharvest_raster_sum}
 \alias{get_cropharvest_raster_sum}
-\title{Takes crop names and returns sum of their rasters}
+\title{Get sum of rasters for individual crops}
 \usage{
 get_cropharvest_raster_sum(crop_names)
 }
@@ -13,7 +13,8 @@ get_cropharvest_raster_sum(crop_names)
 Raster object
 }
 \description{
-Takes crop names and returns sum of their rasters
+Takes crop names and returns raster object which is sum of raster of individual crops.
+Currently, only supports crops listed in geodata::monfredaCrops()
 }
 \examples{
 get_cropharvest_raster_sum(c("avocado", "barley"))
