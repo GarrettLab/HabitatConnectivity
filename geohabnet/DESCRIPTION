@@ -3,9 +3,11 @@ Title: Analysis of cropland connectivity
 Version: 0.0.0.9000
 Authors@R: 
     person("Garrett", "Lab", , "karengarrett@ufl.edu", role = c("aut"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "0000-0002-6578-1616"))
            person("Krishna", "Keshav", , "kkeshav@ufl.edu", role = c("cre"))
-Description: Geographical spatial analysis of cropland connectivity.
+           person("Aaron", "Plex Sula", "plexaaron@ufl.edu", role = c("ctb"),
+           comment = c(ORCID = "0000-0001-7317-3090"))
+Description: Geographical spatial analysis of cropland connectivity. Allows user to see the plots of risk inndex for given set of crops.
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
