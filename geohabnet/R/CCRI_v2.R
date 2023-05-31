@@ -57,7 +57,12 @@ get_cropharvest_raster_sum <- function(crop_names) {
 #----------- Extract cropland density data -----------------------
 .extract_cropland_density <- function(cropharvest_agg_crop, host_density_threshold) {
   crop_values <- raster::getValues(cropharvest_agg_crop)
-  crop_cells_above_threshold <- which(crop_values > host_density_threshold) # find the cells with value > 0.0001
+  max_val <- max(crop_values, na.rm = TRUE)
+  if (max_val <= host_density_threshold) {
+    stop(paste("host density threshold: ", host_density_threshold,
+               " is greater than the max value: ", max_val, " of aggregate raster"))
+  }
+  crop_cells_above_threshold <- which(crop_values > host_density_threshold)
   thresholded_crop_values <- crop_values[crop_cells_above_threshold]
   return(c(.extract_lon_lat(crop_cells_above_threshold, cropharvest_agg_crop),
            list(crop_value = thresholded_crop_values, crop_values_at = crop_cells_above_threshold)))
