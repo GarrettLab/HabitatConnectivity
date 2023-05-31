@@ -39,7 +39,7 @@ get_parameters <- function(iwindow = FALSE, out_path = getwd()) {
 #' Set Parameters
 #'
 #' This function allows you to set the parameters by replacing the existing
-#' parameters file with a new one.
+#' parameters file with a new one. Use [get_parameters()] to modify the parameter values.
 #'
 #' @param new_parameters_file The path to the new parameters file.
 #' @param iwindow Logical indicating whether to prompt the user to select the
@@ -59,4 +59,24 @@ set_parameters <- function(new_parameters_file, iwindow = FALSE) {
   )) {
     .copy_file(new_parameters_file, current_params_file)
   }
+}
+
+#' Load Parameters from YAML File
+#'
+#' This function loads parameters from a YAML file and stores them in an object.
+#'
+#' @param filepath Path to the YAML file containing the parameters. By default, it
+#'   takes the value of ".kparameters_file_type" which is set to "parameters.yaml".
+#'
+#' @return object with parameters and values
+#'
+#' @importFrom config get
+#'
+#' @examples
+#' # Load parameters from default file
+#' load_parameters()
+#'
+#' @export
+load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_type)) {
+  return(config::get(file = filepath))
 }
