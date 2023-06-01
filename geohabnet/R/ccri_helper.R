@@ -141,6 +141,31 @@ library(yaml)
   paldif <- colorspace::diverge_hcl(51, c = 100, l = c(20, 90), power = 1.3)
   return(paldif)
 }
+
+library(yaml)
+
+.write_yaml <- function(yaml_obj, file_path) {
+  # Validate YAML object
+  if (is.null(yaml_obj) || !is.list(yaml_obj)) {
+    stop("Invalid YAML object. Please provide a non-null list as the YAML object.")
+  }
+
+  # Validate file path and type
+  if (!is.character(file_path) || !grepl("\\.yaml$|\\.yml$", file_path, ignore.case = TRUE)) {
+    stop("Invalid file path. Please provide a valid YAML file path with '.yaml' or '.yml' extension.")
+  }
+
+  # Write YAML to file
+  tryCatch(
+    yaml::write_yaml(yaml_obj, file_path),
+    error = function(e) {
+      stop("Error writing YAML to file:", conditionMessage(e))
+    }
+  )
+
+  message("YAML object successfully written to file:", file_path)
+}
+
 #' Check if metrics in the list are valid
 #'
 #' @param metrics_list A character vector of metrics to check
