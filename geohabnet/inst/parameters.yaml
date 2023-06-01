@@ -1,7 +1,7 @@
 default:
   CCRI parameters:
     DispersalParameterBeta: [0.5, 1, 1.5]
-    DispersalParameterGamma: [0.05, 1, 0.2, 0.3]
+    DispersalParameterGamma: [0.05, 1, 0.2, 0.3, 1]
     AggregationStrategy: [sum, mean]
     Hosts: ["avocado"]
     HostDensityThreshold: [0.0015, 0.002, 0.0025] #cuttoff - run SA for each of these

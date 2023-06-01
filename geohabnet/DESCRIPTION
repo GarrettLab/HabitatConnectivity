@@ -24,4 +24,5 @@ Imports:
     stats (>= 4.2.3)
 Suggests: 
     lintr (>= 3.0.2),
+    mockthat (>= 0.2.8),
     testthat (>= 3.1.7)

@@ -1,5 +1,5 @@
 library("testthat")
-
+library("mockthat")
 # Tests for Loading parameters via configuration file ---------------------
 
 test_that("Test 1: Loading default parameters configuration", {
@@ -39,4 +39,27 @@ test_that("Test 6: Test to set new parameters.yaml", {
   after_setting_new_param <- .get_helper_filepath("parameters")
   expect_no_condition(set_parameters(new_param_file))
   expect_true(file.exists(after_setting_new_param))
+})
+
+test_that("Test 7: Test to set default parameters using fun", {
+
+  save_path <- getwd()
+  curr_param_file <- get_parameters(out_path = save_path)
+
+  # mock function .get_param_file_path() to return curr_param_file inside set_parameters_object()
+  mk <- mockthat::mock({
+    return(curr_param_file)
+  })
+
+  mockthat::with_mock(
+    .get_param_file_path = mk,
+    expect_no_condition({
+      set_parameters_object()
+      }))
+
+  expect_true({
+    file.exists(.get_param_file_path())
+  })
+  file.remove(curr_param_file)
+  expect_false(file.exists(curr_param_file))
 })

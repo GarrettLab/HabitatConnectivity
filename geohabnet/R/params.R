@@ -52,7 +52,8 @@ set_parameters <- function(new_parameters_file, iwindow = FALSE) {
   }
 
   current_params_file <- .get_param_file_path()
-
+  cat(current_params_file)
+  cat(file.exists(current_params_file))
   if (.check_yaml_structure(
     existing_yaml_file = current_params_file,
     provided_yaml_file = new_parameters_file
@@ -78,5 +79,73 @@ set_parameters <- function(new_parameters_file, iwindow = FALSE) {
 #'
 #' @export
 load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_type)) {
+  cat(filepath)
+  cat(file.exists(filepath))
   return(config::get(file = filepath))
+}
+
+#' Set Parameters function
+#' 
+#' This function allows you to override existing parameters with new values.
+#' 
+#' @seealso [load_parameters()] [set_parameters()]
+#' @param dispersal_parameter_beta Numeric vector of dispersal parameter beta values
+#' @param dispersal_parameter_gamma Numeric vector of dispersal parameter gamma values
+#' @param aggregation_strategy Character vector of aggregation strategies
+#' @param hosts Character vector of hosts
+#' @param host_density_threshold Numeric vector of host density threshold values
+#' @param link_threshold Numeric vector of link threshold values
+#' @param resolution Numeric vector of resolution values
+#' @param global_analysis Logical vector of global analysis values
+#' @param west_extent Numeric vector of west extent values
+#' @param east_extent Numeric vector of east extent values
+#' @param custom_extent List of custom extent values
+#' @param metrics_inv_powerlaw Character vector of inv_powerlaw metrics
+#' @param metrics_neg_exponential Character vector of neg_exponential metrics
+#' @return TRUE if the parameters were set successfully, FALSE otherwise
+#' @export
+#' @examples
+#' \dontrun{
+#' # Set parameters
+#' set_parameters_object()
+#' # Set parameters with custom beta values
+#' set_parameters_object(dispersal_parameter_beta = c(0.5, 1, 1.5))
+#' }
+set_parameters_object <- function(dispersal_parameter_beta = c(0.5, 1, 1.5),
+                                  dispersal_parameter_gamma = c(0.05, 1, 0.2, 0.3),
+                                  aggregation_strategy = c("sum", "mean"),
+                                  hosts = c("avocado"),
+                                  host_density_threshold = c(0.0015, 0.002, 0.0025),
+                                  link_threshold = c(0, 0.000001, 0.0006),
+                                  resolution = 24,
+                                  global_analysis = FALSE,
+                                  west_extent = c(-24, -180, -58, 60),
+                                  east_extent = c(-140, -34, --58, 60),
+                                  custom_extent = list(c(-115, -75, -5, 32)),
+                                  metrics_inv_powerlaw =
+                                    c("betweeness", "node_strength",
+                                    "sum_of_nearest_neighbors", "eigenvector_centrality"),
+                                  metrics_neg_exponential = c("betweeness", "node_strength",
+                                    "sum_of_nearest_neighbors", "eigenvector_centrality")) {
+
+  file_path <- .get_param_file_path()
+  param_obj <- yaml::read_yaml(file = file_path)$default
+
+  param_obj$`CCRI parameters`$`dispersal parameter beta` <- dispersal_parameter_beta
+  param_obj$`CCRI parameters`$`dispersal parameter gamma` <- dispersal_parameter_gamma
+  param_obj$`CCRI parameters`$`aggregation strategy` <- aggregation_strategy
+  param_obj$`CCRI parameters`$`hosts` <- hosts
+  param_obj$`CCRI parameters`$`host density threshold` <- host_density_threshold
+  param_obj$`CCRI parameters`$`link threshold` <- link_threshold
+  param_obj$`CCRI parameters`$`resolution` <- resolution
+  param_obj$`CCRI parameters`$`Longitude_Latitude`$`global analysis` <- global_analysis
+  param_obj$`CCRI parameters`$`Longitude_Latitude`$`west extent` <- west_extent
+  param_obj$`CCRI parameters`$`Longitude_Latitude`$`east extent` <- east_extent
+  param_obj$`CCRI parameters`$`Longitude_Latitude`$`custom extent` <- custom_extent
+  param_obj$`CCRI parameters`$`NetworkMetrics`$`inv_powerlaw` <- metrics_inv_powerlaw
+  param_obj$`CCRI parameters`$`NetworkMetrics`$`neg_exponential` <- metrics_neg_exponential
+
+  yaml::write_yaml(x = param_obj, file = file_path)
+
+  return(TRUE)
 }
