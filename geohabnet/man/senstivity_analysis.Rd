@@ -11,3 +11,7 @@ This function runs sensitivity analysis on parameters based on provided paramete
 It can be used as entry point for sensitivity analysis.
 Plots results of sensitivity analysis.
 }
+\examples{
+# Run senstivity analysis on default set of parameters
+senstivity_analysis()
+}
