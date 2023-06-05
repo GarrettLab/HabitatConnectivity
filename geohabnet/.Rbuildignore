@@ -1,4 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^[\.]lintr$$
-^\.Rcheck$
+^README\.Rmd$
+^vignettes/articles$

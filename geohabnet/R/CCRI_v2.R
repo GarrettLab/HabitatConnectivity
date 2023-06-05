@@ -886,6 +886,9 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
 #' It can be used as entry point for sensitivity analysis.
 #' Plots results of sensitivity analysis.
 #' @export
+#' @examples
+#' # Run senstivity analysis on default set of parameters
+#' senstivity_analysis()
 senstivity_analysis <- function() {
 
   the$is_initialized <- FALSE

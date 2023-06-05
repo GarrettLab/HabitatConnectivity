@@ -85,9 +85,9 @@ load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_ty
 }
 
 #' Set Parameters function
-#' 
+#'
 #' This function allows you to override existing parameters with new values.
-#' 
+#'
 #' @seealso [load_parameters()] [set_parameters()]
 #' @param dispersal_parameter_beta Numeric vector of dispersal parameter beta values
 #' @param dispersal_parameter_gamma Numeric vector of dispersal parameter gamma values
