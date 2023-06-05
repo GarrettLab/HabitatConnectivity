@@ -26,15 +26,15 @@ You can install the development version of geohabnet from [GitHub](GarrettLab/Cr
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 ```
 
-## Example
+## geohabnet Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to run sensitivity analysis on pre-loaded parameters.
 
 ```{r example}
 library(geohabnet)
 
 param_file <- geohabnet::get_parameters()
-#now edit the file
+# now edit the file
 geohabnet::set_parameters(new_parameters_file = param_file)
 geohabnet::senstivity_analysis()
 ```
