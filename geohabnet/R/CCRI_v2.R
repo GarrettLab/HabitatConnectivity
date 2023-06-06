@@ -1,6 +1,33 @@
 #' @exportPattern ^[^\\.].*
 
 # Utility functions -------------------------------------------------------
+
+.get_cropharvest_raster_factory <- function(crop_name, data_source) {
+  expr <- rlang::parse_expr(paste0("geodata::crop_", data_source, "(crop = '", crop_name, "',
+                                   path = tempdir(), var = 'area_f')"))
+
+  return(expr)
+}
+
+#' @title Get raster object for crop
+#' @description Get cropland information in a form of raster object from data source for crop
+#' @param crop_name Name of the crop
+#' @param data_source Data source for cropland information
+#' @return Raster object
+#' @export
+#' @examples
+#' get_cropharvest_raster("avocado", "monfreda")
+get_cropharvest_raster <- function(crop_name, data_source) {
+  # supported sources
+  sources <- get_supported_sources()
+  if(!(data_source %%in%% sources)) {
+    stop(paste("data source: ", data_source, " is not supported")) 
+  }
+  cropharvest_r <- eval(.get_cropharvest_raster_factory(crop_name, data_source))
+  cropharvest_r <- raster::raster(terra::sources())
+  return(cropharvest_r)
+}
+
 # Calculate crop harvest raster -------------------------------------------
 #' @title Get raster object for crop
 #' @description
@@ -10,8 +37,8 @@
 #' @return Raster object
 #' @export
 #' @examples
-#' get_cropharvest_raster("avocado")
-get_cropharvest_raster <- function(crop_name) {
+#' get_cropharvest_raster1("avocado")
+get_cropharvest_raster1 <- function(crop_name) {
   cropharvest <- geodata::crop_monfreda(
     crop = crop_name, path = tempdir(),
     var = "area_f"

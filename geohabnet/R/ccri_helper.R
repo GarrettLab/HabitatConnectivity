@@ -142,8 +142,6 @@ library(yaml)
   return(paldif)
 }
 
-library(yaml)
-
 .write_yaml <- function(yaml_obj, file_path) {
   # Validate YAML object
   if (is.null(yaml_obj) || !is.list(yaml_obj)) {
@@ -251,4 +249,17 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
 
   # return the weights as a vector
   return(weights)
+}
+
+#' Get supported sources of crops
+#' When provided, [get_cropharvest_raster()] will
+#' look for cropland data in this specific source. 
+#' @returns return vector of supported sources.
+#' Also used as a lookup to find get raster object.
+#' @export
+#' @examples
+#' # Get currently supported sources
+#' get_supported_source()
+get_supported_sources <- function() {
+  return(c("spam", "monfreda", "sacks"))
 }
