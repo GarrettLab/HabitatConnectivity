@@ -261,5 +261,5 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
 #' # Get currently supported sources
 #' get_supported_source()
 get_supported_sources <- function() {
-  return(c("spam", "monfreda", "sacks"))
+  return(c("monfreda", "spam", "sacks"))
 }

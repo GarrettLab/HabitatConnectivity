@@ -4,8 +4,8 @@ default:
     DispersalParameterGamma: [0.05, 1, 0.2, 0.3]
     AggregationStrategy: [sum, mean]
     Hosts:
-      Spam:
       Monfreda: ["avocado"]
+      Spam:
       Sacks:
     HostDensityThreshold: [0.0015, 0.002, 0.0025] #cuttoff - run SA for each of these
     LinkThreshold: [0, 0.000001, 0.0006]
