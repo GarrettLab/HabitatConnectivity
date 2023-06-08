@@ -14,6 +14,19 @@
   file.copy(from = from, to = to, copy.mode = FALSE, overwrite = TRUE)
 }
 
+.extract_hosts <- function(params = load_parameters()) {
+  monfredas <- params$`CCRI parameters`$Hosts$monfreda
+  spams <- params$`CCRI parameters`$Hosts$monfreda
+  crops <- list()
+  if(!is.null(monfredas) && !is.list(monfredas)) {
+    crops[['monfreda']] <- monfredas
+  }
+  if(!is.null(spams) && !is.list(spams)) {
+    crops[['spam']] <- spams
+  }
+  return(crops)
+}
+
 #' Get Parameters
 #'
 #' Retrieves the parameters and copies the parameter file to the specified

@@ -2,13 +2,6 @@
 
 # Utility functions -------------------------------------------------------
 
-.get_cropharvest_raster_factory <- function(crop_name, data_source) {
-  expr <- rlang::parse_expr(paste0("geodata::crop_", data_source, "(crop = '", crop_name, "',
-                                   path = tempdir(), var = 'area_f')"))
-
-  return(expr)
-}
-
 #' @title Get raster object for crop
 #' @description Get cropland information in a form of raster object from data source for crop
 #' @param crop_name Name of the crop
@@ -23,75 +16,42 @@ get_cropharvest_raster <- function(crop_name, data_source) {
   if(!(data_source %in% sources)) {
     stop(paste("data source: ", data_source, " is not supported")) 
   }
-  cropharvest_r <- eval(.get_cropharvest_raster_factory(crop_name, data_source))
+  cropharvest_r <- .get_cropharvest_raster_helper(crop_name = crop_name, data_source = data_source)
   cropharvest_r <- raster::raster(terra::sources(cropharvest_r))
   return(cropharvest_r)
 }
 
-# Calculate crop harvest raster -------------------------------------------
-#' @title Get raster object for crop
-#' @description
-#' Takes crop name and returns raster object. Currently,
-#' only supports crops listed in [geodata::monfredaCrops()]
-#' @param crop_name Name of the crop
-#' @return Raster object
-#' @export
-#' @examples
-#' get_cropharvest_raster1("avocado")
-get_cropharvest_raster1 <- function(crop_name) {
-  cropharvest <- geodata::crop_monfreda(
-    crop = crop_name, path = tempdir(),
-    var = "area_f"
-  )
-  cropharvest <- raster::raster(terra::sources(cropharvest))
-  return(cropharvest)
-}
-
-get_cropharvest_raster_sum <- function(crop_names) {
-  if (!is.list(crop_names) || length(crop_names) == 0) {
-    stop("Input 'crop_names' must be a non-empty list of crop names.")
-  }
-  
-  crop_sources <- lapply(crop_names, function(crop_src) {
-    crop_src <- crop_src[[1]]
-    crop_names_subset <- crop_src[crop_src %in% crop_names[[crop_src]]]
-    crop_names_subset <- crop_names_subset[!duplicated(crop_names_subset)]
-    crop_names_subset
-  })
-  
-  cropharvests <- list()
-  for (i in seq_along(crop_sources)) {
-    single_crop_rasters <- list()
-    for (crop_name in crop_sources[[i]]) {
-      single_crop_rasters <- append(single_crop_rasters, get_cropharvest_raster(i, crop_name))
-    }
-    len_scr <- length(single_crop_rasters)
-    if (len_scr > 1) {
-      cropharvests <- c(cropharvests, raster::calc(raster::stack(single_crop_rasters), fun = sum)/len_scr)
-    } else {
-      cropharvests <- c(cropharvests, single_crop_rasters)
-    }
-  }
-  
-  Reduce("+", cropharvests)
+#' Get raster object from tif file
+#'  This is wrapper of [raster::raster()] and generates raster object if provided with tif file.
+#'  @param path_to_tif TIF file
+#'  @return Raster object
+#'  @examples
+#'  \dontrun{
+#'  Generate raster for usage
+#'  get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs", package = "geohabnet", mustWork = TRUE))
+#'  }
+get_crop_raster_fromtif <- function(path_to_tif) {
+  stopifnot(file.exists(path_to_tif), "Not a valid path",
+            str_sub(string, start = -4) == ".tif", "Not a tif file")
+  return(raster::raster(path_to_tif))
 }
 
 #' @title Get sum of rasters for individual crops
 #' @description
 #' Takes crop names and returns raster object which is sum of raster of individual crops.
 #' Currently, only supports crops listed in
-#' [geodata::monfredaCrops()], [geodata::spamCrops()], [geodata::sacksCrops()]
+#' [geodata::monfredaCrops()], [geodata::spamCrops()]
 #' If crop is present in multiple sources, then their mean is calculated.
 #' @param crop_names A named list of source along with crop names 
 #' @return Raster object which is sum of all the individual crop rasters
 #' @export
 #' @examples
 #' get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), spam = c("wheat", "potato")))
-get_cropharvest_raster_sum2 <- function(crop_names) {
+get_cropharvest_raster_sum <- function(crop_names) {
   if (!is.list(crop_names) || length(crop_names) == 0) {
     stop("Input 'crop_names' must be a non-empty list of crop names.")
   }
-  
+
   # output: list("wheat" = c("monfreda", "spam"), "barley" = c("monfreda"), "potato" = c("spam"))
   crops <- list()
 
@@ -100,9 +60,9 @@ get_cropharvest_raster_sum2 <- function(crop_names) {
       crops[[crop_name]] <- c(crops[[crop_name]], src)
     }
   }
-  
+
   # calculate sum of rasters
-  
+
   # iterate named lists
   # crop names
   nams <- names(crops)
@@ -120,67 +80,8 @@ get_cropharvest_raster_sum2 <- function(crop_names) {
       cropharvests <- c(cropharvests, single_crop_rasters)
     }
   }
-  
-  # cropharvests <- lapply(crop_names, get_cropharvest_raster)
-  Reduce("+", cropharvests)
-}
 
-#' @title Get sum of rasters for individual crops
-#' @description
-#' Takes crop names and returns raster object which is sum of raster of individual crops.
-#' Currently, only supports crops listed in [geodata::monfredaCrops()]
-#' @param crop_names A vector of crop names
-#' @return Raster object
-#' @export
-#' @examples
-#' get_cropharvest_raster_sum1(c("avocado", "barley"))
-get_cropharvest_raster_sum1 <- function(crop_names) {
-  if (!is.list(crop_names) || length(crop_names) == 0) {
-    stop("Input 'crop_names' must be a non-empty vector of crop names.")
-  }
-  crops <- list()
-  
-  get_crops_and_src <- function(crops_in_src, src) {
-    for (crop_name in crops_in_src) {
-      crops$crop_name <- c(crops$crop_name, src)
-    }
-  }
-  
-  lapply(c("monfreda", "spam", "sacks"), get_crops_and_src)
-  # monfreda_crops <- crop_names$Monfreda
-  # for (crop_name in monfreda_crops) {
-  #   crops$crop_name <- c(crops$crop_name, "monfreda")
-  # }
-  # 
-  # spam_crops <- crop_names$Spam
-  # for (crop_name in spam_crops) {
-  #   crops$crop_name <- c(crops$crop_name, "spam")
-  # }
-  # 
-  # sacks_crops <- crops$Sacks
-  # for (crop_name in sacks_crops) {
-  #   crops$crop_name <- c(crops$crop_name, "sacks")
-  # }
-  # sum of rasters
-  # iterate named lists
-  nams <- names(crops)
-  cropharvest_rasters <- list()
-  for (i in seq_along(crops)) {
-    single_crop_rasters <- list()
-    for(j in seq_along(crops[[i]])) {
-      single_crop_rasters <- append(single_crop_rasters, get_cropharvest_raster(nams[i], j))
-    }
-    len_scr <- length(single_crop_rasters)
-    if(len_scr > 1) {
-      cropharvest_rasters <- c(cropharvest_rasters, raster::calc(raster::stack(single_crop_rasters), fun = sum)/len_scr)
-    }
-    else {
-      cropharvest_rasters <- c(cropharvest_rasters, single_crop_rasters)
-    }
-  }
-  
-  # cropharvests <- lapply(crop_names, get_cropharvest_raster)
-  Reduce("+", cropharvests)
+  return(Reduce("+", cropharvests))
 }
 
 .extract_lon_lat <- function(crop_cells_above_threshold, cropharvest_agg_crop) {
@@ -1042,8 +943,7 @@ senstivity_analysis <- function() {
   cropland_thresholds <- the$parameters_config$`CCRI parameters`$HostDensityThreshold
 
   # crop data
-  cropharvest <- get_cropharvest_raster_sum(as.list(
-    the$parameters_config$`CCRI parameters`$Hosts)) # list
+  cropharvest <- get_cropharvest_raster_sum(the$parameters_config$`CCRI parameters`$Hosts) # list
   agg_methods <- the$parameters_config$`CCRI parameters`$AggregationStrategy # list
 
   # maps

@@ -164,6 +164,18 @@ library(yaml)
   message("YAML object successfully written to file:", file_path)
 }
 
+.get_cropharvest_raster_helper <- function(crop_name, data_source) {
+  if(data_source == "monfreda") {
+    geodata::crop_monfreda(crop = crop_name, path = tempdir(), var = "area_f")
+  }
+  else if(data_source == "spam") {
+    geodata::crop_spam(crop = crop_name, path = tempdir(), var = "harv_area")/10000
+  }
+  else {
+    stop(paste("Encountered unsupported source: ", data_source))
+  }
+}
+
 #' Check if metrics in the list are valid
 #'
 #' @param metrics_list A character vector of metrics to check
@@ -259,7 +271,7 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
 #' @export
 #' @examples
 #' # Get currently supported sources
-#' get_supported_source()
+#' get_supported_sources()
 get_supported_sources <- function() {
-  return(c("monfreda", "spam", "sacks"))
+  return(c("monfreda", "spam"))
 }
