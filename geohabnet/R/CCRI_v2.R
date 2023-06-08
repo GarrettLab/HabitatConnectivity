@@ -251,7 +251,6 @@ ccri_powerlaw <- function(dispersal_parameter_beta_vals, link_threshold = 0, bet
   )
 
   the$result_index_list <- c(the$result_index_list, index_list)
-  return(1)
 }
 
 #' Calculate negative exponential
@@ -281,7 +280,6 @@ ccri_negative_exponential <- function(dispersal_parameter_gamma_vals, link_thres
   )
 
   the$result_index_list <- c(the$result_index_list, index_list)
-  return(1)
 }
 
 
@@ -519,24 +517,22 @@ calculate_ccri <- function(
   }
   opted_powerlaw_metrics <- check_metrics(power_law_metrics)
   ccri_powerlaw(the$parameters_config$`CCRI parameters`$DispersalParameterBeta, link_threshold,
-    betweenness_metric = opted_powerlaw_metrics$betweeness,
-    node_strength = opted_powerlaw_metrics$node_strength,
-    sum_of_nearest_neighbors = opted_powerlaw_metrics$sum_of_nearest_neighbors,
-    eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality,
-    crop_cells_above_threshold = crop_cells_above_threshold, thresholded_crop_values = thresholded_crop_values)
+                betweenness_metric = opted_powerlaw_metrics$betweeness,
+                node_strength = opted_powerlaw_metrics$node_strength,
+                sum_of_nearest_neighbors = opted_powerlaw_metrics$sum_of_nearest_neighbors,
+                eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality,
+                crop_cells_above_threshold = crop_cells_above_threshold,
+                thresholded_crop_values = thresholded_crop_values)
 
   opted_negative_exp_metrics <- check_metrics(negative_exponential_metrics)
   ccri_negative_exponential(the$parameters_config$`CCRI parameters`$DispersalParameterGamma,
-    link_threshold,
-    betweenness_metric =
-      opted_negative_exp_metrics$betweeness,
-    node_strength =
-      opted_negative_exp_metrics$node_strength,
-    sum_of_nearest_neighbors =
-      opted_negative_exp_metrics$sum_of_nearest_neighbors,
-    eigenvector_centrality =
-      opted_negative_exp_metrics$eigenvector_centrality,
-    crop_cells_above_threshold = crop_cells_above_threshold, thresholded_crop_values = thresholded_crop_values)
+                            link_threshold,
+                            betweenness_metric = opted_negative_exp_metrics$betweeness,
+                            node_strength = opted_negative_exp_metrics$node_strength,
+                            sum_of_nearest_neighbors = opted_negative_exp_metrics$sum_of_nearest_neighbors,
+                            eigenvector_centrality = opted_negative_exp_metrics$eigenvector_centrality,
+                            crop_cells_above_threshold = crop_cells_above_threshold,
+                            thresholded_crop_values = thresholded_crop_values)
 }
 
 #' Calculate CCRI using powerlaw for given parameters
@@ -842,10 +838,10 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
                              host_density_threshold = host_density_threshold, agg_method)
 
     calculate_ccri(link_threshold,
-      power_law_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
-      negative_exponential_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
-      crop_cells_above_threshold = cropland_density_info$crop_values_at,
-      thresholded_crop_values = cropland_density_info$crop_value)
+                   power_law_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                   negative_exponential_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
+                  crop_cells_above_threshold = cropland_density_info$crop_values_at,
+                  thresholded_crop_values = cropland_density_info$crop_value)
   }
 
   stacked_rasters <- raster::stack(the$result_index_list)
@@ -876,7 +872,6 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
     zero_raster_results$zero_raster_extent, zero_raster_results$map_grey_background_extent)
 
   the$is_initialized <- FALSE
-  return(the$is_initialized)
 }
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
