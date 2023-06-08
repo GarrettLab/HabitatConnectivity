@@ -7,15 +7,17 @@
 get_cropharvest_raster_sum(crop_names)
 }
 \arguments{
-\item{crop_names}{A vector of crop names}
+\item{crop_names}{A named list of source along with crop names}
 }
 \value{
-Raster object
+Raster object which is sum of all the individual crop rasters
 }
 \description{
 Takes crop names and returns raster object which is sum of raster of individual crops.
-Currently, only supports crops listed in \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}
+Currently, only supports crops listed in
+\code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}, \code{\link[geodata:crop_spam]{geodata::spamCrops()}}
+If crop is present in multiple sources, then their mean is calculated.
 }
 \examples{
-get_cropharvest_raster_sum(c("avocado", "barley"))
+get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), spam = c("wheat", "potato")))
 }

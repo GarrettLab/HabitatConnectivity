@@ -18,11 +18,11 @@
   monfredas <- params$`CCRI parameters`$Hosts$monfreda
   spams <- params$`CCRI parameters`$Hosts$monfreda
   crops <- list()
-  if(!is.null(monfredas) && !is.list(monfredas)) {
-    crops[['monfreda']] <- monfredas
+  if (!is.null(monfredas) && !is.list(monfredas)) {
+    crops[["monfreda"]] <- monfredas
   }
-  if(!is.null(spams) && !is.list(spams)) {
-    crops[['spam']] <- spams
+  if (!is.null(spams) && !is.list(spams)) {
+    crops[["spam"]] <- spams
   }
   return(crops)
 }
