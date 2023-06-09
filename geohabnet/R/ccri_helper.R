@@ -142,8 +142,6 @@ library(yaml)
   return(paldif)
 }
 
-library(yaml)
-
 .write_yaml <- function(yaml_obj, file_path) {
   # Validate YAML object
   if (is.null(yaml_obj) || !is.list(yaml_obj)) {
@@ -164,6 +162,16 @@ library(yaml)
   )
 
   message("YAML object successfully written to file:", file_path)
+}
+
+.get_cropharvest_raster_helper <- function(crop_name, data_source) {
+  if (data_source == "monfreda") {
+    geodata::crop_monfreda(crop = crop_name, path = tempdir(), var = "area_f")
+  } else if (data_source == "spam") {
+    geodata::crop_spam(crop = crop_name, path = tempdir(), var = "harv_area") / 10000
+  } else {
+    stop(paste("Encountered unsupported source: ", data_source))
+  }
 }
 
 #' Check if metrics in the list are valid
@@ -251,4 +259,17 @@ calculate_metrics_weight <- function(betweenness_metric = FALSE,
 
   # return the weights as a vector
   return(weights)
+}
+
+#' Get supported sources of crops
+#' When provided, [get_cropharvest_raster()] will
+#' look for cropland data in this specific source.
+#' @returns return vector of supported sources.
+#' Also used as a lookup to find get raster object.
+#' @export
+#' @examples
+#' # Get currently supported sources
+#' get_supported_sources()
+get_supported_sources <- function() {
+  return(c("monfreda", "spam"))
 }

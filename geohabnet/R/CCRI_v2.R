@@ -1,42 +1,87 @@
 #' @exportPattern ^[^\\.].*
 
 # Utility functions -------------------------------------------------------
-# Calculate crop harvest raster -------------------------------------------
+
 #' @title Get raster object for crop
-#' @description
-#' Takes crop name and returns raster object. Currently,
-#' only supports crops listed in [geodata::monfredaCrops()]
+#' @description Get cropland information in a form of raster object from data source for crop
 #' @param crop_name Name of the crop
+#' @param data_source Data source for cropland information
 #' @return Raster object
 #' @export
 #' @examples
-#' get_cropharvest_raster("avocado")
-get_cropharvest_raster <- function(crop_name) {
-  cropharvest <- geodata::crop_monfreda(
-    crop = crop_name, path = tempdir(),
-    var = "area_f"
-  )
-  cropharvest <- raster::raster(terra::sources(cropharvest))
-  return(cropharvest)
+#' get_cropharvest_raster("avocado", "monfreda")
+get_cropharvest_raster <- function(crop_name, data_source) {
+  # supported sources
+  sources <- get_supported_sources()
+  if (!(data_source %in% sources)) {
+    stop(paste("data source: ", data_source, " is not supported"))
+  }
+  cropharvest_r <- .get_cropharvest_raster_helper(crop_name = crop_name, data_source = data_source)
+  cropharvest_r <- raster::raster(terra::sources(cropharvest_r))
+  return(cropharvest_r)
+}
+
+#' Get raster object from tif file
+#'  This is wrapper of [raster::raster()] and generates raster object if provided with tif file.
+#'  @param path_to_tif TIF file
+#'  @return Raster object
+#'  @examples
+#'  \dontrun{
+#'  Generate raster for usage
+#'  get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
+#'  package = "geohabnet", mustWork = TRUE))
+#'  }
+get_crop_raster_fromtif <- function(path_to_tif) {
+  stopifnot(file.exists(path_to_tif), "Not a valid path",
+            stringr::str_sub(path_to_tif, start = -4) == ".tif", "Not a tif file")
+  return(raster::raster(path_to_tif))
 }
 
 #' @title Get sum of rasters for individual crops
 #' @description
 #' Takes crop names and returns raster object which is sum of raster of individual crops.
-#' Currently, only supports crops listed in [geodata::monfredaCrops()]
-#' @param crop_names A vector of crop names
-#' @return Raster object
+#' Currently, only supports crops listed in
+#' [geodata::monfredaCrops()], [geodata::spamCrops()]
+#' If crop is present in multiple sources, then their mean is calculated.
+#' @param crop_names A named list of source along with crop names
+#' @return Raster object which is sum of all the individual crop rasters
 #' @export
 #' @examples
-#' get_cropharvest_raster_sum(c("avocado", "barley"))
+#' get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), spam = c("wheat", "potato")))
 get_cropharvest_raster_sum <- function(crop_names) {
-  if (!is.vector(crop_names) || length(crop_names) == 0) {
-    stop("Input 'crop_names' must be a non-empty vector of crop names.")
+  if (!is.list(crop_names) || length(crop_names) == 0) {
+    stop("Input 'crop_names' must be a non-empty list of crop names.")
   }
 
-  # sum of rasters
-  cropharvests <- lapply(crop_names, get_cropharvest_raster)
-  Reduce("+", cropharvests)
+  # output: list("wheat" = c("monfreda", "spam"), "barley" = c("monfreda"), "potato" = c("spam"))
+  crops <- list()
+
+  for (src in get_supported_sources()) {
+    for (crop_name in crop_names[[src]]) {
+      crops[[crop_name]] <- c(crops[[crop_name]], src)
+    }
+  }
+
+  # calculate sum of rasters
+
+  # iterate named lists
+  # crop names
+  nams <- names(crops)
+  cropharvests <- list()
+  for (i in seq_along(crops)) {
+    single_crop_rasters <- list()
+    for (j in crops[[i]]) {
+      single_crop_rasters <- append(single_crop_rasters, get_cropharvest_raster(nams[i], j))
+    }
+    len_scr <- length(single_crop_rasters)
+    if (len_scr > 1) {
+      cropharvests <- c(cropharvests, raster::calc(raster::stack(single_crop_rasters), fun = sum) / len_scr)
+    } else {
+      cropharvests <- c(cropharvests, single_crop_rasters)
+    }
+  }
+
+  return(Reduce("+", cropharvests))
 }
 
 .extract_lon_lat <- function(crop_cells_above_threshold, cropharvest_agg_crop) {
@@ -206,7 +251,6 @@ ccri_powerlaw <- function(dispersal_parameter_beta_vals, link_threshold = 0, bet
   )
 
   the$result_index_list <- c(the$result_index_list, index_list)
-  return(1)
 }
 
 #' Calculate negative exponential
@@ -236,7 +280,6 @@ ccri_negative_exponential <- function(dispersal_parameter_gamma_vals, link_thres
   )
 
   the$result_index_list <- c(the$result_index_list, index_list)
-  return(1)
 }
 
 
@@ -474,24 +517,22 @@ calculate_ccri <- function(
   }
   opted_powerlaw_metrics <- check_metrics(power_law_metrics)
   ccri_powerlaw(the$parameters_config$`CCRI parameters`$DispersalParameterBeta, link_threshold,
-    betweenness_metric = opted_powerlaw_metrics$betweeness,
-    node_strength = opted_powerlaw_metrics$node_strength,
-    sum_of_nearest_neighbors = opted_powerlaw_metrics$sum_of_nearest_neighbors,
-    eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality,
-    crop_cells_above_threshold = crop_cells_above_threshold, thresholded_crop_values = thresholded_crop_values)
+                betweenness_metric = opted_powerlaw_metrics$betweeness,
+                node_strength = opted_powerlaw_metrics$node_strength,
+                sum_of_nearest_neighbors = opted_powerlaw_metrics$sum_of_nearest_neighbors,
+                eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality,
+                crop_cells_above_threshold = crop_cells_above_threshold,
+                thresholded_crop_values = thresholded_crop_values)
 
   opted_negative_exp_metrics <- check_metrics(negative_exponential_metrics)
   ccri_negative_exponential(the$parameters_config$`CCRI parameters`$DispersalParameterGamma,
-    link_threshold,
-    betweenness_metric =
-      opted_negative_exp_metrics$betweeness,
-    node_strength =
-      opted_negative_exp_metrics$node_strength,
-    sum_of_nearest_neighbors =
-      opted_negative_exp_metrics$sum_of_nearest_neighbors,
-    eigenvector_centrality =
-      opted_negative_exp_metrics$eigenvector_centrality,
-    crop_cells_above_threshold = crop_cells_above_threshold, thresholded_crop_values = thresholded_crop_values)
+                            link_threshold,
+                            betweenness_metric = opted_negative_exp_metrics$betweeness,
+                            node_strength = opted_negative_exp_metrics$node_strength,
+                            sum_of_nearest_neighbors = opted_negative_exp_metrics$sum_of_nearest_neighbors,
+                            eigenvector_centrality = opted_negative_exp_metrics$eigenvector_centrality,
+                            crop_cells_above_threshold = crop_cells_above_threshold,
+                            thresholded_crop_values = thresholded_crop_values)
 }
 
 #' Calculate CCRI using powerlaw for given parameters
@@ -797,10 +838,14 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
                              host_density_threshold = host_density_threshold, agg_method)
 
     calculate_ccri(link_threshold,
-      power_law_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
-      negative_exponential_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
-      crop_cells_above_threshold = cropland_density_info$crop_values_at,
-      thresholded_crop_values = cropland_density_info$crop_value)
+                   power_law_metrics =
+                     the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                   negative_exponential_metrics =
+                     the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
+                  crop_cells_above_threshold =
+                    cropland_density_info$crop_values_at,
+                  thresholded_crop_values =
+                    cropland_density_info$crop_value)
   }
 
   stacked_rasters <- raster::stack(the$result_index_list)
@@ -831,7 +876,6 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
     zero_raster_results$zero_raster_extent, zero_raster_results$map_grey_background_extent)
 
   the$is_initialized <- FALSE
-  return(the$is_initialized)
 }
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
@@ -898,8 +942,7 @@ senstivity_analysis <- function() {
   cropland_thresholds <- the$parameters_config$`CCRI parameters`$HostDensityThreshold
 
   # crop data
-  cropharvest <- get_cropharvest_raster_sum(as.list(
-    the$parameters_config$`CCRI parameters`$Hosts)) # list
+  cropharvest <- get_cropharvest_raster_sum(the$parameters_config$`CCRI parameters`$Hosts) # list
   agg_methods <- the$parameters_config$`CCRI parameters`$AggregationStrategy # list
 
   # maps

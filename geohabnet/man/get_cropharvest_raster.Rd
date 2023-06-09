@@ -4,18 +4,19 @@
 \alias{get_cropharvest_raster}
 \title{Get raster object for crop}
 \usage{
-get_cropharvest_raster(crop_name)
+get_cropharvest_raster(crop_name, data_source)
 }
 \arguments{
 \item{crop_name}{Name of the crop}
+
+\item{data_source}{Data source for cropland information}
 }
 \value{
 Raster object
 }
 \description{
-Takes crop name and returns raster object. Currently,
-only supports crops listed in \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}
+Get cropland information in a form of raster object from data source for crop
 }
 \examples{
-get_cropharvest_raster("avocado")
+get_cropharvest_raster("avocado", "monfreda")
 }
