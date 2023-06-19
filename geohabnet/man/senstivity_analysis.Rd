@@ -12,6 +12,8 @@ It can be used as entry point for sensitivity analysis.
 Plots results of sensitivity analysis.
 }
 \examples{
-# Run senstivity analysis on default set of parameters
+\dontrun{
+# Run analysis on specified parameters.yaml
 senstivity_analysis()
+}
 }

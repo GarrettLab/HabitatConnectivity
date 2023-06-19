@@ -22,22 +22,26 @@ get_cropharvest_raster <- function(crop_name, data_source) {
 }
 
 #' Get raster object from tif file
-#'  This is wrapper of [raster::raster()] and generates raster object if provided with tif file.
-#'  @param path_to_tif TIF file
-#'  @return Raster object
-#'  @examples
-#'  \dontrun{
-#'  Generate raster for usage
-#'  get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
-#'  package = "geohabnet", mustWork = TRUE))
-#'  }
+#'
+#' This is a wrapper of \code{raster::raster()} and generates a raster object if provided with a TIF file.
+#'
+#' @param path_to_tif TIF file
+#' @return Raster object
+#' @examples
+#' \dontrun{
+#' # Generate raster for usage
+#' get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
+#'                                    package = "geohabnet", mustWork = TRUE))
+#' }
 get_crop_raster_fromtif <- function(path_to_tif) {
   stopifnot(file.exists(path_to_tif), "Not a valid path",
             stringr::str_sub(path_to_tif, start = -4) == ".tif", "Not a tif file")
   return(raster::raster(path_to_tif))
 }
 
+
 #' @title Get sum of rasters for individual crops
+#' 
 #' @description
 #' Takes crop names and returns raster object which is sum of raster of individual crops.
 #' Currently, only supports crops listed in
@@ -47,7 +51,9 @@ get_crop_raster_fromtif <- function(path_to_tif) {
 #' @return Raster object which is sum of all the individual crop rasters
 #' @export
 #' @examples
+#' \dontrun{
 #' get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), spam = c("wheat", "potato")))
+#' }
 get_cropharvest_raster_sum <- function(crop_names) {
   if (!is.list(crop_names) || length(crop_names) == 0) {
     stop("Input 'crop_names' must be a non-empty list of crop names.")
@@ -931,8 +937,10 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
 #' Plots results of sensitivity analysis.
 #' @export
 #' @examples
-#' # Run senstivity analysis on default set of parameters
+#' \dontrun{
+#' # Run analysis on specified parameters.yaml
 #' senstivity_analysis()
+#' }
 senstivity_analysis <- function() {
 
   the$is_initialized <- FALSE

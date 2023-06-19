@@ -2,28 +2,23 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{get_crop_raster_fromtif}
 \alias{get_crop_raster_fromtif}
-\title{Get raster object from tif file
-This is wrapper of \code{\link[raster:raster]{raster::raster()}} and generates raster object if provided with tif file.
-@param path_to_tif TIF file
-@return Raster object
-@examples
-\dontrun{
- Generate raster for usage
- get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
- package = "geohabnet", mustWork = TRUE))
- }}
+\title{Get raster object from tif file}
 \usage{
 get_crop_raster_fromtif(path_to_tif)
 }
+\arguments{
+\item{path_to_tif}{TIF file}
+}
+\value{
+Raster object
+}
 \description{
-Get raster object from tif file
-This is wrapper of \code{\link[raster:raster]{raster::raster()}} and generates raster object if provided with tif file.
-@param path_to_tif TIF file
-@return Raster object
-@examples
+This is a wrapper of \code{raster::raster()} and generates a raster object if provided with a TIF file.
+}
+\examples{
 \dontrun{
- Generate raster for usage
- get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
- package = "geohabnet", mustWork = TRUE))
- }
+# Generate raster for usage
+get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
+                                   package = "geohabnet", mustWork = TRUE))
+}
 }
