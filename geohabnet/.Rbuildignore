@@ -3,3 +3,4 @@
 ^[\.]lintr$$
 ^README\.Rmd$
 ^vignettes/articles$
+^\.github$
