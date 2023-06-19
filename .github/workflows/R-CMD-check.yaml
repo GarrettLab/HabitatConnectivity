@@ -10,7 +10,7 @@ name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    if_meregd:
+    if_merged:
       if: github.event.pull_request.merged == true
       runs-on: ${{ matrix.config.os }}
 
