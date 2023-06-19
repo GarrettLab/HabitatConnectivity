@@ -19,5 +19,7 @@ Currently, only supports crops listed in
 If crop is present in multiple sources, then their mean is calculated.
 }
 \examples{
+\dontrun{
 get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), spam = c("wheat", "potato")))
+}
 }
