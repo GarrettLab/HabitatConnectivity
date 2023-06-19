@@ -3,7 +3,8 @@
 # R CMD check
 on:
   pull_request:
-    types: [closed]
+    types:
+      - closed
 
 name: R-CMD-check
 
@@ -30,8 +31,6 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - run: |
-          echo PR was merged
       - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-pandoc@v2
