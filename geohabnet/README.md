@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+![example workflow](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/R-CMD-check.yaml/badge.svg)
+
 # geohabnet
 
 This package is expanded upon [Xing et al
