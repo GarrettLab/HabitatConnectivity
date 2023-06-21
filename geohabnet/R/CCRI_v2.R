@@ -2,94 +2,6 @@
 
 # Utility functions -------------------------------------------------------
 
-#' @title Get raster object for crop
-#' @description Get cropland information in a form of raster object from data source for crop
-#' @param crop_name Name of the crop
-#' @param data_source Data source for cropland information
-#' @return Raster object
-#' @export
-#' @examples
-#' get_cropharvest_raster("avocado", "monfreda")
-get_cropharvest_raster <- function(crop_name, data_source) {
-  # supported sources
-  sources <- get_supported_sources()
-  if (!(data_source %in% sources)) {
-    stop(paste("data source: ", data_source, " is not supported"))
-  }
-  cropharvest_r <- .get_cropharvest_raster_helper(crop_name = crop_name, data_source = data_source)
-  cropharvest_r <- raster::raster(terra::sources(cropharvest_r))
-  return(cropharvest_r)
-}
-
-#' Get raster object from tif file
-#'
-#' This is a wrapper of \code{raster::raster()} and generates a raster object if provided with a TIF file.
-#'
-#' @param path_to_tif TIF file
-#' @return Raster object
-#' @examples
-#' \dontrun{
-#' # Generate raster for usage
-#' get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
-#'                                    package = "geohabnet", mustWork = TRUE))
-#' }
-get_crop_raster_fromtif <- function(path_to_tif) {
-  stopifnot(file.exists(path_to_tif), "Not a valid path",
-            stringr::str_sub(path_to_tif, start = -4) == ".tif", "Not a tif file")
-  return(raster::raster(path_to_tif))
-}
-
-
-#' @title Get sum of rasters for individual crops
-#' 
-#' @description
-#' Takes crop names and returns raster object which is sum of raster of individual crops.
-#' Currently, only supports crops listed in
-#' [geodata::monfredaCrops()], [geodata::spamCrops()]
-#' If crop is present in multiple sources, then their mean is calculated.
-#' @param crop_names A named list of source along with crop names
-#' @return Raster object which is sum of all the individual crop rasters
-#' @export
-#' @examples
-#' \dontrun{
-#' get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), spam = c("wheat", "potato")))
-#' }
-get_cropharvest_raster_sum <- function(crop_names) {
-  if (!is.list(crop_names) || length(crop_names) == 0) {
-    stop("Input 'crop_names' must be a non-empty list of crop names.")
-  }
-
-  # output: list("wheat" = c("monfreda", "spam"), "barley" = c("monfreda"), "potato" = c("spam"))
-  crops <- list()
-
-  for (src in get_supported_sources()) {
-    for (crop_name in crop_names[[src]]) {
-      crops[[crop_name]] <- c(crops[[crop_name]], src)
-    }
-  }
-
-  # calculate sum of rasters
-
-  # iterate named lists
-  # crop names
-  nams <- names(crops)
-  cropharvests <- list()
-  for (i in seq_along(crops)) {
-    single_crop_rasters <- list()
-    for (j in crops[[i]]) {
-      single_crop_rasters <- append(single_crop_rasters, get_cropharvest_raster(nams[i], j))
-    }
-    len_scr <- length(single_crop_rasters)
-    if (len_scr > 1) {
-      cropharvests <- c(cropharvests, raster::calc(raster::stack(single_crop_rasters), fun = sum) / len_scr)
-    } else {
-      cropharvests <- c(cropharvests, single_crop_rasters)
-    }
-  }
-
-  return(Reduce("+", cropharvests))
-}
-
 .extract_lon_lat <- function(crop_cells_above_threshold, cropharvest_agg_crop) {
   #----------- Extract xy corrdination for "povalue" cells ---------
   lon <- NULL # xmin
@@ -923,11 +835,33 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
                                                 aggregate_methods,
                                                 cropharvest_raster,
                                                 resolution) {
+
   lapply(host_density_thresholds, sensitivity_analysis_on_geoextent_scale,
     link_threshold = link_threshold, geo_scale = geo_scale,
     aggregate_methods = aggregate_methods,
     cropharvest_raster = cropharvest_raster, resolution = resolution
   )
+}
+
+#' Run analysis
+#' @param cropharvest_raster raster object which will be used in analysis
+#' @inherit sensitivity_analysis_on_cropland_threshold
+sa_onrasters <- function(cropharvest_raster,
+                         geo_scales,
+                         link_thresholds,
+                         host_density_thresholds,
+                         aggregate_methods = c("sum", "mean"),
+                         resolution) {
+
+  cat("New analysis started for given raster")
+
+  lapply(geo_scales,
+         sensitivity_analysis_on_cropland_threshold,
+         link_thresholds = link_thresholds,
+         host_density_thresholds = host_density_thresholds,
+         aggregate_methods = aggregate_methods,
+         cropharvest_raster = cropharvest_raster,
+         resolution = resolution)
 }
 
 #' @title Calculate sensitivity analysis on parameters
@@ -946,11 +880,11 @@ senstivity_analysis <- function() {
   the$is_initialized <- FALSE
   the$parameters_config <- load_parameters()
 
-  # cuttoff adjacencey matrix
+  # cutoff adjacency matrix
   cropland_thresholds <- the$parameters_config$`CCRI parameters`$HostDensityThreshold
 
   # crop data
-  cropharvest <- get_cropharvest_raster_sum(the$parameters_config$`CCRI parameters`$Hosts) # list
+  crop_rasters <- get_rasters(the$parameters_config$`CCRI parameters`$Hosts)
   agg_methods <- the$parameters_config$`CCRI parameters`$AggregationStrategy # list
 
   # maps
@@ -959,8 +893,11 @@ senstivity_analysis <- function() {
   # resolution
   resolution <- the$parameters_config$`CCRI parameters`$Resolution
 
-  lapply(geo_scales, sensitivity_analysis_on_cropland_threshold,
-    link_thresholds = the$parameters_config$`CCRI parameters`$LinkThreshold,
-    host_density_thresholds = cropland_thresholds, aggregate_methods = agg_methods,
-    cropharvest_raster = cropharvest, resolution = resolution)
+  lapply(crop_rasters, sa_onrasters,
+         geo_scales = geo_scales,
+         link_thresholds = the$parameters_config$`CCRI parameters`$LinkThreshold,
+         host_density_thresholds = cropland_thresholds,
+         aggregate_methods = agg_methods,
+         resolution = resolution
+         )
 }
