@@ -850,6 +850,7 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
 #' The rasters will be cropped to provided geographical scale.
 #' Independent analysis is run on each sale.
 #' @inherit sensitivity_analysis_on_cropland_threshold
+#' @export
 sa_onrasters <- function(cropharvest_raster,
                          geo_scales,
                          link_thresholds,
