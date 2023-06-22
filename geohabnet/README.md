@@ -1,26 +1,49 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # geohabnet
 
-<!-- badges: start -->
-<!-- badges: end -->
-
-The goal of geohabnet is to ...
+This package is expanded upon [Xing et al
+(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255).
+It add capabilities to customize parameter values using functions and
+see results of cropland connectivty risk index in the form of plots. The
+goal of geohabnet is to enable users to visualize cropland connectivity
+risk index using their own parameter values.
 
 ## Installation
 
-You can install the development version of geohabnet from [GitHub](https://github.com/) with:
+You can install the development version of geohabnet from
+[GitHub](GarrettLab/CroplandConnectivity) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("GarrettLab/CroplandConnectivity")
+devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 ```
 
-## Example
+Since repo is private, replace the installation code with following -
+`devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet", auth_token = "your token")`
 
-This is a basic example which shows you how to solve a common problem:
+`"your token`” should be replaced with actual Github PAT.
+
+## geohabnet Example
+
+This is a basic example which shows you how to run sensitivity analysis
+on pre-loaded parameters.
 
 ``` r
 library(geohabnet)
-## basic example code
+
+param_file <- geohabnet::get_parameters()
+#> [1] "parameters fetched successfully"
+# now edit the file
+geohabnet::set_parameters(new_parameters_file = param_file)
+#> [1] TRUE
 ```
 
+Run the analysis using -
+
+``` r
+geohabnet::senstivity_analysis()
+```
+
+See other functions for more sophisticated usage.

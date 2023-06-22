@@ -5,7 +5,8 @@ test_that("get rasters with valid file", {
         system.file(
         "tifs",
         package = "geohabnet",
-        "avocado_HarvestedAreaFraction.tif", mustWork = TRUE
+        "avocado_HarvestedAreaFraction.tif",
+        mustWork = TRUE
         )))))
 })
 

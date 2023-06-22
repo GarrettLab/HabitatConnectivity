@@ -844,7 +844,8 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
 }
 
 #' Run analysis
-#' @param cropharvest_raster Raster object which will be used in analysis
+#' @param cropharvest_raster Raster object which will be used in analysis.
+#' @seealso Use [get_rasters()] to obtain raster object.
 #' @param geo_scales List of geographical scales to be used in analysis.
 #' The rasters will be cropped to provided geographical scale.
 #' Independent analysis is run on each sale.

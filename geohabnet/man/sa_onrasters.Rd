@@ -14,7 +14,7 @@ sa_onrasters(
 )
 }
 \arguments{
-\item{cropharvest_raster}{Raster object which will be used in analysis}
+\item{cropharvest_raster}{Raster object which will be used in analysis.}
 
 \item{geo_scales}{List of geographical scales to be used in analysis.
 The rasters will be cropped to provided geographical scale.
@@ -33,4 +33,7 @@ A list of calculated CCRI values using negative exponential
 }
 \description{
 Run analysis
+}
+\seealso{
+Use \code{\link[=get_rasters]{get_rasters()}} to obtain raster object.
 }
