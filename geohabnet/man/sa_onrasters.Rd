@@ -14,7 +14,11 @@ sa_onrasters(
 )
 }
 \arguments{
-\item{cropharvest_raster}{raster object which will be used in analysis}
+\item{cropharvest_raster}{Raster object which will be used in analysis}
+
+\item{geo_scales}{List of geographical scales to be used in analysis.
+The rasters will be cropped to provided geographical scale.
+Independent analysis is run on each sale.}
 
 \item{link_thresholds}{A list of threshold values for link}
 
