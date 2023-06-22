@@ -61,6 +61,9 @@
     <loc>/reference/dot-check_yaml_structure.html</loc>
   </url>
   <url>
+    <loc>/reference/get_crop_raster_fromtif.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_cropharvest_raster.html</loc>
   </url>
   <url>
@@ -73,6 +76,12 @@
     <loc>/reference/get_parameters.html</loc>
   </url>
   <url>
+    <loc>/reference/get_rasters.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_supported_sources.html</loc>
+  </url>
+  <url>
     <loc>/reference/global_analysis.html</loc>
   </url>
   <url>
@@ -83,6 +92,9 @@
   </url>
   <url>
     <loc>/reference/load_parameters.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sa_onrasters.html</loc>
   </url>
   <url>
     <loc>/reference/sensitivity_analysis_on_cropland_threshold.html</loc>

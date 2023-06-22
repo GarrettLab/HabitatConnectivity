@@ -65,8 +65,6 @@ set_parameters <- function(new_parameters_file, iwindow = FALSE) {
   }
 
   current_params_file <- .get_param_file_path()
-  cat(current_params_file)
-  cat(file.exists(current_params_file))
   if (.check_yaml_structure(
     existing_yaml_file = current_params_file,
     provided_yaml_file = new_parameters_file
@@ -92,8 +90,6 @@ set_parameters <- function(new_parameters_file, iwindow = FALSE) {
 #'
 #' @export
 load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_type)) {
-  cat(filepath)
-  cat(file.exists(filepath))
   return(config::get(file = filepath))
 }
 
