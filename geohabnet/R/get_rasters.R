@@ -14,7 +14,7 @@
 get_rasters <- function(hosts) {
   t_file <- hosts[["file"]]
   rasters <- list()
-  if (!is.null(t_file) ||
+  if (!is.null(t_file) &&
     !is.na(t_file)) {
     rasters <- c(rasters, get_crop_raster_fromtif(t_file))
   }
