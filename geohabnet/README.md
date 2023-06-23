@@ -8,7 +8,14 @@ This package is expanded upon [Xing et al
 It add capabilities to customize parameter values using functions and
 see results of cropland connectivty risk index in the form of plots. The
 goal of geohabnet is to enable users to visualize cropland connectivity
-risk index using their own parameter values.
+risk index using their own parameter values. The risk analysis includes
+3 maps -
+
+1.  Mean cropland connectivity
+
+2.  Difference
+
+3.  Variance
 
 ## Installation
 
@@ -23,12 +30,10 @@ devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet"
 Since repo is private, replace the installation code with following -
 `devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet", auth_token = "your token")`
 
-`"your token`” should be replaced with actual Github PAT.
+`"your token`” should be replaced with actual Github
+[PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
 ## geohabnet Example
-
-This is a basic example which shows you how to run sensitivity analysis
-on pre-loaded parameters.
 
 ``` r
 library(geohabnet)
@@ -46,4 +51,4 @@ Run the analysis using -
 geohabnet::senstivity_analysis()
 ```
 
-See other functions for more sophisticated usage.
+See other functions and articles for more sophisticated usage.

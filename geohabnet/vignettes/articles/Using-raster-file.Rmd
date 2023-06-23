@@ -1,5 +1,6 @@
 ---
 title: "Using raster file"
+output: pdf_document
 ---
 
 ```{r, include = FALSE}
@@ -9,11 +10,18 @@ knitr::opts_chunk$set(
 )
 ```
 
+This is a basic example which shows you how to run sensitivity analysis on pre-loaded parameters.As a pre-requisite, install package using
+
+```{r eval=FALSE}
+devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet",
+auth_token = "your PAT")
+```
+
 Package offers 2 ways to use custom raster file - using `parameters.yaml` and `sa_onrasters` which is also used internally to create raster object using the provided source.
 
 Loading package
 
-```{r setup}
+```{r setup eva}
 library(geohabnet)
 ```
 
@@ -27,10 +35,11 @@ Set the `file` parameter under `Hosts` to the absolute path of `raster` file -
 Hosts:
       monfreda: ["avocado"]
       spam:
-      file: "/Users/kkeshav/Desktop/UFL/OPS/garrettLab/CC/geohabnet/inst/tifs/avocado_HarvestedAreaFraction.tif"
+      file: "full-path-to-tif/avocado_HarvestedAreaFraction.tif"
 ```
 
 Feed the updated parameters to package -
+
 ```{r eval=FALSE}
 set_parameters("parameters.yaml")
 ```
@@ -57,13 +66,23 @@ To ensure we have the correct raster,
 raster::plot(rr)
 ```
 
-Next, once you have all the values ready,
+![Raster plot for Beans](raster_plot.png){width="408"}
+
+Next, once you have all the values ready, run risk analysis with `geohabnet::sa_onrasters()`
 
 ```{r eval=FALSE}
-geohabnet::sa_onrasters(cropharvest_raster = rr, geo_scales = list(c(-50, 50, -50, 50)), link_thresholds = c(0), host_density_thresholds = c(0.0000015), resolution = 24)
+geohabnet::sa_onrasters(cropharvest_raster = rr,
+                        geo_scales = list(c(-50, 50, -50, 50)),
+                        link_thresholds = c(0),
+                        host_density_thresholds = c(0.0000015),
+                        resolution = 24)
 ```
 
-If the extent is incorrect and no valid cells can be discovered based threshold, then analysis will be interrupted and error will be thrown -
+On successful analysis, function will produce output maps. See example below.
+
+![Difference map](diff_map.png){width="351"}
+
+If the extent is incorrect and no valid cells can be discovered based threshold, then analysis will be interrupted and error will be thrown - \color{red}
 
 ```         
 Error in .extract_cropland_density(the$cropharvest_aggtm_crop, host_density_threshold) : 
