@@ -57,13 +57,6 @@ library(yaml)
   }
 }
 
-#' Check structure of YAML file
-#'
-#' Check the structure of the provided YAML file, and make sure it matches the structure of the existing YAML file.
-#'
-#' @param existing_yaml_file Path to the existing YAML file
-#' @param provided_yaml_file Path to the provided YAML file
-#' @return TRUE if the structures match, FALSE otherwise
 .check_yaml_structure <- function(existing_yaml_file, provided_yaml_file) {
   # Read the existing YAML file
   existing_yaml <- yaml::yaml.load_file(existing_yaml_file)
