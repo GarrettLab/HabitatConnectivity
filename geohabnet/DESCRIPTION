@@ -9,7 +9,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-7317-3090")),
     person("Garrett Lab", role = c("cph", "fnd"))
     )
-Description: Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. Xing et al. (2021) <https://doi.org/10.1093/biosci/biaa067> .
+Description: c("Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. Xing et al. (2021) <https://doi.org/10.1093/biosci/biaa067>. Package currently support crops sourced from monfreda and spam. The analysis produces 3 maps, mean, variance and difference for the risk index.
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
