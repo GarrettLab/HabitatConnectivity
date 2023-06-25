@@ -2,10 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{calculate_ccri}
 \alias{calculate_ccri}
-\title{Calculate Cropland Connectivity Risk Index (CCRI)
-This function calculates CCRI for given parameters using power law and negative exponential.
-It's required to call \code{\link[=initialize_cropland_data]{initialize_cropland_data()}} before calling this function.
-It returns a list of CCRI values.}
+\title{Calculate Cropland Connectivity Risk Index (CCRI)}
 \usage{
 calculate_ccri(
   link_threshold = 0,
@@ -32,8 +29,6 @@ calculate_ccri(
 A list of calculated CCRI values
 }
 \description{
-Calculate Cropland Connectivity Risk Index (CCRI)
 This function calculates CCRI for given parameters using power law and negative exponential.
 It's required to call \code{\link[=initialize_cropland_data]{initialize_cropland_data()}} before calling this function.
-It returns a list of CCRI values.
 }

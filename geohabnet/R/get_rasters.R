@@ -94,7 +94,7 @@ get_cropharvest_raster <- function(crop_name, data_source) {
 
 #' Get raster object from tif file
 #'
-#' This is a wrapper of \code{raster::raster()} and generates a raster object if provided with a TIF file.
+#' This is a wrapper of [raster::raster()] and generates a raster object if provided with a TIF file.
 #'
 #' @param path_to_tif TIF file
 #' @return Raster object

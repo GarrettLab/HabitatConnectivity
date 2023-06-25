@@ -117,7 +117,6 @@ initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_sc
     stop("unable to extract density data, longitude/latitude")
   }
 
-  #---------------------------------------------------------------
   # Prepare arguments elements values for the CCRI funtions
   cropdata1 <- data.frame(density_data$longitude, density_data$latitude, density_data$crop_value)
   # adjustConstant <- 2 # to adjust the distance and make sure the distance >1
@@ -245,7 +244,6 @@ get_geographic_scales <- function() {
 #' @export
 calculate_zero_raster <- function(geoscale, mean_index_raster,
                                   resolution = the$parameters_config$`CCRI parameters`$Resolution) {
-  #------------------------------------------------------------
   #--- remove pixels outside of boundary
   # TODO: is there any other way to get 0 raster?
   zero_raster <- raster::raster(.get_helper_filepath(.kzeroraster_file_type))
@@ -306,8 +304,6 @@ ccri_variance <- function(indexes, variance_mean_index_raster, zero_extent_raste
     )
   )
   raster::plot(rworldmap::countriesLow, add = TRUE)
-
-  #----------------------------------------------------
 
   variance_mean_index_raster_ext_disagg <- raster::disaggregate(variance_mean_index_raster,
     fact = c(resolution, resolution), method = ""
@@ -378,8 +374,6 @@ calculate_difference_map <- function(mean_index_raster_diff, cropharvest_aggtm_c
   raster::plot(rworldmap::countriesLow, add = TRUE)
 
   # mean_index_raster_diff[]
-  #--------------------------------------------------
-  #------------------------------------------------------------
   #--- remove pixels outside of boundary
   # ZeroRaster <- raster("ZeroRaster.tif")
   # West_Zero <- crop(ZeroRaster, west_ext)
@@ -410,9 +404,9 @@ calculate_difference_map <- function(mean_index_raster_diff, cropharvest_aggtm_c
 
 # CCRI functions ----------------------------------------------------------
 #' Calculate Cropland Connectivity Risk Index (CCRI)
+#' 
 #'  This function calculates CCRI for given parameters using power law and negative exponential.
 #'  It's required to call [initialize_cropland_data()] before calling this function.
-#' It returns a list of CCRI values.
 #' @param link_threshold A threshold value for link
 #' @param power_law_metrics A list of power law metrics
 #' @param negative_exponential_metrics A list of negative exponential metrics
@@ -471,7 +465,6 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
                                    thresholded_crop_values, crop_raster, crop_cells_above_threshold,
                                    betweenness_metric = FALSE, node_strength = FALSE,
                                    sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE) {
-  ##############################################
   #### create adjacency matrix
 
   distancematr <- distance_matrix # pairwise distance matrix
@@ -497,7 +490,6 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
     diag = FALSE, weighted = TRUE
   )
 
-  ##############################################
   #### CCRI is a weighted mean of 4 network metric
   ####
   metric_weights <- calculate_metrics_weight(
@@ -506,7 +498,6 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
   )
   index <- NULL
 
-  ##############################################
   ## sum of nearest neighbors degree
 
   if (sum_of_nearest_neighbors) {
@@ -524,7 +515,6 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
     index <- ifelse(is.null(index), knnprefp, index + knnprefp)
   }
 
-  ##############################################
   #### node degree, node strengh
   ####
   if (node_strength) {
@@ -539,7 +529,6 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
 
     index <- ifelse(is.null(index), nodestr, index + nodestr)
   }
-  ##############################################
   #### betweenness centrality
   ####
   # weight method 0:
@@ -565,7 +554,6 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
     index <- ifelse(is.null(index), betweenp, index + betweenp)
   }
 
-  ##############################################
   #### eigenvector and eigenvalues
   ####
   if (eigenvector_centrality) {
@@ -608,7 +596,6 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_th
                                           crop_raster, crop_cells_above_threshold, betweenness_metric = FALSE,
                                           node_strength = FALSE, sum_of_nearest_neighbors = FALSE,
                                           eigenvector_centrality = FALSE) {
-  ##############################################
   #### create adjacency matrix
   ####
   distancematr <- distance_matrix
@@ -633,7 +620,6 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_th
     mode = c("undirected"),
     diag = FALSE, weighted = TRUE
   )
-  ##############################################
   #### create network for all the selected nodes
   ####
   # V(cropdistancematrix)$color=colororder
@@ -662,7 +648,6 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_th
     index <- ifelse(is.null(index), knnprefp, index + knnprefp)
   }
 
-  ##############################################
   #### node degree, node strength
   ####
   if (node_strength) {
@@ -677,7 +662,6 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_th
     index <- ifelse(is.null(index), nodestr, index + nodestr)
   }
 
-  ##############################################
   #### betweenness centrality
   ####
   # weight method 0
@@ -702,7 +686,6 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_th
     index <- ifelse(is.null(index), betweenp, index + betweenp)
   }
 
-  ##############################################
   #### eigenvector and eigenvalues
   ####
   if (eigenvector_centrality) {
@@ -718,7 +701,6 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_th
     index <- ifelse(is.null(index), evp, index + evp)
   }
 
-  ##############################################
   #### plot index layer
   ####
 
