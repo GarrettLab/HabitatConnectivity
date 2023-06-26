@@ -49,17 +49,18 @@ Raster files ends with extension `.tif`. Since, the internal workflow only uses 
 ```{r eval=FALSE}
 # Generate raster object
 # replace the tif file with actual path after download
-> rr <- get_crop_raster_fromtif("spam2017V2r1_SSA_H_BEAN_A.tif")
-> rr
-class      : RasterLayer 
+rr <- get_crop_raster_fromtif("spam2017V2r1_SSA_H_BEAN_A.tif")
+rr
+```
+```
+class      : RasterLayer
 dimensions : 2160, 4320, 9331200  (nrow, ncol, ncell)
 resolution : 0.083333, 0.083333  (x, y)
 extent     : -180, 179.9986, -89.99928, 90  (xmin, xmax, ymin, ymax)
-crs        : +proj=longlat +datum=WGS84 +no_defs 
-source     : spam2017V2r1_SSA_H_BEAN_A.tif 
-names      : spam2017V2r1_SSA_H_BEAN_A 
+crs        : +proj=longlat +datum=WGS84 +no_defs
+source     : spam2017V2r1_SSA_H_BEAN_A.tif
+names      : spam2017V2r1_SSA_H_BEAN_A
 ```
-
 To ensure we have the correct raster,
 
 ```{r eval=FALSE}

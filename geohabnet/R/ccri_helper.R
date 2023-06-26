@@ -89,13 +89,6 @@ library(yaml)
   return(map_grey_background_ext)
 }
 
-.get_weight_vector <- function(cropdistancematrix) {
-  weight_vec <- igraph::E(cropdistancematrix)$weight
-  weight_vec[is.na(weight_vec)] <- 0
-  weight_vec <- weight_vec + 1e-10
-  return(weight_vec)
-}
-
 .get_palette <- function() {
   palette1 <- c(
     "#F4E156FF", "#F6D746FF", "#F8CD37FF", "#FAC329FF", "#FBB91EFF",
@@ -165,93 +158,6 @@ library(yaml)
   } else {
     stop(paste("Encountered unsupported source: ", data_source))
   }
-}
-
-#' Check if metrics in the list are valid
-#'
-#' @param metrics_list A character vector of metrics to check
-#' @return A named logical vector indicating if each metric is valid or not
-#' @examples
-#' # return list of valid metrics
-#' check_metrics(list("betweeness", "invalid_metric"))
-#' @export
-check_metrics <- function(metrics_list) {
-  valid_metrics <- c(
-    STR_BETWEENNESS, STR_NODE_STRENGTH,
-    STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY
-  )
-  is_valid <- lapply(valid_metrics, function(x) x %in% metrics_list)
-  names(is_valid) <- valid_metrics
-  return(is_valid)
-}
-
-
-#' calculate weights for each metric
-#' @param betweenness_metric A logical value indicating if the betweenness metric
-#'  should be used
-#' @param node_strength A logical value indicating if the node strength metric
-#' should be used
-#' @param sum_of_nearest_neighbors A logical value indicating if the sum of
-#' nearest neighbors metric should be used
-#' @param eigenvector_centrality A logical value indicating if the eigenvector
-#' centrality metric should be used
-#' @return A named vector of weights for each metric
-#' @examples
-#' # return weights for each metric
-#' calculate_metrics_weight(betweenness_metric = TRUE, node_strength = TRUE,
-#'                         sum_of_nearest_neighbors = TRUE, eigenvector_centrality = TRUE)
-#' @export
-calculate_metrics_weight <- function(betweenness_metric = FALSE,
-                                     node_strength = FALSE,
-                                     sum_of_nearest_neighbors = FALSE,
-                                     eigenvector_centrality = FALSE) {
-  # initialize weights and counters
-  weight <- 1
-  num_of_metrics <- sum(c(
-    node_strength, sum_of_nearest_neighbors,
-    eigenvector_centrality
-  ))
-  # calculate weights for each metric
-  if (betweenness_metric) {
-    w1 <- weight / 2
-    weight <- weight / 2
-  } else {
-    w1 <- 0
-  }
-
-  w2 <- if (node_strength && num_of_metrics > 0) {
-    weight / num_of_metrics
-  } else {
-    0
-  }
-
-  w3 <- if (sum_of_nearest_neighbors && num_of_metrics > 0) {
-    weight / num_of_metrics
-  } else {
-    0
-  }
-
-  w4 <- if (eigenvector_centrality && num_of_metrics > 0) {
-    weight / num_of_metrics
-  } else {
-    0
-  }
-
-
-  # handle division by zero
-  if (w1 != 0) w1 <- as.integer(1 / w1)
-  if (w2 != 0) w2 <- as.integer(1 / w2)
-  if (w3 != 0) w3 <- as.integer(1 / w3)
-  if (w4 != 0) w4 <- as.integer(1 / w4)
-
-  weights <- c(w1, w2, w3, w4)
-  names(weights) <- c(
-    STR_BETWEENNESS, STR_NODE_STRENGTH,
-    STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY
-  )
-
-  # return the weights as a vector
-  return(weights)
 }
 
 #' Get supported sources of crops

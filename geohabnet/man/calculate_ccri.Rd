@@ -17,9 +17,9 @@ calculate_ccri(
 \arguments{
 \item{link_threshold}{A threshold value for link}
 
-\item{power_law_metrics}{A list of power law metrics}
+\item{power_law_metrics}{A list of 2 vectors - power law metrics and weights}
 
-\item{negative_exponential_metrics}{A list of negative exponential metrics}
+\item{negative_exponential_metrics}{A list of of 2 vectors - negative exponential metrics}
 
 \item{crop_cells_above_threshold}{A list of crop cells above threshold}
 
@@ -31,4 +31,11 @@ A list of calculated CCRI values
 \description{
 This function calculates CCRI for given parameters using power law and negative exponential.
 It's required to call \code{\link[=initialize_cropland_data]{initialize_cropland_data()}} before calling this function.
+}
+\details{
+Network metrics should be passed as a list of vectors e.g. list(metrics = c("betweeness"), weights = c(100)).
+Default values are fetched from \code{parameters.yaml} and arguments uses the same structure.
+}
+\seealso{
+\code{\link[=get_param_metrics]{get_param_metrics()}}, \code{\link[=sensitivity_analysis_on_geoextent_scale]{sensitivity_analysis_on_geoextent_scale()}}
 }

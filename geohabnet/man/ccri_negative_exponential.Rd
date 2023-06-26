@@ -7,10 +7,7 @@
 ccri_negative_exponential(
   dispersal_parameter_gamma_vals,
   link_threshold = 0,
-  betweenness_metric = FALSE,
-  node_strength = FALSE,
-  sum_of_nearest_neighbors = FALSE,
-  eigenvector_centrality = FALSE,
+  metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
   crop_cells_above_threshold = NULL,
   thresholded_crop_values = NULL
 )
@@ -20,6 +17,10 @@ ccri_negative_exponential(
 
 \item{link_threshold}{A threshold value for link}
 
+\item{crop_cells_above_threshold}{A list of crop cells above threshold}
+
+\item{thresholded_crop_values}{A list of crop values above threshold}
+
 \item{betweenness_metric}{A boolean value to calculate betweenness metric}
 
 \item{node_strength}{A boolean value to calculate node strength}
@@ -27,10 +28,6 @@ ccri_negative_exponential(
 \item{sum_of_nearest_neighbors}{A boolean value to calculate sum of nearest neighbors}
 
 \item{eigenvector_centrality}{A boolean value to calculate eigenvector centrality}
-
-\item{crop_cells_above_threshold}{A list of crop cells above threshold}
-
-\item{thresholded_crop_values}{A list of crop values above threshold}
 }
 \value{
 A list of calculated negative exponential

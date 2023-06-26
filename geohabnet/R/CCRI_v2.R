@@ -144,27 +144,31 @@ initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_sc
 
 #' Calculate inverse power law
 #' @param dispersal_parameter_beta_vals A list of beta values
+#' @param metrics A list 2 vectors - metrics and weights.
 #' @param link_threshold A threshold value for link
-#' @param betweenness_metric A boolean value to calculate betweenness metric
-#' @param node_strength A boolean value to calculate node strength
-#' @param sum_of_nearest_neighbors A boolean value to calculate sum of nearest neighbors
-#' @param eigenvector_centrality A boolean value to calculate eigenvector centrality
 #' @param crop_cells_above_threshold A list of crop cells above threshold
 #' @param thresholded_crop_values A list of crop values above threshold
 #' @return A list of calculated inverse power law
 #' @export
-ccri_powerlaw <- function(dispersal_parameter_beta_vals, link_threshold = 0, betweenness_metric = FALSE,
-                          node_strength = FALSE, sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE,
-                          crop_cells_above_threshold = NULL, thresholded_crop_values = NULL) {
+#' @inherit calculate_ccri details
+#'
+ccri_powerlaw <- function(dispersal_parameter_beta_vals,
+                          link_threshold = 0,
+                          metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                          crop_cells_above_threshold = NULL,
+                          thresholded_crop_values = NULL) {
+
   if (!.validate_index_cal(dispersal_parameter_beta_vals)) {
     return(0)
   }
 
-  index_list <- lapply(dispersal_parameter_beta_vals, ccri_powerlaw_function, link_threshold = link_threshold,
-                       the$distance_matrix, thresholded_crop_values, the$cropharvest_aggtm_crop,
-                       crop_cells_above_threshold, betweenness_metric = betweenness_metric,
-                       node_strength = node_strength, sum_of_nearest_neighbors = sum_of_nearest_neighbors,
-                       eigenvector_centrality = eigenvector_centrality
+  index_list <- lapply(dispersal_parameter_beta_vals, ccri_powerlaw_fun,
+                       link_threshold = link_threshold,
+                       the$distance_matrix,
+                       thresholded_crop_values,
+                       the$cropharvest_aggtm_crop,
+                       crop_cells_above_threshold,
+                       metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw
   )
 
   the$result_index_list <- c(the$result_index_list, index_list)
@@ -173,17 +177,15 @@ ccri_powerlaw <- function(dispersal_parameter_beta_vals, link_threshold = 0, bet
 #' Calculate negative exponential
 #' @param dispersal_parameter_gamma_vals A list of gamma values
 #' @param link_threshold A threshold value for link
-#' @param betweenness_metric A boolean value to calculate betweenness metric
-#' @param node_strength A boolean value to calculate node strength
-#' @param sum_of_nearest_neighbors A boolean value to calculate sum of nearest neighbors
-#' @param eigenvector_centrality A boolean value to calculate eigenvector centrality
+#' @inherit ccri_powerlaw metrics
 #' @param crop_cells_above_threshold A list of crop cells above threshold
 #' @param thresholded_crop_values A list of crop values above threshold
 #' @return A list of calculated negative exponential
 #' @export
-ccri_negative_exponential <- function(dispersal_parameter_gamma_vals, link_threshold = 0, betweenness_metric = FALSE,
-                                      node_strength = FALSE, sum_of_nearest_neighbors = FALSE,
-                                      eigenvector_centrality = FALSE, crop_cells_above_threshold = NULL,
+ccri_negative_exponential <- function(dispersal_parameter_gamma_vals,
+                                      link_threshold = 0,
+                                      metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                                      crop_cells_above_threshold = NULL,
                                       thresholded_crop_values = NULL) {
 
   if (!.validate_index_cal(dispersal_parameter_gamma_vals)) {
@@ -191,9 +193,13 @@ ccri_negative_exponential <- function(dispersal_parameter_gamma_vals, link_thres
   }
 
   index_list <- lapply(dispersal_parameter_gamma_vals,
-    ccri_neg_exponential_function, link_threshold = link_threshold, the$distance_matrix, thresholded_crop_values,
-    the$cropharvest_aggtm_crop, crop_cells_above_threshold, betweenness_metric, node_strength,
-    sum_of_nearest_neighbors, eigenvector_centrality
+                       ccri_neg_exponential_fun,
+                       link_threshold = link_threshold,
+                       the$distance_matrix,
+                       thresholded_crop_values,
+                       the$cropharvest_aggtm_crop,
+                       crop_cells_above_threshold,
+                       metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw
   )
 
   the$result_index_list <- c(the$result_index_list, index_list)
@@ -404,16 +410,20 @@ calculate_difference_map <- function(mean_index_raster_diff, cropharvest_aggtm_c
 
 # CCRI functions ----------------------------------------------------------
 #' Calculate Cropland Connectivity Risk Index (CCRI)
-#' 
+#'
 #'  This function calculates CCRI for given parameters using power law and negative exponential.
 #'  It's required to call [initialize_cropland_data()] before calling this function.
 #' @param link_threshold A threshold value for link
-#' @param power_law_metrics A list of power law metrics
-#' @param negative_exponential_metrics A list of negative exponential metrics
+#' @param power_law_metrics A list of 2 vectors - power law metrics and weights
+#' @param negative_exponential_metrics A list of of 2 vectors - negative exponential metrics
 #' @param crop_cells_above_threshold A list of crop cells above threshold
 #' @param thresholded_crop_values A list of crop values above threshold
 #' @return A list of calculated CCRI values
 #' @export
+#' @details
+#' Network metrics should be passed as a list of vectors e.g. list(metrics = c("betweeness"), weights = c(100)).
+#' Default values are fetched from `parameters.yaml` and arguments uses the same structure.
+#' @seealso [get_param_metrics()], [sensitivity_analysis_on_geoextent_scale()]
 calculate_ccri <- function(
     link_threshold = 0,
     power_law_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
@@ -421,28 +431,14 @@ calculate_ccri <- function(
     crop_cells_above_threshold, thresholded_crop_values) {
 
   # TODO: parallelize them
-  if (!.valid_vector_input(power_law_metrics)) {
-    stop("Input 'power_law_metrics' must be a non-empty vector of metric names for inverse power law.")
-  }
-  if (!.valid_vector_input(negative_exponential_metrics)) {
-    stop("Input 'neative_exponential_metrics' must be a non-empty vector of metric names for negative power law.")
-  }
-  opted_powerlaw_metrics <- check_metrics(power_law_metrics)
   ccri_powerlaw(the$parameters_config$`CCRI parameters`$DispersalParameterBeta, link_threshold,
-                betweenness_metric = opted_powerlaw_metrics$betweeness,
-                node_strength = opted_powerlaw_metrics$node_strength,
-                sum_of_nearest_neighbors = opted_powerlaw_metrics$sum_of_nearest_neighbors,
-                eigenvector_centrality = opted_powerlaw_metrics$eigenvector_centrality,
+                metrics = power_law_metrics,
                 crop_cells_above_threshold = crop_cells_above_threshold,
                 thresholded_crop_values = thresholded_crop_values)
 
-  opted_negative_exp_metrics <- check_metrics(negative_exponential_metrics)
   ccri_negative_exponential(the$parameters_config$`CCRI parameters`$DispersalParameterGamma,
                             link_threshold,
-                            betweenness_metric = opted_negative_exp_metrics$betweeness,
-                            node_strength = opted_negative_exp_metrics$node_strength,
-                            sum_of_nearest_neighbors = opted_negative_exp_metrics$sum_of_nearest_neighbors,
-                            eigenvector_centrality = opted_negative_exp_metrics$eigenvector_centrality,
+                            metrics = negative_exponential_metrics,
                             crop_cells_above_threshold = crop_cells_above_threshold,
                             thresholded_crop_values = thresholded_crop_values)
 }
@@ -455,16 +451,14 @@ calculate_ccri <- function(
 #' @param thresholded_crop_values crop values above threshold
 #' @param crop_raster A raster object for cropland harvest
 #' @param crop_cells_above_threshold crop cells above threshold. Only contains cells and not the the values.
-#' @param betweenness_metric A boolean value to calculate betweenness metric
-#' @param node_strength A boolean value to calculate node strength
-#' @param sum_of_nearest_neighbors A boolean value to calculate sum of nearest neighbors
-#' @param eigenvector_centrality A boolean value to calculate eigenvector centrality
+#' @inherit ccri_powerlaw metrics
 #' @return A list of calculated CCRI values using powerlaw
 #' @export
-ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, distance_matrix = the$distance_matrix,
+ccri_powerlaw_fun <- function(dispersal_parameter_beta, link_threshold, distance_matrix = the$distance_matrix,
                                    thresholded_crop_values, crop_raster, crop_cells_above_threshold,
-                                   betweenness_metric = FALSE, node_strength = FALSE,
-                                   sum_of_nearest_neighbors = FALSE, eigenvector_centrality = FALSE) {
+                                   metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
+
+  .validate_metrics(metrics)
   #### create adjacency matrix
 
   distancematr <- distance_matrix # pairwise distance matrix
@@ -490,45 +484,24 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
     diag = FALSE, weighted = TRUE
   )
 
-  #### CCRI is a weighted mean of 4 network metric
+  #### CCRI is a weighted mean of all the network metrics
   ####
-  metric_weights <- calculate_metrics_weight(
-    betweenness_metric, node_strength,
-    sum_of_nearest_neighbors, eigenvector_centrality
-  )
+  mets <- Map(c, metrics[[1]], metrics[[2]])
   index <- NULL
 
   ## sum of nearest neighbors degree
-
-  if (sum_of_nearest_neighbors) {
-    knnpref0 <- igraph::graph.knn(cropdistancematrix, weights = NA)$knn
-    knnpref0[is.na(knnpref0)] <- 0
-    degreematr <- igraph::degree(cropdistancematrix)
-    knnpref <- knnpref0 * degreematr
-    if (max(knnpref) == 0) {
-      knnprefp <- 0
-    } else if (max(knnpref) > 0) {
-      knnprefp <-
-        knnpref / max(knnpref) / metric_weights[[STR_NEAREST_NEIGHBORS_SUM]]
-    }
-
-    index <- ifelse(is.null(index), knnprefp, index + knnprefp)
+  if (hasName(mets, STR_NEAREST_NEIGHBORS_SUM)) {
+    nnc <- sonn(cropdistancematrix, mets[[STR_NEAREST_NEIGHBORS_SUM]][[2]])
+    index <- ifelse(is.null(index), nnc, index + nnc)
   }
 
   #### node degree, node strengh
   ####
-  if (node_strength) {
-    nodestrength <- igraph::graph.strength(cropdistancematrix)
-    nodestrength[is.na(nodestrength)] <- 0
-    if (max(nodestrength) == 0) {
-      nodestr <- 0
-    } else if (max(nodestrength) > 0) {
-      nodestr <-
-        nodestrength / max(nodestrength) / metric_weights[[STR_NODE_STRENGTH]]
-    }
-
-    index <- ifelse(is.null(index), nodestr, index + nodestr)
+  if (hasName(mets, STR_NODE_STRENGTH)) {
+    nsc <- node_strength(cropdistancematrix, mets[[STR_NODE_STRENGTH]][[2]])
+    index <- ifelse(is.null(index), nsc, index + nsc)
   }
+
   #### betweenness centrality
   ####
   # weight method 0:
@@ -536,37 +509,16 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
   # weight method 1:
   #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
   # weight method 2:
-  if (betweenness_metric) {
-    between <- igraph::betweenness(cropdistancematrix,
-      weights =
-        (1 - 1 / exp(.get_weight_vector(
-          cropdistancematrix
-        )))
-    )
-
-    between[is.na(between)] <- 0
-    if (max(between) == 0) {
-      betweenp <- 0
-    } else if (max(between) > 0) {
-      betweenp <- between / max(between) / metric_weights[[STR_BETWEENNESS]]
-    }
-
-    index <- ifelse(is.null(index), betweenp, index + betweenp)
+  if (hasName(mets, STR_BETWEENNESS)) {
+    bc <- betweeness(cropdistancematrix, mets[[STR_BETWEENNESS]][[2]])
+    index <- ifelse(is.null(index), bc, index + bc)
   }
 
   #### eigenvector and eigenvalues
   ####
-  if (eigenvector_centrality) {
-    eigenvectorvalues <- igraph::evcent(cropdistancematrix)
-    ev <- eigenvectorvalues$vector
-    ev[is.na(ev)] <- 0
-    if (max(ev) == 0) {
-      evp <- 0
-    } else if (max(ev) != 0) {
-      evp <- ev / max(ev) / metric_weights[[STR_EIGEN_VECTOR_CENTRALITY]]
-    }
-
-    index <- ifelse(is.null(index), evp, index + evp)
+  if (hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
+    evc <- ev(mets, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
+    index <- ifelse(is.null(index), evc, index + evc)
   }
 
   indexpre <- crop_raster
@@ -585,17 +537,16 @@ ccri_powerlaw_function <- function(dispersal_parameter_beta, link_threshold, dis
 #' @param thresholded_crop_values crop values above threshold
 #' @param crop_raster A raster object for crop raster
 #' @param crop_cells_above_threshold A list of crop cells above threshold
-#' @param betweenness_metric A boolean value to calculate betweenness metric
-#' @param node_strength A boolean value to calculate node strength
-#' @param sum_of_nearest_neighbors A boolean value to calculate sum of nearest neighbors
-#' @param eigenvector_centrality A boolean value to calculate eigenvector centrality
+#' @inherit ccri_powerlaw_fun metrics
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
-ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_threshold,
-                                          distance_matrix = the$distance_matrix, thresholded_crop_values,
-                                          crop_raster, crop_cells_above_threshold, betweenness_metric = FALSE,
-                                          node_strength = FALSE, sum_of_nearest_neighbors = FALSE,
-                                          eigenvector_centrality = FALSE) {
+ccri_neg_exponential_fun <- function(dispersal_parameter_gamma_val,
+                                     link_threshold,
+                                     distance_matrix = the$distance_matrix, thresholded_crop_values,
+                                     crop_raster, crop_cells_above_threshold,
+                                     metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
+  .validate_metrics(metrics)
+
   #### create adjacency matrix
   ####
   distancematr <- distance_matrix
@@ -627,39 +578,22 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_th
   igraph::E(cropdistancematrix)$weight * 4000
   igraph::E(cropdistancematrix)$color <- "red"
 
-  metric_weights <- calculate_metrics_weight(
-    betweenness_metric, node_strength,
-    sum_of_nearest_neighbors,
-    eigenvector_centrality
-  )
+  #### CCRI is a weighted mean of all the network metrics
+  ####
+  mets <- Map(c, metrics[[1]], metrics[[2]])
   index <- NULL
 
-  if (sum_of_nearest_neighbors) {
-    knnpref0 <- igraph::graph.knn(cropdistancematrix, weights = NA)$knn
-    knnpref0[is.na(knnpref0)] <- 0
-    degreematr <- igraph::degree(cropdistancematrix)
-    knnpref <- knnpref0 * degreematr
-    if (max(knnpref) == 0) {
-      knnprefp <- 0
-    } else if (max(knnpref) > 0) {
-      knnprefp <- knnpref / max(knnpref) / metric_weights[[STR_NEAREST_NEIGHBORS_SUM]]
-    }
-
-    index <- ifelse(is.null(index), knnprefp, index + knnprefp)
+  ## sum of nearest neighbors degree
+  if (hasName(mets, STR_NEAREST_NEIGHBORS_SUM)) {
+    nnc <- sonn(cropdistancematrix, mets[[STR_NEAREST_NEIGHBORS_SUM]][[2]])
+    index <- ifelse(is.null(index), nnc, index + nnc)
   }
 
   #### node degree, node strength
   ####
-  if (node_strength) {
-    nodestrength <- igraph::graph.strength(cropdistancematrix)
-    nodestrength[is.na(nodestrength)] <- 0
-    if (max(nodestrength) == 0) {
-      nodestr <- 0
-    } else if (max(nodestrength) > 0) {
-      nodestr <- nodestrength / max(nodestrength) / metric_weights[[STR_NODE_STRENGTH]]
-    }
-
-    index <- ifelse(is.null(index), nodestr, index + nodestr)
+  if (hasName(mets, STR_NODE_STRENGTH)) {
+    nsc <- node_strength(cropdistancematrix, mets[[STR_NODE_STRENGTH]][[2]])
+    index <- ifelse(is.null(index), nsc, index + nsc)
   }
 
   #### betweenness centrality
@@ -671,34 +605,16 @@ ccri_neg_exponential_function <- function(dispersal_parameter_gamma_val, link_th
   #   between<-betweenness(cropdistancematrix,
   #   weights = -log(E(cropdistancematrix)$weight))
   # weight method 2:
-  if (betweenness_metric) {
-    between <- igraph::betweenness(
-      cropdistancematrix,
-      weights = (1 - 1 / exp(.get_weight_vector(cropdistancematrix)))
-    )
-    between[is.na(between)] <- 0
-    if (max(between) == 0) {
-      betweenp <- 0
-    } else if (max(between) > 0) {
-      betweenp <- between / max(between) / metric_weights[[STR_BETWEENNESS]]
-    }
-
-    index <- ifelse(is.null(index), betweenp, index + betweenp)
+  if (hasName(mets, STR_BETWEENNESS)) {
+    bc <- betweeness(cropdistancematrix, mets[[STR_BETWEENNESS]][[2]])
+    index <- ifelse(is.null(index), bc, index + bc)
   }
 
   #### eigenvector and eigenvalues
   ####
-  if (eigenvector_centrality) {
-    eigenvectorvalues <- igraph::evcent(cropdistancematrix)
-    ev <- eigenvectorvalues$vector
-    ev[is.na(ev)] <- 0
-    if (max(ev) == 0) {
-      evp <- 0
-    } else if (max(ev) != 0) {
-      evp <- ev / max(ev) / metric_weights[[STR_EIGEN_VECTOR_CENTRALITY]]
-    }
-
-    index <- ifelse(is.null(index), evp, index + evp)
+  if (hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
+    evc <- ev(mets, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
+    index <- ifelse(is.null(index), evc, index + evc)
   }
 
   #### plot index layer
@@ -733,15 +649,17 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
   geo_areaext <- raster::extent(as.numeric(unlist(geo_scale))) # list
   the$result_index_list <- list()
 
+  mets <- get_param_metrics(the$parameters_config$`CCRI parameters`$NetworkMetrics)
+
   for (agg_method in aggregate_methods) {
     cropland_density_info <- initialize_cropland_data(cropharvest_raster, resolution, geo_areaext,
                              host_density_threshold = host_density_threshold, agg_method)
 
     calculate_ccri(link_threshold,
                    power_law_metrics =
-                     the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                     mets$pl,
                    negative_exponential_metrics =
-                     the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
+                     mets$ne,
                   crop_cells_above_threshold =
                     cropland_density_info$crop_values_at,
                   thresholded_crop_values =

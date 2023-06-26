@@ -52,4 +52,6 @@ Run the analysis using -
 geohabnet::senstivity_analysis()
 ```
 
+`parameters.yaml` stores the parameter and its values. It can be accessed and set using `get_parameters()` and `set_parameters` respectively. If `senstivity_analysis()` is not being called, then `load_parameters()` must be called to load the new parameter values in environment as global variables.
+
 See other functions and articles for more sophisticated usage.
