@@ -32,10 +32,33 @@
   return(weight_vec)
 }
 
+#'
+#'  Returns metrics currently supported in the analysis.
+#'
+#'
+#' @returns vector of supported metrics.
+#' @examples
+#' supported_metrics()
+#'
+#' @export
 supported_metrics <- function() {
-  return(c("betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"))
+  return(c(STR_BETWEENNESS, STR_NODE_STRENGTH, STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY))
 }
 
+#' Get metrics from parameters
+#'
+#' Get metrics and parameters stored in `parameters.yaml`.
+#'
+#' @param params R object of [load_parameters()]. Default is `load_parameters()`.
+#'
+#' @return List of metrics - parameters and values. See usage.
+#'
+#' @examples
+#' # Get metrics from parameters
+#' get_param_metrics()
+#' get_param_metrics(load_parameters())
+#'
+#' @export
 get_param_metrics <- function(params = load_parameters()) {
   pl <- params$`CCRI parameters`$NetworkMetrics$InversePowerLaw
   if (!is.null(pl)) {
@@ -48,20 +71,39 @@ get_param_metrics <- function(params = load_parameters()) {
   return(list(pl = pl, ne = ne))
 }
 
+#' Calculation on network matrix.
+#' These are basically an abstraction of functions under the [igraph] package.
+#'
+#' @description
+#' The functions included in this abstraction are:
+#' - `sonn()`: Calculates the sum of nearest neighbors.
+#' - `node_strength()`: Calculates the sum of edge weights of adjacent nodes.
+#' - `betweeness()`: Calculates the vertex and edge betweenness based on the number of geodesics.
+#' - `ev()`: Calculates the eigenvector centralities of positions within the network.
+#'
+#' @param crop_dm Distance matrix.
+#'        In the internal workflow, the distance matrix comes from [initialize_cropland_data()] and risk functions.
+#' @param we Weight in percentage.
+#'
+#' @return Matrix with the mean value based on the assigned weight.
+#'
+#' @export
 sonn <- function(crop_dm, we) {
 
-    knnpref0 <- igraph::graph.knn(crop_dm, weights = NA)$knn
-    knnpref0[is.na(knnpref0)] <- 0
-    degreematr <- igraph::degree(crop_dm)
-    knnpref <- knnpref0 * degreematr
-    knnprefp <- if (max(knnpref) == 0) {
-      0
-    } else if (max(knnpref) > 0) {
-        (knnpref / max(knnpref)) * .per_to_real(we)
-    }
-    return(knnprefp)
+  knnpref0 <- igraph::graph.knn(crop_dm, weights = NA)$knn
+  knnpref0[is.na(knnpref0)] <- 0
+  degreematr <- igraph::degree(crop_dm)
+  knnpref <- knnpref0 * degreematr
+  knnprefp <- if (max(knnpref) == 0) {
+    0
+  } else if (max(knnpref) > 0) {
+    (knnpref / max(knnpref)) * .per_to_real(we)
+  }
+  return(knnprefp)
 }
 
+
+#' @rdname sonn
 node_strength <- function(crop_dm, we) {
   nodestrength <- igraph::graph.strength(crop_dm)
   nodestrength[is.na(nodestrength)] <- 0
@@ -74,6 +116,7 @@ node_strength <- function(crop_dm, we) {
   return(nodestr)
 }
 
+#' @rdname sonn
 betweeness <- function(crop_dm, we) {
 
   between <- igraph::betweenness(crop_dm,
@@ -91,6 +134,7 @@ betweeness <- function(crop_dm, we) {
   return(betweenp)
 }
 
+#' @rdname sonn
 ev <- function(crop_dm, we) {
   eigenvectorvalues <- igraph::evcent(crop_dm)
   evv <- eigenvectorvalues$vector

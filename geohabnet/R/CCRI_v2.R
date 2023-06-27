@@ -93,7 +93,7 @@ global_analysis <- function(map_grey_background_extent, resolution =
 #' @details
 #' This function also creates global variables which are result of applying aggregate functions into raster.
 #' Theese global variables are used when applying allgorithms - ipl[ccri_powerlaw()] and ne[ccri_negative_exp()].
-#' 
+#'
 initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_scale,
                                      host_density_threshold = 0, agg_method = "sum") {
 
@@ -176,6 +176,7 @@ ccri_powerlaw <- function(dispersal_parameter_beta_vals,
   )
 
   the$result_index_list <- c(the$result_index_list, index_list)
+  invisible()
 }
 
 #' Calculate negative exponential
@@ -207,6 +208,7 @@ ccri_negative_exp <- function(dispersal_parameter_gamma_vals,
   )
 
   the$result_index_list <- c(the$result_index_list, index_list)
+  invisible()
 }
 
 
@@ -494,14 +496,14 @@ ccri_powerlaw_fun <- function(dispersal_parameter_beta, link_threshold, distance
   index <- NULL
 
   ## sum of nearest neighbors degree
-  if (hasName(mets, STR_NEAREST_NEIGHBORS_SUM)) {
+  if (utils::hasName(mets, STR_NEAREST_NEIGHBORS_SUM)) {
     nnc <- sonn(cropdistancematrix, mets[[STR_NEAREST_NEIGHBORS_SUM]][[2]])
     index <- ifelse(is.null(index), nnc, index + nnc)
   }
 
   #### node degree, node strengh
   ####
-  if (hasName(mets, STR_NODE_STRENGTH)) {
+  if (utils::hasName(mets, STR_NODE_STRENGTH)) {
     nsc <- node_strength(cropdistancematrix, mets[[STR_NODE_STRENGTH]][[2]])
     index <- ifelse(is.null(index), nsc, index + nsc)
   }
@@ -513,14 +515,14 @@ ccri_powerlaw_fun <- function(dispersal_parameter_beta, link_threshold, distance
   # weight method 1:
   #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
   # weight method 2:
-  if (hasName(mets, STR_BETWEENNESS)) {
+  if (utils::hasName(mets, STR_BETWEENNESS)) {
     bc <- betweeness(cropdistancematrix, mets[[STR_BETWEENNESS]][[2]])
     index <- ifelse(is.null(index), bc, index + bc)
   }
 
   #### eigenvector and eigenvalues
   ####
-  if (hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
+  if (utils::hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
     evc <- ev(cropdistancematrix, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
     index <- ifelse(is.null(index), evc, index + evc)
   }
@@ -589,14 +591,14 @@ ccri_neg_exp_fun <- function(dispersal_parameter_gamma_val,
   index <- NULL
 
   ## sum of nearest neighbors degree
-  if (hasName(mets, STR_NEAREST_NEIGHBORS_SUM)) {
+  if (utils::hasName(mets, STR_NEAREST_NEIGHBORS_SUM)) {
     nnc <- sonn(cropdistancematrix, mets[[STR_NEAREST_NEIGHBORS_SUM]][[2]])
     index <- ifelse(is.null(index), nnc, index + nnc)
   }
 
   #### node degree, node strength
   ####
-  if (hasName(mets, STR_NODE_STRENGTH)) {
+  if (utils::hasName(mets, STR_NODE_STRENGTH)) {
     nsc <- node_strength(cropdistancematrix, mets[[STR_NODE_STRENGTH]][[2]])
     index <- ifelse(is.null(index), nsc, index + nsc)
   }
@@ -610,14 +612,14 @@ ccri_neg_exp_fun <- function(dispersal_parameter_gamma_val,
   #   between<-betweenness(cropdistancematrix,
   #   weights = -log(E(cropdistancematrix)$weight))
   # weight method 2:
-  if (hasName(mets, STR_BETWEENNESS)) {
+  if (utils::hasName(mets, STR_BETWEENNESS)) {
     bc <- betweeness(cropdistancematrix, mets[[STR_BETWEENNESS]][[2]])
     index <- ifelse(is.null(index), bc, index + bc)
   }
 
   #### eigenvector and eigenvalues
   ####
-  if (hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
+  if (utils::hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
     evc <- ev(cropdistancematrix, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
     index <- ifelse(is.null(index), evc, index + evc)
   }
@@ -649,7 +651,7 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
                                                     host_density_threshold = 0, resolution = 24) {
   cat("\nRunning senstivity analysis for the extent: [", geo_scale, "],
       Link threshold: ", link_threshold,
-      "Host density threshold: ", host_density_threshold)
+      "Host density threshold: ", host_density_threshold, "\n")
 
   geo_areaext <- raster::extent(as.numeric(unlist(geo_scale))) # list
   the$result_index_list <- list()
@@ -699,6 +701,7 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
     zero_raster_results$zero_raster_extent, zero_raster_results$map_grey_background_extent)
 
   the$is_initialized <- FALSE
+  invisible()
 }
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
