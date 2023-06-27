@@ -16,8 +16,12 @@ default:
       EastExt: [-140, -34, -58, 60] # to 70
       CustomExt: [[-115, -75, 5, 32]] # set this to NA/Empty if not required #[32, 48, 2.9, 17], [-115, -75, 5, 32]
     NetworkMetrics:
-      InversePowerLaw: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
-      NegativeExponential: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
+      InversePowerLaw:
+        metrics: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
+        weights: [50, 15, 15, 20]
+      NegativeExponential:
+        metrics: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
+        weights: [50, 15, 15, 20]
     PriorityMaps:
       MeanCC: TRUE
       Difference: TRUE

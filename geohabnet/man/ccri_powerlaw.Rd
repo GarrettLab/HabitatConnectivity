@@ -7,10 +7,7 @@
 ccri_powerlaw(
   dispersal_parameter_beta_vals,
   link_threshold = 0,
-  betweenness_metric = FALSE,
-  node_strength = FALSE,
-  sum_of_nearest_neighbors = FALSE,
-  eigenvector_centrality = FALSE,
+  metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
   crop_cells_above_threshold = NULL,
   thresholded_crop_values = NULL
 )
@@ -18,15 +15,9 @@ ccri_powerlaw(
 \arguments{
 \item{dispersal_parameter_beta_vals}{A list of beta values}
 
-\item{link_threshold}{A threshold value for link}
+\item{link_threshold}{A threshold value for links.}
 
-\item{betweenness_metric}{A boolean value to calculate betweenness metric}
-
-\item{node_strength}{A boolean value to calculate node strength}
-
-\item{sum_of_nearest_neighbors}{A boolean value to calculate sum of nearest neighbors}
-
-\item{eigenvector_centrality}{A boolean value to calculate eigenvector centrality}
+\item{metrics}{A list 2 vectors - metrics and weights.}
 
 \item{crop_cells_above_threshold}{A list of crop cells above threshold}
 
@@ -37,4 +28,8 @@ A list of calculated inverse power law
 }
 \description{
 Calculate inverse power law
+}
+\details{
+Network metrics should be passed as a list of vectors e.g. list(metrics = c("betweeness"), weights = c(100)).
+Default values are fetched from \code{parameters.yaml} and arguments uses the same structure.
 }

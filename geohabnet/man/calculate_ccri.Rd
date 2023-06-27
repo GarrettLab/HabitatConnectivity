@@ -2,10 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{calculate_ccri}
 \alias{calculate_ccri}
-\title{Calculate Cropland Connectivity Risk Index (CCRI)
-This function calculates CCRI for given parameters using power law and negative exponential.
-It's required to call \code{\link[=initialize_cropland_data]{initialize_cropland_data()}} before calling this function.
-It returns a list of CCRI values.}
+\title{Calculate Cropland Connectivity Risk Index (CCRI)}
 \usage{
 calculate_ccri(
   link_threshold = 0,
@@ -20,9 +17,9 @@ calculate_ccri(
 \arguments{
 \item{link_threshold}{A threshold value for link}
 
-\item{power_law_metrics}{A list of power law metrics}
+\item{power_law_metrics}{A list of 2 vectors - power law metrics and weights}
 
-\item{negative_exponential_metrics}{A list of negative exponential metrics}
+\item{negative_exponential_metrics}{A list of of 2 vectors - negative exponential metrics}
 
 \item{crop_cells_above_threshold}{A list of crop cells above threshold}
 
@@ -32,8 +29,13 @@ calculate_ccri(
 A list of calculated CCRI values
 }
 \description{
-Calculate Cropland Connectivity Risk Index (CCRI)
 This function calculates CCRI for given parameters using power law and negative exponential.
 It's required to call \code{\link[=initialize_cropland_data]{initialize_cropland_data()}} before calling this function.
-It returns a list of CCRI values.
+}
+\details{
+Network metrics should be passed as a list of vectors e.g. list(metrics = c("betweeness"), weights = c(100)).
+Default values are fetched from \code{parameters.yaml} and arguments uses the same structure.
+}
+\seealso{
+\code{\link[=get_param_metrics]{get_param_metrics()}}, \code{\link[=sensitivity_analysis_on_geoextent_scale]{sensitivity_analysis_on_geoextent_scale()}}
 }

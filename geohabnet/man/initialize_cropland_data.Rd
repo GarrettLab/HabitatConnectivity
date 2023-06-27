@@ -26,3 +26,7 @@ initialize_cropland_data(
 \description{
 intialize cropland data with geiven paramters, it will be later used to calculate CCRI and other functions
 }
+\details{
+This function also creates global variables which are result of applying aggregate functions into raster.
+Theese global variables are used when applying allgorithms - ipl\code{\link[=ccri_powerlaw]{ccri_powerlaw()}} and ne\code{\link[=ccri_negative_exp]{ccri_negative_exp()}}.
+}
