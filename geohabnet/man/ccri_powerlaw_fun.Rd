@@ -28,13 +28,7 @@ ccri_powerlaw_fun(
 
 \item{crop_cells_above_threshold}{crop cells above threshold. Only contains cells and not the the values.}
 
-\item{betweenness_metric}{A boolean value to calculate betweenness metric}
-
-\item{node_strength}{A boolean value to calculate node strength}
-
-\item{sum_of_nearest_neighbors}{A boolean value to calculate sum of nearest neighbors}
-
-\item{eigenvector_centrality}{A boolean value to calculate eigenvector centrality}
+\item{metrics}{A list 2 vectors - metrics and weights.}
 }
 \value{
 A list of calculated CCRI values using powerlaw

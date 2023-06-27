@@ -90,6 +90,10 @@ global_analysis <- function(map_grey_background_extent, resolution =
 #' @param host_density_threshold A threshold value for cropland density (default: 0)
 #' @param agg_method A method to aggregate cropland raster (default: "sum")
 #' @export
+#' @details
+#' This function also creates global variables which are result of applying aggregate functions into raster.
+#' Theese global variables are used when applying allgorithms - ipl[ccri_powerlaw()] and ne[ccri_negative_exp()].
+#' 
 initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_scale,
                                      host_density_threshold = 0, agg_method = "sum") {
 
@@ -144,8 +148,8 @@ initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_sc
 
 #' Calculate inverse power law
 #' @param dispersal_parameter_beta_vals A list of beta values
+#' @param link_threshold A threshold value for links.
 #' @param metrics A list 2 vectors - metrics and weights.
-#' @param link_threshold A threshold value for link
 #' @param crop_cells_above_threshold A list of crop cells above threshold
 #' @param thresholded_crop_values A list of crop values above threshold
 #' @return A list of calculated inverse power law
@@ -177,12 +181,12 @@ ccri_powerlaw <- function(dispersal_parameter_beta_vals,
 #' Calculate negative exponential
 #' @param dispersal_parameter_gamma_vals A list of gamma values
 #' @param link_threshold A threshold value for link
-#' @inherit ccri_powerlaw metrics
+#' @inheritParams ccri_powerlaw
 #' @param crop_cells_above_threshold A list of crop cells above threshold
 #' @param thresholded_crop_values A list of crop values above threshold
 #' @return A list of calculated negative exponential
 #' @export
-ccri_negative_exponential <- function(dispersal_parameter_gamma_vals,
+ccri_negative_exp <- function(dispersal_parameter_gamma_vals,
                                       link_threshold = 0,
                                       metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
                                       crop_cells_above_threshold = NULL,
@@ -193,7 +197,7 @@ ccri_negative_exponential <- function(dispersal_parameter_gamma_vals,
   }
 
   index_list <- lapply(dispersal_parameter_gamma_vals,
-                       ccri_neg_exponential_fun,
+                       ccri_neg_exp_fun,
                        link_threshold = link_threshold,
                        the$distance_matrix,
                        thresholded_crop_values,
@@ -436,7 +440,7 @@ calculate_ccri <- function(
                 crop_cells_above_threshold = crop_cells_above_threshold,
                 thresholded_crop_values = thresholded_crop_values)
 
-  ccri_negative_exponential(the$parameters_config$`CCRI parameters`$DispersalParameterGamma,
+  ccri_negative_exp(the$parameters_config$`CCRI parameters`$DispersalParameterGamma,
                             link_threshold,
                             metrics = negative_exponential_metrics,
                             crop_cells_above_threshold = crop_cells_above_threshold,
@@ -451,7 +455,7 @@ calculate_ccri <- function(
 #' @param thresholded_crop_values crop values above threshold
 #' @param crop_raster A raster object for cropland harvest
 #' @param crop_cells_above_threshold crop cells above threshold. Only contains cells and not the the values.
-#' @inherit ccri_powerlaw metrics
+#' @inheritParams ccri_powerlaw
 #' @return A list of calculated CCRI values using powerlaw
 #' @export
 ccri_powerlaw_fun <- function(dispersal_parameter_beta, link_threshold, distance_matrix = the$distance_matrix,
@@ -517,7 +521,7 @@ ccri_powerlaw_fun <- function(dispersal_parameter_beta, link_threshold, distance
   #### eigenvector and eigenvalues
   ####
   if (hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
-    evc <- ev(mets, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
+    evc <- ev(cropdistancematrix, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
     index <- ifelse(is.null(index), evc, index + evc)
   }
 
@@ -536,11 +540,12 @@ ccri_powerlaw_fun <- function(dispersal_parameter_beta, link_threshold, distance
 #' @param distance_matrix distance matrix calculated during initialize_crop_data().
 #' @param thresholded_crop_values crop values above threshold
 #' @param crop_raster A raster object for crop raster
-#' @param crop_cells_above_threshold A list of crop cells above threshold
-#' @inherit ccri_powerlaw_fun metrics
+#' @param crop_cells_above_threshold A list of crop cells above threshold.
+#' This is extracted in [initialize_cropland_data()].
+#' @inheritParams ccri_powerlaw
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
-ccri_neg_exponential_fun <- function(dispersal_parameter_gamma_val,
+ccri_neg_exp_fun <- function(dispersal_parameter_gamma_val,
                                      link_threshold,
                                      distance_matrix = the$distance_matrix, thresholded_crop_values,
                                      crop_raster, crop_cells_above_threshold,
@@ -613,7 +618,7 @@ ccri_neg_exponential_fun <- function(dispersal_parameter_gamma_val,
   #### eigenvector and eigenvalues
   ####
   if (hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
-    evc <- ev(mets, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
+    evc <- ev(cropdistancematrix, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
     index <- ifelse(is.null(index), evc, index + evc)
   }
 

@@ -15,7 +15,7 @@ ccri_powerlaw(
 \arguments{
 \item{dispersal_parameter_beta_vals}{A list of beta values}
 
-\item{link_threshold}{A threshold value for link}
+\item{link_threshold}{A threshold value for links.}
 
 \item{metrics}{A list 2 vectors - metrics and weights.}
 

@@ -12,13 +12,13 @@
   if (length(not_sup) > 0) {
     stop(paste("Following metrics are not supported: ", paste(not_sup, collapse = ", ")))
   } else {
-    cat("metrics...OK")
+    cat("metrics...OK\n")
   }
   invisible()
 }
 
 .per_to_real <- function(we) {
-  return(we / 100)
+  return(as.numeric(we) / 100)
 }
 
 .list_to_vec <- function(metrics) {
