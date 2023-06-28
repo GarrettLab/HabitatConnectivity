@@ -5,6 +5,9 @@
 \alias{node_strength}
 \alias{betweeness}
 \alias{ev}
+\alias{degree}
+\alias{closeness}
+\alias{page_rank}
 \title{Calculation on network matrix.
 These are basically an abstraction of functions under the \link{igraph} package.}
 \usage{
@@ -15,6 +18,12 @@ node_strength(crop_dm, we)
 betweeness(crop_dm, we)
 
 ev(crop_dm, we)
+
+degree(crop_dm, we)
+
+closeness(crop_dm, we)
+
+page_rank(crop_dm, we)
 }
 \arguments{
 \item{crop_dm}{Distance matrix.
@@ -32,5 +41,7 @@ The functions included in this abstraction are:
 \item \code{node_strength()}: Calculates the sum of edge weights of adjacent nodes.
 \item \code{betweeness()}: Calculates the vertex and edge betweenness based on the number of geodesics.
 \item \code{ev()}: Calculates the eigenvector centralities of positions within the network.
+\item \code{closeness()}: measures how many steps is required to access every other vertex from a given vertex.
+\item \code{degree()}: number of adjacent edges
 }
 }

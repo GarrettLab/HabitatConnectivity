@@ -42,7 +42,13 @@
 #'
 #' @export
 supported_metrics <- function() {
-  return(c(STR_BETWEENNESS, STR_NODE_STRENGTH, STR_NEAREST_NEIGHBORS_SUM, STR_EIGEN_VECTOR_CENTRALITY))
+  return(c(STR_BETWEENNESS,
+           STR_NODE_STRENGTH,
+           STR_NEAREST_NEIGHBORS_SUM,
+           STR_EIGEN_VECTOR_CENTRALITY,
+           STR_CLOSENESS_CENTRALITY,
+           STR_DEGREE,
+           STR_PAGE_RANK))
 }
 
 #' Get metrics from parameters
@@ -80,6 +86,8 @@ get_param_metrics <- function(params = load_parameters()) {
 #' - `node_strength()`: Calculates the sum of edge weights of adjacent nodes.
 #' - `betweeness()`: Calculates the vertex and edge betweenness based on the number of geodesics.
 #' - `ev()`: Calculates the eigenvector centralities of positions within the network.
+#' - `closeness()`: measures how many steps is required to access every other vertex from a given vertex.
+#' - `degree()`: number of adjacent edges
 #'
 #' @param crop_dm Distance matrix.
 #'        In the internal workflow, the distance matrix comes from [initialize_cropland_data()] and risk functions.
@@ -141,9 +149,46 @@ ev <- function(crop_dm, we) {
   evv[is.na(evv)] <- 0
   evp <- if (max(evv) == 0) {
     0
-  } else if (max(evv) != 0) {
+  } else {
     (evv / max(evv)) * .per_to_real(we)
   }
 
   return(evp)
+}
+
+#' @rdname sonn
+degree <- function(crop_dm, we) {
+  dmat <- igraph::degree(crop_dm)
+  dmat[is.na(dmat)] <- 0
+  dmatr <- if (max(dmat) == 0) {
+    0
+  } else {
+    (dmat / max(dmat)) * .per_to_real(we)
+  }
+  return(dmatr)
+}
+
+#' @rdname sonn
+closeness <- function(crop_dm, we) {
+  cvv <- igraph::closeness(crop_dm)
+  cvv[is.na(cvv)] <- 0
+  cns <- if (max(cvv) == 0) {
+    0
+  } else {
+    (cvv / max(cvv)) * .per_to_real(we)
+  }
+  return(cns)
+}
+
+#' @rdname sonn
+page_rank <- function(crop_dm, we) {
+  pr_scores <- igraph::page_rank(crop_dm)
+  prv <- pr_scores$vector
+  prv[is.na(prv)] <- 0
+  prv <- if (max(prv) == 0) {
+    0
+  } else {
+    (prv / max(prv)) * .per_to_real(we)
+  }
+  return(prv)
 }
