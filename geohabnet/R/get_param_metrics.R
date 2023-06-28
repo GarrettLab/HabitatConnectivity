@@ -88,7 +88,7 @@ get_param_metrics <- function(params = load_parameters()) {
 #' - `ev()`: Calculates the eigenvector centralities of positions within the network.
 #' - `closeness()`: measures how many steps is required to access every other vertex from a given vertex.
 #' - `degree()`: number of adjacent edges
-#'
+#' - `page_rank()`: page rank score for vertices
 #' @param crop_dm Distance matrix.
 #'        In the internal workflow, the distance matrix comes from [initialize_cropland_data()] and risk functions.
 #' @param we Weight in percentage.

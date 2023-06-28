@@ -43,5 +43,6 @@ The functions included in this abstraction are:
 \item \code{ev()}: Calculates the eigenvector centralities of positions within the network.
 \item \code{closeness()}: measures how many steps is required to access every other vertex from a given vertex.
 \item \code{degree()}: number of adjacent edges
+\item \code{page_rank()}: page rank score for vertices
 }
 }
