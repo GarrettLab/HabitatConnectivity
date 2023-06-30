@@ -624,6 +624,24 @@ ccri_neg_exp_fun <- function(dispersal_parameter_gamma_val,
     index <- ifelse(is.null(index), evc, index + evc)
   }
 
+  ### degree
+  if (utils::hasName(mets, STR_DEGREE)) {
+    deg <- geohabnet::degree(cropdistancematrix, mets[[STR_DEGREE]][[2]])
+    index <- ifelse(is.null(index), deg, index + deg)
+  }
+
+  ### closeness
+  if (utils::hasName(mets, STR_CLOSENESS_CENTRALITY)) {
+    cl <- geohabnet::closeness(cropdistancematrix, mets[[STR_CLOSENESS_CENTRALITY]][[2]])
+    index <- ifelse(is.null(index), cl, index + cl)
+  }
+
+  ### page rank
+  if (utils::hasName(mets, STR_PAGE_RANK)) {
+    pr <- geohabnet::page_rank(cropdistancematrix, mets[[STR_PAGE_RANK]][[2]])
+    index <- ifelse(is.null(index), pr, index + pr)
+  }
+
   #### plot index layer
   ####
 
