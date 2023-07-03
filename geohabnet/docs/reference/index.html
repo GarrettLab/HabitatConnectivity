@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,10 +64,7 @@
           
           <code><a href="calculate_ccri.html">calculate_ccri()</a></code> 
         </dt>
-        <dd>Calculate Cropland Connectivity Risk Index (CCRI)
-This function calculates CCRI for given parameters using power law and negative exponential.
-It's required to call <code><a href="https://rdrr.io/pkg/geohabnet/man/initialize_cropland_data.html" class="external-link">initialize_cropland_data()</a></code> before calling this function.
-It returns a list of CCRI values.</dd>
+        <dd>Calculate Cropland Connectivity Risk Index (CCRI)</dd>
       </dl><dl><dt>
           
           <code><a href="calculate_difference_map.html">calculate_difference_map()</a></code> 
@@ -76,25 +73,13 @@ It returns a list of CCRI values.</dd>
 This function produces a map of difference in rank of cropland harvested area fraction</dd>
       </dl><dl><dt>
           
-          <code><a href="calculate_metrics_weight.html">calculate_metrics_weight()</a></code> 
-        </dt>
-        <dd>calculate weights for each metric</dd>
-      </dl><dl><dt>
-          
           <code><a href="calculate_zero_raster.html">calculate_zero_raster()</a></code> 
         </dt>
         <dd>Calculate raster objects for given extent and resolution
 This function returns a list of zero raster and map grey background extent</dd>
       </dl><dl><dt>
           
-          <code><a href="ccri_neg_exponential_function.html">ccri_neg_exponential_function()</a></code> 
-        </dt>
-        <dd>Calculate CCRI using negative exponential for given parameters
-This function calculates CCRI using negative exponential
-for given parameters based on provided metrics and parameters.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ccri_negative_exponential.html">ccri_negative_exponential()</a></code> 
+          <code><a href="ccri_negative_exp.html">ccri_negative_exp()</a></code> 
         </dt>
         <dd>Calculate negative exponential</dd>
       </dl><dl><dt>
@@ -104,26 +89,10 @@ for given parameters based on provided metrics and parameters.</dd>
         <dd>Calculate inverse power law</dd>
       </dl><dl><dt>
           
-          <code><a href="ccri_powerlaw_function.html">ccri_powerlaw_function()</a></code> 
-        </dt>
-        <dd>Calculate CCRI using powerlaw for given parameters
-This function calculates CCRI using powerlaw for given parameters based on provided metrics and parameters.</dd>
-      </dl><dl><dt>
-          
           <code><a href="ccri_variance.html">ccri_variance()</a></code> 
         </dt>
         <dd>Calculate variance of CCRI
 This function produces a map of variance of CCRI based on inpt parameters</dd>
-      </dl><dl><dt>
-          
-          <code><a href="check_metrics.html">check_metrics()</a></code> 
-        </dt>
-        <dd>Check if metrics in the list are valid</dd>
-      </dl><dl><dt>
-          
-          <code><a href="dot-check_yaml_structure.html">.check_yaml_structure()</a></code> 
-        </dt>
-        <dd>Check structure of YAML file</dd>
       </dl><dl><dt>
           
           <code><a href="get_crop_raster_fromtif.html">get_crop_raster_fromtif()</a></code> 
@@ -147,6 +116,11 @@ This function produces a map of variance of CCRI based on inpt parameters</dd>
 This function returns a list of geographical scales set global and custom extent in parameters.yaml</dd>
       </dl><dl><dt>
           
+          <code><a href="get_param_metrics.html">get_param_metrics()</a></code> 
+        </dt>
+        <dd>Get metrics from parameters</dd>
+      </dl><dl><dt>
+          
           <code><a href="get_parameters.html">get_parameters()</a></code> 
         </dt>
         <dd>Get Parameters</dd>
@@ -160,7 +134,7 @@ This function returns a list of geographical scales set global and custom extent
           <code><a href="get_supported_sources.html">get_supported_sources()</a></code> 
         </dt>
         <dd>Get supported sources of crops
-When provided, <code><a href="https://rdrr.io/pkg/geohabnet/man/get_cropharvest_raster.html" class="external-link">get_cropharvest_raster()</a></code> will
+When provided, <code><a href="../reference/get_cropharvest_raster.html">get_cropharvest_raster()</a></code> will
 look for cropland data in this specific source.</dd>
       </dl><dl><dt>
           
@@ -178,6 +152,11 @@ Only when user has enabled global analysis</dd>
           <code><a href="load_parameters.html">load_parameters()</a></code> 
         </dt>
         <dd>Load Parameters from YAML File</dd>
+      </dl><dl><dt>
+          
+          <code><a href="model_powerlaw.html">model_powerlaw()</a></code> <code><a href="model_powerlaw.html">model_neg_exp()</a></code> 
+        </dt>
+        <dd>Calculate risk index using inbuilt models.</dd>
       </dl><dl><dt>
           
           <code><a href="sa_onrasters.html">sa_onrasters()</a></code> 
@@ -219,6 +198,17 @@ It can be used as entry point for sensitivity analysis.</dd>
           <code><a href="set_parameters_object.html">set_parameters_object()</a></code> 
         </dt>
         <dd>Set Parameters function</dd>
+      </dl><dl><dt>
+          
+          <code><a href="sonn.html">sonn()</a></code> <code><a href="sonn.html">node_strength()</a></code> <code><a href="sonn.html">betweeness()</a></code> <code><a href="sonn.html">ev()</a></code> <code><a href="sonn.html">degree()</a></code> <code><a href="sonn.html">closeness()</a></code> <code><a href="sonn.html">page_rank()</a></code> 
+        </dt>
+        <dd>Calculation on network matrix.
+These are basically an abstraction of functions under the igraph package.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="supported_metrics.html">supported_metrics()</a></code> 
+        </dt>
+        <dd>Returns metrics currently supported in the analysis.</dd>
       </dl></div>
   </main></div>
 

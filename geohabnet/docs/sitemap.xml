@@ -25,6 +25,12 @@
     <loc>/reference/STR_BETWEENNESS.html</loc>
   </url>
   <url>
+    <loc>/reference/STR_CLOSENESS_CENTRALITY.html</loc>
+  </url>
+  <url>
+    <loc>/reference/STR_DEGREE.html</loc>
+  </url>
+  <url>
     <loc>/reference/STR_EIGEN_VECTOR_CENTRALITY.html</loc>
   </url>
   <url>
@@ -32,6 +38,9 @@
   </url>
   <url>
     <loc>/reference/STR_NODE_STRENGTH.html</loc>
+  </url>
+  <url>
+    <loc>/reference/STR_PAGE_RANK.html</loc>
   </url>
   <url>
     <loc>/reference/calculate_ccri.html</loc>
@@ -47,6 +56,9 @@
   </url>
   <url>
     <loc>/reference/ccri_neg_exponential_function.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ccri_negative_exp.html</loc>
   </url>
   <url>
     <loc>/reference/ccri_negative_exponential.html</loc>
@@ -67,6 +79,9 @@
     <loc>/reference/dot-check_yaml_structure.html</loc>
   </url>
   <url>
+    <loc>/reference/geohabnet-package.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_crop_raster_fromtif.html</loc>
   </url>
   <url>
@@ -77,6 +92,9 @@
   </url>
   <url>
     <loc>/reference/get_geographic_scales.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_param_metrics.html</loc>
   </url>
   <url>
     <loc>/reference/get_parameters.html</loc>
@@ -100,6 +118,9 @@
     <loc>/reference/load_parameters.html</loc>
   </url>
   <url>
+    <loc>/reference/model_powerlaw.html</loc>
+  </url>
+  <url>
     <loc>/reference/sa_onrasters.html</loc>
   </url>
   <url>
@@ -119,6 +140,12 @@
   </url>
   <url>
     <loc>/reference/set_parameters_object.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sonn.html</loc>
+  </url>
+  <url>
+    <loc>/reference/supported_metrics.html</loc>
   </url>
   <url>
     <loc>/reference/the.html</loc>
