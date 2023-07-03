@@ -30,6 +30,6 @@ A list of calculated inverse power law
 Calculate inverse power law
 }
 \details{
-Network metrics should be passed as a list of vectors e.g. list(metrics = c("betweeness"), weights = c(100)).
+Network metrics should be passed as a list of vectors e.g. \code{list(metrics = c("betweeness"), weights = c(100))}.
 Default values are fetched from \code{parameters.yaml} and arguments uses the same structure.
 }

@@ -33,7 +33,7 @@ This function calculates CCRI for given parameters using power law and negative 
 It's required to call \code{\link[=initialize_cropland_data]{initialize_cropland_data()}} before calling this function.
 }
 \details{
-Network metrics should be passed as a list of vectors e.g. list(metrics = c("betweeness"), weights = c(100)).
+Network metrics should be passed as a list of vectors e.g. \code{list(metrics = c("betweeness"), weights = c(100))}.
 Default values are fetched from \code{parameters.yaml} and arguments uses the same structure.
 }
 \seealso{
