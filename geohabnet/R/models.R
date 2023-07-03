@@ -39,7 +39,7 @@ model_powerlaw <- function(beta,
     cropmatr <- thresholded_crop_values # complete gravity model with crop data
     cropmatr1 <- matrix(cropmatr, , 1)
     cropmatr2 <- matrix(cropmatr, 1, )
-  
+
     cropmatrix <- cropmatr1 %*% cropmatr2
     cropmatrix <- as.matrix(cropmatrix)
     # adjacecy matrix
@@ -80,7 +80,7 @@ model_neg_exp <- function(gamma_val,
   ####
   stan <- if (is.null(adj_mat)) {
     distancematr <- distance_matrix
-  
+
     eulernumber <- exp(1)
     # exponential model
     distancematrexponential <-
@@ -155,7 +155,7 @@ model_neg_exp <- function(gamma_val,
     bc <- betweeness(adj_graph, mets[[STR_BETWEENNESS]][[2]])
     index <- ifelse(is.null(index), bc, index + bc)
   }
-  
+
   #### eigenvector and eigenvalues
   ####
   if (utils::hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
