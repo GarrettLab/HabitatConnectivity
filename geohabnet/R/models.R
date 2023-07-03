@@ -1,5 +1,5 @@
 #' Calculate risk index using inbuilt models.
-#' 
+#'
 #' @description
 #' - [`model_powerlaw()`] calculates risk index using power law.
 #' - [`model_neg_exp()`] calculates risk index using negative exponential.
@@ -17,7 +17,7 @@
 #' @details
 #' Network metrics should be passed as a list of vectors e.g. `list(metrics = c("betweeness"), weights = c(100))`.
 #' Default values are fetched from `parameters.yaml` and arguments uses the same structure.
-#' 
+#'
 #' @export
 model_powerlaw <- function(beta,
                            link_threshold,
@@ -27,10 +27,10 @@ model_powerlaw <- function(beta,
                            crop_raster,
                            crop_cells_above_threshold,
                            metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
-  
+
   .validate_metrics(metrics)
   #### create adjacency matrix
-  
+
   stan <- if (is.null(adj_mat)) {
     distancematr <- distance_matrix # pairwise distance matrix
     #---- end of code
@@ -39,8 +39,8 @@ model_powerlaw <- function(beta,
     cropmatr <- thresholded_crop_values # complete gravity model with crop data
     cropmatr1 <- matrix(cropmatr, , 1)
     cropmatr2 <- matrix(cropmatr, 1, )
-    
-    cropmatrix <- cropmatr1 %*% cropmatr2 
+  
+    cropmatrix <- cropmatr1 %*% cropmatr2
     cropmatrix <- as.matrix(cropmatrix)
     # adjacecy matrix
     cropdistancematr <- distancematrexp * cropmatrix # make available to users
@@ -52,12 +52,12 @@ model_powerlaw <- function(beta,
   } else {
     adj_mat
   }
-  
+
   # create graph object using adjacency matrix
   cropdistancematrix <- igraph::graph.adjacency(stan,
                                                 mode = c("undirected"),
                                                 diag = FALSE, weighted = TRUE)
-  
+
   indexpre <- crop_raster
   indexpre[] <- 0
   indexpre[crop_cells_above_threshold] <- .apply_met(metrics, cropdistancematrix)
@@ -75,12 +75,12 @@ model_neg_exp <- function(gamma_val,
                              crop_cells_above_threshold,
                              metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
   .validate_metrics(metrics)
-  
+
   #### create adjacency matrix
   ####
   stan <- if (is.null(adj_mat)) {
     distancematr <- distance_matrix
-    
+  
     eulernumber <- exp(1)
     # exponential model
     distancematrexponential <-
@@ -94,11 +94,11 @@ model_neg_exp <- function(gamma_val,
     logicalmatr <- cropdistancematr > link_threshold
     adjmat <- cropdistancematr * logicalmatr
     # use round() because betweeness() may have problem when do the calculation
-    round(adjmat, 6) 
+    round(adjmat, 6)
   } else {
     adj_mat
   }
-  
+
   # create graph object from adjacency matrix
   cropdistancematrix <- igraph::graph.adjacency(stan,
                                                 mode = c("undirected"),
@@ -110,10 +110,10 @@ model_neg_exp <- function(gamma_val,
   igraph::V(cropdistancematrix)$label.cex <- 0.7
   igraph::E(cropdistancematrix)$weight * 4000
   igraph::E(cropdistancematrix)$color <- "red"
-  
+
   #### plot index layer
   ####
-  
+
   indexpre <- crop_raster
   indexpre[] <- 0
   indexpre[crop_cells_above_threshold] <- .apply_met(metrics, cropdistancematrix)
@@ -136,14 +136,14 @@ model_neg_exp <- function(gamma_val,
     nnc <- sonn(adj_graph, mets[[STR_NEAREST_NEIGHBORS_SUM]][[2]])
     index <- ifelse(is.null(index), nnc, index + nnc)
   }
-  
+
   #### node degree, node strengh
   ####
   if (utils::hasName(mets, STR_NODE_STRENGTH)) {
     nsc <- node_strength(adj_graph, mets[[STR_NODE_STRENGTH]][[2]])
     index <- ifelse(is.null(index), nsc, index + nsc)
   }
-  
+
   #### betweenness centrality
   ####
   # weight method 0:
@@ -162,6 +162,6 @@ model_neg_exp <- function(gamma_val,
     evc <- ev(adj_graph, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
     index <- ifelse(is.null(index), evc, index + evc)
   }
-  
+
   return(index)
 }
