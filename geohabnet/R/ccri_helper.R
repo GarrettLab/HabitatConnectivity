@@ -154,7 +154,7 @@ library(yaml)
   if (data_source == "monfreda") {
     geodata::crop_monfreda(crop = crop_name, path = tempdir(), var = "area_f")
   } else if (data_source == "spam") {
-    geodata::crop_spam(crop = crop_name, path = tempdir(), var = "harv_area") / 10000
+    sp_rast(crp = crop_name) / 10000
   } else {
     stop(paste("Encountered unsupported source: ", data_source))
   }
