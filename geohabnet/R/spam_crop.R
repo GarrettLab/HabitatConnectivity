@@ -28,7 +28,7 @@
 #' See [geodata::spamCrops()] for supported crops.
 #' @export
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' sp_rast("rice")
 #' }
 #' @references

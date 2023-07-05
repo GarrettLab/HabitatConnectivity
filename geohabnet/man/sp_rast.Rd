@@ -19,7 +19,7 @@ get raster for specified crop from spam dataset.
 See \code{\link[geodata:crop_spam]{geodata::spamCrops()}} for supported crops.
 }
 \examples{
-\dontrun {
+\dontrun{
 sp_rast("rice")
 }
 }
