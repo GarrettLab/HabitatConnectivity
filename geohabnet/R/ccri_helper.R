@@ -3,8 +3,8 @@ library(yaml)
 # Global constants --------------------------------------------------------
 
 .kparameters_file_type <- "parameters"
-.kzeroraster_file_type <- "zero_raster"
-.kmapgreybackground_file_type <- "map_grey_background"
+.kzeroraster_file_type <- "zero"
+.kmapgreybackground_file_type <- "map_grey"
 
 # utility functions for CCRI ----------------------------------------------
 
@@ -15,26 +15,51 @@ library(yaml)
   return(TRUE)
 }
 
-.get_helper_filepath <- function(file_type) {
-  if (file_type == "parameters") {
-    file_path <- system.file("parameters.yaml",
-      package = "geohabnet",
-      mustWork = TRUE
-    )
-  } else if (file_type == "zero_raster") {
-    file_path <- system.file("tifs", "ZeroRaster.tif",
-      package = "geohabnet",
-      mustWork = TRUE
-    )
-  } else if (file_type == "map_grey_background") {
-    file_path <- system.file("tifs", "map_grey_background.tif",
-      package = "geohabnet", mustWork = TRUE
-    )
-  } else {
-    stop("Invalid file_type parameter. Supported options are 'config',
-         'zero_raster', and 'map_grey_background'.")
+.utilrast_locs <- function() {
+
+  base_uri <- "https://geohabnet.s3.us-east-2.amazonaws.com/util-rasters/"
+  full_uri <- function(name) {
+    paste(base_uri, name, sep = "")
   }
 
+  locs <- matrix(c(.kzeroraster_file_type, full_uri("ZeroRaster.tif"),
+                   .kmapgreybackground_file_type, full_uri("map_grey_background.tif"),
+                   "avocado", full_uri("avocado_HarvestedAreaFraction.tif")), # only for testing purpose
+                 ncol = 2, byrow = TRUE)
+  colnames(locs) <- c("raster", "uri")
+  return(locs)
+}
+
+.utilrast_uri <- function(typ) {
+  locs <- .utilrast_locs()
+  stopifnot("internal error - wrong type" = typ %in% locs[, 1])
+  idx <- which(locs[, 1] == typ)
+  return(locs[idx, ][[2]])
+}
+
+.download <- function(uri) {
+  f <- paste(tempfile(), ".tif", sep = "")
+  stopifnot("dowload failed " = utils::download.file(uri, destfile = f, method = "auto") == 0)
+  return(f)
+}
+
+.utilrast <- function(typ) {
+  return(.download(.utilrast_uri(typ)))
+}
+
+.onLoad <- function(libname, pkgname) {
+  .utilrast <<- memoise::memoise(.utilrast)
+}
+
+.get_helper_filepath <- function(file_type) {
+  file_path <- if (file_type == "parameters") {
+     system.file("parameters.yaml",
+      package = "geohabnet",
+      mustWork = TRUE
+    )
+  } else {
+    .utilrast(file_type)
+  }
   return(file_path)
 }
 

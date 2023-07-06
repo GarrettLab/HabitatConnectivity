@@ -1,15 +1,10 @@
-test_that("get rasters with valid file", {
+test_that("get rasters with valid tif", {
   expect_no_condition(get_rasters(
     list(
       file = c(
-        system.file(
-        "tifs",
-        package = "geohabnet",
-        "avocado_HarvestedAreaFraction.tif",
-        mustWork = TRUE
-        )))))
+        .get_helper_filepath("avocado")))))
 })
 
-test_that("get rasters with invalid file", {
+test_that("get rasters with invalid tif", {
   expect_error(get_rasters(list(file = c("invalid file"))))
 })

@@ -18,8 +18,9 @@ This is a wrapper of \code{\link[raster:raster]{raster::raster()}} and generates
 \examples{
 \dontrun{
 # Generate raster for usage
-get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
-  package = "geohabnet", mustWork = TRUE
-))
+fp <- .get_helper_filepath("avocado")
+get_crop_raster_fromtif(fp)
+get_crop_raster_fromtif("avocado_HarvestedAreaFraction.tif")
+
 }
 }

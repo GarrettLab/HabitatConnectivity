@@ -101,9 +101,10 @@ get_cropharvest_raster <- function(crop_name, data_source) {
 #' @examples
 #' \dontrun{
 #' # Generate raster for usage
-#' get_crop_raster_fromtif(system.file("avocado_HarvestedAreaFraction.tif", "tifs",
-#'   package = "geohabnet", mustWork = TRUE
-#' ))
+#' fp <- .get_helper_filepath("avocado")
+#' get_crop_raster_fromtif(fp)
+#' get_crop_raster_fromtif("avocado_HarvestedAreaFraction.tif")
+#'
 #' }
 get_crop_raster_fromtif <- function(path_to_tif) {
   .validate_tif(path_to_tif)

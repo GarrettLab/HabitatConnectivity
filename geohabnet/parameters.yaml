@@ -1,0 +1,32 @@
+default:
+  CCRI parameters:
+    DispersalParameterBeta: [0.5, 1, 1.5]
+    DispersalParameterGamma: [0.05, 1, 0.2, 0.3]
+    AggregationStrategy: [sum, mean]
+    Hosts:
+      monfreda: ["avocado"]
+      spam:
+      file:
+    HostDensityThreshold: [0.0015, 0.002, 0.0025] #cuttoff - run SA for each of these
+    LinkThreshold: [0, 0.000001, 0.0006]
+    Resolution: 24
+    Longitude_Latitude: 
+      Global: FALSE
+      WestExt: [-24, 180, -58, 60] #long_from, long_to, lat_from, lat_to
+      EastExt: [-140, -34, -58, 60] # to 70
+      CustomExt: [[-115, -75, 5, 32]] # set this to NA/Empty if not required #[32, 48, 2.9, 17], [-115, -75, 5, 32]
+    NetworkMetrics:
+      InversePowerLaw:
+        metrics: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
+        weights: [50, 15, 15, 20]
+      NegativeExponential:
+        metrics: ["betweeness", "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality"]
+        weights: [50, 15, 15, 20]
+    PriorityMaps:
+      MeanCC: TRUE
+      Difference: TRUE
+      Variance: FALSE
+    SaveOutcomes:
+      MeanCC: FALSE
+      Difference: TRUE
+      Variance: TRUE

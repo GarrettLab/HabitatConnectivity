@@ -26,7 +26,8 @@ Imports:
     easycsv (>= 1.0.8),
     yaml (>= 2.3.7),
     stats (>= 4.2.3),
-    stringr (>= 1.5.0)
+    stringr (>= 1.5.0),
+    memoise
 Suggests: 
     lintr (>= 3.0.2),
     mockthat (>= 0.2.8),
