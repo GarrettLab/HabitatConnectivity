@@ -1,7 +1,5 @@
 .gen_url <- function(crop) {
-  # https://geohabnet.s3.us-east-2.amazonaws.com/spamcrops/spam2010V2r0_global_H_ACOF_A.tif
-  # https://geohabnet.s3.us-east-2.amazonaws.com/spamcrops/spam2010V2r0_global_H_RICE_A.tif
-  # https://geohabnet.s3.us-east-2.amazonaws.com/spamcrops/spam2010V2r0_global_H__RICE_A.tif
+
   crp <- tolower(trimws(crop))
   crops <- geodata::spamCrops()
   if (!(crp %in% crops)) {
@@ -11,14 +9,12 @@
   if (i > nrow(crops))
   i <- i - nrow(crops)
   crp <- toupper(crops[i, 2])
-  url <- paste("https://geohabnet.s3.us-east-2.amazonaws.com/spamcrops/spam2010V2r0_global_H",
+  uri <- paste("https://geohabnet.s3.us-east-2.amazonaws.com/spamcrops/spam2010V2r0_global_H",
                crp,
                "A.tif",
                sep = "_")
 
-  tf <- tempfile()
-  stopifnot("dowload failed " = download.file(url, destfile = tf, method = "auto") == 0)
-  return(tf)
+  return(.download(uri))
 }
 
 #' get raster for specified crop from spam dataset.
