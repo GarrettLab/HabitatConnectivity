@@ -34,6 +34,21 @@ A list of calculated CCRI values using negative exponential
 \description{
 Run analysis
 }
+\examples{
+rr <- get_rasters(list(monfreda = c("coffee")))
+sa_onrasters(rr[[1]],
+            geo_scales = list(c(-115, -75, 5, 32)),
+            c(0.0001, 0.00004),
+            c(0.0001, 0.00005),
+            c("sum", "mean"),
+            resolution = 12)
+sa_onrasters(rr[[1]],
+            geo_scales = list(c(-115, -75, 5, 32)),
+            0.0001,
+            0.00001,
+            c("sum"),
+            resolution = 12)
+}
 \seealso{
 Use \code{\link[=get_rasters]{get_rasters()}} to obtain raster object.
 }

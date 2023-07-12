@@ -2,7 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{initialize_cropland_data}
 \alias{initialize_cropland_data}
-\title{intialize cropland data with geiven paramters, it will be later used to calculate CCRI and other functions}
+\title{Initialize cropland data with given parameters, it will be later used to calculate CCRI and other functions}
 \usage{
 initialize_cropland_data(
   cropharvest_raster,
@@ -24,9 +24,9 @@ initialize_cropland_data(
 \item{agg_method}{A method to aggregate cropland raster (default: "sum")}
 }
 \description{
-intialize cropland data with geiven paramters, it will be later used to calculate CCRI and other functions
+Initialize cropland data with given parameters, it will be later used to calculate CCRI and other functions
 }
 \details{
 This function also creates global variables which are result of applying aggregate functions into raster.
-Theese global variables are used when applying allgorithms - ipl\code{\link[=ccri_powerlaw]{ccri_powerlaw()}} and ne\code{\link[=ccri_negative_exp]{ccri_negative_exp()}}.
+These global variables are used when applying algorithms - \code{\link[=ccri_powerlaw]{ccri_powerlaw()}} and \code{\link[=ccri_negative_exp]{ccri_negative_exp()}}.
 }

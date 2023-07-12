@@ -50,6 +50,14 @@ library(yaml)
 .onLoad <- function(libname, pkgname) {
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
+  metric_funs <<- stats::setNames(metric_funs,
+                                  c(STR_NEAREST_NEIGHBORS_SUM,
+                                    STR_NODE_STRENGTH,
+                                    STR_BETWEENNESS,
+                                    STR_EIGEN_VECTOR_CENTRALITY,
+                                    STR_CLOSENESS_CENTRALITY,
+                                    STR_PAGE_RANK,
+                                    STR_DEGREE))
 }
 
 .get_helper_filepath <- function(file_type) {
@@ -112,19 +120,17 @@ library(yaml)
 .cal_mgb <- function(geoscale) {
   # calculate map grey background
   map_grey_background <- terra::rast(.get_helper_filepath(.kmapgreybackground_file_type))
-  map_grey_background_ext <- terra::crop(map_grey_background, geoscale)
+  map_grey_background_ext <- terra::crop(map_grey_background, terra::ext(geoscale))
   return(map_grey_background_ext)
 }
 
 .cal_zerorast <- function(in_rast, reso) {
-  # Get dimensions of in_rast
-  dime <- dim(in_rast)
-  
+
   # Create zero_rast with the same dimensions as in_rast
   zero_rast <- terra::rast(.get_helper_filepath(.kzeroraster_file_type))
   # Set extent of zero_rast to match in_rast
   zero_rast <- terra::resample(zero_rast, in_rast, threads = TRUE)
-  
+
   return(zero_rast)
 }
 

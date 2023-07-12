@@ -28,7 +28,7 @@ model_powerlaw <- function(beta,
                            crop_cells_above_threshold,
                            metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
 
-  .validate_metrics(metrics)
+  metrics <- .refined_mets(metrics)
   #### create adjacency matrix
 
   stan <- if (is.null(adj_mat)) {
@@ -42,7 +42,7 @@ model_powerlaw <- function(beta,
 
     cropmatrix <- cropmatr1 %*% cropmatr2
     cropmatrix <- as.matrix(cropmatrix)
-    # adjacecy matrix
+    # adjacency matrix
     cropdistancematr <- distancematrexp * cropmatrix # make available to users
     # adjacency matrix after threshold
     logicalmatr <- cropdistancematr > link_threshold
@@ -74,7 +74,7 @@ model_neg_exp <- function(gamma_val,
                              crop_raster,
                              crop_cells_above_threshold,
                              metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
-  .validate_metrics(metrics)
+  metrics <- .refined_mets(metrics)
 
   #### create adjacency matrix
   ####
@@ -104,15 +104,6 @@ model_neg_exp <- function(gamma_val,
                                                 mode = c("undirected"),
                                                 diag = FALSE, weighted = TRUE
   )
-  #### create network for all the selected nodes
-  ####
-  # V(cropdistancematrix)$color=colororder
-  # igraph::V(cropdistancematrix)$label.cex <- 0.7
-  # igraph::E(cropdistancematrix)$weight * 4000
-  # igraph::E(cropdistancematrix)$color <- "red"
-
-  #### plot index layer
-  ####
 
   indexpre <- crop_raster
   indexpre[] <- 0
@@ -125,6 +116,23 @@ model_neg_exp <- function(gamma_val,
 # private methods ---------------------------------------------------------
 
 .apply_met <- function(mets, adj_graph) {
+
+  mets <- Map(c, mets[[1]], mets[[2]])
+  index <- 0
+
+  # Iterate over the metric names and values in 'mets'
+  for (mname in names(mets)) {
+    if (mname %in% names(metric_funs)) {
+      val <- mets[[mname]][[2]]
+      mfun <- metric_funs[[mname]]
+      index <- index + mfun(adj_graph, val)
+    }
+  }
+
+  return(index)
+}
+
+.apply_met1 <- function(mets, adj_graph) {
 
   #### CCRI is a weighted mean of all the network metrics
   ####
@@ -162,8 +170,21 @@ model_neg_exp <- function(gamma_val,
     evc <- ev(adj_graph, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
     index <- index + evc
   }
-  
-  #index[which(index == 0)] <- NA
+
+  if (utils::hasName(mets, STR_CLOSENESS_CENTRALITY)) {
+    cc <- closeness(adj_graph, mets[[STR_CLOSENESS_CENTRALITY]][[2]])
+    index <- index + cc
+  }
+
+  if (utils::hasName(mets, STR_PAGE_RANK)) {
+    pr <- page_rank(adj_graph, mets[[STR_PAGE_RANK]][[2]])
+    index <- index + pr
+  }
+
+  if (utils::hasName(mets, STR_DEGREE)) {
+    deg <- degree(adj_graph, mets[[STR_DEGREE]][[2]])
+    index <- index + deg
+  }
 
   return(index)
 }

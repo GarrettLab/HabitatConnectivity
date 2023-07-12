@@ -8,8 +8,7 @@
 \alias{degree}
 \alias{closeness}
 \alias{page_rank}
-\title{Calculation on network matrix.
-These are basically an abstraction of functions under the \link{igraph} package.}
+\title{Calculation on network matrix.}
 \usage{
 sonn(crop_dm, we)
 
@@ -35,6 +34,7 @@ In the internal workflow, the distance matrix comes from \code{\link[=initialize
 Matrix with the mean value based on the assigned weight.
 }
 \description{
+These are basically an abstraction of functions under the \link{igraph} package.
 The functions included in this abstraction are:
 \itemize{
 \item \code{sonn()}: Calculates the sum of nearest neighbors.

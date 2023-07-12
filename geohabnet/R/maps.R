@@ -17,16 +17,16 @@ plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff 
       lapply(indexes, terra::values),
       mean_rast,
       geoscale,
-      reso) 
+      reso)
   }
 
   if (pdiff == TRUE) {
-    calculate_difference_map(
+    cal_diff_map(
       mean_rast,
       the$cropharvest_aggtm_crop,
       the$cropharvest_agglm_crop,
       geoscale,
-      reso) 
+      reso)
   }
 }
 
@@ -37,14 +37,14 @@ plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff 
 #' @param indexes raster list
 #' @param geoscale geographical scale for plotting
 #' @param reso resolution for plotting
-#' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`, `reso` is ignored.  
+#' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`, `reso` is ignored.
 #' @export
 ccri_mean <- function(indexes, geoscale = NULL, reso = NULL, plt = TRUE) {
   mean_index <- terra::app(terra::rast(indexes), sum) / length(indexes)
   mean_index_vals <- terra::values(mean_index)
   zeroid <- which(mean_index_vals == 0)
   mean_index[zeroid] <- NaN
-  
+
   if (plt == TRUE) {
     .plot(mean_index,
           paste("Mean cropland connectivity risk index\n",
@@ -69,10 +69,10 @@ ccri_variance <- function(indexes,
                           resolution = the$parameters_config$`CCRI parameters`$Resolution) {
   # ```{r ,fig.width=6, fig.height=7, dpi=150}
   var_rast <- apply(do.call(cbind, indexes), 1, stats::var, na.rm = TRUE)
-  
+
   rast[] <- var_rast
   z_var_w <- range(var_rast[which(var_rast > 0)])
-  
+
   var_disag_rast <- terra::disagg(rast, fact = c(resolution, resolution))
   var_disag_rast <- var_disag_rast + .cal_zerorast(var_disag_rast, resolution)
 
@@ -83,46 +83,47 @@ ccri_variance <- function(indexes,
 
 #' Calculate difference map
 #' This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
-#' @param mean_index_raster_diff A raster object for mean index raster difference
+#' @param mean_index_rast A raster object for mean index raster difference
 #' @param cropharvest_aggtm_crop A raster object for cropland harvest
 #' @param cropharvest_agglm_crop A raster object for cropland harvest
+#' @param geoscale geographical scale with longitude and latitudes. It will be converted into extent.
+#' See [get_geographic_scales()] and [terra::ext()].
 #' @param resolution resolution to plot raster and map
 #' @export
-calculate_difference_map <- function(mean_index_rast,
-                                     cropharvest_aggtm_crop,
-                                     cropharvest_agglm_crop,
-                                     geoscale,
-                                     resolution = the$parameters_config$`CCRI parameters`$Resolution) {
+cal_diff_map <- function(mean_index_rast,
+                         cropharvest_aggtm_crop,
+                         cropharvest_agglm_crop,
+                         geoscale,
+                         resolution = the$parameters_config$`CCRI parameters`$Resolution) {
   # difference map
   if (missing(cropharvest_aggtm_crop) || missing(cropharvest_agglm_crop)) {
-    message("Either sum or mean aggregate is missing. Aborting diffrence calculation")
+    message("Either sum or mean aggregate is missing. Aborting difference calculation")
     return(NULL)
   }
   if (is.null(cropharvest_aggtm_crop) || is.null(cropharvest_agglm_crop)) {
-    message("Either sum or mean aggregate is missing. Aborting diffrence calculation")
+    message("Either sum or mean aggregate is missing. Aborting difference calculation")
     return(NULL)
   }
-  
+
   ccri_id <- which(mean_index_rast[] > 0)
   meantotalland_w <- sum(cropharvest_aggtm_crop, cropharvest_agglm_crop, na.rm = TRUE) / 2
-  
+
   meanindexcell_w <- mean_index_rast[][ccri_id]
   meantotallandcell_w <- meantotalland_w[][ccri_id]
-  
+
   # mean cropland minus mean index, negative value means importance of cropland reduce,
   # positive value means importance increase, zero means the importance of cropland doesn't change.
   rankdifferent_w <- rank(meantotallandcell_w * (-1)) - rank(meanindexcell_w * (-1))
   mean_index_rast[] <- NaN
   mean_index_rast[][ccri_id] <- rankdifferent_w
-  
+
   maxrank_w <- max(abs(rankdifferent_w))
   zr2 <- range(-maxrank_w, maxrank_w)
-  
-  # TODO: not required
+
   paldif4 <- .get_palette_for_diffmap()
-  
+
   diagg_rast <- terra::disagg(mean_index_rast,
-                              fact = c(resolution, resolution))
+                            fact = c(resolution, resolution))
   diagg_rast <- diagg_rast + .cal_zerorast(diagg_rast, resolution)
 
   .plot(diagg_rast, "Difference in rank of host density and host connectivity", geoscale, paldif4, zr2)
@@ -133,6 +134,7 @@ calculate_difference_map <- function(mean_index_rast,
 # private functions -------------------------------------------------------
 
 .plot <- function(rast, label, geoscale, colorss = .get_palette(), zlim) {
+
   terra::plot(.cal_mgb(geoscale),
               col = "grey85", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
               main = label)

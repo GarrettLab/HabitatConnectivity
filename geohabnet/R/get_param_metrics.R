@@ -32,6 +32,29 @@
   return(weight_vec)
 }
 
+.refined_mets <- function(mets) {
+  mets <- lapply(mets, tolower)
+  mets[["weights"]] <- as.numeric(mets[["weights"]])
+  if (!is.null(mets)) {
+    .validate_metrics(mets)
+  }
+  return(mets)
+}
+
+# exported functions ------------------------------------------------------
+
+#' list stores functions to apply metrics to distance metrics.
+#' @keywords internal
+metric_funs <- list(
+  STR_NEAREST_NEIGHBORS_SUM = function(graph, param) sonn(graph, param),
+  STR_NODE_STRENGTH = function(graph, param) node_strength(graph, param),
+  STR_BETWEENNESS = function(graph, param) betweeness(graph, param),
+  STR_EIGEN_VECTOR_CENTRALITY = function(graph, param) ev(graph, param),
+  STR_CLOSENESS_CENTRALITY = function(graph, param) closeness(graph, param),
+  STR_PAGE_RANK = function(graph, param) pagerank(graph, param),
+  STR_DEGREE = function(graph, param) degree(graph, param)
+)
+
 #'
 #'  Returns metrics currently supported in the analysis.
 #'
@@ -66,21 +89,15 @@ supported_metrics <- function() {
 #'
 #' @export
 get_param_metrics <- function(params = load_parameters()) {
-  pl <- params$`CCRI parameters`$NetworkMetrics$InversePowerLaw
-  if (!is.null(pl)) {
-    .validate_metrics(pl)
-  }
-  ne <- params$`CCRI parameters`$NetworkMetrics$NegativeExponential
-  if (!is.null(ne)) {
-    .validate_metrics(ne)
-  }
-  return(list(pl = pl, ne = ne))
+
+  return(list(pl = .refined_mets(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw),
+              ne = .refined_mets(params$`CCRI parameters`$NetworkMetrics$NegativeExponential)))
 }
 
 #' Calculation on network matrix.
-#' These are basically an abstraction of functions under the [igraph] package.
 #'
 #' @description
+#' These are basically an abstraction of functions under the [igraph] package.
 #' The functions included in this abstraction are:
 #' - `sonn()`: Calculates the sum of nearest neighbors.
 #' - `node_strength()`: Calculates the sum of edge weights of adjacent nodes.
