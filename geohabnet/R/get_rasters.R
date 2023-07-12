@@ -60,11 +60,12 @@ get_cropharvest_raster_sum <- function(crop_names) {
   for (i in seq_along(crops)) {
     single_crop_rasters <- list()
     for (j in crops[[i]]) {
-      single_crop_rasters <- append(single_crop_rasters, get_cropharvest_raster(nams[i], j))
+      cr <- get_cropharvest_raster(nams[i], j)
+      single_crop_rasters <- c(single_crop_rasters, cr)
     }
     len_scr <- length(single_crop_rasters)
     if (len_scr > 1) {
-      cropharvests <- c(cropharvests, raster::calc(raster::stack(single_crop_rasters), fun = sum) / len_scr)
+      cropharvests <- c(cropharvests, terra::app(terra::rast(single_crop_rasters), fun = sum) / len_scr)
     } else {
       cropharvests <- c(cropharvests, single_crop_rasters)
     }
@@ -88,13 +89,13 @@ get_cropharvest_raster <- function(crop_name, data_source) {
     stop(paste("data source: ", data_source, " is not supported"))
   }
   cropharvest_r <- .get_cropharvest_raster_helper(crop_name = crop_name, data_source = data_source)
-  cropharvest_r <- raster::raster(terra::sources(cropharvest_r))
+  #cropharvest_r <- terra::rast(terra::sources(cropharvest_r))
   return(cropharvest_r)
 }
 
 #' Get raster object from tif file
 #'
-#' This is a wrapper of [raster::raster()] and generates a raster object if provided with a TIF file.
+#' This is a wrapper of [terra::rast()] and generates a raster object if provided with a TIF file.
 #'
 #' @param path_to_tif TIF file
 #' @return Raster object
@@ -108,7 +109,7 @@ get_cropharvest_raster <- function(crop_name, data_source) {
 #' }
 get_crop_raster_fromtif <- function(path_to_tif) {
   .validate_tif(path_to_tif)
-  return(raster::raster(path_to_tif))
+  return(terra::rast(path_to_tif))
 }
 
 .validate_tif <- function(path_to_tif) {

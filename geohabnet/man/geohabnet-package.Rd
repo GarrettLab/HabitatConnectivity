@@ -6,6 +6,8 @@
 \alias{geohabnet-package}
 \title{geohabnet: Analysis of cropland connectivity}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 c("Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. Xing et al. (2021) \url{https://doi.org/10.1093/biosci/biaa067}. Package currently support crops sourced from monfreda and spam. The analysis produces 3 maps, mean, variance and difference for the risk index.
 }
 \seealso{

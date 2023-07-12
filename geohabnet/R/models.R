@@ -107,9 +107,9 @@ model_neg_exp <- function(gamma_val,
   #### create network for all the selected nodes
   ####
   # V(cropdistancematrix)$color=colororder
-  igraph::V(cropdistancematrix)$label.cex <- 0.7
-  igraph::E(cropdistancematrix)$weight * 4000
-  igraph::E(cropdistancematrix)$color <- "red"
+  # igraph::V(cropdistancematrix)$label.cex <- 0.7
+  # igraph::E(cropdistancematrix)$weight * 4000
+  # igraph::E(cropdistancematrix)$color <- "red"
 
   #### plot index layer
   ####
@@ -129,19 +129,19 @@ model_neg_exp <- function(gamma_val,
   #### CCRI is a weighted mean of all the network metrics
   ####
   mets <- Map(c, mets[[1]], mets[[2]])
-  index <- NULL
+  index <- 0
 
   ## sum of nearest neighbors degree
   if (utils::hasName(mets, STR_NEAREST_NEIGHBORS_SUM)) {
     nnc <- sonn(adj_graph, mets[[STR_NEAREST_NEIGHBORS_SUM]][[2]])
-    index <- ifelse(is.null(index), nnc, index + nnc)
+    index <- index + nnc
   }
 
   #### node degree, node strengh
   ####
   if (utils::hasName(mets, STR_NODE_STRENGTH)) {
     nsc <- node_strength(adj_graph, mets[[STR_NODE_STRENGTH]][[2]])
-    index <- ifelse(is.null(index), nsc, index + nsc)
+    index <- index + nsc
   }
 
   #### betweenness centrality
@@ -153,15 +153,17 @@ model_neg_exp <- function(gamma_val,
   # weight method 2:
   if (utils::hasName(mets, STR_BETWEENNESS)) {
     bc <- betweeness(adj_graph, mets[[STR_BETWEENNESS]][[2]])
-    index <- ifelse(is.null(index), bc, index + bc)
+    index <- index + bc
   }
 
   #### eigenvector and eigenvalues
   ####
   if (utils::hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
     evc <- ev(adj_graph, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
-    index <- ifelse(is.null(index), evc, index + evc)
+    index <- index + evc
   }
+  
+  #index[which(index == 0)] <- NA
 
   return(index)
 }
