@@ -89,7 +89,7 @@ get_cropharvest_raster <- function(crop_name, data_source) {
     stop(paste("data source: ", data_source, " is not supported"))
   }
   cropharvest_r <- .get_cropharvest_raster_helper(crop_name = crop_name, data_source = data_source)
-  #cropharvest_r <- terra::rast(terra::sources(cropharvest_r))
+
   return(cropharvest_r)
 }
 
