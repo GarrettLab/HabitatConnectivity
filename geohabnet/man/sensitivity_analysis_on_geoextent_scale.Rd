@@ -36,3 +36,6 @@ Calculate sensitivity analysis on cropland harvested area fraction
 This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
 It can be used as entry point for sensitivity analysis.
 }
+\seealso{
+\code{\link[=plot_maps]{plot_maps()}}
+}

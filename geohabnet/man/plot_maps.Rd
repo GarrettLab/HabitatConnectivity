@@ -20,9 +20,15 @@ plot_maps(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE)
 \item{pvar}{\code{TRUE} if variance map should be plotted, \code{FALSE} otherwise}
 
 \item{pdiff}{\code{TRUE} if difference map should be plotted, \code{FALSE} otherwise}
+
+\item{save}{\code{TRUE} if raster should be saved, \code{FALSE} otherwise.}
 }
 \description{
 Calculate and plot maps
 Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 Currently, the settings for plot cannot be customized.
+}
+\details{
+It will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
+It will save the file in \code{\link[=getwd]{getwd()}}.
 }

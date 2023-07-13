@@ -55,12 +55,12 @@ initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_sc
   density_data <- NULL
   if (agg_method == "sum") {
     the$cropharvest_aggtm <- cropharvest_agg / resolution / resolution # TOTAL MEAN
-    #----------- crop cropland area for the given extent ----------
+    # crop cropland area for the given extent
     the$cropharvest_aggtm_crop <- terra::crop(the$cropharvest_aggtm, geo_scale)
     density_data <- .extract_cropland_density(the$cropharvest_aggtm_crop, host_density_threshold)
   } else if (agg_method == "mean") {
     the$cropharvest_agglm <- cropharvest_agg
-    #----------- crop cropland area for the given extent ----------
+    # crop cropland area for the given extent
     the$cropharvest_agglm_crop <- terra::crop(the$cropharvest_agglm, geo_scale)
     density_data <- .extract_cropland_density(the$cropharvest_agglm_crop, host_density_threshold)
   }
@@ -252,6 +252,7 @@ calculate_ccri <- function(
 #' @param resolution resolution to plot raster and map
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
+#' @seealso [plot_maps()]
 sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scale,
                                                     aggregate_methods = c("sum", "mean"), cropharvest_raster,
                                                     host_density_threshold = 0, resolution = 24) {
@@ -362,6 +363,8 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
 #'             0.00001,
 #'             c("sum"),
 #'             resolution = 12)
+#'
+#' @seealso [plot_maps()]
 sa_onrasters <- function(cropharvest_raster,
                          geo_scales,
                          link_thresholds,
@@ -393,6 +396,7 @@ sa_onrasters <- function(cropharvest_raster,
 #' # Run analysis on specified parameters.yaml
 #' senstivity_analysis()
 #' }
+#' @seealso [plot_maps()]
 senstivity_analysis <- function() {
 
   the$is_initialized <- FALSE

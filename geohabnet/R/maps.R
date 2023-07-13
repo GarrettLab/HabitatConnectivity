@@ -7,6 +7,11 @@
 #' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise
 #' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise
+#' @param save `TRUE` if raster should be saved, `FALSE` otherwise.
+#' @details
+#' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
+#' It will save the file in [getwd()].
+#'
 #' @export
 plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE) {
 
@@ -50,7 +55,8 @@ ccri_mean <- function(indexes, geoscale = NULL, reso = NULL, plt = TRUE) {
           paste("Mean cropland connectivity risk index\n",
                             "resolution = ", the$parameters_config$`CCRI parameters`$Resolution),
           geoscale,
-          zlim = c(0, 1))
+          zlim = c(0, 1),
+          typ = "mean")
   }
 
   return(mean_index)
@@ -76,7 +82,7 @@ ccri_variance <- function(indexes,
   var_disag_rast <- terra::disagg(rast, fact = c(resolution, resolution))
   var_disag_rast <- var_disag_rast + .cal_zerorast(var_disag_rast, resolution)
 
-  .plot(var_disag_rast, "Variance in cropland connectivity", geoscale, zlim = z_var_w)
+  .plot(var_disag_rast, "Variance in cropland connectivity", geoscale, zlim = z_var_w, typ = "variance")
 
   invisible(1)
 }
@@ -126,23 +132,51 @@ cal_diff_map <- function(mean_index_rast,
                             fact = c(resolution, resolution))
   diagg_rast <- diagg_rast + .cal_zerorast(diagg_rast, resolution)
 
-  .plot(diagg_rast, "Difference in rank of host density and host connectivity", geoscale, paldif4, zr2)
+  .plot(diagg_rast, "Difference in rank of host density and host connectivity",
+        geoscale, paldif4, zr2, typ = "difference")
 
   invisible(2)
 }
 
 # private functions -------------------------------------------------------
 
-.plot <- function(rast, label, geoscale, colorss = .get_palette(), zlim) {
+.plot <- function(rast, label, geoscale, colorss = .get_palette(), zlim, typ = "plot") {
 
+  # Set the plot parameters
+  graphics::par(mar = c(0, 0, 0, 0), bg = "aliceblue")
+
+  # Plot the base map
   terra::plot(.cal_mgb(geoscale),
               col = "grey85", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
-              main = label)
-  terra::plot(rworldmap::countriesLow, add = TRUE)
+              main = label, cex.main = 0.9)
 
+  # Plot the country boundaries
+  world <- rnaturalearthdata::countries110
+  terra::plot(world, col = "grey85", border = "black", add = TRUE)
+
+  # Plot the raster
   terra::plot(rast,
               col = colorss, zlim = zlim, xaxt = "n", yaxt = "n",
-              axes = FALSE, box = FALSE, add = TRUE
-  )
-  terra::plot(rworldmap::countriesLow, add = TRUE)
+              axes = FALSE, box = FALSE, add = TRUE, lwd = 0.7, )
+
+  # Add a legend
+  if (!is.null(zlim)) {
+    graphics::legend("bottomright",
+                     legend = round(zlim, 1),
+                     fill = colorss,
+                     bty = "n",
+                     cex = 0.8,
+                     border = "black"
+    )
+  }
+
+  # Save the plot as a raster file
+  fname <- paste(typ,
+                 "_",
+                 stringi::stri_rand_strings(1, 5),
+                 ".tif", sep = "")
+  terra::writeRaster(rast, overwrite = TRUE, filename = fname, gdal = c("COMPRESS=NONE"))
+  cat("raster created", fname, sep = ": ")
+
+  invisible(4)
 }

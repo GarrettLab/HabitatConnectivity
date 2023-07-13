@@ -17,3 +17,6 @@ Plots results of sensitivity analysis.
 senstivity_analysis()
 }
 }
+\seealso{
+\code{\link[=plot_maps]{plot_maps()}}
+}

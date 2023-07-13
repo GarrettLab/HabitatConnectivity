@@ -48,7 +48,10 @@ sa_onrasters(rr[[1]],
             0.00001,
             c("sum"),
             resolution = 12)
+
 }
 \seealso{
 Use \code{\link[=get_rasters]{get_rasters()}} to obtain raster object.
+
+\code{\link[=plot_maps]{plot_maps()}}
 }
