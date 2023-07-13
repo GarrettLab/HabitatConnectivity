@@ -16,3 +16,8 @@ Returns metrics currently supported in the analysis.
 supported_metrics()
 
 }
+\seealso{
+Other metrics: 
+\code{\link{nn_sum}()}
+}
+\concept{metrics}

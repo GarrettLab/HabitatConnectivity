@@ -9,7 +9,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-7317-3090")),
     person("Garrett Lab", role = c("cph", "fnd"))
     )
-Description: c("Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. Xing et al. (2021) <https://doi.org/10.1093/biosci/biaa067>. Package currently support crops sourced from monfreda and spam. The analysis produces 3 maps, mean, variance and difference for the risk index.
+Description: c("Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. Xing et al. (2021) <https://doi.org/10.1093/biosci/biaa067>. Package currently support crops sourced from monfreda and spam. The analysis produces 3 maps - mean, variance and difference for the risk index.
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -20,14 +20,15 @@ Imports:
     geodata (>= 0.5.8),
     geosphere (>= 1.5.18),
     igraph (>= 1.4.2),
-    raster (>= 3.6.20),
-    rworldmap (>= 1.3.6),
     terra (>= 1.7.29),
     easycsv (>= 1.0.8),
     yaml (>= 2.3.7),
     stats (>= 4.2.3),
     stringr (>= 1.5.0),
-    memoise
+    memoise (>= 2.0.1),
+    rnaturalearthdata,
+    graphics (>= 4.2.3),
+    stringi
 Suggests: 
     lintr (>= 3.0.2),
     mockthat (>= 0.2.8),

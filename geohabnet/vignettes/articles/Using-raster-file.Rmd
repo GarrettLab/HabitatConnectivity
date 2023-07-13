@@ -64,7 +64,7 @@ names      : spam2017V2r1_SSA_H_BEAN_A
 To ensure we have the correct raster,
 
 ```{r eval=FALSE}
-raster::plot(rr)
+terra::plot(rr)
 ```
 
 ![Raster plot for Beans](raster_plot.png){width="408"}

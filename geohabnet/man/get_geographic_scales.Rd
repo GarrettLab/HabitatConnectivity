@@ -2,7 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{get_geographic_scales}
 \alias{get_geographic_scales}
-\title{Get geographical scales from the paramters
+\title{Get geographical scales from the parameters
 This function returns a list of geographical scales set global and custom extent in parameters.yaml}
 \usage{
 get_geographic_scales()
@@ -11,6 +11,6 @@ get_geographic_scales()
 A list of geographical scales
 }
 \description{
-Get geographical scales from the paramters
+Get geographical scales from the parameters
 This function returns a list of geographical scales set global and custom extent in parameters.yaml
 }

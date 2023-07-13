@@ -43,6 +43,9 @@
     <loc>/reference/STR_PAGE_RANK.html</loc>
   </url>
   <url>
+    <loc>/reference/cal_diff_map.html</loc>
+  </url>
+  <url>
     <loc>/reference/calculate_ccri.html</loc>
   </url>
   <url>
@@ -53,6 +56,9 @@
   </url>
   <url>
     <loc>/reference/calculate_zero_raster.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ccri_mean.html</loc>
   </url>
   <url>
     <loc>/reference/ccri_neg_exponential_function.html</loc>
@@ -118,7 +124,16 @@
     <loc>/reference/load_parameters.html</loc>
   </url>
   <url>
+    <loc>/reference/metric_funs.html</loc>
+  </url>
+  <url>
     <loc>/reference/model_powerlaw.html</loc>
+  </url>
+  <url>
+    <loc>/reference/nn_sum.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_maps.html</loc>
   </url>
   <url>
     <loc>/reference/sa_onrasters.html</loc>

@@ -28,7 +28,7 @@ model_powerlaw <- function(beta,
                            crop_cells_above_threshold,
                            metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
 
-  .validate_metrics(metrics)
+  metrics <- .refined_mets(metrics)
   #### create adjacency matrix
 
   stan <- if (is.null(adj_mat)) {
@@ -42,7 +42,7 @@ model_powerlaw <- function(beta,
 
     cropmatrix <- cropmatr1 %*% cropmatr2
     cropmatrix <- as.matrix(cropmatrix)
-    # adjacecy matrix
+    # adjacency matrix
     cropdistancematr <- distancematrexp * cropmatrix # make available to users
     # adjacency matrix after threshold
     logicalmatr <- cropdistancematr > link_threshold
@@ -74,7 +74,7 @@ model_neg_exp <- function(gamma_val,
                              crop_raster,
                              crop_cells_above_threshold,
                              metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
-  .validate_metrics(metrics)
+  metrics <- .refined_mets(metrics)
 
   #### create adjacency matrix
   ####
@@ -104,15 +104,6 @@ model_neg_exp <- function(gamma_val,
                                                 mode = c("undirected"),
                                                 diag = FALSE, weighted = TRUE
   )
-  #### create network for all the selected nodes
-  ####
-  # V(cropdistancematrix)$color=colororder
-  igraph::V(cropdistancematrix)$label.cex <- 0.7
-  igraph::E(cropdistancematrix)$weight * 4000
-  igraph::E(cropdistancematrix)$color <- "red"
-
-  #### plot index layer
-  ####
 
   indexpre <- crop_raster
   indexpre[] <- 0
@@ -126,42 +117,19 @@ model_neg_exp <- function(gamma_val,
 
 .apply_met <- function(mets, adj_graph) {
 
-  #### CCRI is a weighted mean of all the network metrics
-  ####
   mets <- Map(c, mets[[1]], mets[[2]])
-  index <- NULL
+  index <- 0
 
-  ## sum of nearest neighbors degree
-  if (utils::hasName(mets, STR_NEAREST_NEIGHBORS_SUM)) {
-    nnc <- sonn(adj_graph, mets[[STR_NEAREST_NEIGHBORS_SUM]][[2]])
-    index <- ifelse(is.null(index), nnc, index + nnc)
+  # Iterate over the metric names and values in 'mets'
+  for (mname in names(mets)) {
+    if (mname %in% names(metric_funs)) {
+      val <- mets[[mname]][[2]]
+      mfun <- metric_funs[[mname]]
+      index <- index + mfun(adj_graph, val)
+    }
   }
 
-  #### node degree, node strengh
-  ####
-  if (utils::hasName(mets, STR_NODE_STRENGTH)) {
-    nsc <- node_strength(adj_graph, mets[[STR_NODE_STRENGTH]][[2]])
-    index <- ifelse(is.null(index), nsc, index + nsc)
-  }
-
-  #### betweenness centrality
-  ####
-  # weight method 0:
-  # between<-betweenness(cropdistancematrix, weights = 1/E(cropdistancematrix)$weight)
-  # weight method 1:
-  #   between<-betweenness(cropdistancematrix, weights = -log(E(cropdistancematrix)$weight))
-  # weight method 2:
-  if (utils::hasName(mets, STR_BETWEENNESS)) {
-    bc <- betweeness(adj_graph, mets[[STR_BETWEENNESS]][[2]])
-    index <- ifelse(is.null(index), bc, index + bc)
-  }
-
-  #### eigenvector and eigenvalues
-  ####
-  if (utils::hasName(mets, STR_EIGEN_VECTOR_CENTRALITY)) {
-    evc <- ev(adj_graph, mets[[STR_EIGEN_VECTOR_CENTRALITY]][[2]])
-    index <- ifelse(is.null(index), evc, index + evc)
-  }
+  replace(index, index == 0, NA)
 
   return(index)
 }

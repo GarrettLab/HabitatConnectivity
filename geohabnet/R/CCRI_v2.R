@@ -2,24 +2,15 @@
 
 # Utility functions -------------------------------------------------------
 
-.extract_lon_lat <- function(crop_cells_above_threshold, cropharvest_agg_crop) {
-  #----------- Extract xy corrdination for "povalue" cells ---------
-  lon <- NULL # xmin
-  lat <- NULL # ymax
-
-  for (i in seq_along(crop_cells_above_threshold)) {
-    temp <- raster::extentFromCells(cropharvest_agg_crop, crop_cells_above_threshold[i])
-    av_xmin0 <- temp[1]
-    lon <- c(lon, av_xmin0)
-    av_ymax0 <- temp[4]
-    lat <- c(lat, av_ymax0)
+.loadparam_ifnotnull <- function() {
+  if (is.null(the$parameters_config)) {
+    the$parameters_config <- load_parameters()
   }
-  return(list(longitude = lon, latitude = lat))
 }
 
 #----------- Extract cropland density data -----------------------
 .extract_cropland_density <- function(cropharvest_agg_crop, host_density_threshold) {
-  crop_values <- raster::getValues(cropharvest_agg_crop)
+  crop_values <- terra::values(cropharvest_agg_crop)
   max_val <- max(crop_values, na.rm = TRUE)
   if (max_val <= host_density_threshold) {
     stop(paste("host density threshold: ", host_density_threshold,
@@ -27,8 +18,9 @@
   }
   crop_cells_above_threshold <- which(crop_values > host_density_threshold)
   thresholded_crop_values <- crop_values[crop_cells_above_threshold]
-  return(c(.extract_lon_lat(crop_cells_above_threshold, cropharvest_agg_crop),
-           list(crop_value = thresholded_crop_values, crop_values_at = crop_cells_above_threshold)))
+  return(list(agg_crop = cropharvest_agg_crop,
+              crop_value = thresholded_crop_values,
+              crop_values_at = crop_cells_above_threshold))
 }
 
 # Initialize --------------------------------------------------
@@ -43,47 +35,7 @@ the$cropharvest_aggtm <- NULL
 the$cropharvest_agglm_crop <- NULL
 the$cropharvest_aggtm_crop <- NULL
 
-#' Global cropland density map
-#' Only when user has enabled global analysis
-#' @param map_grey_background_extent A raster object for map's grey background
-#' @param resolution resolution to plot raster and map
-#' @export
-global_analysis <- function(map_grey_background_extent, resolution =
-                              the$parameters_config$`CCRI parameters`$Resolution) {
-  # ```{r, fig.width=20, fig.height=10, dpi=400}
-
-  cropharvest_aggtm_crop1 <- raster::crop(the$cropharvest_aggtm, raster::extent(-180, 180, -60, 80))
-  zr_world_mean <- range(0.1, max(raster::getValues(cropharvest_aggtm_crop1)))
-
-  # Removing pixels outside boundary
-  mean_index_raster_val <- raster::getValues(cropharvest_aggtm_crop1)
-  # structure(mean_index_raster_val)
-
-  zeroid <- which(mean_index_raster_val == 0)
-  the$cropharvest_aggtm[zeroid] <- NaN
-
-  zero_raster <- raster::raster(.get_helper_filepath(.kzeroraster_file_type))
-  cam_zero <- raster::crop(zero_raster, raster::extent(-180, 180, -60, 80))
-  mean_index_raster <- raster::disaggregate(cropharvest_aggtm_crop1, fact = c(resolution, resolution), method = "")
-  mean_index_raster_cam <- mean_index_raster + cam_zero
-
-  # Plotting cropland density
-  map_grey_background <- raster::raster(.get_helper_filepath(.kmapgreybackground_file_type))
-
-  map_grey_background_cam <- raster::crop(map_grey_background, raster::extent(-180, 180, -60, 80))
-  crop_names <- .get_cs_host_names(the$parameters_config)
-  plot(map_grey_background_cam,
-    col = "grey75", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
-    main = paste("Mean in crop area fraction:", crop_names), cex.main = 1.6
-  )
-
-  plot(mean_index_raster_cam,
-    main = paste("Crop area density: ", crop_names),
-    col = .get_palette()(), zlim = zr_world_mean, xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, add = TRUE
-  )
-}
-
-#' intialize cropland data with geiven paramters, it will be later used to calculate CCRI and other functions
+#' Initialize cropland data with given parameters, it will be later used to calculate CCRI and other functions
 #' @param cropharvest_raster A raster object for cropland harvest
 #' @param resolution resolution to plot raster and map  (default: 12)
 #' @param geo_scale A list of longitude and latitude values for cropland analysis
@@ -92,28 +44,24 @@ global_analysis <- function(map_grey_background_extent, resolution =
 #' @export
 #' @details
 #' This function also creates global variables which are result of applying aggregate functions into raster.
-#' Theese global variables are used when applying allgorithms - ipl[ccri_powerlaw()] and ne[ccri_negative_exp()].
+#' These global variables are used when applying algorithms - [ccri_powerlaw()] and [ccri_negative_exp()].
 #'
 initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_scale,
                                      host_density_threshold = 0, agg_method = "sum") {
 
-  #----------- aggregration -----------------------------
-  cropharvest_agg <- raster::aggregate(cropharvest_raster, fact = resolution, fun = agg_method,
+  # aggregation
+  cropharvest_agg <- terra::aggregate(cropharvest_raster, fact = resolution, fun = agg_method,
                                        na.action = stats::na.omit)
   density_data <- NULL
   if (agg_method == "sum") {
     the$cropharvest_aggtm <- cropharvest_agg / resolution / resolution # TOTAL MEAN
-    raster::plot(the$cropharvest_aggtm, col = .get_palette()) # map of cropland density
-    #----------- crop cropland area for the given extent ----------
-    the$cropharvest_aggtm_crop <- raster::crop(the$cropharvest_aggtm, geo_scale)
-    raster::plot(the$cropharvest_aggtm_crop, col = .get_palette()) # TODO: don't show this
+    # crop cropland area for the given extent
+    the$cropharvest_aggtm_crop <- terra::crop(the$cropharvest_aggtm, geo_scale)
     density_data <- .extract_cropland_density(the$cropharvest_aggtm_crop, host_density_threshold)
   } else if (agg_method == "mean") {
-    cropharvest_agglm <- cropharvest_agg
-    raster::plot(cropharvest_agglm, col = .get_palette())
-    #----------- crop cropland area for the given extent ----------
-    the$cropharvest_agglm_crop <- raster::crop(cropharvest_agglm, geo_scale)
-    raster::plot(the$cropharvest_agglm_crop, col = .get_palette())
+    the$cropharvest_agglm <- cropharvest_agg
+    # crop cropland area for the given extent
+    the$cropharvest_agglm_crop <- terra::crop(the$cropharvest_agglm, geo_scale)
     density_data <- .extract_cropland_density(the$cropharvest_agglm_crop, host_density_threshold)
   }
 
@@ -121,17 +69,18 @@ initialize_cropland_data <- function(cropharvest_raster, resolution = 12, geo_sc
     stop("unable to extract density data, longitude/latitude")
   }
 
-  # Prepare arguments elements values for the CCRI funtions
-  cropdata1 <- data.frame(density_data$longitude, density_data$latitude, density_data$crop_value)
+  # Prepare arguments elements values for the CCRI functions
+  #cropdata1 <- data.frame(density_data$longitude, density_data$latitude, density_data$crop_value)
   # adjustConstant <- 2 # to adjust the distance and make sure the distance >1
-  latilongimatr <- cropdata1[, c(1:2)] # save the latitude and longitude as new matrix
-  #---- use Geosphere package, fun distVincentyEllipsoid() is used to calculate the distance, defult distance is meter
+  # save the latitude and longitude as new matrix
+  latilongimatr <- terra::xyFromCell(density_data$agg_crop, cell = density_data$crop_values_at)
+  #---- use Geosphere package, fun distVincentyEllipsoid() is used to calculate the distance, default distance is meter
   # reference of standard distance in meter for one degree
   dvse <- geosphere::distVincentyEllipsoid(c(0, 0), cbind(1, 0))
   latilongimatr <- as.matrix(latilongimatr)
   temp_matrix <- matrix(-999, nrow(latilongimatr), nrow(latilongimatr))
 
-  # TODO: set round limit programitcally
+  # TODO: set round limit
   for (i in seq_len(nrow(latilongimatr))) {
     temp_matrix[i, ] <- geosphere::distVincentyEllipsoid(round(latilongimatr[i, ], 5), latilongimatr) / dvse
   }
@@ -166,6 +115,8 @@ ccri_powerlaw <- function(dispersal_parameter_beta_vals,
     return(0)
   }
 
+  .loadparam_ifnotnull()
+
   index_list <- lapply(dispersal_parameter_beta_vals, model_powerlaw,
                        link_threshold = link_threshold,
                        the$distance_matrix,
@@ -198,6 +149,8 @@ ccri_negative_exp <- function(dispersal_parameter_gamma_vals,
     return(0)
   }
 
+  .loadparam_ifnotnull()
+
   index_list <- lapply(dispersal_parameter_gamma_vals,
                        model_neg_exp,
                        link_threshold = link_threshold,
@@ -228,7 +181,7 @@ ccri_negative_exp <- function(dispersal_parameter_gamma_vals,
   return(ready)
 }
 
-#' Get geographical scales from the paramters
+#' Get geographical scales from the parameters
 #' This function returns a list of geographical scales set global and custom extent in parameters.yaml
 #' @return A list of geographical scales
 #' @export
@@ -248,173 +201,6 @@ get_geographic_scales <- function() {
 
   return(geo_scales)
 }
-
-#' Calculate raster objects for given extent and resolution
-#'  This function returns a list of zero raster and map grey background extent
-#' @param geoscale A list of longitude and latitude values for cropland analysis
-#' @param mean_index_raster A raster object for mean index raster
-#' @param resolution resolution to plot raster and map
-#' @return A list of zero raster and map grey background extent
-#' @export
-calculate_zero_raster <- function(geoscale, mean_index_raster,
-                                  resolution = the$parameters_config$`CCRI parameters`$Resolution) {
-  #--- remove pixels outside of boundary
-  # TODO: is there any other way to get 0 raster?
-  zero_raster <- raster::raster(.get_helper_filepath(.kzeroraster_file_type))
-  ext_zero <- raster::crop(zero_raster, geoscale)
-  mean_index_raster <- raster::disaggregate(mean_index_raster, fact = c(resolution, resolution), method = "")
-  mean_index_raster_ext <- mean_index_raster + ext_zero
-  # TODO: remove this plot..use the one below with col = grey75
-  raster::plot(mean_index_raster_ext,
-    col = .get_palette(), zlim = c(0.000000000000, 1), xaxt = "n",
-    yaxt = "n", axes = FALSE, box = FALSE, main = paste(
-      "Mean cropland connectivity risk index from sensitivity analysis:",
-      paste(the$parameters_config$`CCRI parameters`$Hosts, collapse = ",")
-    ),
-    cex.main = 0.7
-  )
-  raster::plot(rworldmap::countriesLow, add = TRUE)
-
-  map_grey_background_ext <- .get_map_grey_background_extent(geoscale)
-
-  raster::plot(map_grey_background_ext,
-    col = "grey75", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
-    main = paste(
-      "Mean cropland connectivity risk index from sensitivity analysis:",
-      paste(the$parameters_config$`CCRI parameters`$Hosts, collapse = ",")
-    ), cex.main = 0.7
-  )
-  raster::plot(mean_index_raster_ext,
-    col = .get_palette(), zlim = c(0.000000000000, 1), xaxt = "n",
-    yaxt = "n", axes = FALSE, box = FALSE, add = TRUE
-  )
-
-  raster::plot(rworldmap::countriesLow, add = TRUE, border = "white")
-
-  return(c(zero_raster_extent = ext_zero, map_grey_background_extent = map_grey_background_ext, use.names = TRUE))
-}
-
-#' Calculate variance of CCRI
-#'    This function produces a map of variance of CCRI based on inpt parameters
-#' @param indexes A list of index values
-#' @param variance_mean_index_raster A raster object for variance mean index raster
-#' @param zero_extent_raster A raster object for zero extent raster
-#' @param map_grey_background_ext A raster object for map grey background extent
-#' @param resolution resolution to plot raster and map
-#' @export
-ccri_variance <- function(indexes, variance_mean_index_raster, zero_extent_raster, map_grey_background_ext,
-                          resolution = the$parameters_config$`CCRI parameters`$Resolution) {
-  # ```{r ,fig.width=6, fig.height=7, dpi=150}
-  variance_mean_index_ext <- apply(do.call(cbind, indexes), 1, stats::var)
-
-
-  variance_mean_index_raster[] <- variance_mean_index_ext
-  z_var_w <- range(variance_mean_index_ext[which(variance_mean_index_ext > 0)])
-  raster::plot(variance_mean_index_raster,
-    col = .get_palette(), zlim = z_var_w, xaxt = "n",
-    yaxt = "n", axes = FALSE, box = FALSE, main = paste(
-      "Variance in Cropland Connectivity for range: ",
-      paste(z_var_w, collapse = " to ")
-    )
-  )
-  raster::plot(rworldmap::countriesLow, add = TRUE)
-
-  variance_mean_index_raster_ext_disagg <- raster::disaggregate(variance_mean_index_raster,
-    fact = c(resolution, resolution), method = ""
-  )
-  variance_mean_index_raster_ext_disagg <- variance_mean_index_raster_ext_disagg + zero_extent_raster
-
-
-  # TODO: explore colors
-  raster::plot(map_grey_background_ext,
-    col = "grey75", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
-    main = paste(
-      "Variance in cropland connectivity risk index from sensitivity analysis:",
-      paste(the$parameters_config$`CCRI parameters`$Hosts, collapse = ",")
-    ), cex.main = 0.7
-  )
-  raster::plot(variance_mean_index_raster_ext_disagg,
-    col = .get_palette(), zlim = z_var_w, xaxt = "n",
-    yaxt = "n", axes = FALSE, box = FALSE, add = TRUE
-  )
-  raster::plot(rworldmap::countriesLow, add = TRUE)
-}
-
-# difference map ----------------------------------------------------------
-#' Calculate difference map
-#' This function produces a map of difference in rank of cropland harvested area fraction
-#' @param mean_index_raster_diff A raster object for mean index raster difference
-#' @param cropharvest_aggtm_crop A raster object for cropland harvest
-#' @param cropharvest_agglm_crop A raster object for cropland harvest
-#' @param zero_extent_raster A raster object for zero extent raster
-#' @param map_grey_background_ext A raster object for map grey background extent
-#' @param resolution resolution to plot raster and map
-#' @export
-calculate_difference_map <- function(mean_index_raster_diff, cropharvest_aggtm_crop, cropharvest_agglm_crop,
-                                     zero_extent_raster, map_grey_background_ext,
-                                     resolution = the$parameters_config$`CCRI parameters`$Resolution) {
-  # difference map
-  if (missing(cropharvest_aggtm_crop) || missing(cropharvest_agglm_crop)) {
-    message("Either sum or mean aggregate is missing. Aborting diffrence calculation")
-    return(NULL)
-  }
-  if (is.null(cropharvest_aggtm_crop) || is.null(cropharvest_agglm_crop)) {
-    message("Either sum or mean aggregate is missing. Aborting diffrence calculation")
-    return(NULL)
-  }
-
-  ccri_id <- which(mean_index_raster_diff[] > 0)
-  meantotalland_w <- sum(cropharvest_aggtm_crop, cropharvest_agglm_crop, na.rm = TRUE) / 2
-
-  meanindexcell_w <- mean_index_raster_diff[][ccri_id]
-  meantotallandcell_w <- meantotalland_w[][ccri_id]
-
-  # mean cropland minus mean index, negative value means importance of cropland reduce,
-  # positive value means importance increase, zero means the importance of cropland doesn't change.
-  rankdifferent_w <- rank(meantotallandcell_w * (-1)) - rank(meanindexcell_w * (-1))
-  mean_index_raster_diff[] <- NaN
-  mean_index_raster_diff[][ccri_id] <- rankdifferent_w
-
-  maxrank_w <- max(abs(rankdifferent_w))
-  zr2 <- range(-maxrank_w, maxrank_w)
-
-  # TODO: not required
-  paldif4 <- .get_palette_for_diffmap()
-
-  raster::plot(mean_index_raster_diff, main = paste(
-    "Difference in rank of cropland harvested area fraction and CCRI:",
-    paste(the$parameters_config$`CCRI parameters`$Hosts, collapse = ",")
-  ), col = paldif4, zlim = zr2, xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, cex.main = 0.7)
-  raster::plot(rworldmap::countriesLow, add = TRUE)
-
-  # mean_index_raster_diff[]
-  #--- remove pixels outside of boundary
-  # ZeroRaster <- raster("ZeroRaster.tif")
-  # West_Zero <- crop(ZeroRaster, west_ext)
-  # rasters <- adjust_rasterpair_extent(mean_index_raster_diff, zeroExtentRaster)
-  mean_index_raster_diff_disagg <- raster::disaggregate(mean_index_raster_diff,
-    fact = c(resolution, resolution), method = ""
-  )
-  mean_index_raster_diff_disagg <- mean_index_raster_diff_disagg + zero_extent_raster
-
-  crop_names <- .get_cs_host_names(the$parameters_config)
-  # TODO: not required
-  raster::plot(mean_index_raster_diff_disagg,
-    main = paste("Difference in rank of cropland harvested area fraction and CCRI:", crop_names),
-    col = paldif4, zlim = zr2, xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, cex.main = 0.7
-  )
-  raster::plot(rworldmap::countriesLow, add = TRUE)
-
-  raster::plot(map_grey_background_ext,
-    col = "grey65", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
-    main = paste("Difference in rank of cropland harvested area fraction and CCRI:", crop_names), cex.main = 0.7
-  )
-  raster::plot(mean_index_raster_diff_disagg,
-    col = paldif4, zlim = zr2, xaxt = "n", yaxt = "n",
-    axes = FALSE, box = FALSE, add = TRUE
-  )
-}
-
 
 # CCRI functions ----------------------------------------------------------
 #' Calculate Cropland Connectivity Risk Index (CCRI)
@@ -438,17 +224,20 @@ calculate_ccri <- function(
     negative_exponential_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
     crop_cells_above_threshold, thresholded_crop_values) {
 
+  .loadparam_ifnotnull()
+
   # TODO: parallelize them
-  ccri_powerlaw(the$parameters_config$`CCRI parameters`$DispersalParameterBeta, link_threshold,
+  ccri_powerlaw(the$parameters_config$`CCRI parameters`$DispersalParameterBeta,
+                link_threshold,
                 metrics = power_law_metrics,
                 crop_cells_above_threshold = crop_cells_above_threshold,
                 thresholded_crop_values = thresholded_crop_values)
 
   ccri_negative_exp(the$parameters_config$`CCRI parameters`$DispersalParameterGamma,
-                            link_threshold,
-                            metrics = negative_exponential_metrics,
-                            crop_cells_above_threshold = crop_cells_above_threshold,
-                            thresholded_crop_values = thresholded_crop_values)
+                    link_threshold,
+                    metrics = negative_exponential_metrics,
+                    crop_cells_above_threshold = crop_cells_above_threshold,
+                    thresholded_crop_values = thresholded_crop_values)
 }
 
 # Sensitivity analysis ----------------------------------------------------
@@ -463,6 +252,7 @@ calculate_ccri <- function(
 #' @param resolution resolution to plot raster and map
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
+#' @seealso [plot_maps()]
 sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scale,
                                                     aggregate_methods = c("sum", "mean"), cropharvest_raster,
                                                     host_density_threshold = 0, resolution = 24) {
@@ -470,10 +260,12 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
       Link threshold: ", link_threshold,
       "Host density threshold: ", host_density_threshold, "\n")
 
-  geo_areaext <- raster::extent(as.numeric(unlist(geo_scale))) # list
+  .loadparam_ifnotnull()
+
+  geo_areaext <- terra::ext(as.numeric(unlist(geo_scale))) # list
   the$result_index_list <- list()
 
-  mets <- get_param_metrics(the$parameters_config$`CCRI parameters`$NetworkMetrics)
+  mets <- get_param_metrics(the$parameters_config)
 
   for (agg_method in aggregate_methods) {
     cropland_density_info <- initialize_cropland_data(cropharvest_raster, resolution, geo_areaext,
@@ -490,35 +282,16 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
                     cropland_density_info$crop_value)
   }
 
-  stacked_rasters <- raster::stack(the$result_index_list)
-  mean_index_raster <- raster::calc(stacked_rasters, sum) / length(the$result_index_list)
-
-  mean_index_raster_diff <- mean_index_raster
-  variance_mean_index_raster <- mean_index_raster
-
-  mean_index_raster_val <- raster::getValues(mean_index_raster)
-  zeroid <- which(mean_index_raster_val == 0)
-  mean_index_raster[zeroid] <- NaN
-
-  terra::plot(mean_index_raster,
-    col = .get_palette(), zlim = c(0, 1),
-    main = paste("Mean cropland connectivity risk index from sensitivity analysis: ",
-                 the$parameters_config$`CCRI parameters`$Crops, "resolution = ",
-                 the$parameters_config$`CCRI parameters`$Resolution), cex.main = 0.7)
-  raster::plot(rworldmap::countriesLow, add = TRUE)
-
-  zero_raster_results <- calculate_zero_raster(geo_areaext, mean_index_raster, resolution = resolution)
-  ccri_variance(
-    lapply(the$result_index_list, raster::getValues),
-    variance_mean_index_raster, zero_raster_results$zero_raster_extent,
-    zero_raster_results$map_grey_background_extent)
-
-  calculate_difference_map(
-    mean_index_raster_diff, the$cropharvest_aggtm_crop, the$cropharvest_agglm_crop,
-    zero_raster_results$zero_raster_extent, zero_raster_results$map_grey_background_extent)
+  plot_maps(the$result_index_list,
+            geo_scale,
+            resolution,
+            as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
+            as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
+            as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
+            )
 
   the$is_initialized <- FALSE
-  invisible()
+  invisible(3)
 }
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
@@ -576,6 +349,22 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
 #' Independent analysis is run on each sale.
 #' @inherit sensitivity_analysis_on_cropland_threshold
 #' @export
+#' @examples
+#' rr <- get_rasters(list(monfreda = c("coffee")))
+#' sa_onrasters(rr[[1]],
+#'             geo_scales = list(c(-115, -75, 5, 32)),
+#'             c(0.0001, 0.00004),
+#'             c(0.0001, 0.00005),
+#'             c("sum", "mean"),
+#'             resolution = 12)
+#' sa_onrasters(rr[[1]],
+#'             geo_scales = list(c(-115, -75, 5, 32)),
+#'             0.0001,
+#'             0.00001,
+#'             c("sum"),
+#'             resolution = 12)
+#'
+#' @seealso [plot_maps()]
 sa_onrasters <- function(cropharvest_raster,
                          geo_scales,
                          link_thresholds,
@@ -584,6 +373,8 @@ sa_onrasters <- function(cropharvest_raster,
                          resolution) {
 
   cat("New analysis started for given raster")
+
+  .loadparam_ifnotnull()
 
   lapply(geo_scales,
          sensitivity_analysis_on_cropland_threshold,
@@ -605,6 +396,7 @@ sa_onrasters <- function(cropharvest_raster,
 #' # Run analysis on specified parameters.yaml
 #' senstivity_analysis()
 #' }
+#' @seealso [plot_maps()]
 senstivity_analysis <- function() {
 
   the$is_initialized <- FALSE

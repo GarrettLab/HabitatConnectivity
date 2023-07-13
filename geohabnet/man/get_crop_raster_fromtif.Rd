@@ -13,7 +13,7 @@ get_crop_raster_fromtif(path_to_tif)
 Raster object
 }
 \description{
-This is a wrapper of \code{\link[raster:raster]{raster::raster()}} and generates a raster object if provided with a TIF file.
+This is a wrapper of \code{\link[terra:rast]{terra::rast()}} and generates a raster object if provided with a TIF file.
 }
 \examples{
 \dontrun{

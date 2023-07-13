@@ -32,6 +32,29 @@
   return(weight_vec)
 }
 
+.refined_mets <- function(mets) {
+  mets <- lapply(mets, tolower)
+  mets[["weights"]] <- as.numeric(mets[["weights"]])
+  if (!is.null(mets)) {
+    .validate_metrics(mets)
+  }
+  return(mets)
+}
+
+# exported functions ------------------------------------------------------
+
+#' list stores functions to apply metrics to distance metrics.
+#' @keywords internal
+metric_funs <- list(
+  STR_NEAREST_NEIGHBORS_SUM = function(graph, param) nn_sum(graph, param),
+  STR_NODE_STRENGTH = function(graph, param) node_strength(graph, param),
+  STR_BETWEENNESS = function(graph, param) betweeness(graph, param),
+  STR_EIGEN_VECTOR_CENTRALITY = function(graph, param) ev(graph, param),
+  STR_CLOSENESS_CENTRALITY = function(graph, param) closeness(graph, param),
+  STR_PAGE_RANK = function(graph, param) pagerank(graph, param),
+  STR_DEGREE = function(graph, param) degree(graph, param)
+)
+
 #'
 #'  Returns metrics currently supported in the analysis.
 #'
@@ -40,6 +63,7 @@
 #' @examples
 #' supported_metrics()
 #'
+#' @family metrics
 #' @export
 supported_metrics <- function() {
   return(c(STR_BETWEENNESS,
@@ -66,37 +90,34 @@ supported_metrics <- function() {
 #'
 #' @export
 get_param_metrics <- function(params = load_parameters()) {
-  pl <- params$`CCRI parameters`$NetworkMetrics$InversePowerLaw
-  if (!is.null(pl)) {
-    .validate_metrics(pl)
-  }
-  ne <- params$`CCRI parameters`$NetworkMetrics$NegativeExponential
-  if (!is.null(ne)) {
-    .validate_metrics(ne)
-  }
-  return(list(pl = pl, ne = ne))
+
+  return(list(pl = .refined_mets(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw),
+              ne = .refined_mets(params$`CCRI parameters`$NetworkMetrics$NegativeExponential)))
 }
 
 #' Calculation on network matrix.
-#' These are basically an abstraction of functions under the [igraph] package.
 #'
 #' @description
+#' These are basically an abstraction of functions under the [igraph] package.
 #' The functions included in this abstraction are:
-#' - `sonn()`: Calculates the sum of nearest neighbors.
-#' - `node_strength()`: Calculates the sum of edge weights of adjacent nodes.
-#' - `betweeness()`: Calculates the vertex and edge betweenness based on the number of geodesics.
-#' - `ev()`: Calculates the eigenvector centralities of positions within the network.
-#' - `closeness()`: measures how many steps is required to access every other vertex from a given vertex.
-#' - `degree()`: number of adjacent edges
-#' - `page_rank()`: page rank score for vertices
+#' - `nn_sum()`: Calculates the sum of nearest neighbors [igraph::graph.knn()].
+#' - `node_strength()`: Calculates the sum of edge weights of adjacent nodes [igraph::graph.strength()].
+#' - `betweeness()`: Calculates the vertex and edge betweenness based on the number of geodesics
+#' [igraph::betweenness()].
+#' - `ev()`: Calculates the eigenvector centrality of positions within the network [igraph::evcent()].
+#' - `closeness()`: measures how many steps is required to access every other vertex from a given vertex
+#' [igraph::closeness()].
+#' - `degree()`: number of adjacent edges [igraph::degree()].
+#' - `page_rank()`: page rank score for vertices [igraph::page_rank()].
 #' @param crop_dm Distance matrix.
 #'        In the internal workflow, the distance matrix comes from [initialize_cropland_data()] and risk functions.
 #' @param we Weight in percentage.
 #'
 #' @return Matrix with the mean value based on the assigned weight.
 #'
+#' @family metrics
 #' @export
-sonn <- function(crop_dm, we) {
+nn_sum <- function(crop_dm, we) {
 
   knnpref0 <- igraph::graph.knn(crop_dm, weights = NA)$knn
   knnpref0[is.na(knnpref0)] <- 0
@@ -111,7 +132,7 @@ sonn <- function(crop_dm, we) {
 }
 
 
-#' @rdname sonn
+#' @rdname nn_sum
 node_strength <- function(crop_dm, we) {
   nodestrength <- igraph::graph.strength(crop_dm)
   nodestrength[is.na(nodestrength)] <- 0
@@ -124,7 +145,7 @@ node_strength <- function(crop_dm, we) {
   return(nodestr)
 }
 
-#' @rdname sonn
+#' @rdname nn_sum
 betweeness <- function(crop_dm, we) {
 
   between <- igraph::betweenness(crop_dm,
@@ -142,7 +163,7 @@ betweeness <- function(crop_dm, we) {
   return(betweenp)
 }
 
-#' @rdname sonn
+#' @rdname nn_sum
 ev <- function(crop_dm, we) {
   eigenvectorvalues <- igraph::evcent(crop_dm)
   evv <- eigenvectorvalues$vector
@@ -156,7 +177,7 @@ ev <- function(crop_dm, we) {
   return(evp)
 }
 
-#' @rdname sonn
+#' @rdname nn_sum
 degree <- function(crop_dm, we) {
   dmat <- igraph::degree(crop_dm)
   dmat[is.na(dmat)] <- 0
@@ -168,7 +189,7 @@ degree <- function(crop_dm, we) {
   return(dmatr)
 }
 
-#' @rdname sonn
+#' @rdname nn_sum
 closeness <- function(crop_dm, we) {
   cvv <- igraph::closeness(crop_dm)
   cvv[is.na(cvv)] <- 0
@@ -180,7 +201,7 @@ closeness <- function(crop_dm, we) {
   return(cns)
 }
 
-#' @rdname sonn
+#' @rdname nn_sum
 page_rank <- function(crop_dm, we) {
   pr_scores <- igraph::page_rank(crop_dm)
   prv <- pr_scores$vector
