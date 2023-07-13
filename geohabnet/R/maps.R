@@ -7,7 +7,6 @@
 #' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise
 #' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise
-#' @param save `TRUE` if raster should be saved, `FALSE` otherwise.
 #' @details
 #' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
 #' It will save the file in [getwd()].
