@@ -1,5 +1,5 @@
 Package: geohabnet
-Title: Analysis of cropland connectivity
+Title: Analysis of Cropland Connectivity
 Version: 0.1.0
 Authors@R: c(
     person("Karen", "Garrett", email = "karengarrett@ufl.edu", role = "aut",
@@ -9,7 +9,16 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-7317-3090")),
     person("Garrett Lab", role = c("cph", "fnd"))
     )
-Description: c("Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. Xing et al. (2021) <https://doi.org/10.1093/biosci/biaa067>. Package currently support crops sourced from monfreda and spam. The analysis produces 3 maps - mean, variance and difference for the risk index.
+Description: 
+    Geographical spatial analysis of cropland connectivity.,
+    Allows users to visualize risk index plots for a given set of crops.
+    The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
+    Package currently supports crops sourced from monfreda and spam.
+    This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
+    There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
+    Refer to vignettes.
+    \code{\link{initialize_cropland_data}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
+    \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

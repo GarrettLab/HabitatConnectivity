@@ -4,11 +4,11 @@
 \name{geohabnet-package}
 \alias{geohabnet}
 \alias{geohabnet-package}
-\title{geohabnet: Analysis of cropland connectivity}
+\title{geohabnet: Analysis of Cropland Connectivity}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-c("Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. Xing et al. (2021) \url{https://doi.org/10.1093/biosci/biaa067}. Package currently support crops sourced from monfreda and spam. The analysis produces 3 maps - mean, variance and difference for the risk index.
+Geographical spatial analysis of cropland connectivity., Allows users to visualize risk index plots for a given set of crops. The functions are developed as an extension to analysis from 10.1093/biosci/biaa067. Package currently supports crops sourced from monfreda and spam. This analysis produces 3 maps - mean, variance, and difference for the crop risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. \code{\link{initialize_cropland_data}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation. \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
 }
 \seealso{
 Useful links:
