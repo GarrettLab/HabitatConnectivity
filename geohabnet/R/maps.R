@@ -149,14 +149,13 @@ cal_diff_map <- function(mean_index_rast,
               col = "grey85", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
               main = label, cex.main = 0.9)
 
-  # Plot the country boundaries
-  world <- rnaturalearthdata::countries110
-  terra::plot(world, col = "grey85", border = "black", add = TRUE)
-
   # Plot the raster
   terra::plot(rast,
               col = colorss, zlim = zlim, xaxt = "n", yaxt = "n",
               axes = FALSE, box = FALSE, add = TRUE, lwd = 0.7, )
+  # Plot the country boundaries
+  world <- rnaturalearthdata::countries110
+  terra::plot(world, col = NA, border = "black", add = TRUE)
 
   # Add a legend
   if (!is.null(zlim)) {
