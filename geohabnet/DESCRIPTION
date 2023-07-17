@@ -37,7 +37,8 @@ Imports:
     memoise (>= 2.0.1),
     rnaturalearthdata,
     graphics (>= 4.2.3),
-    stringi
+    stringi,
+    grDevices
 Suggests: 
     lintr (>= 3.0.2),
     mockthat (>= 0.2.8),

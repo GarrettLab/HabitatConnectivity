@@ -9,7 +9,8 @@
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise
 #' @details
 #' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
-#' It will save the file in [getwd()].
+#' It will save the file in [getwd()].If [interactive()] is `TRUE`,
+#' then plots can be seen in active plot window. E.g. Rstudio
 #'
 #' @export
 plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE) {
@@ -144,37 +145,38 @@ cal_diff_map <- function(mean_index_rast,
   # Set the plot parameters
   graphics::par(mar = c(0, 0, 0, 0), bg = "aliceblue")
 
-  # Plot the base map
-  terra::plot(.cal_mgb(geoscale),
-              col = "grey85", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
-              main = label, cex.main = 0.9)
-
-  # Plot the raster
-  terra::plot(rast,
-              col = colorss, zlim = zlim, xaxt = "n", yaxt = "n",
-              axes = FALSE, box = FALSE, add = TRUE, lwd = 0.7, )
-  # Plot the country boundaries
-  world <- rnaturalearthdata::countries110
-  terra::plot(world, col = NA, border = "black", add = TRUE)
-
-  # Add a legend
-  if (!is.null(zlim)) {
-    graphics::legend("bottomright",
-                     legend = round(zlim, 1),
-                     fill = colorss,
-                     bty = "n",
-                     cex = 0.8,
-                     border = "black"
-    )
+  # Create the "plots" directory if it doesn't exist
+  if (!dir.exists("plots")) {
+    dir.create("plots")
   }
 
   # Save the plot as a raster file
-  fname <- paste(typ,
+  fname <- paste("plots", "/", typ,
                  "_",
                  stringi::stri_rand_strings(1, 5),
                  ".tif", sep = "")
   terra::writeRaster(rast, overwrite = TRUE, filename = fname, gdal = c("COMPRESS=NONE"))
-  cat("raster created", fname, sep = ": ")
+  cat(paste("raster created", fname, sep = ": "), "\n")
 
+  if (interactive()) {
+    # Plot the base map
+    terra::plot(.cal_mgb(geoscale),
+                col = "grey85", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
+                main = label, cex.main = 0.9)
+
+    # Plot the raster
+    terra::plot(rast,
+                col = grDevices::adjustcolor(colorss, alpha.f = 0.8),
+                zlim = zlim,
+                xaxt = "n",
+                yaxt = "n",
+                axes = FALSE,
+                box = FALSE,
+                add = TRUE,
+                lwd = 0.7)
+    # Plot the country boundaries
+    world <- rnaturalearthdata::countries110
+    terra::plot(world, col = NA, border = "black", add = TRUE)
+  }
   invisible(4)
 }

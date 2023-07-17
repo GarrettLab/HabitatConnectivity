@@ -52,6 +52,4 @@ sa_onrasters(rr[[1]],
 }
 \seealso{
 Use \code{\link[=get_rasters]{get_rasters()}} to obtain raster object.
-
-\code{\link[=plot_maps]{plot_maps()}}
 }

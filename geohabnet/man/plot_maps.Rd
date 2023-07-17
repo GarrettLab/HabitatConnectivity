@@ -28,5 +28,6 @@ Currently, the settings for plot cannot be customized.
 }
 \details{
 It will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
-It will save the file in \code{\link[=getwd]{getwd()}}.
+It will save the file in \code{\link[=getwd]{getwd()}}.If \code{\link[=interactive]{interactive()}} is \code{TRUE},
+then plots can be seen in active plot window. E.g. Rstudio
 }

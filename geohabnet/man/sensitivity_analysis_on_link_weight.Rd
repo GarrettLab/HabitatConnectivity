@@ -3,7 +3,8 @@
 \name{sensitivity_analysis_on_link_weight}
 \alias{sensitivity_analysis_on_link_weight}
 \title{Calculate sensitivity analysis on cropland harvested area fraction
-This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
+This function calculates sensitivity analysis on cropland harvested area fraction based on link weight threshold
+and other provided parameters.
 It can be used as entry point for sensitivity analysis.}
 \usage{
 sensitivity_analysis_on_link_weight(
@@ -33,6 +34,14 @@ A list of calculated CCRI values using negative exponential
 }
 \description{
 Calculate sensitivity analysis on cropland harvested area fraction
-This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
+This function calculates sensitivity analysis on cropland harvested area fraction based on link weight threshold
+and other provided parameters.
 It can be used as entry point for sensitivity analysis.
+}
+\seealso{
+\code{\link[=sa_onrasters]{sa_onrasters()}}
+\link{sensitivity_analysis_on_link_weight}
+\code{\link[=sensitivity_analysis_on_geoscale]{sensitivity_analysis_on_geoscale()}}
+\code{\link[=sensitivity_analysis_on_params]{sensitivity_analysis_on_params()}}
+\code{\link[=plot_maps]{plot_maps()}}
 }

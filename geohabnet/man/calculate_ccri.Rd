@@ -26,7 +26,7 @@ calculate_ccri(
 \item{thresholded_crop_values}{A list of crop values above threshold}
 }
 \value{
-A list of calculated CCRI values
+A list of calculated CCRI values which can be accessed using \code{the$result_index_list}
 }
 \description{
 This function calculates CCRI for given parameters using power law and negative exponential.
@@ -37,5 +37,5 @@ Network metrics should be passed as a list of vectors e.g. \code{list(metrics = 
 Default values are fetched from \code{parameters.yaml} and arguments uses the same structure.
 }
 \seealso{
-\code{\link[=get_param_metrics]{get_param_metrics()}}, \code{\link[=sensitivity_analysis_on_geoextent_scale]{sensitivity_analysis_on_geoextent_scale()}}
+\code{\link[=get_param_metrics]{get_param_metrics()}}, \code{\link[=sensitivity_analysis_on_params]{sensitivity_analysis_on_params()}}
 }

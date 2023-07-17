@@ -18,5 +18,9 @@ senstivity_analysis()
 }
 }
 \seealso{
+\code{\link[=sa_onrasters]{sa_onrasters()}}
+\link{sensitivity_analysis_on_link_weight}
+\code{\link[=sensitivity_analysis_on_geoscale]{sensitivity_analysis_on_geoscale()}}
+\code{\link[=sensitivity_analysis_on_params]{sensitivity_analysis_on_params()}}
 \code{\link[=plot_maps]{plot_maps()}}
 }

@@ -212,12 +212,12 @@ get_geographic_scales <- function() {
 #' @param negative_exponential_metrics A list of of 2 vectors - negative exponential metrics
 #' @param crop_cells_above_threshold A list of crop cells above threshold
 #' @param thresholded_crop_values A list of crop values above threshold
-#' @return A list of calculated CCRI values
+#' @return A list of calculated CCRI values which can be accessed using `the$result_index_list`
 #' @export
 #' @details
 #' Network metrics should be passed as a list of vectors e.g. `list(metrics = c("betweeness"), weights = c(100))`.
 #' Default values are fetched from `parameters.yaml` and arguments uses the same structure.
-#' @seealso [get_param_metrics()], [sensitivity_analysis_on_geoextent_scale()]
+#' @seealso [get_param_metrics()], [sensitivity_analysis_on_params()]
 calculate_ccri <- function(
     link_threshold = 0,
     power_law_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
@@ -253,9 +253,12 @@ calculate_ccri <- function(
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
 #' @seealso [plot_maps()]
-sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scale,
-                                                    aggregate_methods = c("sum", "mean"), cropharvest_raster,
-                                                    host_density_threshold = 0, resolution = 24) {
+sensitivity_analysis_on_params <- function(link_threshold = 0,
+                                           geo_scale,
+                                           aggregate_methods = c("sum", "mean"),
+                                           cropharvest_raster,
+                                           host_density_threshold = 0,
+                                           resolution = 24) {
   cat("\nRunning senstivity analysis for the extent: [", geo_scale, "],
       Link threshold: ", link_threshold,
       "Host density threshold: ", host_density_threshold, "\n")
@@ -295,8 +298,9 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
 }
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
-#' This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
-#' It can be used as entry point for sensitivity analysis.
+#'   This function calculates sensitivity analysis on cropland harvested area fraction
+#'   based on geographical scale threshold and other provided parameters.
+#'   It can be used as entry point for sensitivity analysis.
 #' @param link_thresholds A list of threshold values for link
 #' @param host_density_thresholds A list of host density threshold values
 #' @param geo_scale longitude and latitude values for cropland analysis
@@ -305,20 +309,28 @@ sensitivity_analysis_on_geoextent_scale <- function(link_threshold = 0, geo_scal
 #' @param resolution resolution to plot raster and map
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
-sensitivity_analysis_on_cropland_threshold <- function(link_thresholds,
-                                                       host_density_thresholds,
-                                                       geo_scale, aggregate_methods = c("sum", "mean"),
-                                                       cropharvest_raster,
-                                                       resolution) {
-  lapply(link_thresholds, sensitivity_analysis_on_link_weight,
-    host_density_thresholds = host_density_thresholds,
-    geo_scale = geo_scale, aggregate_methods = aggregate_methods,
-    cropharvest_raster = cropharvest_raster, resolution = resolution
-  )
+sensitivity_analysis_on_geoscale <- function(link_thresholds,
+                                             host_density_thresholds,
+                                             geo_scale,
+                                             aggregate_methods = c("sum", "mean"),
+                                             cropharvest_raster,
+                                             resolution) {
+  lapply(link_thresholds,
+         function(lthreshold) {
+           invisible(
+             sensitivity_analysis_on_link_weight(
+               link_threshold = lthreshold,
+               host_density_thresholds = host_density_thresholds,
+               geo_scale = geo_scale,
+               aggregate_methods = aggregate_methods,
+               cropharvest_raster = cropharvest_raster,
+               resolution = resolution
+               ))})
 }
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
-#' This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
+#' This function calculates sensitivity analysis on cropland harvested area fraction based on link weight threshold
+#' and other provided parameters.
 #' It can be used as entry point for sensitivity analysis.
 #' @param link_threshold A threshold value for link
 #' @param host_density_thresholds A list of host density threshold values
@@ -328,17 +340,26 @@ sensitivity_analysis_on_cropland_threshold <- function(link_thresholds,
 #' @param resolution resolution to plot raster and map
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
+#' @inherit senstivity_analysis seealso
 sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
-                                                host_density_thresholds, geo_scale,
+                                                host_density_thresholds,
+                                                geo_scale,
                                                 aggregate_methods,
                                                 cropharvest_raster,
                                                 resolution) {
 
-  lapply(host_density_thresholds, sensitivity_analysis_on_geoextent_scale,
-    link_threshold = link_threshold, geo_scale = geo_scale,
-    aggregate_methods = aggregate_methods,
-    cropharvest_raster = cropharvest_raster, resolution = resolution
-  )
+  lapply(host_density_thresholds, function(threshold) {
+    invisible(
+      sensitivity_analysis_on_params(
+        link_threshold = link_threshold,
+        host_density_threshold = threshold,
+        geo_scale = geo_scale,
+        aggregate_methods = aggregate_methods,
+        cropharvest_raster = cropharvest_raster,
+        resolution = resolution
+      )
+    )
+  })
 }
 
 #' Run analysis
@@ -347,7 +368,7 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
 #' @param geo_scales List of geographical scales to be used in analysis.
 #' The rasters will be cropped to provided geographical scale.
 #' Independent analysis is run on each sale.
-#' @inherit sensitivity_analysis_on_cropland_threshold
+#' @inherit sensitivity_analysis_on_geoscale
 #' @export
 #' @examples
 #' rr <- get_rasters(list(monfreda = c("coffee")))
@@ -364,7 +385,7 @@ sensitivity_analysis_on_link_weight <- function(link_threshold = 0,
 #'             c("sum"),
 #'             resolution = 12)
 #'
-#' @seealso [plot_maps()]
+#' @inherit senstivity_analysis seealso
 sa_onrasters <- function(cropharvest_raster,
                          geo_scales,
                          link_thresholds,
@@ -377,12 +398,16 @@ sa_onrasters <- function(cropharvest_raster,
   .loadparam_ifnotnull()
 
   lapply(geo_scales,
-         sensitivity_analysis_on_cropland_threshold,
-         link_thresholds = link_thresholds,
-         host_density_thresholds = host_density_thresholds,
-         aggregate_methods = aggregate_methods,
-         cropharvest_raster = cropharvest_raster,
-         resolution = resolution)
+         function(geoscale) {
+           invisible(
+             sensitivity_analysis_on_geoscale(
+               geo_scale = geoscale,
+               link_thresholds = link_thresholds,
+               host_density_thresholds = host_density_thresholds,
+               aggregate_methods = aggregate_methods,
+               cropharvest_raster = cropharvest_raster,
+               resolution = resolution
+               ))})
 }
 
 #' @title Calculate sensitivity analysis on parameters
@@ -396,7 +421,12 @@ sa_onrasters <- function(cropharvest_raster,
 #' # Run analysis on specified parameters.yaml
 #' senstivity_analysis()
 #' }
-#' @seealso [plot_maps()]
+#' @seealso
+#' [sa_onrasters()]
+#' [sensitivity_analysis_on_link_weight]
+#' [sensitivity_analysis_on_geoscale()]
+#' [sensitivity_analysis_on_params()]
+#' [plot_maps()]
 senstivity_analysis <- function() {
 
   the$is_initialized <- FALSE
@@ -415,11 +445,15 @@ senstivity_analysis <- function() {
   # resolution
   resolution <- the$parameters_config$`CCRI parameters`$Resolution
 
-  lapply(crop_rasters, sa_onrasters,
-         geo_scales = geo_scales,
-         link_thresholds = the$parameters_config$`CCRI parameters`$LinkThreshold,
-         host_density_thresholds = cropland_thresholds,
-         aggregate_methods = agg_methods,
-         resolution = resolution
-         )
+  lapply(crop_rasters,
+        invisible(
+          function(rast) {
+            sa_onrasters(
+              cropharvest_raster = rast,
+              geo_scales = geo_scales,
+              link_thresholds = the$parameters_config$`CCRI parameters`$LinkThreshold,
+              host_density_thresholds = cropland_thresholds,
+              aggregate_methods = agg_methods,
+              resolution = resolution
+              )}))
 }
