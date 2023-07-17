@@ -2,10 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{sensitivity_analysis_on_link_weight}
 \alias{sensitivity_analysis_on_link_weight}
-\title{Calculate sensitivity analysis on cropland harvested area fraction
-This function calculates sensitivity analysis on cropland harvested area fraction based on link weight threshold
-and other provided parameters.
-It can be used as entry point for sensitivity analysis.}
+\title{Calculate sensitivity analysis on cropland harvested area fraction}
 \usage{
 sensitivity_analysis_on_link_weight(
   link_threshold = 0,
@@ -33,7 +30,6 @@ sensitivity_analysis_on_link_weight(
 A list of calculated CCRI values using negative exponential
 }
 \description{
-Calculate sensitivity analysis on cropland harvested area fraction
 This function calculates sensitivity analysis on cropland harvested area fraction based on link weight threshold
 and other provided parameters.
 It can be used as entry point for sensitivity analysis.

@@ -2,9 +2,7 @@
 % Please edit documentation in R/ccri_helper.R
 \name{search_crop}
 \alias{search_crop}
-\title{Search for crop
-It returns the dataset sources in which crop data is available.
-It's a wrapper around \code{\link[geodata:crop_spam]{geodata::spamCrops()}} and \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}}
+\title{Search for crop}
 \usage{
 search_crop(name)
 }
@@ -12,7 +10,6 @@ search_crop(name)
 \item{name}{name of crop}
 }
 \description{
-Search for crop
 It returns the dataset sources in which crop data is available.
 It's a wrapper around \code{\link[geodata:crop_spam]{geodata::spamCrops()}} and \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}
 }

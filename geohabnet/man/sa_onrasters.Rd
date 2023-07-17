@@ -32,7 +32,9 @@ Independent analysis is run on each sale.}
 A list of calculated CCRI values using negative exponential
 }
 \description{
-Run analysis
+This function calculates sensitivity analysis on cropland harvested area fraction
+based on geographical scale threshold and other provided parameters.
+It can be used as entry point for sensitivity analysis.
 }
 \examples{
 rr <- get_rasters(list(monfreda = c("coffee")))

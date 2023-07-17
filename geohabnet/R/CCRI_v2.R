@@ -35,7 +35,9 @@ the$cropharvest_aggtm <- NULL
 the$cropharvest_agglm_crop <- NULL
 the$cropharvest_aggtm_crop <- NULL
 
-#' Initialize cropland data with given parameters, it will be later used to calculate CCRI and other functions
+#' Initialization of crop data
+#'
+#'   Initialize cropland data with given parameters, it will be later used to calculate CCRI and other functions
 #' @param cropharvest_raster A raster object for cropland harvest
 #' @param resolution resolution to plot raster and map  (default: 12)
 #' @param geo_scale A list of longitude and latitude values for cropland analysis
@@ -182,7 +184,8 @@ ccri_negative_exp <- function(dispersal_parameter_gamma_vals,
 }
 
 #' Get geographical scales from the parameters
-#' This function returns a list of geographical scales set global and custom extent in parameters.yaml
+#'
+#'   This function returns a list of geographical scales set global and custom extent in parameters.yaml
 #' @return A list of geographical scales
 #' @export
 get_geographic_scales <- function() {
@@ -241,8 +244,10 @@ calculate_ccri <- function(
 }
 
 # Sensitivity analysis ----------------------------------------------------
+
 #' Calculate sensitivity analysis on cropland harvested area fraction
-#' This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
+#'
+#'   This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
 #' It can be used as entry point for sensitivity analysis.
 #' @param link_threshold A threshold value for link
 #' @param geo_scale A list of longitude and latitude values for cropland analysis
@@ -298,6 +303,7 @@ sensitivity_analysis_on_params <- function(link_threshold = 0,
 }
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
+#'
 #'   This function calculates sensitivity analysis on cropland harvested area fraction
 #'   based on geographical scale threshold and other provided parameters.
 #'   It can be used as entry point for sensitivity analysis.
@@ -329,6 +335,7 @@ sensitivity_analysis_on_geoscale <- function(link_thresholds,
 }
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
+#'
 #' This function calculates sensitivity analysis on cropland harvested area fraction based on link weight threshold
 #' and other provided parameters.
 #' It can be used as entry point for sensitivity analysis.
@@ -411,6 +418,7 @@ sa_onrasters <- function(cropharvest_raster,
 }
 
 #' @title Calculate sensitivity analysis on parameters
+#'
 #' @description
 #' This function runs sensitivity analysis on parameters based on provided parameters through [set_parameters()].
 #' It can be used as entry point for sensitivity analysis.

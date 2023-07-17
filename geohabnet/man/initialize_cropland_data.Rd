@@ -2,7 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{initialize_cropland_data}
 \alias{initialize_cropland_data}
-\title{Initialize cropland data with given parameters, it will be later used to calculate CCRI and other functions}
+\title{Initialization of crop data}
 \usage{
 initialize_cropland_data(
   cropharvest_raster,

@@ -2,9 +2,7 @@
 % Please edit documentation in R/maps.R
 \name{plot_maps}
 \alias{plot_maps}
-\title{Calculate and plot maps
-Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
-Currently, the settings for plot cannot be customized.}
+\title{Calculate and plot maps}
 \usage{
 plot_maps(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE)
 }
@@ -22,9 +20,9 @@ plot_maps(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE)
 \item{pdiff}{\code{TRUE} if difference map should be plotted, \code{FALSE} otherwise}
 }
 \description{
-Calculate and plot maps
-Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 Currently, the settings for plot cannot be customized.
+}\if{html}{\out{</div>}}
 }
 \details{
 It will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.

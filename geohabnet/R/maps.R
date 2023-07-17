@@ -1,4 +1,5 @@
 #' Calculate and plot maps
+#'
 #'     Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 #'     Currently, the settings for plot cannot be customized.
 #' @param indexes list of raster
@@ -38,6 +39,7 @@ plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff 
 # maps --------------------------------------------------------------------
 
 #' Calculate mean of raster objects
+#'
 #'   Overriding for [terra::mean()]. Calculates mean of list of rasters.
 #' @param indexes raster list
 #' @param geoscale geographical scale for plotting
@@ -63,6 +65,7 @@ ccri_mean <- function(indexes, geoscale = NULL, reso = NULL, plt = TRUE) {
 }
 
 #' Calculate variance of CCRI
+#'
 #'    This function produces a map of variance of CCRI based on input parameters
 #' @param indexes A list of index values
 #' @param rast A raster object. It will be used in calculating variance.
@@ -88,6 +91,7 @@ ccri_variance <- function(indexes,
 }
 
 #' Calculate difference map
+#'
 #' This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
 #' @param mean_index_rast A raster object for mean index raster difference
 #' @param cropharvest_aggtm_crop A raster object for cropland harvest

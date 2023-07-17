@@ -2,9 +2,7 @@
 % Please edit documentation in R/ccri_helper.R
 \name{get_supported_sources}
 \alias{get_supported_sources}
-\title{Get supported sources of crops
-When provided, \code{\link[=get_cropharvest_raster]{get_cropharvest_raster()}} will
-look for cropland data in this specific source.}
+\title{Get supported sources of crops}
 \usage{
 get_supported_sources()
 }
@@ -13,7 +11,6 @@ return vector of supported sources.
 Also used as a lookup to find get raster object.
 }
 \description{
-Get supported sources of crops
 When provided, \code{\link[=get_cropharvest_raster]{get_cropharvest_raster()}} will
 look for cropland data in this specific source.
 }

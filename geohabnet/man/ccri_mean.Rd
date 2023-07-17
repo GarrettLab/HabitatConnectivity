@@ -2,8 +2,7 @@
 % Please edit documentation in R/maps.R
 \name{ccri_mean}
 \alias{ccri_mean}
-\title{Calculate mean of raster objects
-Overriding for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.}
+\title{Calculate mean of raster objects}
 \usage{
 ccri_mean(indexes, geoscale = NULL, reso = NULL, plt = TRUE)
 }
@@ -17,6 +16,5 @@ ccri_mean(indexes, geoscale = NULL, reso = NULL, plt = TRUE)
 \item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise and \code{geoscale}, \code{reso} is ignored.}
 }
 \description{
-Calculate mean of raster objects
 Overriding for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.
 }

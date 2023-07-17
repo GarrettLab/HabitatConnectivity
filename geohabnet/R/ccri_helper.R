@@ -207,6 +207,7 @@ library(yaml)
 }
 
 #' Get supported sources of crops
+#'
 #' When provided, [get_cropharvest_raster()] will
 #' look for cropland data in this specific source.
 #' @returns return vector of supported sources.
@@ -220,8 +221,9 @@ get_supported_sources <- function() {
 }
 
 #' Search for crop
-#'  It returns the dataset sources in which crop data is available.
-#'  It's a wrapper around [geodata::spamCrops()] and [geodata::monfredaCrops()]
+#'
+#' It returns the dataset sources in which crop data is available.
+#' It's a wrapper around [geodata::spamCrops()] and [geodata::monfredaCrops()]
 #' @param name name of crop
 #' @export
 #' @examples

@@ -2,10 +2,7 @@
 % Please edit documentation in R/CCRI_v2.R
 \name{sensitivity_analysis_on_geoscale}
 \alias{sensitivity_analysis_on_geoscale}
-\title{Calculate sensitivity analysis on cropland harvested area fraction
-This function calculates sensitivity analysis on cropland harvested area fraction
-based on geographical scale threshold and other provided parameters.
-It can be used as entry point for sensitivity analysis.}
+\title{Calculate sensitivity analysis on cropland harvested area fraction}
 \usage{
 sensitivity_analysis_on_geoscale(
   link_thresholds,
@@ -33,7 +30,6 @@ sensitivity_analysis_on_geoscale(
 A list of calculated CCRI values using negative exponential
 }
 \description{
-Calculate sensitivity analysis on cropland harvested area fraction
 This function calculates sensitivity analysis on cropland harvested area fraction
 based on geographical scale threshold and other provided parameters.
 It can be used as entry point for sensitivity analysis.

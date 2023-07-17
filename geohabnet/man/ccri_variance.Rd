@@ -2,8 +2,7 @@
 % Please edit documentation in R/maps.R
 \name{ccri_variance}
 \alias{ccri_variance}
-\title{Calculate variance of CCRI
-This function produces a map of variance of CCRI based on input parameters}
+\title{Calculate variance of CCRI}
 \usage{
 ccri_variance(
   indexes,
@@ -22,6 +21,5 @@ ccri_variance(
 \item{resolution}{resolution to plot raster and map}
 }
 \description{
-Calculate variance of CCRI
 This function produces a map of variance of CCRI based on input parameters
 }

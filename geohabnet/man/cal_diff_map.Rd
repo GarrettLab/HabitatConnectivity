@@ -2,8 +2,7 @@
 % Please edit documentation in R/maps.R
 \name{cal_diff_map}
 \alias{cal_diff_map}
-\title{Calculate difference map
-This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.}
+\title{Calculate difference map}
 \usage{
 cal_diff_map(
   mean_index_rast,
@@ -26,6 +25,5 @@ See \code{\link[=get_geographic_scales]{get_geographic_scales()}} and \code{\lin
 \item{resolution}{resolution to plot raster and map}
 }
 \description{
-Calculate difference map
 This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
 }
