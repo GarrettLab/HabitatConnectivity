@@ -218,3 +218,37 @@ library(yaml)
 get_supported_sources <- function() {
   return(c("monfreda", "spam"))
 }
+
+#' Search for crop
+#'  It returns the dataset sources in which crop data is available.
+#'  It's a wrapper around [geodata::spamCrops()] and [geodata::monfredaCrops()]
+#' @param name name of crop
+#' @export
+#' @examples
+#' search_crop("coffee")
+#' search_crop("wheat")
+#' search_crop("jackfruit")
+#' @seealso [get_supported_sources()]
+search_crop <- function(name) {
+  crp <- tolower(trimws(name))
+  supported_sources <- get_supported_sources()
+
+  srcs <- character(0)
+
+  for (src in supported_sources) {
+    f <- paste0("geodata::", src, "Crops()")
+    res <- rlang::eval_tidy(rlang::parse_expr(f))
+    if (src == "monfreda") {
+      res <- res$name
+    }
+    if (crp %in% res) {
+      srcs <- c(srcs, src)
+    }
+  }
+
+  if (length(srcs) == 0) {
+    stop("Crop not present in supported sources.")
+  }
+
+  return(srcs)
+}
