@@ -230,13 +230,13 @@ calculate_ccri <- function(
   .loadparam_ifnotnull()
 
   # TODO: parallelize them
-  ccri_powerlaw(the$parameters_config$`CCRI parameters`$DispersalParameterBeta,
+  ccri_powerlaw(the$parameters_config$`CCRI parameters`$DispersalKernelModels$beta,
                 link_threshold,
                 metrics = power_law_metrics,
                 crop_cells_above_threshold = crop_cells_above_threshold,
                 thresholded_crop_values = thresholded_crop_values)
 
-  ccri_negative_exp(the$parameters_config$`CCRI parameters`$DispersalParameterGamma,
+  ccri_negative_exp(the$parameters_config$`CCRI parameters`$DispersalKernelModels$gamma,
                     link_threshold,
                     metrics = negative_exponential_metrics,
                     crop_cells_above_threshold = crop_cells_above_threshold,

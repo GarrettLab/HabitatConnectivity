@@ -34,7 +34,7 @@ Set the `file` parameter under `Hosts` to the absolute path of `raster` file -
 ```         
 Hosts:
       monfreda: ["avocado"]
-      spam:
+      mapspam:
       file: "full-path-to-tif/avocado_HarvestedAreaFraction.tif"
 ```
 

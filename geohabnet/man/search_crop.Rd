@@ -16,7 +16,9 @@ It's a wrapper around \code{\link[geodata:crop_spam]{geodata::spamCrops()}} and 
 \examples{
 search_crop("coffee")
 search_crop("wheat")
+\dontrun{
 search_crop("jackfruit")
+}
 }
 \seealso{
 \code{\link[=get_supported_sources]{get_supported_sources()}}

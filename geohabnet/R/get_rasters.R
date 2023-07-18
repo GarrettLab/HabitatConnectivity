@@ -8,7 +8,7 @@
 #' @examples
 #' # Get default rasters
 #' \dontrun{
-#' get_rasters(list(spam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
+#' get_rasters(list(mapspam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
 #' }
 #' @seealso [load_parameters()], [get_parameters()], [get_crop_raster_fromtif()], [get_cropharvest_raster()]
 get_rasters <- function(hosts) {
@@ -35,14 +35,14 @@ get_rasters <- function(hosts) {
 #' @export
 #' @examples
 #' \dontrun{
-#' get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), spam = c("wheat", "potato")))
+#' get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), mapspam = c("wheat", "potato")))
 #' }
 get_cropharvest_raster_sum <- function(crop_names) {
   if (!is.list(crop_names) || length(crop_names) == 0) {
     stop("Input 'crop_names' must be a non-empty list of crop names.")
   }
 
-  # output: list("wheat" = c("monfreda", "spam"), "barley" = c("monfreda"), "potato" = c("spam"))
+  # output: list("wheat" = c("monfreda", "mapspam"), "barley" = c("monfreda"), "potato" = c("mapspam"))
   crops <- list()
 
   for (src in get_supported_sources()) {

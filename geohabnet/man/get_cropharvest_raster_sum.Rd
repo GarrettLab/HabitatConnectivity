@@ -20,6 +20,6 @@ If crop is present in multiple sources, then their mean is calculated.
 }
 \examples{
 \dontrun{
-get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), spam = c("wheat", "potato")))
+get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), mapspam = c("wheat", "potato")))
 }
 }

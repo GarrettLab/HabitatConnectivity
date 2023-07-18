@@ -13,7 +13,7 @@ Description:
     Geographical spatial analysis of cropland connectivity.,
     Allows users to visualize risk index plots for a given set of crops.
     The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
-    Package currently supports crops sourced from monfreda and spam.
+    Package currently supports crops sourced from monfreda and mapspam.
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
@@ -38,7 +38,8 @@ Imports:
     rnaturalearthdata,
     graphics (>= 4.2.3),
     stringi,
-    grDevices
+    grDevices,
+    rlang (>= 1.1.1)
 Suggests: 
     lintr (>= 3.0.2),
     mockthat (>= 0.2.8),

@@ -16,13 +16,13 @@
 
 .extract_hosts <- function(params = load_parameters()) {
   monfredas <- params$`CCRI parameters`$Hosts$monfreda
-  spams <- params$`CCRI parameters`$Hosts$monfreda
+  spams <- params$`CCRI parameters`$Hosts$mapspam
   crops <- list()
   if (!is.null(monfredas) && !is.list(monfredas)) {
     crops[["monfreda"]] <- monfredas
   }
   if (!is.null(spams) && !is.list(spams)) {
-    crops[["spam"]] <- spams
+    crops[["mapspam"]] <- spams
   }
   return(crops)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/spam_crop.R
 \name{sp_rast}
 \alias{sp_rast}
-\title{get raster for specified crop from spam dataset.}
+\title{get raster for specified crop from mapspam dataset.}
 \usage{
 sp_rast(crp)
 }
@@ -13,7 +13,7 @@ sp_rast(crp)
 spatRaster
 }
 \description{
-get raster for specified crop from spam dataset.
+get raster for specified crop from mapspam dataset.
 }
 \details{
 See \code{\link[geodata:crop_spam]{geodata::spamCrops()}} for supported crops.

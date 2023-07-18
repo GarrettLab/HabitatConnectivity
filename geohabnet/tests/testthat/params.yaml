@@ -1,13 +1,14 @@
 default:
   CCRI parameters:
-    DispersalParameterBeta: [0.5, 1, 1.5]
-    DispersalParameterGamma: [0.05, 1, 0.2, 0.3]
-    AggregationStrategy: [sum, mean]
     Hosts:
       monfreda: ["coffee"]
-      spam:
+      mapspam:
       file:
-    HostDensityThreshold: [0.00015] #cuttoff - run SA for each of these
+    HostDensityThreshold: [0.00015]
+    DispersalKernelModels:
+      beta: [0.5, 1, 1.5]
+      gamma: [0.05, 1, 0.2, 0.3]
+    AggregationStrategy: [sum, mean]
     LinkThreshold: [0, 0.000001, 0.0006]
     Resolution: 12
     Longitude_Latitude: 

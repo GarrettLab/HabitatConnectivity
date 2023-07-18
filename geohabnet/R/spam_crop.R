@@ -3,8 +3,8 @@
   crp <- tolower(trimws(crop))
   crops <- geodata::spamCrops()
   if (!(crp %in% crops)) {
-    stop("crop not in SPAM; see spamCrops()")
-    }
+    stop("crop not in mapspam; see spamCrops()")
+  }
   i <- which(crp == crops)[1]
   if (i > nrow(crops))
   i <- i - nrow(crops)
@@ -17,7 +17,7 @@
   return(.download(uri))
 }
 
-#' get raster for specified crop from spam dataset.
+#' get raster for specified crop from mapspam dataset.
 #' @param crp name of a crop. Case-insensitive.
 #' @return spatRaster
 #' @details

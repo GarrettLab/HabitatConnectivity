@@ -199,7 +199,7 @@ library(yaml)
 .get_cropharvest_raster_helper <- function(crop_name, data_source) {
   if (data_source == "monfreda") {
     geodata::crop_monfreda(crop = crop_name, path = tempdir(), var = "area_f")
-  } else if (data_source == "spam") {
+  } else if (data_source == "mapspam") {
     sp_rast(crp = crop_name) / 10000
   } else {
     stop(paste("Encountered unsupported source: ", data_source))
@@ -217,7 +217,7 @@ library(yaml)
 #' # Get currently supported sources
 #' get_supported_sources()
 get_supported_sources <- function() {
-  return(c("monfreda", "spam"))
+  return(c("monfreda", "mapspam"))
 }
 
 #' Search for crop
@@ -229,15 +229,18 @@ get_supported_sources <- function() {
 #' @examples
 #' search_crop("coffee")
 #' search_crop("wheat")
+#' \dontrun{
 #' search_crop("jackfruit")
+#' }
 #' @seealso [get_supported_sources()]
 search_crop <- function(name) {
   crp <- tolower(trimws(name))
   supported_sources <- get_supported_sources()
-
+  
+  funs <- c("monfreda", "spam")
   srcs <- character(0)
 
-  for (src in supported_sources) {
+  for (src in funs) {
     f <- paste0("geodata::", src, "Crops()")
     res <- rlang::eval_tidy(rlang::parse_expr(f))
     if (src == "monfreda") {

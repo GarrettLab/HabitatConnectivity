@@ -20,7 +20,7 @@ and other using the provided raster file. See \code{\link[=get_crop_raster_fromt
 \examples{
 # Get default rasters
 \dontrun{
-get_rasters(list(spam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
+get_rasters(list(mapspam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
 }
 }
 \seealso{
