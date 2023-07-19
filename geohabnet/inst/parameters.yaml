@@ -1,21 +1,21 @@
 default:
   CCRI parameters:
     Hosts:
-      monfreda: ["coffee"]
-      mapspam:
+      monfreda:
+      mapspam: ["wheat"]
       file:
-    HostDensityThreshold: [0.00015]
-    DispersalKernelModels:
-      beta: [0.5, 1, 1.5]
-      gamma: [0.05, 1, 0.2, 0.3]
+    HostDensityThreshold: [0.00015, 0.000025]
     AggregationStrategy: [sum, mean]
-    LinkThreshold: [0, 0.000001, 0.0006]
     Resolution: 12
     Longitude_Latitude: 
       Global: FALSE
       WestExt: [-24, 180, -58, 60] #long_from, long_to, lat_from, lat_to
       EastExt: [-140, -34, -58, 60] # to 70
       CustomExt: [[-115, -75, 5, 32]] # set this to NA/Empty if not required #[32, 48, 2.9, 17], [-115, -75, 5, 32]
+    LinkThreshold: [0, 0.000001, 0.0006]
+    DispersalKernelModels:
+      beta: [0.5, 1, 1.5]
+      gamma: [0.05, 1, 0.2, 0.3]
     NetworkMetrics:
       InversePowerLaw:
         metrics: ["betweeness", "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]

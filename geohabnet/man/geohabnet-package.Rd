@@ -14,22 +14,24 @@ Geographical spatial analysis of cropland connectivity., Allows users to visuali
 Useful links:
 \itemize{
   \item \url{https://github.com/GarrettLab/CroplandConnectivity}
+  \item \url{https://garrettlab.com}
   \item Report bugs at \url{https://github.com/GarrettLab/CroplandConnectivity/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Krishna Keshav \email{kkeshav@ufl.edu}
+\strong{Maintainer}: Krishna Keshav \email{kkeshav@ufl.edu} [contributor]
 
 Authors:
 \itemize{
+  \item Garrett Lab (https://garrettlab.com)
   \item Karen Garrett \email{karengarrett@ufl.edu} (\href{https://orcid.org/0000-0002-6578-1616}{ORCID})
+  \item Aaron Plex \email{plexaaron@ufl.edu} (\href{https://orcid.org/0000-0001-7317-3090}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item Aaron Plex \email{plexaaron@ufl.edu} (\href{https://orcid.org/0000-0001-7317-3090}{ORCID}) [contributor]
-  \item Garrett Lab [copyright holder, funder]
+  \item University of Florida (https://www.ufl.edu) [copyright holder, funder]
 }
 
 }
