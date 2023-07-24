@@ -13,7 +13,7 @@ plot_maps(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE)
 
 \item{reso}{map resolution}
 
-\item{pmean}{\code{TRUE} if map of mean should be plotted, \code{FALSE} otherwise}
+\item{pmean}{\code{TRUE} if map of mean should be plotted, \code{FALSE} otherwise.}
 
 \item{pvar}{\code{TRUE} if variance map should be plotted, \code{FALSE} otherwise}
 
@@ -22,10 +22,11 @@ plot_maps(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE)
 \description{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 Currently, the settings for plot cannot be customized.
+Default value is `TRUE` for all logical arguments
 }\if{html}{\out{</div>}}
 }
 \details{
 It will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
-It will save the file in \code{\link[=getwd]{getwd()}}.If \code{\link[=interactive]{interactive()}} is \code{TRUE},
+File will be saved in \code{\link[=getwd]{getwd()}}.If \code{\link[=interactive]{interactive()}} is \code{TRUE},
 then plots can be seen in active plot window. E.g. Rstudio
 }

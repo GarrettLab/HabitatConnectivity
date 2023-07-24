@@ -40,7 +40,8 @@ Imports:
     graphics (>= 4.2.3),
     stringi,
     grDevices,
-    rlang (>= 1.1.1)
+    rlang (>= 1.1.1),
+    viridisLite (>= 0.4.2)
 Suggests: 
     lintr (>= 3.0.2),
     mockthat (>= 0.2.8),

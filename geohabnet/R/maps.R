@@ -2,15 +2,16 @@
 #'
 #'     Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 #'     Currently, the settings for plot cannot be customized.
+#'     Default value is `TRUE` for all logical arguments
 #' @param indexes list of raster
 #' @param geoscale geographical scale
 #' @param reso map resolution
-#' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise
+#' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise.
 #' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise
 #' @details
 #' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
-#' It will save the file in [getwd()].If [interactive()] is `TRUE`,
+#' File will be saved in [getwd()].If [interactive()] is `TRUE`,
 #' then plots can be seen in active plot window. E.g. Rstudio
 #'
 #' @export
@@ -34,6 +35,7 @@ plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff 
       geoscale,
       reso)
   }
+  invisible()
 }
 
 # maps --------------------------------------------------------------------
@@ -47,7 +49,7 @@ plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff 
 #' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`, `reso` is ignored.
 #' @export
 ccri_mean <- function(indexes, geoscale = NULL, reso = NULL, plt = TRUE) {
-  mean_index <- terra::app(terra::rast(indexes), sum) / length(indexes)
+  mean_index <- terra::app(terra::rast(indexes), sum, na.rm = TRUE) / length(indexes)
   mean_index_vals <- terra::values(mean_index)
   zeroid <- which(mean_index_vals == 0)
   mean_index[zeroid] <- NaN
@@ -106,11 +108,13 @@ cal_diff_map <- function(mean_index_rast,
                          geoscale,
                          resolution = the$parameters_config$`CCRI parameters`$Resolution) {
   # difference map
-  if (missing(cropharvest_aggtm_crop) || missing(cropharvest_agglm_crop)) {
-    message("Either sum or mean aggregate is missing. Aborting difference calculation")
-    return(NULL)
+  # Function to check for missing or null values
+  .params_ok <- function(...) {
+    !any(sapply(list(...), function(x) missing(x) || is.null(x)))
   }
-  if (is.null(cropharvest_aggtm_crop) || is.null(cropharvest_agglm_crop)) {
+  
+  # Validation using meta-programming
+  if (!.params_ok(cropharvest_aggtm_crop, cropharvest_agglm_crop)) {
     message("Either sum or mean aggregate is missing. Aborting difference calculation")
     return(NULL)
   }
@@ -160,7 +164,7 @@ cal_diff_map <- function(mean_index_rast,
                  stringi::stri_rand_strings(1, 5),
                  ".tif", sep = "")
   terra::writeRaster(rast, overwrite = TRUE, filename = fname, gdal = c("COMPRESS=NONE"))
-  cat(paste("raster created", fname, sep = ": "), "\n")
+  message(paste("raster created", fname, sep = ": "), "\n")
 
   if (interactive()) {
     # Plot the base map
@@ -170,7 +174,7 @@ cal_diff_map <- function(mean_index_rast,
 
     # Plot the raster
     terra::plot(rast,
-                col = grDevices::adjustcolor(colorss, alpha.f = 0.8),
+                col = colorss,
                 zlim = zlim,
                 xaxt = "n",
                 yaxt = "n",

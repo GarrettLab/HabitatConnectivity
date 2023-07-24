@@ -11,8 +11,6 @@
   not_sup <- metrics[[1]][!metrics[[1]] %in% supported_metrics()]
   if (length(not_sup) > 0) {
     stop(paste("Following metrics are not supported: ", paste(not_sup, collapse = ", ")))
-  } else {
-    cat("metrics...OK\n")
   }
   invisible()
 }

@@ -8,6 +8,10 @@ library(yaml)
 
 # utility functions for CCRI ----------------------------------------------
 
+.to_ext <- function(geoscale) {
+  return(terra::ext(geoscale))
+}
+
 .valid_vector_input <- function(vector_to_check) {
   if (!is.vector(vector_to_check) || length(vector_to_check) == 0) {
     return(FALSE)
@@ -47,9 +51,43 @@ library(yaml)
   return(.download(.utilrast_uri(typ)))
 }
 
+.apply_agg <- function(rast,
+                       reso,
+                       method) {
+
+  return(terra::aggregate(rast,
+                          fact = reso,
+                          fun = method,
+                          na.action = stats::na.omit))
+}
+
+.crop_rast <- function(agg_method, cropharvest_agg, resolution, geo_scale, host_density_threshold) {
+  postagg_rast <- if (agg_method == "sum") {
+    the$cropharvest_aggtm <-
+      cropharvest_agg / resolution / resolution # TOTAL MEAN
+    # crop cropland area for the given extent
+    the$cropharvest_aggtm_crop <-
+      terra::crop(the$cropharvest_aggtm, .to_ext(geo_scale))
+    the$cropharvest_aggtm_crop
+  } else if (agg_method == "mean") {
+    the$cropharvest_agglm <- cropharvest_agg
+    # crop cropland area for the given extent
+    the$cropharvest_agglm_crop <-
+      terra::crop(the$cropharvest_agglm, .to_ext(geo_scale))
+    the$cropharvest_aggtm_crop
+  } else {
+    stop("aggregation strategy is not supported")
+  }
+
+  return(postagg_rast)
+}
+
 .onLoad <- function(libname, pkgname) {
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
+  .apply_agg <<- memoise::memoise(.apply_agg)
+  .crop_rast <<- memoise::memoise(.crop_rast)
+
   metric_funs <<- stats::setNames(metric_funs,
                                   c(STR_NEAREST_NEIGHBORS_SUM,
                                     STR_NODE_STRENGTH,
@@ -120,7 +158,7 @@ library(yaml)
 .cal_mgb <- function(geoscale) {
   # calculate map grey background
   map_grey_background <- terra::rast(.get_helper_filepath(.kmapgreybackground_file_type))
-  map_grey_background_ext <- terra::crop(map_grey_background, terra::ext(geoscale))
+  map_grey_background_ext <- terra::crop(map_grey_background, .to_ext(geoscale))
   return(map_grey_background_ext)
 }
 
@@ -170,7 +208,7 @@ library(yaml)
 .get_palette_for_diffmap <- function() {
 
   # ```{r ,fig.width=6, fig.height=7, dpi=150}
-  paldif <- colorspace::diverge_hcl(51, c = 100, l = c(20, 90), power = 1.3)
+  paldif <- viridisLite::turbo(80, direction = 1, alpha = 0.9)
   return(paldif)
 }
 
@@ -235,8 +273,7 @@ get_supported_sources <- function() {
 #' @seealso [get_supported_sources()]
 search_crop <- function(name) {
   crp <- tolower(trimws(name))
-  supported_sources <- get_supported_sources()
-  
+
   funs <- c("monfreda", "spam")
   srcs <- character(0)
 
