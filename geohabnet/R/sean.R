@@ -29,11 +29,36 @@
 the <- new.env(parent = emptyenv())
 the$is_initialized <- FALSE
 the$parameters_config <- NULL
-the$result_index_list <- list()
 the$distance_matrix <- NULL
 the$cropharvest_aggtm <- NULL
 the$cropharvest_agglm_crop <- NULL
 the$cropharvest_aggtm_crop <- NULL
+the$gan <- list(sum = list("east" = NULL, west = NULL),
+                  mean = list("east" = NULL, west = NULL))
+
+.gan_table <- function(row, col, val) {
+  stopifnot("Not a spatRaster"= tolower(class(val)) == "spatraster") 
+  the$gan[[row]][[col]] <- val
+}
+
+.crop_rast <- function(agg_method, cropharvest_agg, resolution, geo_scale) {
+  postagg_rast <- if (agg_method == "sum") {
+
+    the$cropharvest_aggtm <- cropharvest_agg / resolution / resolution # TOTAL MEAN
+    # crop cropland area for the given extent
+    the$cropharvest_aggtm_crop <- terra::crop(the$cropharvest_aggtm, .to_ext(geo_scale))
+    the$cropharvest_aggtm_crop
+  } else if (agg_method == "mean") {
+
+    the$cropharvest_agglm <- cropharvest_agg
+    # crop cropland area for the given extent
+    the$cropharvest_agglm_crop <- terra::crop(the$cropharvest_agglm, .to_ext(geo_scale))
+    the$cropharvest_agglm_crop
+  } else {
+    stop("aggregation strategy is not supported")
+  }
+  return(postagg_rast)
+}
 
 #' Initialization of crop data
 #'
@@ -54,18 +79,17 @@ initialize_cropland_data <- function(cropharvest_raster,
                                      host_density_threshold = 0,
                                      agg_method = "sum") {
 
-
   # aggregation will be cached
   cropharvest_agg <- .apply_agg(cropharvest_raster,
                                 resolution,
                                 agg_method)
 
+  temp_rast <- .crop_rast(agg_method,
+                          cropharvest_agg,
+                          resolution,
+                          geo_scale)
   density_data <- .extract_cropland_density(
-    .crop_rast(
-      agg_method,
-      cropharvest_agg,
-      resolution,
-      geo_scale),
+    temp_rast,
     host_density_threshold)
 
   if (is.null(density_data) || (!is.list(density_data))) {
@@ -115,6 +139,7 @@ initialize_cropland_data <- function(cropharvest_raster,
 ccri_powerlaw <- function(betas,
                           link_threshold = 0,
                           metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                          rast,
                           crop_cells_above_threshold = NULL,
                           thresholded_crop_values = NULL) {
 
@@ -129,7 +154,7 @@ ccri_powerlaw <- function(betas,
                        the$distance_matrix,
                        thresholded_crop_values,
                        adj_mat = NULL,
-                       the$cropharvest_aggtm_crop,
+                       rast,
                        crop_cells_above_threshold,
                        metrics = metrics
                        )
@@ -150,6 +175,7 @@ ccri_powerlaw <- function(betas,
 ccri_negative_exp <- function(gammas,
                               link_threshold = 0,
                               metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                              rast,
                               crop_cells_above_threshold = NULL,
                               thresholded_crop_values = NULL) {
 
@@ -165,7 +191,7 @@ ccri_negative_exp <- function(gammas,
                        the$distance_matrix,
                        thresholded_crop_values,
                        adj_mat = NULL,
-                       the$cropharvest_aggtm_crop,
+                       rast,
                        crop_cells_above_threshold,
                        metrics = metrics
   )
@@ -211,6 +237,7 @@ ccri <- function(
     link_threshold = 0,
     power_law_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
     negative_exponential_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
+    rast,
     crop_cells_above_threshold,
     thresholded_crop_values) {
 
@@ -219,13 +246,14 @@ ccri <- function(
 
   # TODO: parallelize them
   betas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$beta)
-  
+
   if (length(betas) > 0) {
-    stopifnot("beta values are not valid" = is.numeric(betas), is.vector(betas))
+    stopifnot("beta values are not valid" = is.numeric(betas) == TRUE, is.vector(betas) == TRUE)
     risk_indexes <- c(risk_indexes,
                       ccri_powerlaw(betas,
                                     link_threshold,
                                     metrics = power_law_metrics,
+                                    rast,
                                     crop_cells_above_threshold = crop_cells_above_threshold,
                                     thresholded_crop_values = thresholded_crop_values
                       ))
@@ -233,11 +261,12 @@ ccri <- function(
 
   gammas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$gamma)
   if (length(gammas) > 0) {
-    stopifnot("beta values are not valid" = is.numeric(gammas), is.vector(gammas))
+    stopifnot("gamma values are not valid" = is.numeric(gammas) == TRUE, is.vector(gammas) == TRUE)
     risk_indexes <- c(risk_indexes,
                       ccri_negative_exp(the$parameters_config$`CCRI parameters`$DispersalKernelModels$gamma,
                                         link_threshold,
                                         metrics = negative_exponential_metrics,
+                                        rast,
                                         crop_cells_above_threshold = crop_cells_above_threshold,
                                         thresholded_crop_values = thresholded_crop_values
                       ))
@@ -282,7 +311,7 @@ sean <- function(link_threshold = 0,
     message(
       paste(
         "\nRunning sensitivity analysis for the extent: [",
-        geoscale,
+        paste(geoext, collapse = ", "),
         "],\n",
         "Link threshold: ",
         link_threshold,
@@ -296,50 +325,53 @@ sean <- function(link_threshold = 0,
     lrisk_indexes <- list()
 
     for (agg_method in aggregate_methods) {
-      cropland_density_info <- initialize_cropland_data(rast,
-                                                        resolution,
-                                                        geoext,
-                                                        host_density_threshold = host_density_threshold,
-                                                        agg_method)
+      density_data <- initialize_cropland_data(rast,
+                                               resolution,
+                                               geoext,
+                                               host_density_threshold = host_density_threshold,
+                                               agg_method)
       lrisk_indexes <- c(lrisk_indexes,
                         ccri(link_threshold,
                              power_law_metrics = mets$pl,
                              negative_exponential_metrics = mets$ne,
+                             rast = density_data$agg_crop,
                              crop_cells_above_threshold =
-                               cropland_density_info$crop_values_at,
+                               density_data$crop_values_at,
                              thresholded_crop_values =
-                               cropland_density_info$crop_value
+                               density_data$crop_value
                              ))
     }
     return(lrisk_indexes)
+  }
+
+  .addto_tab <- function(hemi) {
+    .gan_table("sum", hemi, the$cropharvest_aggtm_crop)
+    .gan_table("mean", hemi, the$cropharvest_agglm_crop)
   }
 
   risk_indexes <- if (global) {
 
     global_exts <- global_scales()
 
-    east_idx <- sean_geo(global_exts[["east"]])
-    west_idx <- sean_geo(global_exts[["west"]])
+    east_indexes <- sean_geo(global_exts[["east"]])
+    .addto_tab("east")
 
-    global_ext <- .global_ext(global_exts)
-    global_idx <- list()
-    for (idx in seq_along(east_idx)) {
-      global_idx <- c(global_idx, terra::merge(idx, west_idx[[idx]], global_ext))
-    }
-    geoscale <- global_ext
-    global_idx
+    west_indexes <- sean_geo(global_exts[["west"]])
+    .addto_tab("west")
+    list(east = east_indexes, west = west_indexes)
   } else {
     sean_geo(geoscale)
   }
-  
+
   if (maps == TRUE) {
     plot_maps(risk_indexes,
+              global,
               geoscale,
               resolution,
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
-    ) 
+    )
   }
   the$is_initialized <- FALSE
   return(risk_indexes)
@@ -369,7 +401,7 @@ sean_linkweights <- function(link_threshold = 0,
                              resolution,
                              maps = TRUE) {
 
-  risk_indexes <- unlist(lapply(host_density_thresholds,
+  risk_indexes <- lapply(host_density_thresholds,
                                 function(threshold) {
                                   invisible(
                                     sean(
@@ -383,21 +415,19 @@ sean_linkweights <- function(link_threshold = 0,
                                       maps = FALSE
                                     )
                                   )
-                                }), recursive = FALSE)
+                                })
 
+  risk_indexes <- .flatten_ri(global, risk_indexes)
   if (maps == TRUE) {
 
-    if (global) {
-      geo_scale <- .global_ext()
-    }
-
     plot_maps(risk_indexes,
-              geoscale,
+              global = global,
+              geo_scale,
               resolution,
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
-    ) 
+    )
   }
   return(risk_indexes)
 }
@@ -438,7 +468,7 @@ sa_onrasters <- function(rast,
 
   .loadparam_ifnotnull()
 
-  risk_indexes <- unlist(lapply(link_thresholds,
+  risk_indexes <- lapply(link_thresholds,
                                 function(lthreshold) {
                                   invisible(
                                     sean_linkweights(
@@ -452,20 +482,20 @@ sa_onrasters <- function(rast,
                                       maps = FALSE
                                     )
                                   )
-                                }), recursive = FALSE)
+                                })
+
+
+  risk_indexes <- .flatten_ri(global, risk_indexes)
 
   if (maps == TRUE) {
-    if (global) {
-      geo_scale <- .global_ext()
-    }
-
     plot_maps(risk_indexes,
+              global,
               geo_scale,
               resolution,
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
-    ) 
+    )
   }
   return(risk_indexes)
 }
@@ -489,6 +519,7 @@ sa_onrasters <- function(rast,
 #' [plot_maps()]
 sensitivity_analysis <- function(maps = TRUE, notify = TRUE) {
 
+  #.resetglobals()
   the$is_initialized <- FALSE
   the$parameters_config <- load_parameters()
 
@@ -503,10 +534,10 @@ sensitivity_analysis <- function(maps = TRUE, notify = TRUE) {
   resolution <- the$parameters_config$`CCRI parameters`$Resolution
 
   # global analysis
-  isglobal = the$parameters_config$`CCRI parameters`$GeoExtent$global
+  isglobal <- the$parameters_config$`CCRI parameters`$GeoExtent$global
   geoscale <- geoscale_param()
 
-  risk_indexes <- unlist(lapply(crop_rasters,
+  risk_indexes <- lapply(crop_rasters,
                          invisible(function(rast) {
                            sa_onrasters(
                              rast = rast,
@@ -518,13 +549,13 @@ sensitivity_analysis <- function(maps = TRUE, notify = TRUE) {
                              resolution = resolution,
                              maps = FALSE
                            )
-                         })), recursive = FALSE)
+                         }))
+
+  risk_indexes <- .flatten_ri(isglobal, risk_indexes)
 
   if (maps == TRUE) {
-    if (isglobal) {
-      geoscale <- .global_ext()
-    }
     plot_maps(risk_indexes,
+              isglobal,
               geoscale,
               resolution,
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
@@ -535,7 +566,7 @@ sensitivity_analysis <- function(maps = TRUE, notify = TRUE) {
 
   message("sensitivity analysis completed. Refer to maps for results.")
   if (notify == TRUE) {
-    beepr::beep()
+    beepr::beep(2)
   }
 
   return(TRUE)

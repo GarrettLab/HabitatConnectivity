@@ -5,15 +5,16 @@
 \title{Calculate inverse power law}
 \usage{
 ccri_powerlaw(
-  dispersal_parameter_beta_vals,
+  betas,
   link_threshold = 0,
   metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+  rast,
   crop_cells_above_threshold = NULL,
   thresholded_crop_values = NULL
 )
 }
 \arguments{
-\item{dispersal_parameter_beta_vals}{A list of beta values}
+\item{betas}{Vector. Dispersal model beta values.}
 
 \item{link_threshold}{A threshold value for links.}
 

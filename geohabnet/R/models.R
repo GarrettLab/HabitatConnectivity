@@ -67,13 +67,13 @@ model_powerlaw <- function(beta,
 
 #' @rdname model_powerlaw
 model_neg_exp <- function(gamma_val,
-                             link_threshold,
-                             distance_matrix = the$distance_matrix,
-                             thresholded_crop_values,
-                             adj_mat = NULL,
-                             crop_raster,
-                             crop_cells_above_threshold,
-                             metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
+                          link_threshold,
+                          distance_matrix = the$distance_matrix,
+                          thresholded_crop_values,
+                          adj_mat = NULL,
+                          crop_raster,
+                          crop_cells_above_threshold,
+                          metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
   metrics <- .refined_mets(metrics)
 
   #### create adjacency matrix

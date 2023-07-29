@@ -4,7 +4,7 @@
 \alias{ccri_mean}
 \title{Calculate mean of raster objects}
 \usage{
-ccri_mean(indexes, geoscale = NULL, reso = NULL, plt = TRUE)
+ccri_mean(indexes, global = TRUE, geoscale = NULL, reso = reso(), plt = TRUE)
 }
 \arguments{
 \item{indexes}{raster list}

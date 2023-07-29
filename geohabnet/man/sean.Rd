@@ -11,7 +11,8 @@ sean(
   aggregate_methods = c("sum", "mean"),
   rast,
   host_density_threshold = 0,
-  resolution = 24
+  resolution = 24,
+  maps = TRUE
 )
 }
 \arguments{
@@ -37,7 +38,7 @@ This function calculates sensitivity analysis on cropland harvested area fractio
 It can be used as an entry point for sensitivity analysis.
 }
 \details{
-When \code{global = TRUE}, geoscale is ignored. Instead global_scales() is used
+When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used
 }
 \seealso{
 Uses \code{\link[=plot_maps]{plot_maps()}}

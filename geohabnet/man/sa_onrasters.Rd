@@ -11,7 +11,8 @@ sa_onrasters(
   link_thresholds,
   host_density_thresholds,
   aggregate_methods = c("sum", "mean"),
-  resolution
+  resolution,
+  maps = TRUE
 )
 }
 \arguments{

@@ -9,8 +9,8 @@ global_scales(east, west) <- value
 \description{
 Set the geographical extents used in global analysis.
 Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)
-@param east The eastern hemisphere extent.
-@param west The western hemisphere extent.
+@param east Vector. The eastern hemisphere extent.
+@param west Vector. The western hemisphere extent.
 @export
 @seealso \code{\link[terra:ext]{terra::ext()}}
 }

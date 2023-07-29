@@ -5,15 +5,16 @@
 \title{Calculate negative exponential}
 \usage{
 ccri_negative_exp(
-  dispersal_parameter_gamma_vals,
+  gammas,
   link_threshold = 0,
   metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+  rast,
   crop_cells_above_threshold = NULL,
   thresholded_crop_values = NULL
 )
 }
 \arguments{
-\item{dispersal_parameter_gamma_vals}{A list of gamma values}
+\item{gammas}{Vector. Dispersal model gamma values.}
 
 \item{link_threshold}{A threshold value for link}
 

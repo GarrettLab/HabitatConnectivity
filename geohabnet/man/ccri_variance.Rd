@@ -4,12 +4,7 @@
 \alias{ccri_variance}
 \title{Calculate variance of CCRI}
 \usage{
-ccri_variance(
-  indexes,
-  rast,
-  geoscale,
-  resolution = the$parameters_config$`CCRI parameters`$Resolution
-)
+ccri_variance(indexes, rast, global, geoscale, resolution = reso())
 }
 \arguments{
 \item{indexes}{A list of index values}

@@ -4,7 +4,7 @@
 \alias{sensitivity_analysis}
 \title{Calculate sensitivity analysis on parameters}
 \usage{
-sensitivity_analysis()
+sensitivity_analysis(maps = TRUE, notify = TRUE)
 }
 \description{
 This function runs sensitivity analysis on parameters based on provided parameters through \code{\link[=set_parameters]{set_parameters()}}.

@@ -15,23 +15,35 @@
 #' then plots can be seen in active plot window. E.g. Rstudio
 #'
 #' @export
-plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE) {
+plot_maps <- function(indexes,
+                      global = TRUE,
+                      geoscale,
+                      reso = reso(),
+                      pmean = TRUE,
+                      pvar = TRUE,
+                      pdiff = TRUE) {
 
-  mean_rast <- ccri_mean(indexes, geoscale, reso, pmean)
+  mean_rast <- ccri_mean(indexes, global, geoscale, reso, pmean)
 
   if (pvar == TRUE) {
     ccri_variance(
-      lapply(indexes, terra::values),
+      indexes,
       mean_rast,
+      global,
       geoscale,
       reso)
   }
 
   if (pdiff == TRUE) {
-    cal_diff_map(
+    if (global) {
+      geoscale <- .global_ext()
+    }
+
+    ccri_diff(
       mean_rast,
       the$cropharvest_aggtm_crop,
       the$cropharvest_agglm_crop,
+      global,
       geoscale,
       reso)
   }
@@ -48,16 +60,36 @@ plot_maps <- function(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff 
 #' @param reso resolution for plotting
 #' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`, `reso` is ignored.
 #' @export
-ccri_mean <- function(indexes, geoscale = NULL, reso = NULL, plt = TRUE) {
-  mean_index <- terra::app(terra::rast(indexes), sum, na.rm = TRUE) / length(indexes)
-  mean_index_vals <- terra::values(mean_index)
-  zeroid <- which(mean_index_vals == 0)
-  mean_index[zeroid] <- NaN
+ccri_mean <- function(indexes,
+                      global = TRUE,
+                      geoscale = NULL,
+                      reso = reso(),
+                      plt = TRUE) {
+
+  .cal_mean <- function(ext_indices) {
+    mean_idx <- terra::app(terra::rast(ext_indices), sum, na.rm = TRUE) / length(ext_indices)
+    mean_index_vals <- terra::values(mean_idx)
+    zeroid <- which(mean_index_vals == 0)
+    mean_idx[zeroid] <- NaN
+    mean_idx
+  }
+
+  mean_index <- if (global == TRUE) {
+
+    .gan_paramok(indexes)
+    east <- .cal_mean(indexes[["east"]])
+    west <- .cal_mean(indexes[["west"]])
+    geoscale <- .global_ext()
+    terra::merge(east, west)
+
+  } else {
+    .cal_mean(indexes)
+  }
 
   if (plt == TRUE) {
     .plot(mean_index,
           paste("Mean cropland connectivity risk index\n",
-                            "resolution = ", the$parameters_config$`CCRI parameters`$Resolution),
+                            "resolution = ", reso),
           geoscale,
           zlim = c(0, 1),
           typ = "mean")
@@ -76,18 +108,43 @@ ccri_mean <- function(indexes, geoscale = NULL, reso = NULL, plt = TRUE) {
 #' @export
 ccri_variance <- function(indexes,
                           rast,
+                          global,
                           geoscale,
-                          resolution = the$parameters_config$`CCRI parameters`$Resolution) {
-  # ```{r ,fig.width=6, fig.height=7, dpi=150}
-  var_rast <- apply(do.call(cbind, indexes), 1, stats::var, na.rm = TRUE)
+                          resolution = reso()) {
 
-  rast[] <- var_rast
-  z_var_w <- range(var_rast[which(var_rast > 0)])
+  .cal_var <- function(ext_indices, scale) {
+    var_rastvect <-
+      apply(do.call(cbind, ext_indices), 1, stats::var, na.rm = TRUE)
 
-  var_disag_rast <- terra::disagg(rast, fact = c(resolution, resolution))
-  var_disag_rast <- var_disag_rast + .cal_zerorast(var_disag_rast, resolution)
+    scaled_rast <- terra::crop(rast, .to_ext(scale))
+    scaled_rast[] <- var_rastvect
 
-  .plot(var_disag_rast, "Variance in cropland connectivity", geoscale, zlim = z_var_w, typ = "variance")
+    var_disag_rast <-
+      terra::disagg(scaled_rast, fact = c(resolution, resolution))
+
+    var_disag_rast[var_disag_rast[] == 0] <- NA
+
+    var_disag_rast + .cal_zerorast(var_disag_rast, resolution)
+  }
+
+  var_out <- if (global == TRUE) {
+
+    .gan_paramok(indexes)
+    exts <- global_scales()
+    east <-
+      .cal_var(lapply(indexes[["east"]], terra::values), exts[["east"]])
+    west <-
+      .cal_var(lapply(indexes[["west"]], terra::values), exts[["west"]])
+
+    geoscale <- .global_ext()
+    terra::merge(east, west)
+
+  } else {
+    .cal_var(indexes, geoscale)
+  }
+
+  z_var_w <- range(var_out[which(var_out[] > 0)])
+  .plot(var_out, "Variance in cropland connectivity", geoscale, zlim = z_var_w, typ = "variance")
 
   invisible(1)
 }
@@ -95,60 +152,88 @@ ccri_variance <- function(indexes,
 #' Calculate difference map
 #'
 #' This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
-#' @param mean_index_rast A raster object for mean index raster difference
-#' @param cropharvest_aggtm_crop A raster object for cropland harvest
-#' @param cropharvest_agglm_crop A raster object for cropland harvest
+#' @param rast A raster object for mean index raster difference
+#' @param x A raster object for cropland harvest
+#' @param y A raster object for cropland harvest
 #' @param geoscale geographical scale with longitude and latitudes. It will be converted into extent.
 #' See [get_geographic_scales()] and [terra::ext()].
 #' @param resolution resolution to plot raster and map
 #' @export
-cal_diff_map <- function(mean_index_rast,
-                         cropharvest_aggtm_crop,
-                         cropharvest_agglm_crop,
-                         geoscale,
-                         resolution = the$parameters_config$`CCRI parameters`$Resolution) {
+ccri_diff <- function(rast,
+                      x,
+                      y,
+                      global,
+                      geoscale,
+                      resolution = reso()) {
   # difference map
   # Function to check for missing or null values
   .params_ok <- function(...) {
-    !any(sapply(list(...), function(x) missing(x) || is.null(x)))
+    !any(sapply(list(...), function(r) missing(r) || is.null(r)))
+  }
+
+  zr2 <- c(0, 0)
+
+  .cal_diff <- function(r1, r2, scale) {
+
+    scaled_rast <- terra::crop(rast, .to_ext(scale))
+    ccri_id <- which(scaled_rast[] > 0)
+    message(terra::ext(r1), terra::ext(r2))
+    meantotalland_w <- sum(r1, r2, na.rm = TRUE) / 2
+
+    meanindexcell_w <- scaled_rast[][ccri_id]
+    meantotallandcell_w <- meantotalland_w[][ccri_id]
+
+    # mean cropland minus mean index,
+    # negative value means importance of cropland reduce,
+    # positive value means importance increase,
+    # zero means the importance of cropland doesn't change.
+    rankdifferent_w <-
+      rank(meantotallandcell_w * (-1)) - rank(meanindexcell_w * (-1))
+    scaled_rast[] <- NaN
+    scaled_rast[][ccri_id] <- rankdifferent_w
+
+    maxrank_w <- max(abs(rankdifferent_w))
+    zr2 <- max(zr2, range(-maxrank_w, maxrank_w))
+
+    diagg_rast <- terra::disagg(scaled_rast,
+                              fact = c(resolution, resolution))
+    diagg_rast + .cal_zerorast(diagg_rast, resolution)
+  }
+
+  diff_out <- if (global == TRUE) {
+
+    exts <- global_scales()
+
+    east_var <-
+      .cal_diff(the$gan[["sum"]][["east"]], the$gan[["mean"]][["east"]], exts[["east"]])
+    west_var <-
+      .cal_diff(the$gan[["sum"]][["west"]], the$gan[["mean"]][["west"]], exts[["west"]])
+
+    geoscale <- .global_ext(exts)
+    terra::merge(east_var, west_var)
+  }
+  else {
+    if (!.params_ok(x, y)) {
+      message("Either sum or mean aggregate is missing. Aborting difference calculation")
+      return(NULL)
+    }
+    .cal_diff(x, y, geoscale)
   }
   
-  # Validation using meta-programming
-  if (!.params_ok(cropharvest_aggtm_crop, cropharvest_agglm_crop)) {
-    message("Either sum or mean aggregate is missing. Aborting difference calculation")
-    return(NULL)
-  }
 
-  ccri_id <- which(mean_index_rast[] > 0)
-  meantotalland_w <- sum(cropharvest_aggtm_crop, cropharvest_agglm_crop, na.rm = TRUE) / 2
+  .plot(diff_out, "Difference in rank of host density and host connectivity",
+        geoscale, .get_palette_for_diffmap(), zr2, typ = "difference")
 
-  meanindexcell_w <- mean_index_rast[][ccri_id]
-  meantotallandcell_w <- meantotalland_w[][ccri_id]
-
-  # mean cropland minus mean index, negative value means importance of cropland reduce,
-  # positive value means importance increase, zero means the importance of cropland doesn't change.
-  rankdifferent_w <- rank(meantotallandcell_w * (-1)) - rank(meanindexcell_w * (-1))
-  mean_index_rast[] <- NaN
-  mean_index_rast[][ccri_id] <- rankdifferent_w
-
-  maxrank_w <- max(abs(rankdifferent_w))
-  zr2 <- range(-maxrank_w, maxrank_w)
-
-  paldif4 <- .get_palette_for_diffmap()
-
-  diagg_rast <- terra::disagg(mean_index_rast,
-                            fact = c(resolution, resolution))
-  diagg_rast <- diagg_rast + .cal_zerorast(diagg_rast, resolution)
-
-  .plot(diagg_rast, "Difference in rank of host density and host connectivity",
-        geoscale, paldif4, zr2, typ = "difference")
-
-  invisible(2)
+  invisible()
 }
 
 # private functions -------------------------------------------------------
 
-.plot <- function(rast, label, geoscale, colorss = .get_palette(), zlim, typ = "plot") {
+.plot <- function(rast,
+                  label,
+                  geoscale,
+                  colorss = .get_palette(),
+                  zlim, typ = "plot") {
 
   # Set the plot parameters
   graphics::par(mar = c(0, 0, 0, 0), bg = "aliceblue")
@@ -186,5 +271,10 @@ cal_diff_map <- function(mean_index_rast,
     world <- rnaturalearthdata::countries110
     terra::plot(world, col = NA, border = "black", add = TRUE)
   }
-  invisible(4)
+  invisible()
+}
+
+.gan_paramok <- function(indices) {
+  stopifnot("Require list of east and west indices" = all(c("east", "west") %in% names(indices)))
+  return(TRUE)
 }

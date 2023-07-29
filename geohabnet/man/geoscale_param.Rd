@@ -10,6 +10,6 @@ geoscale_param()
 A list of geographical scales
 }
 \description{
-This function returns a list of geographical scales set in global and custom extent in parameters.yaml
-if \code{global} is \code{TRUE}, the \code{CustomExt} is ignored.
+This function returns a list of geographical scales set in global and custom extent in \code{parameters.yaml}.
+If \code{global} is \code{TRUE}, the \code{CustomExt} is ignored.
 }

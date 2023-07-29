@@ -11,7 +11,8 @@ sean_linkweights(
   geo_scale,
   aggregate_methods,
   rast,
-  resolution
+  resolution,
+  maps = TRUE
 )
 }
 \arguments{

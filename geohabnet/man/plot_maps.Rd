@@ -4,7 +4,15 @@
 \alias{plot_maps}
 \title{Calculate and plot maps}
 \usage{
-plot_maps(indexes, geoscale, reso, pmean = TRUE, pvar = TRUE, pdiff = TRUE)
+plot_maps(
+  indexes,
+  global = TRUE,
+  geoscale,
+  reso = reso(),
+  pmean = TRUE,
+  pvar = TRUE,
+  pdiff = TRUE
+)
 }
 \arguments{
 \item{indexes}{list of raster}

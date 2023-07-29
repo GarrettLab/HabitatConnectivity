@@ -1,16 +1,16 @@
 default:
   CCRI parameters:
     Hosts:
-      monfreda: ["wheat"]
-      mapspam: ["wheat"]
+      monfreda: ["avocado"]
+      mapspam: 
       file:
-    HostDensityThreshold: [0.00015, 0.000025]
+    HostDensityThreshold: [0.00015]
     AggregationStrategy: [sum, mean]
     Resolution: 12
     GeoExtent: 
-      global: FALSE
-      customExt: [-115, -75, 5, 32] # set this to NA/Empty if not required #[32, 48, 2.9, 17], [-115, -75, 5, 32]
-    LinkThreshold: [0, 0.000001, 0.0006]
+      global: TRUE
+      customExt: [ -140, -34, -58, 60 ] # set this to NA/Empty if not required #[32, 48, 2.9, 17], [-115, -75, 5, 32]
+    LinkThreshold: [0, 0.000001, 0.00006]
     DispersalKernelModels:
       beta: [0.5, 1, 1.5]
       gamma: [0.05, 1, 0.2, 0.3]

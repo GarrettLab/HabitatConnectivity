@@ -1,6 +1,6 @@
 scales <- new.env(parent = emptyenv())
-scales$geast <- c(-140, -34, -58, 60)
-scales$gwest <- c(-24, 180, -58, 60)
+scales$geast <- c(-24, 180, -58, 60)
+scales$gwest <- c(-140, -34, -58, 60)
 
 #' Global geographical extent
 #'
@@ -21,7 +21,7 @@ global_scales <- function() {
 }
 
 #' Set global geographical extent
-#' 
+#'
 #'   Set the geographical extents used in global analysis.
 #'   Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)
 #'   @param east Vector. The eastern hemisphere extent.

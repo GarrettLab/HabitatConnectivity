@@ -8,6 +8,25 @@ library(yaml)
 
 # utility functions for CCRI ----------------------------------------------
 
+
+.flatten_ri <- function(isglobal, ri) {
+  .ew_split <- function() {
+    ew_indices <- list(east = list(), west = list())
+    for (indices in ri) {
+      ew_indices[["east"]] <- c(ew_indices[["east"]], indices[["east"]])
+      ew_indices[["west"]] <- c(ew_indices[["west"]], indices[["west"]])
+    }
+    return(ew_indices)
+  }
+
+  if (isglobal) {
+    #east-west split
+    .ew_split()
+  } else {
+    unlist(ri, recursive = FALSE)
+  }
+}
+
 .to_ext <- function(geoscale) {
   return(terra::ext(geoscale))
 }
@@ -61,32 +80,11 @@ library(yaml)
                           na.action = stats::na.omit))
 }
 
-.crop_rast <- function(agg_method, cropharvest_agg, resolution, geo_scale, host_density_threshold) {
-  postagg_rast <- if (agg_method == "sum") {
-    the$cropharvest_aggtm <-
-      cropharvest_agg / resolution / resolution # TOTAL MEAN
-    # crop cropland area for the given extent
-    the$cropharvest_aggtm_crop <-
-      terra::crop(the$cropharvest_aggtm, .to_ext(geo_scale))
-    the$cropharvest_aggtm_crop
-  } else if (agg_method == "mean") {
-    the$cropharvest_agglm <- cropharvest_agg
-    # crop cropland area for the given extent
-    the$cropharvest_agglm_crop <-
-      terra::crop(the$cropharvest_agglm, .to_ext(geo_scale))
-    the$cropharvest_aggtm_crop
-  } else {
-    stop("aggregation strategy is not supported")
-  }
-
-  return(postagg_rast)
-}
-
 .onLoad <- function(libname, pkgname) {
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
   .apply_agg <<- memoise::memoise(.apply_agg)
-  .crop_rast <<- memoise::memoise(.crop_rast)
+  #.crop_rast <<- memoise::memoise(.crop_rast)
 
   metric_funs <<- stats::setNames(metric_funs,
                                   c(STR_NEAREST_NEIGHBORS_SUM,
@@ -208,7 +206,7 @@ library(yaml)
 .get_palette_for_diffmap <- function() {
 
   # ```{r ,fig.width=6, fig.height=7, dpi=150}
-  paldif <- viridisLite::turbo(80, direction = 1, alpha = 0.9)
+  paldif <- viridisLite::viridis(80, direction = 1, alpha = 0.9)
   return(paldif)
 }
 

@@ -10,6 +10,7 @@ ccri(
     the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
   negative_exponential_metrics =
     the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
+  rast,
   crop_cells_above_threshold,
   thresholded_crop_values
 )
