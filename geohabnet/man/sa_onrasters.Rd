@@ -2,39 +2,66 @@
 % Please edit documentation in R/sean.R
 \name{sa_onrasters}
 \alias{sa_onrasters}
-\title{Run analysis}
+\title{Run senstivity analysis}
 \usage{
 sa_onrasters(
   rast,
   global = TRUE,
-  geo_scale,
+  geoscale,
   link_thresholds,
   host_density_thresholds,
-  aggregate_methods = c("sum", "mean"),
-  resolution,
+  agg_methods = c("sum", "mean"),
+  dist_method = "distGeo",
+  reso = reso(),
   maps = TRUE
 )
 }
 \arguments{
 \item{rast}{Raster object which will be used in analysis.}
 
-\item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise. Default is \code{TRUE}
-Default is \code{TRUE}. when \code{TRUE}, \code{geoscale} is ignored}
+\item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
+Default is \code{TRUE}}
 
-\item{geo_scale}{Vector. Geographical scale which is coordinates in the form of c(Xmin, Xmax, Ymin, Ymax)}
+\item{link_thresholds}{vector. link threshold values}
+
+\item{host_density_thresholds}{vector. host density threshold values}
+
+\item{dist_method}{character. Distance method from \code{\link[=dist_methods]{dist_methods()}}}
+
+\item{reso}{numeric.
+resolution at which operations will run.
+Default is \code{\link[=reso]{reso()}}}
+
+\item{maps}{logical. \code{TRUE} if maps are to be plotted, \code{FALSE} otherwise}
+
+\item{geo_scale}{Vector. Geographical coordinates
+in the form of c(Xmin, Xmax, Ymin, Ymax)}
+
+\item{aggregate_methods}{vector. Aggregation methods}
+}
+\value{
+A list of calculated CCRI indices after operations.
+An index is generated for each combination of paramters.
+One combination is equivalent to \code{\link[=sean]{sean()}} function.
 }
 \description{
-Run analysis
+Same as \code{\link[=senstivity_analysis]{senstivity_analysis()}} but it takes raster object and other parameters as an input.
+}
+\details{
+When \code{global = TRUE}, \code{geo_scale} is ignored.
+Instead uses scales from \code{\link[=global_scales]{global_scales()}}.
 }
 \examples{
 rr <- get_rasters(list(monfreda = c("coffee")))
 sa_onrasters(rr[[1]],
+            global = FALSE,
             geo_scales = list(c(-115, -75, 5, 32)),
             c(0.0001, 0.00004),
             c(0.0001, 0.00005),
             c("sum", "mean"),
             resolution = 12)
 sa_onrasters(rr[[1]],
+            global = TRUE,
             geo_scales = list(c(-115, -75, 5, 32)),
             0.0001,
             0.00001,

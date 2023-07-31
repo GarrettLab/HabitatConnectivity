@@ -4,22 +4,39 @@
 \alias{sensitivity_analysis}
 \title{Calculate sensitivity analysis on parameters}
 \usage{
-sensitivity_analysis(maps = TRUE, notify = TRUE)
+sensitivity_analysis(maps = TRUE, alert = TRUE)
+}
+\arguments{
+\item{maps}{logical. \code{TRUE} if maps are to be plotted, \code{FALSE} otherwise}
+
+\item{alert}{logical. \code{TRUE} if beep sound is to be played, \code{FALSE} otherwise}
+}
+\value{
+logical. \code{TRUE} if analysis is completed, \code{FALSE} otherwise.
+Errors are not handled.
 }
 \description{
-This function runs sensitivity analysis on parameters based on provided parameters through \code{\link[=set_parameters]{set_parameters()}}.
-It can be used as entry point for sensitivity analysis.
-Plots results of sensitivity analysis.
+This function runs sensitivity analysis on parameters based on
+parameters provided through \code{\link[=set_parameters]{set_parameters()}}.
+It can be used as an entry point for CCRI.
+By default, it runs analysis on global sclaes\code{\link[=global_scales]{global_scales()}}.
+After analysis is complete,
+it will suppress maps for outcomes if \code{maps = FALSE} or
+\code{\link[=interactive]{interactive()}} is \code{FALSE}.
 }
 \examples{
 \dontrun{
 # Run analysis on specified parameters.yaml
 sensitivity_analysis()
+sensitivity_analysis(FALSE, FALSE)
+sensitivity_analysis(TRUE, FALSE)
 }
 }
 \seealso{
 \code{\link[=sa_onrasters]{sa_onrasters()}}
-\link{sean_linkweights}
 \code{\link[=sean]{sean()}}
+\code{\link[=global_scales]{global_scales()}}
+\code{\link[=get_parameters]{get_parameters()}}
+\code{\link[=set_parameters]{set_parameters()}}
 \code{\link[=plot_maps]{plot_maps()}}
 }

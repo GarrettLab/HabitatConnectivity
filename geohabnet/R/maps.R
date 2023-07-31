@@ -90,6 +90,7 @@ ccri_mean <- function(indexes,
     .plot(mean_index,
           paste("Mean cropland connectivity risk index\n",
                             "resolution = ", reso),
+          global,
           geoscale,
           zlim = c(0, 1),
           typ = "mean")
@@ -144,7 +145,12 @@ ccri_variance <- function(indexes,
   }
 
   z_var_w <- range(var_out[which(var_out[] > 0)])
-  .plot(var_out, "Variance in cropland connectivity", geoscale, zlim = z_var_w, typ = "variance")
+  .plot(var_out,
+        "Variance in cropland connectivity",
+        global,
+        geoscale,
+        zlim = z_var_w,
+        typ = "variance")
 
   invisible(1)
 }
@@ -177,7 +183,6 @@ ccri_diff <- function(rast,
 
     scaled_rast <- terra::crop(rast, .to_ext(scale))
     ccri_id <- which(scaled_rast[] > 0)
-    message(terra::ext(r1), terra::ext(r2))
     meantotalland_w <- sum(r1, r2, na.rm = TRUE) / 2
 
     meanindexcell_w <- scaled_rast[][ccri_id]
@@ -221,8 +226,13 @@ ccri_diff <- function(rast,
   }
   
 
-  .plot(diff_out, "Difference in rank of host density and host connectivity",
-        geoscale, .get_palette_for_diffmap(), zr2, typ = "difference")
+  .plot(diff_out,
+        "Difference in rank of host density and host connectivity",
+        global,
+        geoscale,
+        .get_palette_for_diffmap(),
+        zr2,
+        typ = "difference")
 
   invisible()
 }
@@ -231,6 +241,7 @@ ccri_diff <- function(rast,
 
 .plot <- function(rast,
                   label,
+                  isglobal,
                   geoscale,
                   colorss = .get_palette(),
                   zlim, typ = "plot") {
@@ -253,7 +264,7 @@ ccri_diff <- function(rast,
 
   if (interactive()) {
     # Plot the base map
-    terra::plot(.cal_mgb(geoscale),
+    terra::plot(.cal_mgb(geoscale, isglobal),
                 col = "grey85", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
                 main = label, cex.main = 0.9)
 

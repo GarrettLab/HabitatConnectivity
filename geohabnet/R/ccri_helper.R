@@ -7,7 +7,29 @@ library(yaml)
 .kmapgreybackground_file_type <- "map_grey"
 
 # utility functions for CCRI ----------------------------------------------
+# Meta-programming approach with eval_tidy
+.cal_dist <- function(latilongimatr, method) {
 
+  method = tolower(method)
+  supported <- dist_methods()
+  stopifnot("Distance strategy not supported. See dist_methods()\n" = method %in% supported)
+
+  n <- nrow(latilongimatr)
+  temp_matrix <- matrix(-999, n, n)
+
+  f <- switch(method,
+              "distgeo" = geosphere::distGeo,
+              "distvincentyellipsoid" = geosphere::distVincentyEllipsoid)
+
+  dvse <- f(c(0, 0), cbind(1, 0))
+
+  # Calculate the distances
+  for (i in seq_len(n)) {
+    temp_matrix[i, ] <- f(round(latilongimatr[i, ], 5), latilongimatr) / dvse
+  }
+
+  return(temp_matrix)
+}
 
 .flatten_ri <- function(isglobal, ri) {
   .ew_split <- function() {
@@ -153,10 +175,14 @@ library(yaml)
   return(paste(param_config$`CCRI parameters`$Hosts, collapse = ", "))
 }
 
-.cal_mgb <- function(geoscale) {
+.cal_mgb <- function(geoscale, isglobal) {
   # calculate map grey background
   map_grey_background <- terra::rast(.get_helper_filepath(.kmapgreybackground_file_type))
-  map_grey_background_ext <- terra::crop(map_grey_background, .to_ext(geoscale))
+  map_grey_background_ext <- if (isglobal == FALSE) {
+    terra::crop(map_grey_background, .to_ext(geoscale))
+  } else {
+    map_grey_background
+  }
   return(map_grey_background_ext)
 }
 
@@ -291,4 +317,8 @@ search_crop <- function(name) {
   }
 
   return(srcs)
+}
+
+dist_methods <- function() {
+  return(c( "distgeo","distvincentyellipsoid"))
 }

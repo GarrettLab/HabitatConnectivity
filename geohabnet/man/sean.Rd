@@ -9,26 +9,32 @@ sean(
   global = TRUE,
   geoscale,
   aggregate_methods = c("sum", "mean"),
+  dist_method = "distGeo",
   rast,
   host_density_threshold = 0,
-  resolution = 24,
+  reso = reso(),
   maps = TRUE
 )
 }
 \arguments{
-\item{link_threshold}{A threshold value for link}
+\item{link_threshold}{numeric. A threshold value for link}
 
-\item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise. Default is \code{TRUE}}
+\item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
+Default is \code{TRUE}}
 
-\item{geoscale}{A geographical extent in form of (Xmin, Xmax, Ymin, Ymax)}
+\item{aggregate_methods}{vector. Aggregation methods}
 
-\item{aggregate_methods}{A list of aggregation methods. It can be sum or mean}
+\item{dist_method}{character. Distance method from \code{\link[=dist_methods]{dist_methods()}}}
+
+\item{rast}{Raster object which will be used in analysis.}
 
 \item{host_density_threshold}{A host density threshold value}
 
-\item{resolution}{resolution to plot raster and map}
+\item{reso}{numeric.
+resolution at which operations will run.
+Default is \code{\link[=reso]{reso()}}}
 
-\item{cropharvest_raster}{A raster object for cropland harvest}
+\item{maps}{logical. \code{TRUE} if maps are to be plotted, \code{FALSE} otherwise}
 }
 \value{
 A list of calculated CCRI values using negative exponential

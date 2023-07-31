@@ -9,7 +9,8 @@ initialize_cropland_data(
   resolution = 12,
   geo_scale,
   host_density_threshold = 0,
-  agg_method = "sum"
+  agg_method = "sum",
+  dist_method = "distGeo"
 )
 }
 \arguments{

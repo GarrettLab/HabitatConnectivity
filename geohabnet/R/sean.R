@@ -78,7 +78,8 @@ initialize_cropland_data <- function(cropharvest_raster,
                                      resolution = 12,
                                      geo_scale,
                                      host_density_threshold = 0,
-                                     agg_method = "sum") {
+                                     agg_method = "sum",
+                                     dist_method = "distGeo") {
 
   # aggregation will be cached
   cropharvest_agg <- .apply_agg(cropharvest_raster,
@@ -98,20 +99,14 @@ initialize_cropland_data <- function(cropharvest_raster,
   }
 
   # Prepare arguments elements values for the CCRI functions
-  #cropdata1 <- data.frame(density_data$longitude, density_data$latitude, density_data$crop_value)
-  # adjustConstant <- 2 # to adjust the distance and make sure the distance >1
+
   # save the latitude and longitude as new matrix
   latilongimatr <- terra::xyFromCell(density_data$agg_crop, cell = density_data$crop_values_at)
   #---- use Geosphere package, fun distVincentyEllipsoid() is used to calculate the distance, default distance is meter
   # reference of standard distance in meter for one degree
-  dvse <- geosphere::distVincentyEllipsoid(c(0, 0), cbind(1, 0))
+  #dvse <- geosphere::distVincentyEllipsoid(c(0, 0), cbind(1, 0))
   latilongimatr <- as.matrix(latilongimatr)
-  temp_matrix <- matrix(-999, nrow(latilongimatr), nrow(latilongimatr))
-
-  # TODO: set round limit
-  for (i in seq_len(nrow(latilongimatr))) {
-    temp_matrix[i, ] <- geosphere::distVincentyEllipsoid(round(latilongimatr[i, ], 5), latilongimatr) / dvse
-  }
+  temp_matrix <- .cal_dist(latilongimatr, dist_method)
 
   the$distance_matrix <- temp_matrix
 
@@ -119,24 +114,8 @@ initialize_cropland_data <- function(cropharvest_raster,
   return(density_data)
 }
 
-
 # Aggregate -----------------------------------------------------
 
-
-#' Calculate inverse power law
-#' @param betas Vector. Dispersal model beta values.
-#' @param link_threshold A threshold value for links.
-#' @param metrics A list 2 vectors - metrics and weights.
-#' @param crop_cells_above_threshold A list of crop cells above threshold
-#' @param thresholded_crop_values A list of crop values above threshold
-#' @return A list of calculated inverse power law
-#' @export
-#' @inherit ccri details
-#' @details
-#' This function by itself doesn't run any analysis.
-#' It applies inverse powerlaw to the results of [ccri()].
-#' If the values required are not loaded into environment, then this function will result in error.
-#'
 ccri_powerlaw <- function(betas,
                           link_threshold = 0,
                           metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
@@ -219,22 +198,8 @@ ccri_negative_exp <- function(gammas,
 }
 
 # CCRI functions ----------------------------------------------------------
-#' Calculate Cropland Connectivity Risk Index (CCRI)
-#'
-#'  This function calculates CCRI for given parameters using power law and negative exponential.
-#'  It's required to call [initialize_cropland_data()] before calling this function.
-#' @param link_threshold A threshold value for link
-#' @param power_law_metrics A list of 2 vectors - power law metrics and weights
-#' @param negative_exponential_metrics A list of of 2 vectors - negative exponential metrics
-#' @param crop_cells_above_threshold A list of crop cells above threshold
-#' @param thresholded_crop_values A list of crop values above threshold
-#' @return A list of calculated CCRI values
-#' @export
-#' @details
-#' Network metrics should be passed as a list of vectors e.g. `list(metrics = c("betweeness"), weights = c(100))`.
-#' Default values are fetched from `parameters.yaml` and arguments uses the same structure.
-#' @seealso [get_param_metrics()], [sean()]
-ccri <- function(
+
+.ccri <- function(
     link_threshold = 0,
     power_law_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
     negative_exponential_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
@@ -282,13 +247,9 @@ ccri <- function(
 #'
 #'   This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
 #'   It can be used as an entry point for sensitivity analysis.
-#' @param link_threshold A threshold value for link
-#' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise. Default is `TRUE`
-#' @param geoscale A geographical extent in form of (Xmin, Xmax, Ymin, Ymax)
-#' @param aggregate_methods A list of aggregation methods. It can be sum or mean
-#' @param cropharvest_raster A raster object for cropland harvest
+#' @param link_threshold numeric. A threshold value for link
 #' @param host_density_threshold A host density threshold value
-#' @param resolution resolution to plot raster and map
+#' @inheritParams sa_onrasters
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
 #' @details
@@ -298,10 +259,11 @@ ccri <- function(
 sean <- function(link_threshold = 0,
                  global = TRUE,
                  geoscale,
-                 aggregate_methods = c("sum", "mean"),
+                 agg_methods = c("sum", "mean"),
+                 dist_method = "distGeo",
                  rast,
                  host_density_threshold = 0,
-                 resolution = 24,
+                 reso = reso(),
                  maps = TRUE) {
 
   .loadparam_ifnotnull()
@@ -325,14 +287,15 @@ sean <- function(link_threshold = 0,
 
     lrisk_indexes <- list()
 
-    for (agg_method in aggregate_methods) {
+    for (agg_method in agg_methods) {
       density_data <- initialize_cropland_data(rast,
-                                               resolution,
+                                               reso,
                                                geoext,
                                                host_density_threshold = host_density_threshold,
-                                               agg_method)
+                                               agg_method,
+                                               dist_method)
       lrisk_indexes <- c(lrisk_indexes,
-                        ccri(link_threshold,
+                        .ccri(link_threshold,
                              power_law_metrics = mets$pl,
                              negative_exponential_metrics = mets$ne,
                              rast = density_data$agg_crop,
@@ -369,7 +332,7 @@ sean <- function(link_threshold = 0,
     plot_maps(risk_indexes,
               global,
               geoscale,
-              resolution,
+              reso,
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
@@ -379,28 +342,14 @@ sean <- function(link_threshold = 0,
   return(risk_indexes)
 }
 
-#' Calculate sensitivity analysis on cropland harvested area fraction
-#'
-#' This function calculates sensitivity analysis on cropland harvested area fraction based on link weight threshold
-#' and other provided parameters.
-#' It can be used as entry point for sensitivity analysis.
-#' @param link_threshold A threshold value for link
-#' @param host_density_thresholds A list of host density threshold values
-#' @param global `TRUE` if global analysis, `FALSE` otherwise. Default is `TRUE`
-#' @param geo_scale A list of longitude and latitude values for cropland analysis
-#' @param aggregate_methods A list of aggregation methods
-#' @param cropharvest_raster A raster object for cropland harvest
-#' @param resolution resolution to plot raster and map
-#' @return A list of calculated CCRI values using negative exponential
-#' @export
-#' @inherit sensitivity_analysis seealso
-sean_linkweights <- function(link_threshold = 0,
+.sean_linkweights <- function(link_threshold = 0,
                              host_density_thresholds,
                              global = TRUE,
-                             geo_scale,
-                             aggregate_methods,
+                             geoscale,
+                             agg_methods,
                              rast,
-                             resolution,
+                             reso,
+                             dist_method = "distGeo",
                              maps = TRUE) {
 
   risk_indexes <- lapply(host_density_thresholds,
@@ -410,11 +359,12 @@ sean_linkweights <- function(link_threshold = 0,
                                       link_threshold = link_threshold,
                                       host_density_threshold = threshold,
                                       global = global,
-                                      geoscale = geo_scale,
-                                      aggregate_methods = aggregate_methods,
+                                      geoscale = geoscale,
+                                      agg_methods = agg_methods,
+                                      dist_method = dist_method,
                                       rast = rast,
-                                      resolution = resolution,
-                                      maps = FALSE
+                                      reso = reso,
+                                      maps = maps
                                     )
                                   )
                                 })
@@ -424,8 +374,8 @@ sean_linkweights <- function(link_threshold = 0,
 
     plot_maps(risk_indexes,
               global = global,
-              geo_scale,
-              resolution,
+              geoscale,
+              reso,
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
@@ -434,22 +384,42 @@ sean_linkweights <- function(link_threshold = 0,
   return(risk_indexes)
 }
 
-#' Run analysis
+#' Run senstivity analysis
+#'
+#' Same as [senstivity_analysis()] but it takes raster object and other parameters as an input.
 #' @param rast Raster object which will be used in analysis.
 #' @seealso Use [get_rasters()] to obtain raster object.
-#' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise. Default is `TRUE`
-#' Default is `TRUE`. when `TRUE`, `geoscale` is ignored
-#' @param geo_scale Vector. Geographical scale which is coordinates in the form of c(Xmin, Xmax, Ymin, Ymax)
+#' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise.
+#' Default is `TRUE`
+#' @param geo_scale Vector. Geographical coordinates
+#' in the form of c(Xmin, Xmax, Ymin, Ymax)
+#' @param link_thresholds vector. link threshold values
+#' @param host_density_thresholds vector. host density threshold values
+#' @param aggregate_methods vector. Aggregation methods
+#' @param dist_method character. Distance method from [dist_methods()]
+#' @param reso numeric.
+#' resolution at which operations will run.
+#' Default is [reso()]
+#' @param maps logical. `TRUE` if maps are to be plotted, `FALSE` otherwise
+#' @return A list of calculated CCRI indices after operations.
+#' An index is generated for each combination of paramters.
+#' One combination is equivalent to [sean()] function.
 #' @export
+#' @details
+#' When `global = TRUE`, `geo_scale` is ignored.
+#' Instead uses scales from [global_scales()].
+#'
 #' @examples
 #' rr <- get_rasters(list(monfreda = c("coffee")))
 #' sa_onrasters(rr[[1]],
+#'             global = FALSE,
 #'             geo_scales = list(c(-115, -75, 5, 32)),
 #'             c(0.0001, 0.00004),
 #'             c(0.0001, 0.00005),
 #'             c("sum", "mean"),
 #'             resolution = 12)
 #' sa_onrasters(rr[[1]],
+#'             global = TRUE,
 #'             geo_scales = list(c(-115, -75, 5, 32)),
 #'             0.0001,
 #'             0.00001,
@@ -459,11 +429,12 @@ sean_linkweights <- function(link_threshold = 0,
 #' @inherit sensitivity_analysis seealso
 sa_onrasters <- function(rast,
                          global = TRUE,
-                         geo_scale,
+                         geoscale,
                          link_thresholds,
                          host_density_thresholds,
-                         aggregate_methods = c("sum", "mean"),
-                         resolution,
+                         agg_methods = c("sum", "mean"),
+                         dist_method = "distGeo",
+                         reso = reso(),
                          maps = TRUE) {
 
   cat("New analysis started for given raster")
@@ -473,15 +444,16 @@ sa_onrasters <- function(rast,
   risk_indexes <- lapply(link_thresholds,
                                 function(lthreshold) {
                                   invisible(
-                                    sean_linkweights(
+                                    .sean_linkweights(
                                       link_threshold = lthreshold,
                                       host_density_thresholds = host_density_thresholds,
                                       global = global,
-                                      geo_scale = geo_scale,
-                                      aggregate_methods = aggregate_methods,
+                                      geoscale = geoscale,
+                                      agg_methods = agg_methods,
+                                      dist_method = dist_method,
                                       rast = rast,
-                                      resolution = resolution,
-                                      maps = FALSE
+                                      reso = reso,
+                                      maps = maps
                                     )
                                   )
                                 })
@@ -492,8 +464,8 @@ sa_onrasters <- function(rast,
   if (maps == TRUE) {
     plot_maps(risk_indexes,
               global,
-              geo_scale,
-              resolution,
+              geoscale,
+              reso,
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
               as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
@@ -505,21 +477,33 @@ sa_onrasters <- function(rast,
 #' @title Calculate sensitivity analysis on parameters
 #'
 #' @description
-#' This function runs sensitivity analysis on parameters based on provided parameters through [set_parameters()].
-#' It can be used as entry point for sensitivity analysis.
-#' Plots results of sensitivity analysis.
+#' This function runs sensitivity analysis on parameters based on
+#' parameters provided through [set_parameters()].
+#' It can be used as an entry point for CCRI.
+#' By default, it runs analysis on global sclaes[global_scales()].
+#' After analysis is complete,
+#' it will suppress maps for outcomes if `maps = FALSE` or
+#' [interactive()] is `FALSE`.
+#' @param maps logical. `TRUE` if maps are to be plotted, `FALSE` otherwise
+#' @param alert logical. `TRUE` if beep sound is to be played, `FALSE` otherwise
+#' @return logical. `TRUE` if analysis is completed, `FALSE` otherwise.
+#' Errors are not handled.
 #' @export
 #' @examples
 #' \dontrun{
 #' # Run analysis on specified parameters.yaml
 #' sensitivity_analysis()
+#' sensitivity_analysis(FALSE, FALSE)
+#' sensitivity_analysis(TRUE, FALSE)
 #' }
 #' @seealso
 #' [sa_onrasters()]
-#' [sean_linkweights]
 #' [sean()]
+#' [global_scales()]
+#' [get_parameters()]
+#' [set_parameters()]
 #' [plot_maps()]
-sensitivity_analysis <- function(maps = TRUE, notify = TRUE) {
+sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   #.resetglobals()
   the$is_initialized <- FALSE
@@ -544,12 +528,13 @@ sensitivity_analysis <- function(maps = TRUE, notify = TRUE) {
                            sa_onrasters(
                              rast = rast,
                              global = isglobal,
-                             geo_scale = geoscale,
+                             geoscale = geoscale,
                              link_thresholds = the$parameters_config$`CCRI parameters`$LinkThreshold,
                              host_density_thresholds = cropland_thresholds,
-                             aggregate_methods = agg_methods,
-                             resolution = resolution,
-                             maps = FALSE
+                             agg_methods = agg_methods,
+                             dist_method = the$parameters_config$`CCRI parameters`$DistanceStrategy,
+                             reso = resolution,
+                             maps = maps
                            )
                          }))
 
@@ -567,7 +552,7 @@ sensitivity_analysis <- function(maps = TRUE, notify = TRUE) {
   }
 
   message("sensitivity analysis completed. Refer to maps for results.")
-  if (notify == TRUE) {
+  if (alert == TRUE) {
     beepr::beep(2)
   }
 
