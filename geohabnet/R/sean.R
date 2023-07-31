@@ -39,6 +39,7 @@ the$gan <- list(sum = list("east" = NULL, west = NULL),
 .gan_table <- function(row, col, val) {
   stopifnot("Not a spatRaster"= tolower(class(val)) == "spatraster") 
   the$gan[[row]][[col]] <- val
+  invisible()
 }
 
 .crop_rast <- function(agg_method, cropharvest_agg, resolution, geo_scale) {
@@ -347,6 +348,7 @@ sean <- function(link_threshold = 0,
   .addto_tab <- function(hemi) {
     .gan_table("sum", hemi, the$cropharvest_aggtm_crop)
     .gan_table("mean", hemi, the$cropharvest_agglm_crop)
+    invisible()
   }
 
   risk_indexes <- if (global) {

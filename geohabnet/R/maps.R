@@ -114,7 +114,7 @@ ccri_variance <- function(indexes,
 
   .cal_var <- function(ext_indices, scale) {
     var_rastvect <-
-      apply(do.call(cbind, ext_indices), 1, stats::var, na.rm = TRUE)
+      apply(do.call(cbind, lapply(ext_indices, terra::values)), 1, stats::var, na.rm = TRUE)
 
     scaled_rast <- terra::crop(rast, .to_ext(scale))
     scaled_rast[] <- var_rastvect
@@ -132,9 +132,9 @@ ccri_variance <- function(indexes,
     .gan_paramok(indexes)
     exts <- global_scales()
     east <-
-      .cal_var(lapply(indexes[["east"]], terra::values), exts[["east"]])
+      .cal_var(indexes[["east"]], exts[["east"]])
     west <-
-      .cal_var(lapply(indexes[["west"]], terra::values), exts[["west"]])
+      .cal_var(indexes[["west"]], exts[["west"]])
 
     geoscale <- .global_ext()
     terra::merge(east, west)
