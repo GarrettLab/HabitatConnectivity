@@ -2,7 +2,7 @@
 
 # Utility functions -------------------------------------------------------
 
-.loadparam_ifnotnull <- function() {
+.loadparam_ifnull <- function() {
   if (is.null(the$parameters_config)) {
     the$parameters_config <- load_parameters()
   }
@@ -36,8 +36,17 @@ the$cropharvest_aggtm_crop <- NULL
 the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                   mean = list("east" = NULL, "west" = NULL))
 
+.resetgan <- function() {
+  the$cropharvest_aggtm <- NULL
+  the$cropharvest_agglm_crop <- NULL
+  the$cropharvest_aggtm_crop <- NULL
+  the$gan <- list(sum = list("east" = NULL, "west" = NULL),
+                  mean = list("east" = NULL, "west" = NULL))
+  invisible()
+}
+
 .gan_table <- function(row, col, val) {
-  stopifnot("Not a spatRaster" = tolower(class(val)) == "spatraster")
+  #stopifnot("Not a spatRaster" = tolower(class(val)) == "spatraster")
   the$gan[[row]][[col]] <- val
   invisible()
 }
@@ -114,7 +123,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
     return(0)
   }
 
-  .loadparam_ifnotnull()
+  .loadparam_ifnull()
 
   index_list <- lapply(betas, model_powerlaw,
                        link_threshold = link_threshold,
@@ -142,7 +151,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
     return(0)
   }
 
-  .loadparam_ifnotnull()
+  .loadparam_ifnull()
 
   index_list <- lapply(gammas,
                        model_neg_exp,
@@ -186,7 +195,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
     crop_cells_above_threshold,
     thresholded_crop_values) {
 
-  .loadparam_ifnotnull()
+  .loadparam_ifnull()
   risk_indexes <- list()
 
   # TODO: parallelize them
@@ -232,7 +241,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' @return A list of calculated CCRI values using negative exponential
 #' @export
 #' @details
-#' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used 
+#' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used
 #'
 #' @seealso Uses [connectivity()]
 sean <- function(link_threshold = 0,
@@ -245,7 +254,7 @@ sean <- function(link_threshold = 0,
                  reso = reso(),
                  maps = TRUE) {
 
-  .loadparam_ifnotnull()
+  .loadparam_ifnull()
 
   mets <- get_param_metrics(the$parameters_config)
 
@@ -279,7 +288,7 @@ sean <- function(link_threshold = 0,
                               power_law_metrics = mets$pl,
                               negative_exponential_metrics = mets$ne,
                               rast = density_data$agg_crop,
-                              crop_cells_above_threshold = 
+                              crop_cells_above_threshold =
                                 density_data$crop_values_at,
                               thresholded_crop_values =
                                 density_data$crop_value
@@ -366,17 +375,17 @@ sean <- function(link_threshold = 0,
 
 #' Run senstivity analysis
 #'
-#' Same as [senstivity_analysis()] but it takes raster object and other parameters as an input.
+#' Same as [sensitivity_analysis()] but it takes raster object and other parameters as an input.
 #' @param rast Raster object which will be used in analysis.
 #' @seealso Use [get_rasters()] to obtain raster object.
 #' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise.
 #' Default is `TRUE`
-#' @param geo_scale Vector. Geographical coordinates
+#' @param geoscale Vector. Geographical coordinates
 #' in the form of c(Xmin, Xmax, Ymin, Ymax)
 #' @param link_thresholds vector. link threshold values
 #' @param host_density_thresholds vector. host density threshold values
-#' @param aggregate_methods vector. Aggregation methods
-#' @param dist_method character. Distance method from [dist_methods()]
+#' @param agg_methods vector. Aggregation methods
+#' @param dist_method character. One of the values from [dist_methods()]
 #' @param reso numeric.
 #' resolution at which operations will run.
 #' Default is [reso()]
@@ -390,22 +399,23 @@ sean <- function(link_threshold = 0,
 #' Instead uses scales from [global_scales()].
 #'
 #' @examples
+#' \dontrun{
 #' rr <- get_rasters(list(monfreda = c("coffee")))
 #' sa_onrasters(rr[[1]],
 #'             global = FALSE,
-#'             geo_scales = list(c(-115, -75, 5, 32)),
+#'             geoscale = c(-115, -75, 5, 32),
 #'             c(0.0001, 0.00004),
 #'             c(0.0001, 0.00005),
 #'             c("sum", "mean"),
-#'             resolution = 12)
+#'             reso = 24)
 #' sa_onrasters(rr[[1]],
 #'             global = TRUE,
-#'             geo_scales = list(c(-115, -75, 5, 32)),
+#'             geoscale = c(-115, -75, 5, 32),
 #'             0.0001,
 #'             0.00001,
 #'             c("sum"),
-#'             resolution = 12)
-#'
+#'             reso = 24)
+#'}
 #' @inherit sensitivity_analysis seealso
 sa_onrasters <- function(rast,
                          global = TRUE,
@@ -419,7 +429,7 @@ sa_onrasters <- function(rast,
 
   cat("New analysis started for given raster")
 
-  .loadparam_ifnotnull()
+  .loadparam_ifnull()
 
   risk_indexes <- lapply(link_thresholds,
                                 function(lthreshold) {
@@ -486,6 +496,7 @@ sa_onrasters <- function(rast,
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   #.resetglobals()
+  .resetgan()
   the$is_initialized <- FALSE
   the$parameters_config <- load_parameters()
 

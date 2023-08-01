@@ -3,7 +3,7 @@ Title: Analysis of Cropland Connectivity
 Version: 0.1.0
 Authors@R: c(
     person("Garrett Lab", role = "aut", comment = "https://garrettlab.com"),
-    person("Krishna", "Keshav", email = "kkeshav@ufl.edu", role = c("cre", "ctb")),
+    person("Krishna", "Keshav", email = "kkeshav@ufl.edu", role = c("aut", "cre", "ctb")),
     person("Karen", "Garrett", email = "karengarrett@ufl.edu", role = "aut",
            comment = c(ORCID = "0000-0002-6578-1616")),
     person("Aaron", "Plex", email = "plexaaron@ufl.edu", role = "aut",
@@ -18,14 +18,13 @@ Description:
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
-    \code{\link{initialize_cropland_data}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
+    \code{\link{sean}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
     \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
-    colorspace (>= 2.1.0),
     config (>= 0.3.1),
     geodata (>= 0.5.8),
     geosphere (>= 1.5.18),
@@ -39,7 +38,6 @@ Imports:
     rnaturalearthdata,
     graphics (>= 4.2.3),
     stringi,
-    grDevices,
     rlang (>= 1.1.1),
     viridisLite (>= 0.4.2),
     beepr (>= 1.3)

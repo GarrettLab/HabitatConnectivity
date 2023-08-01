@@ -10,5 +10,7 @@ global_scales()
 See geographical extents used in global analysis.
 Returns eastern and western hemisphere extents.
 Each extent is in the form of c(Xmin, Xmax, Ymin, Ymax).
-@export
+}
+\seealso{
+\code{\link[=set_global_scales]{set_global_scales()}}
 }

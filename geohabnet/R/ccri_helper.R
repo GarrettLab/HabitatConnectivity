@@ -10,7 +10,7 @@ library(yaml)
 # Meta-programming approach with eval_tidy
 .cal_dist <- function(latilongimatr, method) {
 
-  method = tolower(method)
+  method <- tolower(method)
   supported <- dist_methods()
   stopifnot("Distance strategy not supported. See dist_methods()\n" = method %in% supported)
 
@@ -313,13 +313,17 @@ search_crop <- function(name) {
     }
   }
 
-  if (length(srcs) == 0) {
-    stop("Crop not present in supported sources.")
-  }
+  stopifnot("Crop not present in supported sources." = length(srcs) > 0)
 
   return(srcs)
 }
 
+#' Distance methods supported
+#'
+#' Contains supported strategies to calculate distance between two points.
+#' Use of one the methods in [sean()] or [sensitivity_analysis()].
+#' @return vector
+#' @export
 dist_methods <- function() {
   return(c("geodesic", "vincentyellipsoid"))
 }

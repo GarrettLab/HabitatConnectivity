@@ -6,7 +6,7 @@
 #' @param beta A list of beta values. `DispersalParameterBeta` in `parameters.yaml`.
 #' @param gamma_val A list of beta values. `DispersalParameterGamma` in `parameters.yaml`.
 #' @param link_threshold A threshold value for link.
-#' @param distance_matrix distance matrix, generated during [initialize_cropland_data()].
+#' @param distance_matrix distance matrix, generated during [sean()].
 #' @param thresholded_crop_values crop values above threshold.
 #' @param adj_mat Adjacency matrix(optional) representing un-directed graph network.
 #' If this is provided, then gamma_val, distance_matrix, link_threshold and thresholded_crop_values are ignored.

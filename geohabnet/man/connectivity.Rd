@@ -15,7 +15,10 @@ connectivity(
 )
 }
 \arguments{
-\item{indexes}{list of rasters}
+\item{indexes}{list of rasters. See details.}
+
+\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{vector. geographical scale}
 
@@ -34,6 +37,9 @@ Default value is `TRUE` for all logical arguments
 }\if{html}{\out{</div>}}
 }
 \details{
+\code{indexes} are actually risk resulting from operations on crop's raster and
+parameters provided in either \code{parameters.yaml} or \code{\link[=sean]{sean()}}.
+
 It will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
 File will be saved in \code{\link[=getwd]{getwd()}}.If \code{\link[=interactive]{interactive()}} is \code{TRUE},
 then plots can be seen in active plot window. E.g. Rstudio

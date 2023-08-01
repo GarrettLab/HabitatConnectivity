@@ -4,7 +4,7 @@
 \alias{ccri_diff}
 \title{Calculate difference map}
 \usage{
-ccri_diff(rast, x, y, global, geoscale, resolution = reso())
+ccri_diff(rast, x, y, global, geoscale, reso = reso())
 }
 \arguments{
 \item{rast}{A raster object for mean index raster difference}
@@ -13,10 +13,12 @@ ccri_diff(rast, x, y, global, geoscale, resolution = reso())
 
 \item{y}{A raster object for cropland harvest}
 
-\item{geoscale}{geographical scale with longitude and latitudes. It will be converted into extent.
-See \code{\link[=get_geographic_scales]{get_geographic_scales()}} and \code{\link[terra:ext]{terra::ext()}}.}
+\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{resolution}{resolution to plot raster and map}
+\item{geoscale}{vector. geographical scale}
+
+\item{reso}{numeric, map resolution}
 }
 \description{
 This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.

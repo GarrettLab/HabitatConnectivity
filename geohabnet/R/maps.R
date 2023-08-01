@@ -3,25 +3,30 @@
 #'     Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 #'     Currently, the settings for plot cannot be customized.
 #'     Default value is `TRUE` for all logical arguments
-#' @param indexes list of rasters
+#' @param indexes list of rasters. See details.
+#' @param global logical. `TRUE` if global analysis is required, `FALSE` otherwise.
+#' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
 #' @param geoscale vector. geographical scale
 #' @param reso numeric, map resolution
 #' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise.
 #' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise
 #' @details
+#' `indexes` are actually risk resulting from operations on crop's raster and
+#' parameters provided in either `parameters.yaml` or [sean()].
+#'
 #' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
 #' File will be saved in [getwd()].If [interactive()] is `TRUE`,
 #' then plots can be seen in active plot window. E.g. Rstudio
 #'
 #' @export
 connectivity <- function(indexes,
-                      global = TRUE,
-                      geoscale,
-                      reso = reso(),
-                      pmean = TRUE,
-                      pvar = TRUE,
-                      pdiff = TRUE) {
+                         global = TRUE,
+                         geoscale,
+                         reso = reso(),
+                         pmean = TRUE,
+                         pvar = TRUE,
+                         pdiff = TRUE) {
 
   mean_rast <- ccri_mean(indexes, global, geoscale, reso, pmean)
 
@@ -107,7 +112,7 @@ ccri_variance <- function(indexes,
                           rast,
                           global,
                           geoscale,
-                          resolution = reso()) {
+                          reso = reso()) {
 
   .cal_var <- function(ext_indices, scale) {
     var_rastvect <-
@@ -117,11 +122,11 @@ ccri_variance <- function(indexes,
     scaled_rast[] <- var_rastvect
 
     var_disag_rast <-
-      terra::disagg(scaled_rast, fact = c(resolution, resolution))
+      terra::disagg(scaled_rast, fact = c(reso, reso))
 
     var_disag_rast[var_disag_rast[] == 0] <- NA
 
-    var_disag_rast + .cal_zerorast(var_disag_rast, resolution)
+    var_disag_rast + .cal_zerorast(var_disag_rast, reso)
   }
 
   var_out <- if (global == TRUE) {
@@ -157,16 +162,14 @@ ccri_variance <- function(indexes,
 #' @param rast A raster object for mean index raster difference
 #' @param x A raster object for cropland harvest
 #' @param y A raster object for cropland harvest
-#' @param geoscale geographical scale with longitude and latitudes. It will be converted into extent.
-#' See [get_geographic_scales()] and [terra::ext()].
-#' @param resolution resolution to plot raster and map
+#' @inheritParams connectivity
 #' @export
 ccri_diff <- function(rast,
                       x,
                       y,
                       global,
                       geoscale,
-                      resolution = reso()) {
+                      reso = reso()) {
   # difference map
   # Function to check for missing or null values
   .params_ok <- function(...) {
@@ -197,11 +200,19 @@ ccri_diff <- function(rast,
     zr2 <- max(zr2, range(-maxrank_w, maxrank_w))
 
     diagg_rast <- terra::disagg(scaled_rast,
-                              fact = c(resolution, resolution))
-    diagg_rast + .cal_zerorast(diagg_rast, resolution)
+                              fact = c(reso, reso))
+    diagg_rast + .cal_zerorast(diagg_rast, reso)
   }
 
   diff_out <- if (global == TRUE) {
+
+    if (!.params_ok(the$gan[["sum"]][[STR_EAST]],
+                    the$gan[["mean"]][[STR_EAST]],
+                    the$gan[["sum"]][[STR_WEST]],
+                    the$gan[["mean"]][[STR_WEST]])) {
+      message("Either sum or mean aggregate is missing. Aborting difference calculation")
+      return(NULL)
+    }
 
     exts <- global_scales()
 

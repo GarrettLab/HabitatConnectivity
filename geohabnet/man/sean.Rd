@@ -9,7 +9,7 @@ sean(
   global = TRUE,
   geoscale,
   agg_methods = c("sum", "mean"),
-  dist_method = "distGeo",
+  dist_method = "geodesic",
   rast,
   host_density_threshold = 0,
   reso = reso(),
@@ -22,7 +22,12 @@ sean(
 \item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
 Default is \code{TRUE}}
 
-\item{dist_method}{character. Distance method from \code{\link[=dist_methods]{dist_methods()}}}
+\item{geoscale}{Vector. Geographical coordinates
+in the form of c(Xmin, Xmax, Ymin, Ymax)}
+
+\item{agg_methods}{vector. Aggregation methods}
+
+\item{dist_method}{character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
 
 \item{rast}{Raster object which will be used in analysis.}
 

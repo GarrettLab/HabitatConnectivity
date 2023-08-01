@@ -67,9 +67,9 @@ get_param_metrics <- function(params = load_parameters()) {
 #' - `degree()`: number of adjacent edges [igraph::degree()].
 #' - `page_rank()`: page rank score for vertices [igraph::page_rank()].
 #' @param crop_dm Distance matrix.
-#'        In the internal workflow, the distance matrix comes from [initialize_cropland_data()] and risk functions.
+#'  In the internal workflow,
+#'  the distance matrix comes is a result of operations within [sean()] and risk functions.
 #' @param we Weight in percentage.
-#'
 #' @return Matrix with the mean value based on the assigned weight.
 #'
 #' @family metrics

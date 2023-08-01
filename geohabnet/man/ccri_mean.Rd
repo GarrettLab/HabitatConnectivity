@@ -7,7 +7,10 @@
 ccri_mean(indexes, global = TRUE, geoscale = NULL, reso = reso(), plt = TRUE)
 }
 \arguments{
-\item{indexes}{list of rasters}
+\item{indexes}{list of rasters. See details.}
+
+\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{vector. geographical scale}
 

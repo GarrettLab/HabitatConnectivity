@@ -98,6 +98,7 @@ load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_ty
 #' Resolution stored in `parameter.yaml`.
 #' If not present it will result default value.
 #' @export
+#' @seealso [set_reso()]
 reso <- function() {
   reso <- the$parameters_config$`CCRI parameters`$Resolution
   reso <- if (is.null(reso) || is.na(reso)) {
@@ -110,10 +111,19 @@ reso <- function() {
 #'
 #' Set `resolution` to be used in analysis.
 #' It doesn't modify the `parameters.yaml`
-#' @param reso resolution value. Must be greater than 0 and less than or equal to 48.
+#' but instead a currently loaded instance of it.
+#' Must be greater than 0 and less than or equal to 48.
+#'
+#' @param value numeric. Resolution value.
 #' @export
-`reso<-` <- function(reso) {
-  stopifnot("Invalid resolution" = is.numeric(reso), reso <= 0, reso > 48)
-  .loadparam_ifnotnull()
-  the$parameters_config$`CCRI parameters`$Resolution <- reso
+#' @examples
+#' \dontrun{
+#' set_reso(24)
+#' }
+#'
+set_reso <- function(value) {
+  stopifnot("Invalid resolution" = is.numeric(value), value <= 0, value > 48)
+  .loadparam_ifnull()
+  the$parameters_config$`CCRI parameters`$Resolution <- value
+  invisible(TRUE)
 }

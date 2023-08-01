@@ -32,7 +32,7 @@ model_neg_exp(
 
 \item{link_threshold}{A threshold value for link.}
 
-\item{distance_matrix}{distance matrix, generated during \code{\link[=initialize_cropland_data]{initialize_cropland_data()}}.}
+\item{distance_matrix}{distance matrix, generated during \code{\link[=sean]{sean()}}.}
 
 \item{thresholded_crop_values}{crop values above threshold.}
 

@@ -6,7 +6,7 @@ default:
       file:
     HostDensityThreshold: [0.00015]
     AggregationStrategy: [sum, mean]
-    DistanceStrategy: "geodesic"
+    DistanceStrategy: "vincentyellipsoid"
     Resolution: 12
     GeoExtent: 
       global: TRUE

@@ -12,7 +12,7 @@
 #' }
 #' @seealso
 #' [geodata::spamCrops()]
-#' [crop_search()]
+#' [search_crop()]
 #' @references
 #' www.mapspam.com/data
 #' International Food Policy Research Institute, 2020.

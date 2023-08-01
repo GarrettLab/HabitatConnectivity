@@ -31,5 +31,5 @@ https://doi.org/10.7910/DVN/FSSKBW, Harvard Dataverse, V2
 }
 \seealso{
 \code{\link[geodata:crop_spam]{geodata::spamCrops()}}
-\code{\link[=crop_search]{crop_search()}}
+\code{\link[=search_crop]{search_crop()}}
 }

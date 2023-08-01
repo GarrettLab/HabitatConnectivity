@@ -1,3 +1,5 @@
+#' Only meant to global variables
+#' @keywords internal
 scales <- new.env(parent = emptyenv())
 scales$geast <- c(-24, 180, -58, 60)
 scales$gwest <- c(-140, -34, -58, 60)
@@ -7,7 +9,8 @@ scales$gwest <- c(-140, -34, -58, 60)
 #'   See geographical extents used in global analysis.
 #'   Returns eastern and western hemisphere extents.
 #'   Each extent is in the form of c(Xmin, Xmax, Ymin, Ymax).
-#'   @export
+#' @export
+#' @seealso [set_global_scales()]
 global_scales <- function() {
   sc <- list(scales$geast, scales$gwest)
   names(sc) <- c(STR_EAST, STR_WEST)
@@ -22,26 +25,26 @@ global_scales <- function() {
 #'
 #'   Set the geographical extents used in global analysis.
 #'   Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)
-#' @param east vector. The eastern hemisphere extent.
-#' @param west vector. The western hemisphere extent.
+#' @param value list. Named list of eastern and western hemisphere extents. See usage.
 #' @export
+#' @examples
+#' \dontrun{
+#' set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
+#' }
 #' @seealso
 #' [global_scales()]
 #' [terra::ext()]
-`global_scales<-` <- function(east, west) {
+set_global_scales <- function(value) {
 
-  if (missing(east)) {
-    stop("Please provide the eastern hemisphere extent.")
-  }
-  if (missing(west)) {
-    stop("Please provide the western hemisphere extent.")
-  }
-  stopifnot("Not a valid east coordinate" = is.vector(east), length(east) == 4)
-  stopifnot("Not a valid west coordinate" = is.vector(west), length(west) == 4)
+  east <- is.vector(value[[STR_EAST]])
+  west <- is.vector(value[[STR_WEST]])
+  stopifnot("Not a valid east coordinate" = is.numeric(east), is.vector(east), length(east) == 4)
+  stopifnot("Not a valid west coordinate" = is.numeric(west), is.vector(west), length(west) == 4)
 
   scales$geast <- east
   scales$gwest <- west
-  return(invisible(global_scales()))
+  value <- c(east, west)
+  return(invisible(value))
 }
 
 #' Get geographical scales from the parameters
@@ -51,7 +54,7 @@ global_scales <- function() {
 #' @return A list of geographical scales
 #' @export
 geoscale_param <- function() {
-  .loadparam_ifnotnull()
+  .loadparam_ifnull()
   xf <- the$parameters_config$`CCRI parameters`$GeoExtent$global
   if (as.logical(xf) == FALSE) {
     stopifnot("Geographical missing in parameters " =
