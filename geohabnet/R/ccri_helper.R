@@ -18,8 +18,8 @@ library(yaml)
   temp_matrix <- matrix(-999, n, n)
 
   f <- switch(method,
-              "distgeo" = geosphere::distGeo,
-              "distvincentyellipsoid" = geosphere::distVincentyEllipsoid)
+              "geodesic" = geosphere::distGeo,
+              "vincentyellipsoid" = geosphere::distVincentyEllipsoid)
 
   dvse <- f(c(0, 0), cbind(1, 0))
 
@@ -321,5 +321,5 @@ search_crop <- function(name) {
 }
 
 dist_methods <- function() {
-  return(c("distgeo", "distvincentyellipsoid"))
+  return(c("geodesic", "vincentyellipsoid"))
 }

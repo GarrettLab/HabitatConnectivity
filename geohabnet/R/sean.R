@@ -66,7 +66,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                                      geo_scale,
                                      host_density_threshold = 0,
                                      agg_method = "sum",
-                                     dist_method = "distGeo") {
+                                     dist_method = "geodesic") {
 
   # aggregation will be cached
   cropharvest_agg <- .apply_agg(cropharvest_raster,
@@ -190,7 +190,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
   risk_indexes <- list()
 
   # TODO: parallelize them
-  betas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$beta)
+  betas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta)
 
   if (length(betas) > 0) {
     stopifnot("beta values are not valid" = is.numeric(betas) == TRUE, is.vector(betas) == TRUE)
@@ -204,11 +204,11 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                       ))
   }
 
-  gammas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$gamma)
+  gammas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma)
   if (length(gammas) > 0) {
     stopifnot("gamma values are not valid" = is.numeric(gammas) == TRUE, is.vector(gammas) == TRUE)
     risk_indexes <- c(risk_indexes,
-                      .ccri_negative_exp(the$parameters_config$`CCRI parameters`$DispersalKernelModels$gamma,
+                      .ccri_negative_exp(gammas,
                                         link_threshold,
                                         metrics = negative_exponential_metrics,
                                         rast,
@@ -239,7 +239,7 @@ sean <- function(link_threshold = 0,
                  global = TRUE,
                  geoscale,
                  agg_methods = c("sum", "mean"),
-                 dist_method = "distGeo",
+                 dist_method = "geodesic",
                  rast,
                  host_density_threshold = 0,
                  reso = reso(),
@@ -329,7 +329,7 @@ sean <- function(link_threshold = 0,
                               agg_methods,
                               rast,
                               reso,
-                              dist_method = "distGeo",
+                              dist_method = "geodesic",
                               maps = TRUE) {
 
   risk_indexes <- lapply(host_density_thresholds,
@@ -413,7 +413,7 @@ sa_onrasters <- function(rast,
                          link_thresholds,
                          host_density_thresholds,
                          agg_methods = c("sum", "mean"),
-                         dist_method = "distGeo",
+                         dist_method = "geodesic",
                          reso = reso(),
                          maps = TRUE) {
 
