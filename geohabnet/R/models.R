@@ -10,6 +10,8 @@
 #' @param thresholded_crop_values crop values above threshold.
 #' @param adj_mat Adjacency matrix(optional) representing un-directed graph network.
 #' If this is provided, then gamma_val, distance_matrix, link_threshold and thresholded_crop_values are ignored.
+#' These ignored parameters are used to generate adjacency matrix internally.
+#' This is the only way to use custom adjacency matrix.
 #' @param crop_raster A raster object for cropland harvest.
 #' @param crop_cells_above_threshold crop cells above threshold. Only contains cells and not the the values.
 #' @param metrics A list 2 vectors - metrics and weights.
@@ -111,7 +113,6 @@ model_neg_exp <- function(gamma_val,
   indexv <- indexpre
   return(indexv)
 }
-
 
 # private methods ---------------------------------------------------------
 

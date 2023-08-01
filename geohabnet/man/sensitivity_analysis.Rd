@@ -38,5 +38,5 @@ sensitivity_analysis(TRUE, FALSE)
 \code{\link[=global_scales]{global_scales()}}
 \code{\link[=get_parameters]{get_parameters()}}
 \code{\link[=set_parameters]{set_parameters()}}
-\code{\link[=plot_maps]{plot_maps()}}
+\code{\link[=connectivity]{connectivity()}}
 }

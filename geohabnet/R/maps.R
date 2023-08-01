@@ -3,9 +3,9 @@
 #'     Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 #'     Currently, the settings for plot cannot be customized.
 #'     Default value is `TRUE` for all logical arguments
-#' @param indexes list of raster
-#' @param geoscale geographical scale
-#' @param reso map resolution
+#' @param indexes list of rasters
+#' @param geoscale vector. geographical scale
+#' @param reso numeric, map resolution
 #' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise.
 #' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise
@@ -15,7 +15,7 @@
 #' then plots can be seen in active plot window. E.g. Rstudio
 #'
 #' @export
-plot_maps <- function(indexes,
+connectivity <- function(indexes,
                       global = TRUE,
                       geoscale,
                       reso = reso(),
@@ -55,9 +55,7 @@ plot_maps <- function(indexes,
 #' Calculate mean of raster objects
 #'
 #'   Overriding for [terra::mean()]. Calculates mean of list of rasters.
-#' @param indexes raster list
-#' @param geoscale geographical scale for plotting
-#' @param reso resolution for plotting
+#' @inheritParams connectivity
 #' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`, `reso` is ignored.
 #' @export
 ccri_mean <- function(indexes,
@@ -77,8 +75,8 @@ ccri_mean <- function(indexes,
   mean_index <- if (global == TRUE) {
 
     .gan_paramok(indexes)
-    east <- .cal_mean(indexes[["east"]])
-    west <- .cal_mean(indexes[["west"]])
+    east <- .cal_mean(indexes[[STR_EAST]])
+    west <- .cal_mean(indexes[[STR_WEST]])
     geoscale <- .global_ext()
     terra::merge(east, west)
 
@@ -102,10 +100,8 @@ ccri_mean <- function(indexes,
 #' Calculate variance of CCRI
 #'
 #'    This function produces a map of variance of CCRI based on input parameters
-#' @param indexes A list of index values
+#' @inheritParams connectivity
 #' @param rast A raster object. It will be used in calculating variance.
-#' @param geoscale Geographical scale. This will be used in calculating difference.
-#' @param resolution resolution to plot raster and map
 #' @export
 ccri_variance <- function(indexes,
                           rast,
@@ -133,9 +129,9 @@ ccri_variance <- function(indexes,
     .gan_paramok(indexes)
     exts <- global_scales()
     east <-
-      .cal_var(indexes[["east"]], exts[["east"]])
+      .cal_var(indexes[[STR_EAST]], exts[[STR_EAST]])
     west <-
-      .cal_var(indexes[["west"]], exts[["west"]])
+      .cal_var(indexes[[STR_WEST]], exts[[STR_WEST]])
 
     geoscale <- .global_ext()
     terra::merge(east, west)
@@ -210,21 +206,19 @@ ccri_diff <- function(rast,
     exts <- global_scales()
 
     east_var <-
-      .cal_diff(the$gan[["sum"]][["east"]], the$gan[["mean"]][["east"]], exts[["east"]])
+      .cal_diff(the$gan[["sum"]][[STR_EAST]], the$gan[["mean"]][[STR_EAST]], exts[[STR_EAST]])
     west_var <-
-      .cal_diff(the$gan[["sum"]][["west"]], the$gan[["mean"]][["west"]], exts[["west"]])
+      .cal_diff(the$gan[["sum"]][[STR_WEST]], the$gan[["mean"]][[STR_WEST]], exts[[STR_WEST]])
 
     geoscale <- .global_ext(exts)
     terra::merge(east_var, west_var)
-  }
-  else {
+  } else {
     if (!.params_ok(x, y)) {
       message("Either sum or mean aggregate is missing. Aborting difference calculation")
       return(NULL)
     }
     .cal_diff(x, y, geoscale)
   }
-  
 
   .plot(diff_out,
         "Difference in rank of host density and host connectivity",
@@ -286,6 +280,6 @@ ccri_diff <- function(rast,
 }
 
 .gan_paramok <- function(indices) {
-  stopifnot("Require list of east and west indices" = all(c("east", "west") %in% names(indices)))
+  stopifnot("Require list of east and west indices" = all(c(STR_EAST, STR_WEST) %in% names(indices)))
   return(TRUE)
 }

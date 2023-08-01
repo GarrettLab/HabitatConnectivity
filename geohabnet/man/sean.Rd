@@ -8,7 +8,7 @@ sean(
   link_threshold = 0,
   global = TRUE,
   geoscale,
-  aggregate_methods = c("sum", "mean"),
+  agg_methods = c("sum", "mean"),
   dist_method = "distGeo",
   rast,
   host_density_threshold = 0,
@@ -21,8 +21,6 @@ sean(
 
 \item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
 Default is \code{TRUE}}
-
-\item{aggregate_methods}{vector. Aggregation methods}
 
 \item{dist_method}{character. Distance method from \code{\link[=dist_methods]{dist_methods()}}}
 
@@ -47,5 +45,5 @@ It can be used as an entry point for sensitivity analysis.
 When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used
 }
 \seealso{
-Uses \code{\link[=plot_maps]{plot_maps()}}
+Uses \code{\link[=connectivity]{connectivity()}}
 }

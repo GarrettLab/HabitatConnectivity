@@ -37,7 +37,9 @@ model_neg_exp(
 \item{thresholded_crop_values}{crop values above threshold.}
 
 \item{adj_mat}{Adjacency matrix(optional) representing un-directed graph network.
-If this is provided, then gamma_val, distance_matrix, link_threshold and thresholded_crop_values are ignored.}
+If this is provided, then gamma_val, distance_matrix, link_threshold and thresholded_crop_values are ignored.
+These ignored parameters are used to generate adjacency matrix internally.
+This is the only way to use custom adjacency matrix.}
 
 \item{crop_raster}{A raster object for cropland harvest.}
 

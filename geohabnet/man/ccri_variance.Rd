@@ -7,13 +7,11 @@
 ccri_variance(indexes, rast, global, geoscale, resolution = reso())
 }
 \arguments{
-\item{indexes}{A list of index values}
+\item{indexes}{list of rasters}
 
 \item{rast}{A raster object. It will be used in calculating variance.}
 
-\item{geoscale}{Geographical scale. This will be used in calculating difference.}
-
-\item{resolution}{resolution to plot raster and map}
+\item{geoscale}{vector. geographical scale}
 }
 \description{
 This function produces a map of variance of CCRI based on input parameters

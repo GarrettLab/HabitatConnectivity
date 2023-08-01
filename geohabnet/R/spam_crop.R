@@ -1,3 +1,27 @@
+#' raster for mapspam crop.
+#'
+#' get raster for crop in mapspam dataset
+#' @param crp character. name of a crop. Case-insensitive.
+#' @return spatRaster
+#' @details
+#' See [geodata::spamCrops()] for supported crops.
+#' @export
+#' @examples
+#' \dontrun{
+#' sp_rast("rice")
+#' }
+#' @seealso
+#' [geodata::spamCrops()]
+#' [crop_search()]
+#' @references
+#' www.mapspam.com/data
+#' International Food Policy Research Institute, 2020.
+#' Spatially-Disaggregated Crop Production Statistics Data in Africa South of the Sahara for 2017.
+#' https://doi.org/10.7910/DVN/FSSKBW, Harvard Dataverse, V2
+sp_rast <- function(crp) {
+  return(terra::rast(.gen_url(crp)))
+}
+
 .gen_url <- function(crop) {
 
   crp <- tolower(trimws(crop))
@@ -15,23 +39,4 @@
                sep = "_")
 
   return(.download(uri))
-}
-
-#' get raster for specified crop from mapspam dataset.
-#' @param crp name of a crop. Case-insensitive.
-#' @return spatRaster
-#' @details
-#' See [geodata::spamCrops()] for supported crops.
-#' @export
-#' @examples
-#' \dontrun{
-#' sp_rast("rice")
-#' }
-#' @references
-#' www.mapspam.com/data
-#' International Food Policy Research Institute, 2020.
-#' Spatially-Disaggregated Crop Production Statistics Data in Africa South of the Sahara for 2017.
-#' https://doi.org/10.7910/DVN/FSSKBW, Harvard Dataverse, V2
-sp_rast <- function(crp) {
-  return(terra::rast(.gen_url(crp)))
 }

@@ -9,25 +9,25 @@ scales$gwest <- c(-140, -34, -58, 60)
 #'   Each extent is in the form of c(Xmin, Xmax, Ymin, Ymax).
 #'   @export
 global_scales <- function() {
-
-  return(list(
-    east = scales$geast,
-    west = scales$gwest
-    ))
+  sc <- list(scales$geast, scales$gwest)
+  names(sc) <- c(STR_EAST, STR_WEST)
+  return(sc)
 }
 
 .global_ext <- function(scales = global_scales()) {
-  return(scales[["east"]] + scales[["west"]])
+  return(scales[[STR_EAST]] + scales[[STR_WEST]])
 }
 
 #' Set global geographical extent
 #'
 #'   Set the geographical extents used in global analysis.
 #'   Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)
-#'   @param east Vector. The eastern hemisphere extent.
-#'   @param west Vector. The western hemisphere extent.
-#'   @export
-#'   @seealso [terra::ext()]
+#' @param east vector. The eastern hemisphere extent.
+#' @param west vector. The western hemisphere extent.
+#' @export
+#' @seealso
+#' [global_scales()]
+#' [terra::ext()]
 `global_scales<-` <- function(east, west) {
 
   if (missing(east)) {

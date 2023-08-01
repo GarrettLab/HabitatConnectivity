@@ -33,10 +33,11 @@ library(yaml)
 
 .flatten_ri <- function(isglobal, ri) {
   .ew_split <- function() {
-    ew_indices <- list(east = list(), west = list())
+    ew_indices <- list(list(), list())
+    names(ew_indices) <- c(STR_EAST, STR_WEST)
     for (indices in ri) {
-      ew_indices[["east"]] <- c(ew_indices[["east"]], indices[["east"]])
-      ew_indices[["west"]] <- c(ew_indices[["west"]], indices[["west"]])
+      ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], indices[[STR_EAST]])
+      ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], indices[[STR_WEST]])
     }
     return(ew_indices)
   }
@@ -320,5 +321,5 @@ search_crop <- function(name) {
 }
 
 dist_methods <- function() {
-  return(c( "distgeo","distvincentyellipsoid"))
+  return(c("distgeo", "distvincentyellipsoid"))
 }

@@ -32,4 +32,12 @@ STR_DEGREE <- "degree"
 #' @keywords internal
 STR_PAGE_RANK <- "page_rank"
 
+#' global variable containing string. Not intended to modify.
+#' @keywords internal
+STR_EAST <- "east"
+
+#' global variable containing string. Not intended to modify.
+#' @keywords internal
+STR_WEST <- "west"
+
 # nolint end

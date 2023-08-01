@@ -7,11 +7,11 @@
 ccri_mean(indexes, global = TRUE, geoscale = NULL, reso = reso(), plt = TRUE)
 }
 \arguments{
-\item{indexes}{raster list}
+\item{indexes}{list of rasters}
 
-\item{geoscale}{geographical scale for plotting}
+\item{geoscale}{vector. geographical scale}
 
-\item{reso}{resolution for plotting}
+\item{reso}{numeric, map resolution}
 
 \item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise and \code{geoscale}, \code{reso} is ignored.}
 }
