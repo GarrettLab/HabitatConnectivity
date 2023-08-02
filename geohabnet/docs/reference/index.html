@@ -62,14 +62,9 @@
 
       <dl><dt>
           
-          <code><a href="cal_diff_map.html">cal_diff_map()</a></code> 
+          <code><a href="ccri_diff.html">ccri_diff()</a></code> 
         </dt>
         <dd>Calculate difference map</dd>
-      </dl><dl><dt>
-          
-          <code><a href="calculate_ccri.html">calculate_ccri()</a></code> 
-        </dt>
-        <dd>Calculate Cropland Connectivity Risk Index (CCRI)</dd>
       </dl><dl><dt>
           
           <code><a href="ccri_mean.html">ccri_mean()</a></code> 
@@ -77,19 +72,24 @@
         <dd>Calculate mean of raster objects</dd>
       </dl><dl><dt>
           
-          <code><a href="ccri_negative_exp.html">ccri_negative_exp()</a></code> 
-        </dt>
-        <dd>Calculate negative exponential</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ccri_powerlaw.html">ccri_powerlaw()</a></code> 
-        </dt>
-        <dd>Calculate inverse power law</dd>
-      </dl><dl><dt>
-          
           <code><a href="ccri_variance.html">ccri_variance()</a></code> 
         </dt>
         <dd>Calculate variance of CCRI</dd>
+      </dl><dl><dt>
+          
+          <code><a href="connectivity.html">connectivity()</a></code> 
+        </dt>
+        <dd>Calculate and plot maps</dd>
+      </dl><dl><dt>
+          
+          <code><a href="dist_methods.html">dist_methods()</a></code> 
+        </dt>
+        <dd>Distance methods supported</dd>
+      </dl><dl><dt>
+          
+          <code><a href="geoscale_param.html">geoscale_param()</a></code> 
+        </dt>
+        <dd>Get geographical scales from the parameters</dd>
       </dl><dl><dt>
           
           <code><a href="get_crop_raster_fromtif.html">get_crop_raster_fromtif()</a></code> 
@@ -105,11 +105,6 @@
           <code><a href="get_cropharvest_raster_sum.html">get_cropharvest_raster_sum()</a></code> 
         </dt>
         <dd>Get sum of rasters for individual crops</dd>
-      </dl><dl><dt>
-          
-          <code><a href="get_geographic_scales.html">get_geographic_scales()</a></code> 
-        </dt>
-        <dd>Get geographical scales from the parameters</dd>
       </dl><dl><dt>
           
           <code><a href="get_param_metrics.html">get_param_metrics()</a></code> 
@@ -132,9 +127,9 @@
         <dd>Get supported sources of crops</dd>
       </dl><dl><dt>
           
-          <code><a href="initialize_cropland_data.html">initialize_cropland_data()</a></code> 
+          <code><a href="global_scales.html">global_scales()</a></code> 
         </dt>
-        <dd>Initialization of crop data</dd>
+        <dd>Global geographical extent</dd>
       </dl><dl><dt>
           
           <code><a href="load_parameters.html">load_parameters()</a></code> 
@@ -152,14 +147,19 @@
         <dd>Calculation on network matrix.</dd>
       </dl><dl><dt>
           
-          <code><a href="plot_maps.html">plot_maps()</a></code> 
+          <code><a href="reso.html">reso()</a></code> 
         </dt>
-        <dd>Calculate and plot maps</dd>
+        <dd>Get resolution value</dd>
       </dl><dl><dt>
           
           <code><a href="sa_onrasters.html">sa_onrasters()</a></code> 
         </dt>
-        <dd>Run analysis</dd>
+        <dd>Run senstivity analysis</dd>
+      </dl><dl><dt>
+          
+          <code><a href="sean.html">sean()</a></code> 
+        </dt>
+        <dd>Calculate sensitivity analysis on cropland harvested area fraction</dd>
       </dl><dl><dt>
           
           <code><a href="search_crop.html">search_crop()</a></code> 
@@ -167,24 +167,14 @@
         <dd>Search for crop</dd>
       </dl><dl><dt>
           
-          <code><a href="sensitivity_analysis_on_geoscale.html">sensitivity_analysis_on_geoscale()</a></code> 
-        </dt>
-        <dd>Calculate sensitivity analysis on cropland harvested area fraction</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sensitivity_analysis_on_link_weight.html">sensitivity_analysis_on_link_weight()</a></code> 
-        </dt>
-        <dd>Calculate sensitivity analysis on cropland harvested area fraction</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sensitivity_analysis_on_params.html">sensitivity_analysis_on_params()</a></code> 
-        </dt>
-        <dd>Calculate sensitivity analysis on cropland harvested area fraction</dd>
-      </dl><dl><dt>
-          
-          <code><a href="senstivity_analysis.html">senstivity_analysis()</a></code> 
+          <code><a href="sensitivity_analysis.html">sensitivity_analysis()</a></code> 
         </dt>
         <dd>Calculate sensitivity analysis on parameters</dd>
+      </dl><dl><dt>
+          
+          <code><a href="set_global_scales.html">set_global_scales()</a></code> 
+        </dt>
+        <dd>Set global geographical extent</dd>
       </dl><dl><dt>
           
           <code><a href="set_parameters.html">set_parameters()</a></code> 
@@ -192,14 +182,14 @@
         <dd>Set Parameters</dd>
       </dl><dl><dt>
           
-          <code><a href="set_parameters_object.html">set_parameters_object()</a></code> 
+          <code><a href="set_reso.html">set_reso()</a></code> 
         </dt>
-        <dd>Set Parameters function</dd>
+        <dd>Set resolution value</dd>
       </dl><dl><dt>
           
           <code><a href="sp_rast.html">sp_rast()</a></code> 
         </dt>
-        <dd>get raster for specified crop from spam dataset.</dd>
+        <dd>raster for mapspam crop.</dd>
       </dl><dl><dt>
           
           <code><a href="supported_metrics.html">supported_metrics()</a></code> 
@@ -210,7 +200,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Karen Garrett, Krishna Keshav, Garrett Lab.</p>
+  <p></p><p>Developed by Garrett Lab, Krishna Keshav, Karen Garrett, Aaron Plex, University of Florida.</p>
 </div>
 
 <div class="pkgdown-footer-right">

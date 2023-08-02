@@ -31,6 +31,9 @@
     <loc>/reference/STR_DEGREE.html</loc>
   </url>
   <url>
+    <loc>/reference/STR_EAST.html</loc>
+  </url>
+  <url>
     <loc>/reference/STR_EIGEN_VECTOR_CENTRALITY.html</loc>
   </url>
   <url>
@@ -41,6 +44,9 @@
   </url>
   <url>
     <loc>/reference/STR_PAGE_RANK.html</loc>
+  </url>
+  <url>
+    <loc>/reference/STR_WEST.html</loc>
   </url>
   <url>
     <loc>/reference/cal_diff_map.html</loc>
@@ -56,6 +62,9 @@
   </url>
   <url>
     <loc>/reference/calculate_zero_raster.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ccri_diff.html</loc>
   </url>
   <url>
     <loc>/reference/ccri_mean.html</loc>
@@ -82,10 +91,19 @@
     <loc>/reference/check_metrics.html</loc>
   </url>
   <url>
+    <loc>/reference/connectivity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dist_methods.html</loc>
+  </url>
+  <url>
     <loc>/reference/dot-check_yaml_structure.html</loc>
   </url>
   <url>
     <loc>/reference/geohabnet-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/geoscale_param.html</loc>
   </url>
   <url>
     <loc>/reference/get_crop_raster_fromtif.html</loc>
@@ -115,6 +133,9 @@
     <loc>/reference/global_analysis.html</loc>
   </url>
   <url>
+    <loc>/reference/global_scales.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -136,10 +157,22 @@
     <loc>/reference/plot_maps.html</loc>
   </url>
   <url>
+    <loc>/reference/reso.html</loc>
+  </url>
+  <url>
     <loc>/reference/sa_onrasters.html</loc>
   </url>
   <url>
+    <loc>/reference/scales.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sean.html</loc>
+  </url>
+  <url>
     <loc>/reference/search_crop.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sensitivity_analysis.html</loc>
   </url>
   <url>
     <loc>/reference/sensitivity_analysis_on_cropland_threshold.html</loc>
@@ -160,10 +193,16 @@
     <loc>/reference/senstivity_analysis.html</loc>
   </url>
   <url>
+    <loc>/reference/set_global_scales.html</loc>
+  </url>
+  <url>
     <loc>/reference/set_parameters.html</loc>
   </url>
   <url>
     <loc>/reference/set_parameters_object.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_reso.html</loc>
   </url>
   <url>
     <loc>/reference/sonn.html</loc>
