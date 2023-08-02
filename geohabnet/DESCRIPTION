@@ -2,8 +2,9 @@ Package: geohabnet
 Title: Analysis of Cropland Connectivity
 Version: 0.1.0
 Authors@R: c(
-    person("Garrett Lab", role = "aut", comment = "https://garrettlab.com"),
-    person("Krishna", "Keshav", email = "kkeshav@ufl.edu", role = c("aut", "cre", "ctb")),
+    person("Garrett", "Lab", role = c("aut", "cre"), email = "karengarrett@ufl.edu",
+            comment = "https://garrettlab.com"),
+    person("Krishna", "Keshav", email = "kkeshav@ufl.edu", role = "aut"),
     person("Karen", "Garrett", email = "karengarrett@ufl.edu", role = "aut",
            comment = c(ORCID = "0000-0002-6578-1616")),
     person("Aaron", "Plex", email = "plexaaron@ufl.edu", role = "aut",

@@ -14,7 +14,7 @@ This is a basic example which shows you how to run sensitivity analysis on pre-l
 
 ```{r eval=FALSE}
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet",
-auth_token = "your PAT")
+auth_token = "your PA")
 ```
 
 Package offers 2 ways to use custom raster file - using `parameters.yaml` and `sa_onrasters` which is also used internally to create raster object using the provided source.
@@ -52,7 +52,8 @@ Raster files ends with extension `.tif`. Since, the internal workflow only uses 
 rr <- get_crop_raster_fromtif("spam2017V2r1_SSA_H_BEAN_A.tif")
 rr
 ```
-```
+
+```         
 class      : RasterLayer
 dimensions : 2160, 4320, 9331200  (nrow, ncol, ncell)
 resolution : 0.083333, 0.083333  (x, y)
@@ -61,6 +62,7 @@ crs        : +proj=longlat +datum=WGS84 +no_defs
 source     : spam2017V2r1_SSA_H_BEAN_A.tif
 names      : spam2017V2r1_SSA_H_BEAN_A
 ```
+
 To ensure we have the correct raster,
 
 ```{r eval=FALSE}
