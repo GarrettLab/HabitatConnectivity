@@ -22,11 +22,10 @@ and `geodata::spamCrops()`. This analysis produces 3 maps - mean,
 variance and difference for the crop risk index. There are multiple ways
 in which functions can be used - generate final outcome and then the
 intermediate outcomes for more sophisticated use cases. Refer to
-vignettes. Using `initialize_crop_data()` will set some global variables
-which can be accessed using the\$\*. This values are propagated to other
-functions for performing operations such distance matrix calculation.
-The values are set in `parameters.yaml` and it can be accessed using
-`get_parameters`. See the usage below.
+vignettes. This values are propagated to other functions for performing
+operations such distance matrix calculation. The values are set in
+`parameters.yaml` and it can be accessed using `get_parameters()`. See
+the usage below.
 
 ## Installation
 
@@ -63,9 +62,8 @@ geohabnet::senstivity_analysis()
 ```
 
 `parameters.yaml` stores the parameter and its values. It can be
-accessed and set using `get_parameters()` and `set_parameters`
-respectively. If `senstivity_analysis()` is not being called, then
-`load_parameters()` must be called to load the new parameter values in
-environment as global variables.
+accessed and set using `get_parameters()` and `set_parameters()`
+respectively. By default risk analysis is run on global index, for which
+scales are present in `global_scales()` .
 
 See other functions and articles for more sophisticated usage.

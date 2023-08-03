@@ -53,7 +53,7 @@ Instead uses scales from \code{\link[=global_scales]{global_scales()}}.
 }
 \examples{
 \dontrun{
-rr <- get_rasters(list(monfreda = c("coffee")))
+rr <- get_rasters(list(monfreda = c("avocado")))
 sa_onrasters(rr[[1]],
             global = FALSE,
             geoscale = c(-115, -75, 5, 32),
@@ -63,10 +63,9 @@ sa_onrasters(rr[[1]],
             reso = 24)
 sa_onrasters(rr[[1]],
             global = TRUE,
-            geoscale = c(-115, -75, 5, 32),
-            0.0001,
-            0.00001,
-            c("sum"),
+            link_thresholds = c(0.000001),
+            host_density_thresholds = c(0.00015),
+            agg_methods = c("sum"),
             reso = 24)
 }
 }

@@ -283,6 +283,8 @@ ccri_diff <- function(rast,
                 box = FALSE,
                 add = TRUE,
                 lwd = 0.7)
+    # plg = list(loc = "bottom", horizontal = TRUE)
+
     # Plot the country boundaries
     world <- rnaturalearthdata::countries110
     terra::plot(world, col = NA, border = "black", add = TRUE)
