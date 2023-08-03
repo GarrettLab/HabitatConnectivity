@@ -6,10 +6,12 @@
 #' @param beta A list of beta values. `DispersalParameterBeta` in `parameters.yaml`.
 #' @param gamma_val A list of beta values. `DispersalParameterGamma` in `parameters.yaml`.
 #' @param link_threshold A threshold value for link.
-#' @param distance_matrix distance matrix, generated during [initialize_cropland_data()].
+#' @param distance_matrix distance matrix, generated during [sean()].
 #' @param thresholded_crop_values crop values above threshold.
 #' @param adj_mat Adjacency matrix(optional) representing un-directed graph network.
 #' If this is provided, then gamma_val, distance_matrix, link_threshold and thresholded_crop_values are ignored.
+#' These ignored parameters are used to generate adjacency matrix internally.
+#' This is the only way to use custom adjacency matrix.
 #' @param crop_raster A raster object for cropland harvest.
 #' @param crop_cells_above_threshold crop cells above threshold. Only contains cells and not the the values.
 #' @param metrics A list 2 vectors - metrics and weights.
@@ -67,13 +69,13 @@ model_powerlaw <- function(beta,
 
 #' @rdname model_powerlaw
 model_neg_exp <- function(gamma_val,
-                             link_threshold,
-                             distance_matrix = the$distance_matrix,
-                             thresholded_crop_values,
-                             adj_mat = NULL,
-                             crop_raster,
-                             crop_cells_above_threshold,
-                             metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
+                          link_threshold,
+                          distance_matrix = the$distance_matrix,
+                          thresholded_crop_values,
+                          adj_mat = NULL,
+                          crop_raster,
+                          crop_cells_above_threshold,
+                          metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
   metrics <- .refined_mets(metrics)
 
   #### create adjacency matrix
@@ -111,7 +113,6 @@ model_neg_exp <- function(gamma_val,
   indexv <- indexpre
   return(indexv)
 }
-
 
 # private methods ---------------------------------------------------------
 

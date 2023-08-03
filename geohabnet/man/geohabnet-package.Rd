@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Geographical spatial analysis of cropland connectivity., Allows users to visualize risk index plots for a given set of crops. The functions are developed as an extension to analysis from 10.1093/biosci/biaa067. Package currently supports crops sourced from monfreda and mapspam. This analysis produces 3 maps - mean, variance, and difference for the crop risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. \code{\link{initialize_cropland_data}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation. \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
+Geographical spatial analysis of cropland connectivity., Allows users to visualize risk index plots for a given set of crops. The functions are developed as an extension to analysis from 10.1093/biosci/biaa067. Package currently supports crops sourced from monfreda and mapspam. This analysis produces 3 maps - mean, variance, and difference for the crop risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. \code{\link{sean}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation. \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
 }
 \seealso{
 Useful links:
@@ -20,11 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Krishna Keshav \email{kkeshav@ufl.edu} [contributor]
+\strong{Maintainer}: Garrett Lab \email{karengarrett@ufl.edu} (https://garrettlab.com)
 
 Authors:
 \itemize{
-  \item Garrett Lab (https://garrettlab.com)
+  \item Krishna Keshav \email{kkeshav@ufl.edu}
   \item Karen Garrett \email{karengarrett@ufl.edu} (\href{https://orcid.org/0000-0002-6578-1616}{ORCID})
   \item Aaron Plex \email{plexaaron@ufl.edu} (\href{https://orcid.org/0000-0001-7317-3090}{ORCID})
 }

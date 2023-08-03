@@ -26,7 +26,8 @@ page_rank(crop_dm, we)
 }
 \arguments{
 \item{crop_dm}{Distance matrix.
-In the internal workflow, the distance matrix comes from \code{\link[=initialize_cropland_data]{initialize_cropland_data()}} and risk functions.}
+In the internal workflow,
+the distance matrix comes is a result of operations within \code{\link[=sean]{sean()}} and risk functions.}
 
 \item{we}{Weight in percentage.}
 }

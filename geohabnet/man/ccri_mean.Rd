@@ -4,14 +4,17 @@
 \alias{ccri_mean}
 \title{Calculate mean of raster objects}
 \usage{
-ccri_mean(indexes, geoscale = NULL, reso = NULL, plt = TRUE)
+ccri_mean(indexes, global = TRUE, geoscale = NULL, reso = reso(), plt = TRUE)
 }
 \arguments{
-\item{indexes}{raster list}
+\item{indexes}{list of rasters. See details.}
 
-\item{geoscale}{geographical scale for plotting}
+\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{reso}{resolution for plotting}
+\item{geoscale}{vector. geographical scale}
+
+\item{reso}{numeric, map resolution}
 
 \item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise and \code{geoscale}, \code{reso} is ignored.}
 }

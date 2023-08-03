@@ -65,7 +65,7 @@ get_cropharvest_raster_sum <- function(crop_names) {
     }
     len_scr <- length(single_crop_rasters)
     if (len_scr > 1) {
-      cropharvests <- c(cropharvests, terra::app(terra::rast(single_crop_rasters), fun = sum) / len_scr)
+      cropharvests <- c(cropharvests, terra::app(terra::rast(single_crop_rasters), fun = sum, na.rm = TRUE) / len_scr)
     } else {
       cropharvests <- c(cropharvests, single_crop_rasters)
     }

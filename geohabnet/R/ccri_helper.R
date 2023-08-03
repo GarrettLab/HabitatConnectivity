@@ -7,6 +7,52 @@ library(yaml)
 .kmapgreybackground_file_type <- "map_grey"
 
 # utility functions for CCRI ----------------------------------------------
+# Meta-programming approach with eval_tidy
+.cal_dist <- function(latilongimatr, method) {
+
+  method <- tolower(method)
+  supported <- dist_methods()
+  stopifnot("Distance strategy not supported. See dist_methods()\n" = method %in% supported)
+
+  n <- nrow(latilongimatr)
+  temp_matrix <- matrix(-999, n, n)
+
+  f <- switch(method,
+              "geodesic" = geosphere::distGeo,
+              "vincentyellipsoid" = geosphere::distVincentyEllipsoid)
+
+  dvse <- f(c(0, 0), cbind(1, 0))
+
+  # Calculate the distances
+  for (i in seq_len(n)) {
+    temp_matrix[i, ] <- f(round(latilongimatr[i, ], 5), latilongimatr) / dvse
+  }
+
+  return(temp_matrix)
+}
+
+.flatten_ri <- function(isglobal, ri) {
+  .ew_split <- function() {
+    ew_indices <- list(list(), list())
+    names(ew_indices) <- c(STR_EAST, STR_WEST)
+    for (indices in ri) {
+      ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], indices[[STR_EAST]])
+      ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], indices[[STR_WEST]])
+    }
+    return(ew_indices)
+  }
+
+  if (isglobal) {
+    #east-west split
+    .ew_split()
+  } else {
+    unlist(ri, recursive = FALSE)
+  }
+}
+
+.to_ext <- function(geoscale) {
+  return(terra::ext(geoscale))
+}
 
 .valid_vector_input <- function(vector_to_check) {
   if (!is.vector(vector_to_check) || length(vector_to_check) == 0) {
@@ -47,9 +93,22 @@ library(yaml)
   return(.download(.utilrast_uri(typ)))
 }
 
+.apply_agg <- function(rast,
+                       reso,
+                       method) {
+
+  return(terra::aggregate(rast,
+                          fact = reso,
+                          fun = method,
+                          na.action = stats::na.omit))
+}
+
 .onLoad <- function(libname, pkgname) {
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
+  .apply_agg <<- memoise::memoise(.apply_agg)
+  #.crop_rast <<- memoise::memoise(.crop_rast)
+
   metric_funs <<- stats::setNames(metric_funs,
                                   c(STR_NEAREST_NEIGHBORS_SUM,
                                     STR_NODE_STRENGTH,
@@ -117,10 +176,14 @@ library(yaml)
   return(paste(param_config$`CCRI parameters`$Hosts, collapse = ", "))
 }
 
-.cal_mgb <- function(geoscale) {
+.cal_mgb <- function(geoscale, isglobal) {
   # calculate map grey background
   map_grey_background <- terra::rast(.get_helper_filepath(.kmapgreybackground_file_type))
-  map_grey_background_ext <- terra::crop(map_grey_background, terra::ext(geoscale))
+  map_grey_background_ext <- if (isglobal == FALSE) {
+    terra::crop(map_grey_background, .to_ext(geoscale))
+  } else {
+    map_grey_background
+  }
   return(map_grey_background_ext)
 }
 
@@ -170,7 +233,7 @@ library(yaml)
 .get_palette_for_diffmap <- function() {
 
   # ```{r ,fig.width=6, fig.height=7, dpi=150}
-  paldif <- colorspace::diverge_hcl(51, c = 100, l = c(20, 90), power = 1.3)
+  paldif <- viridisLite::viridis(80, direction = 1, alpha = 0.9)
   return(paldif)
 }
 
@@ -235,8 +298,7 @@ get_supported_sources <- function() {
 #' @seealso [get_supported_sources()]
 search_crop <- function(name) {
   crp <- tolower(trimws(name))
-  supported_sources <- get_supported_sources()
-  
+
   funs <- c("monfreda", "spam")
   srcs <- character(0)
 
@@ -251,9 +313,17 @@ search_crop <- function(name) {
     }
   }
 
-  if (length(srcs) == 0) {
-    stop("Crop not present in supported sources.")
-  }
+  stopifnot("Crop not present in supported sources." = length(srcs) > 0)
 
   return(srcs)
+}
+
+#' Distance methods supported
+#'
+#' Contains supported strategies to calculate distance between two points.
+#' Use of one the methods in [sean()] or [sensitivity_analysis()].
+#' @return vector
+#' @export
+dist_methods <- function() {
+  return(c("geodesic", "vincentyellipsoid"))
 }

@@ -2,18 +2,18 @@
 % Please edit documentation in R/spam_crop.R
 \name{sp_rast}
 \alias{sp_rast}
-\title{get raster for specified crop from mapspam dataset.}
+\title{raster for mapspam crop.}
 \usage{
 sp_rast(crp)
 }
 \arguments{
-\item{crp}{name of a crop. Case-insensitive.}
+\item{crp}{character. name of a crop. Case-insensitive.}
 }
 \value{
 spatRaster
 }
 \description{
-get raster for specified crop from mapspam dataset.
+get raster for crop in mapspam dataset
 }
 \details{
 See \code{\link[geodata:crop_spam]{geodata::spamCrops()}} for supported crops.
@@ -28,4 +28,8 @@ www.mapspam.com/data
 International Food Policy Research Institute, 2020.
 Spatially-Disaggregated Crop Production Statistics Data in Africa South of the Sahara for 2017.
 https://doi.org/10.7910/DVN/FSSKBW, Harvard Dataverse, V2
+}
+\seealso{
+\code{\link[geodata:crop_spam]{geodata::spamCrops()}}
+\code{\link[=search_crop]{search_crop()}}
 }

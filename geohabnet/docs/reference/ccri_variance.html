@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,30 +57,30 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ccri_variance</span><span class="op">(</span></span>
-<span>  <span class="va">indexes</span>,</span>
-<span>  <span class="va">rast</span>,</span>
-<span>  <span class="va">geoscale</span>,</span>
-<span>  resolution <span class="op">=</span> <span class="va">the</span><span class="op">$</span><span class="va">parameters_config</span><span class="op">$</span><span class="va">`CCRI parameters`</span><span class="op">$</span><span class="va">Resolution</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ccri_variance</span><span class="op">(</span><span class="va">indexes</span>, <span class="va">rast</span>, <span class="va">global</span>, <span class="va">geoscale</span>, reso <span class="op">=</span> <span class="fu"><a href="reso.html">reso</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>indexes</dt>
-<dd><p>A list of index values</p></dd>
+<dd><p>list of rasters. See details.</p></dd>
 
 
 <dt>rast</dt>
 <dd><p>A raster object. It will be used in calculating variance.</p></dd>
 
 
+<dt>global</dt>
+<dd><p>logical. <code>TRUE</code> if global analysis is required, <code>FALSE</code> otherwise.
+When <code>TRUE</code>, <code>geoscale</code> is ignored. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>geoscale</dt>
-<dd><p>Geographical scale. This will be used in calculating difference.</p></dd>
+<dd><p>vector. geographical scale</p></dd>
 
 
-<dt>resolution</dt>
-<dd><p>resolution to plot raster and map</p></dd>
+<dt>reso</dt>
+<dd><p>numeric, map resolution</p></dd>
 
 </dl></div>
 
@@ -89,7 +89,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Karen Garrett, Krishna Keshav, Garrett Lab.</p>
+  <p></p><p>Developed by Garrett Lab, Krishna Keshav, Karen Garrett, Aaron Plex, University of Florida.</p>
 </div>
 
 <div class="pkgdown-footer-right">

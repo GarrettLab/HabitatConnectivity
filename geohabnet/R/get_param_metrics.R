@@ -1,46 +1,3 @@
-
-.validate_weights <- function(me, we) {
-  stopifnot("Sum of metric weights should be 100" = sum(we) == 100)
-  stopifnot("Weights or metrics missing. Each metric should have a weight" = length(me) == length(we))
-}
-
-.validate_metrics <- function(metrics) {
-  # check if weights are valid
-  .validate_weights(metrics[[1]], metrics[[2]])
-
-  not_sup <- metrics[[1]][!metrics[[1]] %in% supported_metrics()]
-  if (length(not_sup) > 0) {
-    stop(paste("Following metrics are not supported: ", paste(not_sup, collapse = ", ")))
-  } else {
-    cat("metrics...OK\n")
-  }
-  invisible()
-}
-
-.per_to_real <- function(we) {
-  return(as.numeric(we) / 100)
-}
-
-.list_to_vec <- function(metrics) {
-  return(do.call(cbind, metrics))
-}
-
-.get_weight_vector <- function(cropdistancematrix) {
-  weight_vec <- igraph::E(cropdistancematrix)$weight
-  weight_vec[is.na(weight_vec)] <- 0
-  weight_vec <- weight_vec + 1e-10
-  return(weight_vec)
-}
-
-.refined_mets <- function(mets) {
-  mets <- lapply(mets, tolower)
-  mets[["weights"]] <- as.numeric(mets[["weights"]])
-  if (!is.null(mets)) {
-    .validate_metrics(mets)
-  }
-  return(mets)
-}
-
 # exported functions ------------------------------------------------------
 
 #' list stores functions to apply metrics to distance metrics.
@@ -110,9 +67,9 @@ get_param_metrics <- function(params = load_parameters()) {
 #' - `degree()`: number of adjacent edges [igraph::degree()].
 #' - `page_rank()`: page rank score for vertices [igraph::page_rank()].
 #' @param crop_dm Distance matrix.
-#'        In the internal workflow, the distance matrix comes from [initialize_cropland_data()] and risk functions.
+#'  In the internal workflow,
+#'  the distance matrix comes is a result of operations within [sean()] and risk functions.
 #' @param we Weight in percentage.
-#'
 #' @return Matrix with the mean value based on the assigned weight.
 #'
 #' @family metrics
@@ -212,4 +169,46 @@ page_rank <- function(crop_dm, we) {
     (prv / max(prv)) * .per_to_real(we)
   }
   return(prv)
+}
+
+# ------------------------------------------Private methods------------------------------------------
+
+.validate_weights <- function(me, we) {
+  stopifnot("Sum of metric weights should be 100" = sum(we) == 100)
+  stopifnot("Weights or metrics missing. Each metric should have a weight" = length(me) == length(we))
+}
+
+.validate_metrics <- function(metrics) {
+  # check if weights are valid
+  .validate_weights(metrics[[1]], metrics[[2]])
+
+  not_sup <- metrics[[1]][!metrics[[1]] %in% supported_metrics()]
+  if (length(not_sup) > 0) {
+    stop(paste("Following metrics are not supported: ", paste(not_sup, collapse = ", ")))
+  }
+  invisible()
+}
+
+.per_to_real <- function(we) {
+  return(as.numeric(we) / 100)
+}
+
+.list_to_vec <- function(metrics) {
+  return(do.call(cbind, metrics))
+}
+
+.get_weight_vector <- function(cropdistancematrix) {
+  weight_vec <- igraph::E(cropdistancematrix)$weight
+  weight_vec[is.na(weight_vec)] <- 0
+  weight_vec <- weight_vec + 1e-10
+  return(weight_vec)
+}
+
+.refined_mets <- function(mets) {
+  mets <- lapply(mets, tolower)
+  mets[["weights"]] <- as.numeric(mets[["weights"]])
+  if (!is.null(mets)) {
+    .validate_metrics(mets)
+  }
+  return(mets)
 }

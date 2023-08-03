@@ -5,5 +5,11 @@ test_that("System test - Test function to retreive crop raster data", {
 })
 
 test_that("System test - Test Senstivity analysis run on default configuration", {
-  expect_no_condition(geohabnet::senstivity_analysis(), message = "Senstivity analysis completed")
+  expect_no_condition(geohabnet::sensitivity_analysis(), message = "Sensitivity analysis completed")
+})
+
+test_that("API test - crop search", {
+  ret <- geohabnet::search_crop("wheat")
+  expect_equal(ret, c("monfreda", "spam"))
+  expect_no_condition(geohabnet::search_crop("wheat"), message = "testing API")
 })

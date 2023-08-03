@@ -4,21 +4,19 @@
 \alias{ccri_variance}
 \title{Calculate variance of CCRI}
 \usage{
-ccri_variance(
-  indexes,
-  rast,
-  geoscale,
-  resolution = the$parameters_config$`CCRI parameters`$Resolution
-)
+ccri_variance(indexes, rast, global, geoscale, reso = reso())
 }
 \arguments{
-\item{indexes}{A list of index values}
+\item{indexes}{list of rasters. See details.}
 
 \item{rast}{A raster object. It will be used in calculating variance.}
 
-\item{geoscale}{Geographical scale. This will be used in calculating difference.}
+\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{resolution}{resolution to plot raster and map}
+\item{geoscale}{vector. geographical scale}
+
+\item{reso}{numeric, map resolution}
 }
 \description{
 This function produces a map of variance of CCRI based on input parameters

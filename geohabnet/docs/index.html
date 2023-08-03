@@ -9,11 +9,11 @@
     Geographical spatial analysis of cropland connectivity.,
     Allows users to visualize risk index plots for a given set of crops.
     The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
-    Package currently supports crops sourced from monfreda and spam.
+    Package currently supports crops sourced from monfreda and mapspam.
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
-    \code{\link{initialize_cropland_data}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
+    \code{\link{sean}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
     \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.">
 <title>Analysis of Cropland Connectivity • geohabnet</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -31,11 +31,11 @@
     Geographical spatial analysis of cropland connectivity.,
     Allows users to visualize risk index plots for a given set of crops.
     The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
-    Package currently supports crops sourced from monfreda and spam.
+    Package currently supports crops sourced from monfreda and mapspam.
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
-    \code{\link{initialize_cropland_data}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
+    \code{\link{sean}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
     \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -51,7 +51,7 @@
     
     <a class="navbar-brand me-2" href="index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,8 +126,8 @@
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>Run the analysis using -</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">geohabnet</span><span class="fu">::</span><span class="fu"><a href="reference/senstivity_analysis.html">senstivity_analysis</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><code>parameters.yaml</code> stores the parameter and its values. It can be accessed and set using <code><a href="reference/get_parameters.html">get_parameters()</a></code> and <code>set_parameters</code> respectively. If <code><a href="reference/senstivity_analysis.html">senstivity_analysis()</a></code> is not being called, then <code><a href="reference/load_parameters.html">load_parameters()</a></code> must be called to load the new parameter values in environment as global variables.</p>
+<code class="sourceCode R"><span><span class="fu">geohabnet</span><span class="fu">::</span><span class="fu">senstivity_analysis</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><code>parameters.yaml</code> stores the parameter and its values. It can be accessed and set using <code><a href="reference/get_parameters.html">get_parameters()</a></code> and <code>set_parameters</code> respectively. If <code>senstivity_analysis()</code> is not being called, then <code><a href="reference/load_parameters.html">load_parameters()</a></code> must be called to load the new parameter values in environment as global variables.</p>
 <p>See other functions and articles for more sophisticated usage.</p>
 </div>
 </div>
@@ -158,9 +158,11 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
+<li>Garrett Lab <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Krishna Keshav <br><small class="roles"> Author </small>  </li>
 <li>Karen Garrett <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6578-1616" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Krishna Keshav <br><small class="roles"> Maintainer </small>  </li>
-<li>Garrett Lab <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li>Aaron Plex <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-7317-3090" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>University of Florida <br><small class="roles"> Copyright holder, funder </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -173,7 +175,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Karen Garrett, Krishna Keshav, Garrett Lab.</p>
+<p>Developed by Garrett Lab, Krishna Keshav, Karen Garrett, Aaron Plex, University of Florida.</p>
 </div>
 
 <div class="pkgdown-footer-right">
