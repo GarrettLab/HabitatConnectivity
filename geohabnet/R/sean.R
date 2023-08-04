@@ -486,6 +486,10 @@ sa_onrasters <- function(rast,
 #' sensitivity_analysis(FALSE, FALSE)
 #' sensitivity_analysis(TRUE, FALSE)
 #' }
+#' @details
+#'
+#' \code{vignette("global_analysis", package = "geohabnet")}
+#'
 #' @seealso
 #' [sa_onrasters()]
 #' [sean()]

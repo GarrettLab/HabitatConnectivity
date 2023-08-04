@@ -1,3 +1,6 @@
 docs
 *.tif
 plots
+inst/doc
+/doc/
+/Meta/

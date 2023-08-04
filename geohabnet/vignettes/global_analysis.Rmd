@@ -1,0 +1,54 @@
+---
+title: "Global Analysis"
+output: pdf_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Installation and loading
+
+`geohabnet` is currently a private package and thus requires an access to [github repo](https://github.com/GarrettLab/CroplandConnectivity) . Please request an access from Garrett,Karen \<karengarrett\@ufl.edu\> .
+
+Replace the auth token with your own token obtained from github.
+
+```{r eval=FALSE}
+devtools::install_github("GarrettLab/CroplandConnectivity",
+                         subdir = "geohabnet", auth_token = "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")
+```
+
+```{r eval=FALSE}
+#install.packages("geohabnet") # do not run this
+library(geohabnet)
+interactive()
+```
+
+Run analysis on initial values. If the function executes successfully, resulting maps will be saved under *./plots/* directory as raster files(.tif extension). Refer to the messages for their exact name.
+
+```{r eval=FALSE}
+x <- sensitivity_analysis()
+```
+
+Check if crop data exists in supported data sources.
+
+```{r eval=FALSE}
+search_crop("avocado")
+```
+
+Create new raster
+
+```{r eval=FALSE}
+myrast <- get_rasters(list(monfreda = c("avocado")))[[1]]
+# visualizing the intial raster
+terra::plot(myrast)
+```
+
+Modify link weights. Link weights are used as threshold for cell values in the raster. These cell values are filtered on the basis of link and host density thresholds. Use the raster created earlier above for new analysis. If the threshold is too big, then it may result in valid cells to produce connectivity.
+
+```{r eval=FALSE}
+results <- sean(link_threshold = 0.0000015, rast = myrast, reso = 24)
+```

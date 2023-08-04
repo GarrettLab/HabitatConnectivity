@@ -9,3 +9,5 @@
 ^docs$
 ^pkgdown$
 ^plots$
+^doc$
+^Meta$

@@ -14,7 +14,7 @@ This is a basic example which shows you how to run sensitivity analysis on pre-l
 
 ```{r eval=FALSE}
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet",
-auth_token = "your PA")
+auth_token = "your PAT")
 ```
 
 Package offers 2 ways to use custom raster file - using `parameters.yaml` and `sa_onrasters` which is also used internally to create raster object using the provided source.

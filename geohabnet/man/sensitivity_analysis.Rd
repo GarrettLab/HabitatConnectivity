@@ -24,6 +24,9 @@ After analysis is complete,
 it will suppress maps for outcomes if \code{maps = FALSE} or
 \code{\link[=interactive]{interactive()}} is \code{FALSE}.
 }
+\details{
+\code{vignette("global_analysis", package = "geohabnet")}
+}
 \examples{
 \dontrun{
 # Run analysis on specified parameters.yaml
