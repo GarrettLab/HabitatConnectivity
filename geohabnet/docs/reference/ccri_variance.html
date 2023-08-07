@@ -25,6 +25,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
+    <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
   </div>
 </li>
@@ -58,7 +59,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ccri_variance</span><span class="op">(</span><span class="va">indexes</span>, <span class="va">rast</span>, <span class="va">global</span>, <span class="va">geoscale</span>, reso <span class="op">=</span> <span class="fu"><a href="reso.html">reso</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ccri_variance</span><span class="op">(</span><span class="va">indexes</span>, <span class="va">rast</span>, <span class="va">global</span>, <span class="va">geoscale</span>, res <span class="op">=</span> <span class="fu"><a href="reso.html">reso</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -80,8 +81,8 @@ When <code>TRUE</code>, <code>geoscale</code> is ignored. Default is <code>TRUE<
 <dd><p>vector. geographical scale</p></dd>
 
 
-<dt>reso</dt>
-<dd><p>numeric, map resolution</p></dd>
+<dt>res</dt>
+<dd><p>numeric. map resolution</p></dd>
 
 </dl></div>
 

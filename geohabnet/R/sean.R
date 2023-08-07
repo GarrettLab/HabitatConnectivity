@@ -251,7 +251,7 @@ sean <- function(link_threshold = 0,
                  dist_method = "geodesic",
                  rast,
                  host_density_threshold = 0,
-                 reso = reso(),
+                 res = reso(),
                  maps = TRUE) {
 
   .resetgan()
@@ -278,7 +278,7 @@ sean <- function(link_threshold = 0,
 
     for (agg_method in agg_methods) {
       density_data <- .init_cd(rast,
-                               reso,
+                               res,
                                geoext,
                                host_density_threshold = host_density_threshold,
                                agg_method,
@@ -322,7 +322,7 @@ sean <- function(link_threshold = 0,
     connectivity(risk_indexes,
                  global,
                  geoscale,
-                 reso,
+                 res,
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
@@ -338,7 +338,7 @@ sean <- function(link_threshold = 0,
                               geoscale,
                               agg_methods,
                               rast,
-                              reso,
+                              res,
                               dist_method = "geodesic",
                               maps = TRUE) {
 
@@ -353,7 +353,7 @@ sean <- function(link_threshold = 0,
                                       agg_methods = agg_methods,
                                       dist_method = dist_method,
                                       rast = rast,
-                                      reso = reso,
+                                      res = res,
                                       maps = FALSE
                                     )
                                   )
@@ -365,7 +365,7 @@ sean <- function(link_threshold = 0,
     connectivity(risk_indexes,
                  global = global,
                  geoscale,
-                 reso,
+                 res,
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
@@ -387,7 +387,7 @@ sean <- function(link_threshold = 0,
 #' @param host_density_thresholds vector. host density threshold values
 #' @param agg_methods vector. Aggregation methods
 #' @param dist_method character. One of the values from [dist_methods()]
-#' @param reso numeric.
+#' @param res numeric.
 #' resolution at which operations will run.
 #' Default is [reso()]
 #' @param maps logical. `TRUE` if maps are to be plotted, `FALSE` otherwise
@@ -408,13 +408,13 @@ sean <- function(link_threshold = 0,
 #'             c(0.0001, 0.00004),
 #'             c(0.0001, 0.00005),
 #'             c("sum", "mean"),
-#'             reso = 24)
+#'             res = 24)
 #' sa_onrasters(rr[[1]],
 #'             global = TRUE,
 #'             link_thresholds = c(0.000001),
 #'             host_density_thresholds = c(0.00015),
 #'             agg_methods = c("sum"),
-#'             reso = 24)
+#'             res = 24)
 #'}
 #' @inherit sensitivity_analysis seealso
 sa_onrasters <- function(rast,
@@ -424,7 +424,7 @@ sa_onrasters <- function(rast,
                          host_density_thresholds,
                          agg_methods = c("sum", "mean"),
                          dist_method = "geodesic",
-                         reso = reso(),
+                         res = reso(),
                          maps = TRUE) {
 
   cat("New analysis started for given raster")
@@ -442,7 +442,7 @@ sa_onrasters <- function(rast,
                                       agg_methods = agg_methods,
                                       dist_method = dist_method,
                                       rast = rast,
-                                      reso = reso,
+                                      res = res,
                                       maps = FALSE
                                     )
                                   )
@@ -455,7 +455,7 @@ sa_onrasters <- function(rast,
     connectivity(risk_indexes,
                  global,
                  geoscale,
-                 reso,
+                 res,
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
@@ -528,7 +528,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                              host_density_thresholds = cropland_thresholds,
                              agg_methods = agg_methods,
                              dist_method = the$parameters_config$`CCRI parameters`$DistanceStrategy,
-                             reso = resolution,
+                             res = resolution,
                              maps = FALSE
                            )
                          }))

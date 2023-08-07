@@ -4,7 +4,7 @@
 \alias{ccri_variance}
 \title{Calculate variance of CCRI}
 \usage{
-ccri_variance(indexes, rast, global, geoscale, reso = reso())
+ccri_variance(indexes, rast, global, geoscale, res = reso())
 }
 \arguments{
 \item{indexes}{list of rasters. See details.}
@@ -16,7 +16,7 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{vector. geographical scale}
 
-\item{reso}{numeric, map resolution}
+\item{res}{numeric. map resolution}
 }
 \description{
 This function produces a map of variance of CCRI based on input parameters

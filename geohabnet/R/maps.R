@@ -7,7 +7,7 @@
 #' @param global logical. `TRUE` if global analysis is required, `FALSE` otherwise.
 #' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
 #' @param geoscale vector. geographical scale
-#' @param reso numeric, map resolution
+#' @param res numeric. map resolution
 #' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise.
 #' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise
@@ -23,12 +23,12 @@
 connectivity <- function(indexes,
                          global = TRUE,
                          geoscale,
-                         reso = reso(),
+                         res = reso(),
                          pmean = TRUE,
                          pvar = TRUE,
                          pdiff = TRUE) {
 
-  mean_rast <- ccri_mean(indexes, global, geoscale, reso, pmean)
+  mean_rast <- ccri_mean(indexes, global, geoscale, pmean)
 
   if (pvar == TRUE) {
     ccri_variance(
@@ -36,7 +36,7 @@ connectivity <- function(indexes,
       mean_rast,
       global,
       geoscale,
-      reso)
+      res)
   }
 
   if (pdiff == TRUE) {
@@ -50,7 +50,7 @@ connectivity <- function(indexes,
       the$cropharvest_agglm_crop,
       global,
       geoscale,
-      reso)
+      res)
   }
   invisible()
 }
@@ -59,14 +59,13 @@ connectivity <- function(indexes,
 
 #' Calculate mean of raster objects
 #'
-#'   Overriding for [terra::mean()]. Calculates mean of list of rasters.
+#'   Wrapper for [terra::mean()]. Calculates mean of list of rasters.
 #' @inheritParams connectivity
-#' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`, `reso` is ignored.
+#' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`.
 #' @export
 ccri_mean <- function(indexes,
                       global = TRUE,
                       geoscale = NULL,
-                      reso = reso(),
                       plt = TRUE) {
 
   .cal_mean <- function(ext_indices) {
@@ -91,8 +90,7 @@ ccri_mean <- function(indexes,
 
   if (plt == TRUE) {
     .plot(mean_index,
-          paste("Mean cropland connectivity risk index\n",
-                            "resolution = ", reso),
+          paste("Mean cropland connectivity risk index\n"),
           global,
           geoscale,
           zlim = c(0, 1),
@@ -112,7 +110,7 @@ ccri_variance <- function(indexes,
                           rast,
                           global,
                           geoscale,
-                          reso = reso()) {
+                          res = reso()) {
 
   .cal_var <- function(ext_indices, scale) {
     var_rastvect <-
@@ -122,11 +120,11 @@ ccri_variance <- function(indexes,
     scaled_rast[] <- var_rastvect
 
     var_disag_rast <-
-      terra::disagg(scaled_rast, fact = c(reso, reso))
+      terra::disagg(scaled_rast, fact = c(res, res))
 
     var_disag_rast[var_disag_rast[] == 0] <- NA
 
-    var_disag_rast + .cal_zerorast(var_disag_rast, reso)
+    var_disag_rast + .cal_zerorast(var_disag_rast, res)
   }
 
   var_out <- if (global == TRUE) {
@@ -169,7 +167,7 @@ ccri_diff <- function(rast,
                       y,
                       global,
                       geoscale,
-                      reso = reso()) {
+                      res = reso()) {
   # difference map
   # Function to check for missing or null values
   .params_ok <- function(...) {
@@ -200,8 +198,8 @@ ccri_diff <- function(rast,
     zr2 <- max(zr2, range(-maxrank_w, maxrank_w))
 
     diagg_rast <- terra::disagg(scaled_rast,
-                              fact = c(reso, reso))
-    diagg_rast + .cal_zerorast(diagg_rast, reso)
+                              fact = c(res, res))
+    diagg_rast + .cal_zerorast(diagg_rast, res)
   }
 
   diff_out <- if (global == TRUE) {

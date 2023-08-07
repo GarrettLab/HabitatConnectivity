@@ -103,6 +103,8 @@ reso <- function() {
   reso <- the$parameters_config$`CCRI parameters`$Resolution
   reso <- if (is.null(reso) || is.na(reso)) {
     24
+  } else {
+    reso
   }
   return(reso)
 }
@@ -122,7 +124,7 @@ reso <- function() {
 #' }
 #'
 set_reso <- function(value) {
-  stopifnot("Invalid resolution" = is.numeric(value), value <= 0, value > 48)
+  stopifnot("Invalid resolution" = is.numeric(value), value <= 0, value >= 48)
   .loadparam_ifnull()
   the$parameters_config$`CCRI parameters`$Resolution <- value
   invisible(TRUE)

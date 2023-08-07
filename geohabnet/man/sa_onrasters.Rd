@@ -12,7 +12,7 @@ sa_onrasters(
   host_density_thresholds,
   agg_methods = c("sum", "mean"),
   dist_method = "geodesic",
-  reso = reso(),
+  res = reso(),
   maps = TRUE
 )
 }
@@ -33,7 +33,7 @@ in the form of c(Xmin, Xmax, Ymin, Ymax)}
 
 \item{dist_method}{character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
 
-\item{reso}{numeric.
+\item{res}{numeric.
 resolution at which operations will run.
 Default is \code{\link[=reso]{reso()}}}
 
@@ -60,13 +60,13 @@ sa_onrasters(rr[[1]],
             c(0.0001, 0.00004),
             c(0.0001, 0.00005),
             c("sum", "mean"),
-            reso = 24)
+            res = 24)
 sa_onrasters(rr[[1]],
             global = TRUE,
             link_thresholds = c(0.000001),
             host_density_thresholds = c(0.00015),
             agg_methods = c("sum"),
-            reso = 24)
+            res = 24)
 }
 }
 \seealso{

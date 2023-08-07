@@ -1,6 +1,10 @@
 ---
 title: "Global Analysis"
-output: pdf_document
+output: rmarkdown::pdf_document
+vignette: >
+  %\VignetteIndexEntry{Global Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
@@ -50,5 +54,5 @@ terra::plot(myrast)
 Modify link weights. Link weights are used as threshold for cell values in the raster. These cell values are filtered on the basis of link and host density thresholds. Use the raster created earlier above for new analysis. If the threshold is too big, then it may result in valid cells to produce connectivity.
 
 ```{r eval=FALSE}
-results <- sean(link_threshold = 0.0000015, rast = myrast, reso = 24)
+results <- sean(link_threshold = 0.0000015, rast = myrast, res = 24)
 ```
