@@ -12,7 +12,7 @@ sean(
   dist_method = "geodesic",
   rast,
   host_density_threshold = 0,
-  reso = reso(),
+  res = reso(),
   maps = TRUE
 )
 }
@@ -33,7 +33,7 @@ in the form of c(Xmin, Xmax, Ymin, Ymax)}
 
 \item{host_density_threshold}{A host density threshold value}
 
-\item{reso}{numeric.
+\item{res}{numeric.
 resolution at which operations will run.
 Default is \code{\link[=reso]{reso()}}}
 

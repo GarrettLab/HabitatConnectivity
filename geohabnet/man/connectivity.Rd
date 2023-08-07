@@ -8,7 +8,7 @@ connectivity(
   indexes,
   global = TRUE,
   geoscale,
-  reso = reso(),
+  res = reso(),
   pmean = TRUE,
   pvar = TRUE,
   pdiff = TRUE
@@ -22,7 +22,7 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{vector. geographical scale}
 
-\item{reso}{numeric, map resolution}
+\item{res}{numeric. map resolution}
 
 \item{pmean}{\code{TRUE} if map of mean should be plotted, \code{FALSE} otherwise.}
 

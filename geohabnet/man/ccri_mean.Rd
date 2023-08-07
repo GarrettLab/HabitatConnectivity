@@ -4,7 +4,7 @@
 \alias{ccri_mean}
 \title{Calculate mean of raster objects}
 \usage{
-ccri_mean(indexes, global = TRUE, geoscale = NULL, reso = reso(), plt = TRUE)
+ccri_mean(indexes, global = TRUE, geoscale = NULL, plt = TRUE)
 }
 \arguments{
 \item{indexes}{list of rasters. See details.}
@@ -14,10 +14,8 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{vector. geographical scale}
 
-\item{reso}{numeric, map resolution}
-
-\item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise and \code{geoscale}, \code{reso} is ignored.}
+\item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise and \code{geoscale}.}
 }
 \description{
-Overriding for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.
+Wrapper for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.
 }

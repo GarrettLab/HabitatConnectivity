@@ -21,8 +21,11 @@ Package offers 2 ways to use custom raster file - using `parameters.yaml` and `s
 
 Loading package
 
-```{r setup eva}
-library(geohabnet)
+```{r setup}
+if (!require(geohabnet)) {
+  install.packages("geohabnet")
+  library(geohabnet)
+}
 ```
 
 ```{r eval=FALSE}
@@ -78,7 +81,7 @@ geohabnet::sa_onrasters(cropharvest_raster = rr,
                         geo_scales = list(c(-50, 50, -50, 50)),
                         link_thresholds = c(0),
                         host_density_thresholds = c(0.0000015),
-                        resolution = 24)
+                        res = 24)
 ```
 
 On successful analysis, function will produce output maps. See example below.

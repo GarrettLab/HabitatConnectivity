@@ -3,6 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   Using-raster-file: Using-raster-file.html
+  distance_strategy: distance_strategy.html
   global_analysis: global_analysis.html
-last_built: 2023-08-04T03:41Z
+last_built: 2023-08-07T21:54Z
 

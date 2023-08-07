@@ -1,0 +1,68 @@
+---
+title: "Distance Strategy"
+output: rmarkdown::pdf_document
+vignette: >
+  %\VignetteIndexEntry{Distance Strategy}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Load package
+
+```{r setup, eval=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if (!require(geohabnet)) {
+  install.packages("geohabnet")
+  library(geohabnet)
+}
+```
+
+Get raster
+
+```{r echo=TRUE, eval=FALSE}
+avo_rast <- get_rasters(list(monfreda = c("avocado")))
+avo_rast
+```
+
+Currently supported distance methods
+
+```{r echo=TRUE, eval=FALSE}
+dmets <- dist_methods()
+dmets
+```
+
+Install benchmark
+
+```{r echo=TRUE, eval=FALSE}
+if (!require(microbenchmark)) {
+ install.packages("microbenchmark")
+  library(microbenchmark)
+}
+```
+
+Global Analysis
+
+```{r echo=TRUE, eval=FALSE}
+sa <- function(rast, distm) {
+  sa_onrasters(rast,
+               dist_method = distm,
+               link_thresholds = c(0),
+               host_density_thresholds = c(0))
+}
+```
+
+Comparison of methods
+
+```{r echo=TRUE, eval=FALSE}
+bres <- microbenchmark(sa(avo_rast[[1]], dmets[1]),
+               sa(avo_rast[[1]], dmets[2]),
+               times = 1)
+bres
+```
