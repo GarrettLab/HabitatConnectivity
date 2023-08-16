@@ -247,11 +247,27 @@ ccri_diff <- function(rast,
                   isglobal,
                   geoscale,
                   colorss = .get_palette(),
-                  zlim, typ = "plot") {
+                  zlim,
+                  typ = "plot",
+                  plotf = .plotmap) {
 
-  # Set the plot parameters
-  graphics::par(mar = c(0, 0, 0, 0), bg = "aliceblue")
+  .saverast(typ, rast)
 
+  if (is.null(plotf)) {
+    .plotmap(rast, geoscale, isglobal, label, colorss, zlim)
+  } else {
+    plotf(rast = rast,
+      geoscale = geoscale,
+      isglobal = isglobal,
+      label = label,
+      col_pal = colorss,
+      zlim = zlim)
+  }
+
+  invisible()
+}
+
+.saverast <- function(typ, rast) {
   # Create the "plots" directory if it doesn't exist
   if (!dir.exists("plots")) {
     dir.create("plots")
@@ -262,29 +278,62 @@ ccri_diff <- function(rast,
                  "_",
                  stringi::stri_rand_strings(1, 5),
                  ".tif", sep = "")
-  terra::writeRaster(rast, overwrite = TRUE, filename = fname, gdal = c("COMPRESS=NONE"))
+  terra::writeRaster(rast, overwrite = TRUE,
+                     filename = fname,
+                     gdal = c("COMPRESS=NONE"))
   message(paste("raster created", fname, sep = ": "), "\n")
+}
 
+.plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {
   if (interactive()) {
+
+    # Set the plot parameters
+    graphics::par(bg = "aliceblue")
     # Plot the base map
     terra::plot(.cal_mgb(geoscale, isglobal),
-                col = "grey85", xaxt = "n", yaxt = "n", axes = FALSE, box = FALSE, legend = FALSE,
-                main = label, cex.main = 0.9)
-
-    # Plot the raster
-    terra::plot(rast,
-                col = colorss,
-                zlim = zlim,
+                col = "grey85",
                 xaxt = "n",
                 yaxt = "n",
-                axes = FALSE,
-                box = FALSE,
-                add = TRUE,
-                lwd = 0.7)
-    # plg = list(loc = "bottom", horizontal = TRUE)
+                legend = FALSE,
+                main = label,
+                cex.main = 0.9)
+    # Plot the raster
+    if (isglobal == TRUE) {
+      gs <- terra::ext(rast)
+      terra::plot(rast,
+                  col = col_pal,
+                  xaxt = "n",
+                  yaxt = "n",
+                  zlim = zlim,
+                  add = TRUE,
+                  lwd = 0.7,
+                  legend = TRUE,
+                  plg = list(loc = "bottom",
+                             ext = c(gs[1] + 30, gs[2] - 30, gs[3] - 30, gs[3] - 20),
+                             horizontal = TRUE)
+      )
+    } else {
+      terra::plot(rast,
+                  col = col_pal,
+                  xaxt = "n",
+                  yaxt = "n",
+                  zlim = zlim,
+                  add = TRUE,
+                  lwd = 0.7,
+                  legend = TRUE
+      )
+    }
 
+    # plg = list(loc = "bottom", horizontal = TRUE)
     # Plot the country boundaries
-    world <- rnaturalearthdata::countries110
+    world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+    world <- world[which(world$continent != "Antarctica"), ]["geometry"]
+    world <- terra::vect(world)
+
+    if (isglobal == FALSE) {
+      world <- terra::crop(world, terra::ext(rast))
+    }
+
     terra::plot(world, col = NA, border = "black", add = TRUE)
   }
   invisible()

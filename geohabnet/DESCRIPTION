@@ -41,7 +41,8 @@ Imports:
     stringi,
     rlang (>= 1.1.1),
     viridisLite (>= 0.4.2),
-    beepr (>= 1.3)
+    beepr (>= 1.3),
+    rnaturalearth (>= 0.3.3)
 Suggests: 
     knitr,
     lintr (>= 3.0.2),
