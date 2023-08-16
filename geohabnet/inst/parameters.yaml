@@ -4,7 +4,7 @@ default:
       monfreda: ["avocado"]
       mapspam: 
       file:
-    HostDensityThreshold: [0.00015]
+    HostDensityThreshold: [0.00015, 0.000025]
     AggregationStrategy: [sum, mean]
     DistanceStrategy: "geodesic"
     Resolution: 12
