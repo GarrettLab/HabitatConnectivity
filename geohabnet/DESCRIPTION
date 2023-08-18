@@ -1,6 +1,6 @@
 Package: geohabnet
 Title: Analysis of Cropland Connectivity
-Version: 0.2.0
+Version: 1.0.0
 Authors@R: c(
     person("Garrett", "Lab", role = c("aut", "cre"), email = "karengarrett@ufl.edu",
             comment = "https://garrettlab.com"),
