@@ -36,7 +36,6 @@ Imports:
     stats (>= 4.2.3),
     stringr (>= 1.5.0),
     memoise (>= 2.0.1),
-    rnaturalearthdata,
     graphics (>= 4.2.3),
     stringi,
     rlang (>= 1.1.1),
