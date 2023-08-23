@@ -20,11 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Garrett Lab \email{karengarrett@ufl.edu} (https://garrettlab.com)
+\strong{Maintainer}: Krishna Keshav \email{kkeshav@ufl.edu}
 
 Authors:
 \itemize{
-  \item Krishna Keshav \email{kkeshav@ufl.edu}
+  \item Garrett Lab \email{karengarrett@ufl.edu} (https://garrettlab.com)
   \item Karen Garrett \email{karengarrett@ufl.edu} (\href{https://orcid.org/0000-0002-6578-1616}{ORCID})
   \item Aaron Plex \email{plexaaron@ufl.edu} (\href{https://orcid.org/0000-0001-7317-3090}{ORCID})
 }

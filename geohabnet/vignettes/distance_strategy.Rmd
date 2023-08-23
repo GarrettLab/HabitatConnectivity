@@ -18,10 +18,11 @@ Load package
 
 ```{r setup, eval=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-if (!require(geohabnet)) {
-  install.packages("geohabnet")
-  library(geohabnet)
-}
+devtools::install_github("GarrettLab/CroplandConnectivity",
+                         subdir = "geohabnet", auth_token = "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")
+#install.packages("geohabnet")
+library(geohabnet)
+
 ```
 
 Get raster
