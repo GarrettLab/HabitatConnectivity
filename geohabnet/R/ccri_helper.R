@@ -85,7 +85,7 @@ library(yaml)
 
 .download <- function(uri) {
   f <- paste(tempfile(), ".tif", sep = "")
-  stopifnot("dowload failed " = utils::download.file(uri, destfile = f, method = "auto") == 0)
+  stopifnot("dowload failed " = utils::download.file(uri, destfile = f, method = "auto", mode = "wb") == 0)
   return(f)
 }
 
