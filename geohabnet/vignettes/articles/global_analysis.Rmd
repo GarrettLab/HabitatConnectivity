@@ -1,10 +1,6 @@
 ---
 title: "Global Analysis"
 output: rmarkdown::pdf_document
-vignette: >
-  %\VignetteIndexEntry{Global Analysis}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}

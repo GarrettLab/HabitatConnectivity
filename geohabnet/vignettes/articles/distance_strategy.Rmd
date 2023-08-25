@@ -1,10 +1,6 @@
 ---
 title: "Distance Strategy"
 output: rmarkdown::pdf_document
-vignette: >
-  %\VignetteIndexEntry{Distance Strategy}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
