@@ -230,7 +230,7 @@ ccri_diff <- function(rast,
   }
 
   .plot(diff_out,
-        "Difference in rank of host density and host connectivity",
+        "Difference in rank of host connectivity and host density",
         global,
         geoscale,
         .get_palette_for_diffmap(),
