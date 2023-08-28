@@ -244,12 +244,12 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used
 #'
 #' @seealso Uses [connectivity()]
-sean <- function(link_threshold = 0,
+sean <- function(rast,
                  global = TRUE,
                  geoscale,
                  agg_methods = c("sum", "mean"),
                  dist_method = "geodesic",
-                 rast,
+                 link_threshold = 0,
                  host_density_threshold = 0,
                  res = reso(),
                  maps = TRUE) {

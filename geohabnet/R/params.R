@@ -31,14 +31,17 @@
 #'
 #' Retrieves the parameters and copies the parameter file to the specified
 #' output path.
-#'
-#' @param iwindow Logical. If TRUE, prompts the user to select the output
-#' directory using a file chooser window.
-#' @param out_path Character. The output path where the parameter file will be
-#' copied.
-#' @return Character. The path to the copied parameter file.
+#' @param out_path character. The output path where the parameter file will be 
+#' copied. Default is current working directory [getwd()]
+#' @param iwindow logical. If `TRUE`, prompts the user to select the output
+#' directory using a file chooser window. Default is `FALSE`
+#' @return character. The path to the copied parameter file.
 #' @export
-get_parameters <- function(iwindow = FALSE, out_path = getwd()) {
+#' @details
+#' Using configuration file is an alternative to [sean()]
+#' 
+#' @seealso [set_parameters()]
+get_parameters <- function(out_path = getwd(), iwindow = FALSE) {
   if (interactive() && iwindow) {
     out_path <- .get_directoryfromuser()
   }
