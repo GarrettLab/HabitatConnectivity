@@ -57,22 +57,22 @@ get_parameters <- function(out_path = getwd(), iwindow = FALSE) {
 #' This function allows you to set the parameters by replacing the existing
 #' parameters file with a new one. Use [get_parameters()] to modify the parameter values.
 #'
-#' @param new_parameters_file The path to the new parameters file.
+#' @param new_params The path to the new parameters file.
 #' @param iwindow Logical indicating whether to prompt the user to select the
 #' new parameters file using a file selection window. Defaults to FALSE.
 #' @return None
 #' @export
-set_parameters <- function(new_parameters_file, iwindow = FALSE) {
+set_parameters <- function(new_params, iwindow = FALSE) {
   if (iwindow && interactive()) {
-    new_parameters_file <- .open_file_selection_prompt()
+    new_params <- .open_file_selection_prompt()
   }
 
   current_params_file <- .get_param_file_path()
   if (.check_yaml_structure(
     existing_yaml_file = current_params_file,
-    provided_yaml_file = new_parameters_file
+    provided_yaml_file = new_params
   )) {
-    .copy_file(new_parameters_file, current_params_file)
+    .copy_file(new_params, current_params_file)
   }
 }
 

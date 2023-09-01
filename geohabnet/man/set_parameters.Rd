@@ -4,10 +4,10 @@
 \alias{set_parameters}
 \title{Set Parameters}
 \usage{
-set_parameters(new_parameters_file, iwindow = FALSE)
+set_parameters(new_params, iwindow = FALSE)
 }
 \arguments{
-\item{new_parameters_file}{The path to the new parameters file.}
+\item{new_params}{The path to the new parameters file.}
 
 \item{iwindow}{Logical indicating whether to prompt the user to select the
 new parameters file using a file selection window. Defaults to FALSE.}
