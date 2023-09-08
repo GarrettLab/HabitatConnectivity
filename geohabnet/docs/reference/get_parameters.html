@@ -12,7 +12,7 @@ output path."><meta property="og:image" content="/logo.png"><!-- mathjax --><scr
     
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,26 +62,34 @@ output path.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_parameters</span><span class="op">(</span>iwindow <span class="op">=</span> <span class="cn">FALSE</span>, out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_parameters</span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, iwindow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>iwindow</dt>
-<dd><p>Logical. If TRUE, prompts the user to select the output
-directory using a file chooser window.</p></dd>
+    <dl><dt>out_path</dt>
+<dd><p>character. The output path where the parameter file will be
+copied. Default is current working directory <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd()</a></code></p></dd>
 
 
-<dt>out_path</dt>
-<dd><p>Character. The output path where the parameter file will be
-copied.</p></dd>
+<dt>iwindow</dt>
+<dd><p>logical. If <code>TRUE</code>, prompts the user to select the output
+directory using a file chooser window. Default is <code>FALSE</code></p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Character. The path to the copied parameter file.</p>
+<p>character. The path to the copied parameter file.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Using configuration file is an alternative to <code><a href="sean.html">sean()</a></code></p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="set_parameters.html">set_parameters()</a></code></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

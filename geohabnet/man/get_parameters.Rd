@@ -4,19 +4,25 @@
 \alias{get_parameters}
 \title{Get Parameters}
 \usage{
-get_parameters(iwindow = FALSE, out_path = getwd())
+get_parameters(out_path = getwd(), iwindow = FALSE)
 }
 \arguments{
-\item{iwindow}{Logical. If TRUE, prompts the user to select the output
-directory using a file chooser window.}
+\item{out_path}{character. The output path where the parameter file will be
+copied. Default is current working directory \code{\link[=getwd]{getwd()}}}
 
-\item{out_path}{Character. The output path where the parameter file will be
-copied.}
+\item{iwindow}{logical. If \code{TRUE}, prompts the user to select the output
+directory using a file chooser window. Default is \code{FALSE}}
 }
 \value{
-Character. The path to the copied parameter file.
+character. The path to the copied parameter file.
 }
 \description{
 Retrieves the parameters and copies the parameter file to the specified
 output path.
+}
+\details{
+Using configuration file is an alternative to \code{\link[=sean]{sean()}}
+}
+\seealso{
+\code{\link[=set_parameters]{set_parameters()}}
 }

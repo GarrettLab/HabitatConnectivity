@@ -31,14 +31,17 @@
 #'
 #' Retrieves the parameters and copies the parameter file to the specified
 #' output path.
-#'
-#' @param iwindow Logical. If TRUE, prompts the user to select the output
-#' directory using a file chooser window.
-#' @param out_path Character. The output path where the parameter file will be
-#' copied.
-#' @return Character. The path to the copied parameter file.
+#' @param out_path character. The output path where the parameter file will be 
+#' copied. Default is current working directory [getwd()]
+#' @param iwindow logical. If `TRUE`, prompts the user to select the output
+#' directory using a file chooser window. Default is `FALSE`
+#' @return character. The path to the copied parameter file.
 #' @export
-get_parameters <- function(iwindow = FALSE, out_path = getwd()) {
+#' @details
+#' Using configuration file is an alternative to [sean()]
+#' 
+#' @seealso [set_parameters()]
+get_parameters <- function(out_path = getwd(), iwindow = FALSE) {
   if (interactive() && iwindow) {
     out_path <- .get_directoryfromuser()
   }
@@ -54,22 +57,22 @@ get_parameters <- function(iwindow = FALSE, out_path = getwd()) {
 #' This function allows you to set the parameters by replacing the existing
 #' parameters file with a new one. Use [get_parameters()] to modify the parameter values.
 #'
-#' @param new_parameters_file The path to the new parameters file.
+#' @param new_params The path to the new parameters file.
 #' @param iwindow Logical indicating whether to prompt the user to select the
 #' new parameters file using a file selection window. Defaults to FALSE.
 #' @return None
 #' @export
-set_parameters <- function(new_parameters_file, iwindow = FALSE) {
+set_parameters <- function(new_params, iwindow = FALSE) {
   if (iwindow && interactive()) {
-    new_parameters_file <- .open_file_selection_prompt()
+    new_params <- .open_file_selection_prompt()
   }
 
   current_params_file <- .get_param_file_path()
   if (.check_yaml_structure(
     existing_yaml_file = current_params_file,
-    provided_yaml_file = new_parameters_file
+    provided_yaml_file = new_params
   )) {
-    .copy_file(new_parameters_file, current_params_file)
+    .copy_file(new_params, current_params_file)
   }
 }
 

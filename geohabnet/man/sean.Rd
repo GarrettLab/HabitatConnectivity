@@ -5,19 +5,19 @@
 \title{Calculate sensitivity analysis on cropland harvested area fraction}
 \usage{
 sean(
-  link_threshold = 0,
+  rast,
   global = TRUE,
   geoscale,
   agg_methods = c("sum", "mean"),
   dist_method = "geodesic",
-  rast,
+  link_threshold = 0,
   host_density_threshold = 0,
   res = reso(),
   maps = TRUE
 )
 }
 \arguments{
-\item{link_threshold}{numeric. A threshold value for link}
+\item{rast}{Raster object which will be used in analysis.}
 
 \item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
 Default is \code{TRUE}}
@@ -29,7 +29,7 @@ in the form of c(Xmin, Xmax, Ymin, Ymax)}
 
 \item{dist_method}{character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
 
-\item{rast}{Raster object which will be used in analysis.}
+\item{link_threshold}{numeric. A threshold value for link}
 
 \item{host_density_threshold}{A host density threshold value}
 
