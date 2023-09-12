@@ -1,0 +1,167 @@
+---
+title: "Analyzing risk index using cropland connectivity"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Cropland connectivity risk index}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Abstract
+
+The network and connectivity of cropland can be used to analyse the potential spread of plant pathogen. While network plays a crucial role, there are several other factors that affects the spread and thus the connectivity. Although croplands may be geographically connected, the risk cannot be generalized as pathogen may not spread if it's exclusive to specific crop. Geohabnet supports up to 10 parameters that has potential to impact risk and connectivity among croplands. The implementation is expanded upon [Xing et al(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255)) which discusses global cropland connectivity. This framework uses default values from the paper at the same time making them as parameters and eventually turning it into framework for the analysis of crops.
+
+Throughout the article, we will citing external sites and resources which is relevant to usage of this package.
+
+## Pre-requisites
+
+### Definitions
+
+-   Raster - Raster is a digital encoding of 2D digital image with underlying pixels as underlying. It also encapsulates other details like resolution, dimensions etc which is useful in identification and processing. Here, we use raster to represent maps.
+
+-   TIFF(Tag Image File Format) is a file that stores raster and information.
+
+### External materials
+
+-   Download and install R, R Studio - <https://rstudio-education.github.io/hopr/starting.html>
+
+-   Rasters - <https://www.adobe.com/creativecloud/file-types/image/raster.html>
+
+-   TIFF - <https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html>
+
+## Datasets
+
+We use publicly available sources to obtain crop information -
+
+-   [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/) and MapSpam (2005) (<https://dataverse.harvard.edu/dataset.xhtml>?)
+
+-   [MapSpam](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DHXBJX).)
+
+Geodata provides set of APIs to access these datasets. For visualization and plots, we use [rnaturalearth](https://docs.ropensci.org/rnaturalearth/).
+
+## Quick Start
+
+### Meta information
+
+-   Package documentation - [http://geohab-site.s3-website.us-east-2.amazonaws.com/docs/](https://nam10.safelinks.protection.outlook.com/?url=http%3A%2F%2Fgeohab-site.s3-website.us-east-2.amazonaws.com%2Fdocs%2F&data=05%7C01%7Ckkeshav%40ufl.edu%7C001659722a5b4f6bd69d08dbb2ff9d1d%7C0d4da0f84a314d76ace60a62331e1b84%7C0%7C0%7C638300583136095106%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GK4pGbtNQWNF60ryAB9pVtbBt4tq5K3daNHV9Un%2FhtM%3D&reserved=0 "https://nam10.safelinks.protection.outlook.com/?url=http%3A%2F%2Fgeohab-site.s3-website.us-east-2.amazonaws.com%2Fdocs%2F&data=05%7C01%7Ckkeshav%40ufl.edu%7C001659722a5b4f6bd69d08dbb2ff9d1d%7C0d4da0f84a314d76ace60a62331e1b84%7C0%7C0%7C638300583136095106%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GK4pGbtNQWNF60ryAB9pVtbBt4tq5K3daNHV9Un%2FhtM%3D&reserved=0")
+
+<!-- -->
+
+-   Source code - <https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet>
+
+-   Report issues - <https://github.com/GarrettLab/CroplandConnectivity/issues>
+
+-   Lab website - [https://garrettlab.com](https://garrettlab.com.)
+
+-   To cite package 'geohabnet' in publications use:
+
+Lab G, Keshav K, Garrett K, Plex A (????). \_geohabnet: Analysis of Cropland Connectivity\_. <https://github.com/GarrettLab/CroplandConnectivity,> <https://garrettlab.com.>
+
+### Installation and loading
+
+Installing `geohabnet` will also install its dependencies. Please see the list of dependencies using `desc::desc(package = "geohabnet")`
+
+```{r}
+
+if (!require("devtools")) {
+  install.packages("devtools")
+}
+
+devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+library(geohabnet)
+```
+
+At any point, access the help page using following -
+
+```{r}
+?geohabnet
+# and
+?geohabnet::sean # any function
+```
+
+### Run analysis on default configuration
+
+This is to run the analysis on default set of values for the supported parameters. Initially, the values are set based on the Xing et al(2021) and crop is *Avocado*. This would run the workflow on global geogrphical extent quickly since the crop presence is relatively low.
+
+```{r }
+sensitivity_analysis()
+```
+
+The results are based on the values set for each of the parameters which we will see in details in the next section.
+
+## Running new analysis
+
+We provide 2 methods or entry points to run analysis by setting new values for the supported parameters.
+
+### Setting values in a function
+
+The goal of the this function is to provide simple invasive factors as parameters. The internal implementation and program deals with object of `terra` and `igraph` . The primary object is of type `spatRaster` from `terra` . To get started, we will use quick way to obtain raster and later we will understand the details.
+
+```{r}
+avocado <- get_cropharvest_raster("avocado", "monfreda")
+
+# verify the raster object
+avocado
+terra::plot(avocado)
+```
+
+Now that we have a raster object, it can be fed directly to the workflow. We will only be setting the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
+
+```{r}
+risk_indexes <- sean(avocado)
+```
+
+The results should be interpreted in accordance to the values of other parameters that have factored as arguments to `sean`. Run ?sean to see all the supported parameters. We will later see the usage of other parameters as well.
+
+1.  rast - *spatRaster*. Represents map of crop presence in a geographical area.
+
+2.  geoscale - *Vector*. Geographical coordinates in the form of c(Xmin, Xmax, Ymin, Ymax)
+
+3.  global - *Logical*. When set to TRUE, geoscale is ignored.
+
+    -   Get geographical scales used in global analysis -
+
+        ```{r}
+        global_scales()
+        ```
+
+    -   Although recommended not to change the global scales since it has been finalized after several tries. Still, for advance use, set the global geographic scales using -
+
+        ```{r}
+        #set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
+        ```
+
+4.  agg_methods - Vector.
+
+### Using configuration
+
+More parameters are available under configuration and thus more control over the analysis. The configuration filename is *parameters.yaml* . We currently support up to 10 parameters. The snippet below describes the basic usage of configuration.
+
+Get the initial configuration file. By default this function will save the file in current working directory which in context of R is `getwd()` . Using *iwindow = TRUE* will prompt a selection window to save config file.
+
+```{r}
+config_file <- get_parameters()
+config_file
+```
+
+The file should look something like this -
+
+![Initial parameters.yaml](images/Screenshot%202023-09-12%20at%2012.28.26%20AM.png){width="700"}
+
+The values must be modified without modifying the structure. The order don't matter for the program. The new values in the configuration must be fed to the workflow using -
+
+```{r}
+set_parameters(new_params = config_file)
+#using iwindow = true will prompt a selction window to choose config file.
+```
+
+`get_parameters()` was only to fetch the initial parameters. While you can, it is not required to re-fetch. Modify the value and feed it to workflow using `set_parameters()`.

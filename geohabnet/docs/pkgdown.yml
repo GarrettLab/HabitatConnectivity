@@ -2,8 +2,9 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  analysis: analysis.html
   Using-raster-file: Using-raster-file.html
   distance_strategy: distance_strategy.html
   global_analysis: global_analysis.html
-last_built: 2023-09-08T19:45Z
+last_built: 2023-09-12T16:16Z
 
