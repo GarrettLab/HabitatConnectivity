@@ -1,0 +1,30 @@
+default:
+  CCRI parameters:
+    Hosts:
+      monfreda: ["avocado"]
+      mapspam: 
+      file:
+    HostDensityThreshold: [0.00015, 0.000025]
+    AggregationStrategy: [sum, mean]
+    DistanceStrategy: "geodesic"
+    Resolution: 12
+    GeoExtent: 
+      global: TRUE
+      customExt: [-115, -75, 5, 32] # ignored, when global = TRUE
+    LinkThreshold: [0.000001]
+    DispersalKernelModels:
+      InversePowerLaw:
+        beta: [0.5, 1, 1.5]
+      NegativeExponential:
+        gamma: [0.05, 1, 0.2, 0.3]
+    NetworkMetrics:
+      InversePowerLaw:
+        metrics: ["betweeness", "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
+        weights: [50, 15, 15, 20]
+      NegativeExponential:
+        metrics: ["betweeness", "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
+        weights: [50, 15, 15, 20]
+    PriorityMaps:
+      MeanCC: TRUE
+      Difference: TRUE
+      Variance: TRUE

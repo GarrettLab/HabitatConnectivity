@@ -37,12 +37,6 @@ You can install the development version of geohabnet from
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 ```
 
-Since repo is private, replace the installation code with following -
-`devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet", auth_token = "your token")`
-
-`"your token`” should be replaced with actual Github
-[PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
-
 ## geohabnet Example
 
 ``` r
@@ -51,7 +45,7 @@ library(geohabnet)
 param_file <- geohabnet::get_parameters()
 #> [1] "parameters fetched successfully"
 # now edit the file
-geohabnet::set_parameters(new_parameters_file = param_file)
+geohabnet::set_parameters(new_params = param_file)
 #> [1] TRUE
 ```
 

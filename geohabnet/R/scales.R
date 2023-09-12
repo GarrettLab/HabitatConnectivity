@@ -36,8 +36,8 @@ global_scales <- function() {
 #' [terra::ext()]
 set_global_scales <- function(value) {
 
-  east <- is.vector(value[[STR_EAST]])
-  west <- is.vector(value[[STR_WEST]])
+  east <- as.vector(value[[STR_EAST]])
+  west <- as.vector(value[[STR_WEST]])
   stopifnot("Not a valid east coordinate" = is.numeric(east), is.vector(east), length(east) == 4)
   stopifnot("Not a valid west coordinate" = is.numeric(west), is.vector(west), length(west) == 4)
 
