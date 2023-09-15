@@ -7,8 +7,9 @@
 ^\docs$
 ^_pkgdown\.yml$
 ^docs$
+^doc$
 ^pkgdown$
 ^plots$
-^doc$
 ^Meta$
-^\.html$
+^.*\.html$
+^lib$

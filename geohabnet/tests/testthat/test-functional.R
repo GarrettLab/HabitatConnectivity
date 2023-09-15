@@ -1,7 +1,6 @@
-library("testthat")
 
 test_that("System test - Test function to retreive crop raster data", {
-  expect_no_condition(geohabnet::get_cropharvest_raster("avocado", "monfreda"))
+  expect_no_condition(geohabnet::cropharvest_rast("avocado", "monfreda"))
 })
 
 test_that("System test - Test Senstivity analysis run on default configuration", {

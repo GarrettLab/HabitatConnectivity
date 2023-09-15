@@ -1,10 +1,12 @@
 ---
 title: "Analyzing risk index using cropland connectivity"
+author: "Krishna Keshav (kkeshav@ufl.edu)"
+
 output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Cropland connectivity risk index}
+  %\VignetteIndexEntry{Analyzing risk index using cropland connectivity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -42,9 +44,9 @@ Throughout the article, we will citing external sites and resources which is rel
 
 We use publicly available sources to obtain crop information -
 
--   [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/) and MapSpam (2005) (<https://dataverse.harvard.edu/dataset.xhtml>?)
+-   [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/)
 
--   [MapSpam](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DHXBJX).)
+-   MapSpam (2005) (<https://dataverse.harvard.edu/dataset.xhtml>?)
 
 Geodata provides set of APIs to access these datasets. For visualization and plots, we use [rnaturalearth](https://docs.ropensci.org/rnaturalearth/).
 
@@ -53,15 +55,9 @@ Geodata provides set of APIs to access these datasets. For visualization and plo
 ### Meta information
 
 -   Package documentation - [http://geohab-site.s3-website.us-east-2.amazonaws.com/docs/](https://nam10.safelinks.protection.outlook.com/?url=http%3A%2F%2Fgeohab-site.s3-website.us-east-2.amazonaws.com%2Fdocs%2F&data=05%7C01%7Ckkeshav%40ufl.edu%7C001659722a5b4f6bd69d08dbb2ff9d1d%7C0d4da0f84a314d76ace60a62331e1b84%7C0%7C0%7C638300583136095106%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GK4pGbtNQWNF60ryAB9pVtbBt4tq5K3daNHV9Un%2FhtM%3D&reserved=0 "https://nam10.safelinks.protection.outlook.com/?url=http%3A%2F%2Fgeohab-site.s3-website.us-east-2.amazonaws.com%2Fdocs%2F&data=05%7C01%7Ckkeshav%40ufl.edu%7C001659722a5b4f6bd69d08dbb2ff9d1d%7C0d4da0f84a314d76ace60a62331e1b84%7C0%7C0%7C638300583136095106%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GK4pGbtNQWNF60ryAB9pVtbBt4tq5K3daNHV9Un%2FhtM%3D&reserved=0")
-
-<!-- -->
-
 -   Source code - <https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet>
-
 -   Report issues - <https://github.com/GarrettLab/CroplandConnectivity/issues>
-
 -   Lab website - [https://garrettlab.com](https://garrettlab.com.)
-
 -   To cite package 'geohabnet' in publications use:
 
 Lab G, Keshav K, Garrett K, Plex A (????). \_geohabnet: Analysis of Cropland Connectivity\_. <https://github.com/GarrettLab/CroplandConnectivity,> <https://garrettlab.com.>
@@ -75,8 +71,12 @@ Installing `geohabnet` will also install its dependencies. Please see the list o
 if (!require("devtools")) {
   install.packages("devtools")
 }
+library("devtools")
 
-devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+if (!require("geohabnet")) {
+  install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+}
+
 library(geohabnet)
 ```
 
@@ -107,7 +107,7 @@ We provide 2 methods or entry points to run analysis by setting new values for t
 The goal of the this function is to provide simple invasive factors as parameters. The internal implementation and program deals with object of `terra` and `igraph` . The primary object is of type `spatRaster` from `terra` . To get started, we will use quick way to obtain raster and later we will understand the details.
 
 ```{r}
-avocado <- get_cropharvest_raster("avocado", "monfreda")
+avocado <- cropharvest_rast("avocado", "monfreda")
 
 # verify the raster object
 avocado
@@ -155,7 +155,7 @@ config_file
 
 The file should look something like this -
 
-![Initial parameters.yaml](images/Screenshot%202023-09-12%20at%2012.28.26%20AM.png){width="700"}
+![Initial parameters.yaml](images/initconfig.png){width="700"}
 
 The values must be modified without modifying the structure. The order don't matter for the program. The new values in the configuration must be fed to the workflow using -
 
@@ -165,3 +165,54 @@ set_parameters(new_params = config_file)
 ```
 
 `get_parameters()` was only to fetch the initial parameters. While you can, it is not required to re-fetch. Modify the value and feed it to workflow using `set_parameters()`.
+
+## Parameters
+
+### Hosts
+
+We have some helper functions to make the analysis easier. Available sources can be seen using -
+
+```{r}
+geohabnet::get_supported_sources()
+```
+
+More specifically, we support 2 data set sources - [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/) and [Mapspam](https://dataverse.harvard.edu/dataset.xhtml) using the APIs provided by [Geodata](https://cran.r-project.org/web/packages/geodata/index.html). These sources have crop presence in the geographical areas in the form of raster(tiff). To start with, we can check if a certain crop is available in the source -
+
+```{r}
+search_crop("avocado") #1
+search_crop("banana") #2
+```
+
+The #1 result suggests that we have crop information available under `monfreda` . Now, #2 suggests that *banana* is present in 2 sources. We will use the results from here to obtain its raster data from the one of the specified sources.
+
+```{r}
+# get avocado data
+rast_avocado <- crops_rast(list(monfreda = "avocado"))
+
+#get data of banana crop
+rast_ban <- crops_rast(list(mapspam = "banana"))
+```
+
+The returned is actually if type `SpatRaster`. In above, we will have seperate raster information for each of the crop. Crops can be combined and be returned as one raster.
+
+```{r}
+rast_avo_ban <- crops_rast(list(monfreda = c("avocado", "banana"), mapspam = c("banana")))
+```
+
+In this case for *banana*, information from all the sources will be first combined using mean and then all the crop information i.e. banana and avocado both are again combined into one raster. This is done to produce a single map which contains information of all the requested crops. We have one more method to obtain raster, using *tiff -* `tiff_torast()` . Finally, we have `get_rasters()` method, which is an abstraction of . To see the difference in data that was generated in last 3 methods -
+
+```{r}
+results <- lapply(list(rast_avocado, rast_ban, rast_avo_ban), terra::rast)
+```
+
+The result obtained from one of these methods can be used as an argument to `sean()` . Value of `results` is list of risk indices.
+
+```{r}
+results <- lapply(list(rast_avocado, rast_ban, rast_avo_ban), sean)
+```
+
+So far, we have now run the sensitivity analysis workflow for avocado and banana on global scale and default set of parameter values. Alternatively, we can just specify the crops under `parameters.yaml` and run the workflow -
+
+```{r}
+results <- sensitivity_analysis()
+```

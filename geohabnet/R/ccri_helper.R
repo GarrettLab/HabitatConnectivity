@@ -271,7 +271,7 @@ library(yaml)
 
 #' Get supported sources of crops
 #'
-#' When provided, [get_cropharvest_raster()] will
+#' When provided, [cropharvest_rast()] will
 #' look for cropland data in this specific source.
 #' @returns return vector of supported sources.
 #' Also used as a lookup to find get raster object.
