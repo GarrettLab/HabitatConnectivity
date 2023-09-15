@@ -11,7 +11,7 @@ return vector of supported sources.
 Also used as a lookup to find get raster object.
 }
 \description{
-When provided, \code{\link[=get_cropharvest_raster]{get_cropharvest_raster()}} will
+When provided, \code{\link[=cropharvest_rast]{cropharvest_rast()}} will
 look for cropland data in this specific source.
 }
 \examples{

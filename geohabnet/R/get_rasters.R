@@ -1,24 +1,25 @@
 #' Get rasters object from parameters
 #'
 #' Takes named list of hosts as an input. See host object in [get_parameters()] or [load_parameters()].
+#' This is also a wrapper of [crops_rast()].
 #' Function creates 2 raster object - one is a sum of all the crops specified under sources
-#' and other using the provided raster file. See [get_crop_raster_fromtif()]
+#' and other using the provided raster file. See [tiff_torast()]
 #' @param hosts List of hosts and values. It is synonym to Hosts object in parameters
-#' @return List of rasters
+#' @return List of SpatRaster.
 #' @examples
 #' # Get default rasters
 #' \dontrun{
 #' get_rasters(list(mapspam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
 #' }
-#' @seealso [load_parameters()], [get_parameters()], [get_crop_raster_fromtif()], [get_cropharvest_raster()]
+#' @seealso [load_parameters()], [get_parameters()], [tiff_torast()], [cropharvest_rast()]
 get_rasters <- function(hosts) {
   t_file <- hosts[["file"]]
   rasters <- list()
   if (!is.null(t_file) &&
     !is.na(t_file)) {
-    rasters <- c(rasters, get_crop_raster_fromtif(t_file))
+    rasters <- c(rasters, tiff_torast(t_file))
   }
-  rasters <- c(rasters, get_cropharvest_raster_sum(hosts))
+  rasters <- c(rasters, crops_rast(hosts))
   return(rasters)
 }
 
@@ -31,13 +32,13 @@ get_rasters <- function(hosts) {
 #' [geodata::monfredaCrops()], [geodata::spamCrops()]
 #' If crop is present in multiple sources, then their mean is calculated.
 #' @param crop_names A named list of source along with crop names
-#' @return Raster object which is sum of all the individual crop rasters
+#' @return SpatRaster. Raster object which is sum of all the individual crop rasters
 #' @export
 #' @examples
 #' \dontrun{
-#' get_cropharvest_raster_sum(list(monfreda = c("wheat", "barley"), mapspam = c("wheat", "potato")))
+#' crops_rast(list(monfreda = c("wheat", "barley"), mapspam = c("wheat", "potato")))
 #' }
-get_cropharvest_raster_sum <- function(crop_names) {
+crops_rast <- function(crop_names) {
   if (!is.list(crop_names) || length(crop_names) == 0) {
     stop("Input 'crop_names' must be a non-empty list of crop names.")
   }
@@ -60,7 +61,7 @@ get_cropharvest_raster_sum <- function(crop_names) {
   for (i in seq_along(crops)) {
     single_crop_rasters <- list()
     for (j in crops[[i]]) {
-      cr <- get_cropharvest_raster(nams[i], j)
+      cr <- cropharvest_rast(nams[i], j)
       single_crop_rasters <- c(single_crop_rasters, cr)
     }
     len_scr <- length(single_crop_rasters)
@@ -81,8 +82,8 @@ get_cropharvest_raster_sum <- function(crop_names) {
 #' @return Raster object
 #' @export
 #' @examples
-#' get_cropharvest_raster("avocado", "monfreda")
-get_cropharvest_raster <- function(crop_name, data_source) {
+#' cropharvest_rast("avocado", "monfreda")
+cropharvest_rast <- function(crop_name, data_source) {
   # supported sources
   sources <- get_supported_sources()
   if (!(data_source %in% sources)) {
@@ -98,16 +99,16 @@ get_cropharvest_raster <- function(crop_name, data_source) {
 #' This is a wrapper of [terra::rast()] and generates a raster object if provided with a TIF file.
 #'
 #' @param path_to_tif TIF file
-#' @return Raster object
+#' @return SpatRaster.
 #' @examples
 #' \dontrun{
 #' # Generate raster for usage
 #' fp <- .get_helper_filepath("avocado")
-#' get_crop_raster_fromtif(fp)
-#' get_crop_raster_fromtif("avocado_HarvestedAreaFraction.tif")
+#' tiff_torast(fp)
+#' tiff_torast("avocado_HarvestedAreaFraction.tif")
 #'
 #' }
-get_crop_raster_fromtif <- function(path_to_tif) {
+tiff_torast <- function(path_to_tif) {
   .validate_tif(path_to_tif)
   return(terra::rast(path_to_tif))
 }

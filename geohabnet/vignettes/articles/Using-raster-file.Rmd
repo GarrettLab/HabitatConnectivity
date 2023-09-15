@@ -13,8 +13,10 @@ knitr::opts_chunk$set(
 This is a basic example which shows you how to run sensitivity analysis on pre-loaded parameters.As a pre-requisite, install package using
 
 ```{r eval=FALSE}
-devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet",
-auth_token = "your PAT")
+if (!require("geohabnet")) {
+  devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+}
+
 ```
 
 Package offers 2 ways to use custom raster file - using `parameters.yaml` and `sa_onrasters` which is also used internally to create raster object using the provided source.

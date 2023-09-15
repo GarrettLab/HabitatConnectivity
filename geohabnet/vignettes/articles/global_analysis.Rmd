@@ -17,8 +17,10 @@ Installation and loading
 Replace the auth token with your own token obtained from github.
 
 ```{r eval=FALSE}
-devtools::install_github("GarrettLab/CroplandConnectivity",
-                         subdir = "geohabnet", auth_token = "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")
+if (!require("geohabnet")) {
+  devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+}
+
 ```
 
 ```{r eval=FALSE}

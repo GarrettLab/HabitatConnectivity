@@ -103,6 +103,12 @@
     <loc>/reference/connectivity.html</loc>
   </url>
   <url>
+    <loc>/reference/cropharvest_rast.html</loc>
+  </url>
+  <url>
+    <loc>/reference/crops_rast.html</loc>
+  </url>
+  <url>
     <loc>/reference/dist_methods.html</loc>
   </url>
   <url>
@@ -166,6 +172,9 @@
     <loc>/reference/plot_maps.html</loc>
   </url>
   <url>
+    <loc>/reference/reset_params.html</loc>
+  </url>
+  <url>
     <loc>/reference/reso.html</loc>
   </url>
   <url>
@@ -224,5 +233,8 @@
   </url>
   <url>
     <loc>/reference/the.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tiff_torast.html</loc>
   </url>
 </urlset>

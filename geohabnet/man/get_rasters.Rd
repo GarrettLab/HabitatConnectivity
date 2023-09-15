@@ -10,12 +10,13 @@ get_rasters(hosts)
 \item{hosts}{List of hosts and values. It is synonym to Hosts object in parameters}
 }
 \value{
-List of rasters
+List of SpatRaster.
 }
 \description{
 Takes named list of hosts as an input. See host object in \code{\link[=get_parameters]{get_parameters()}} or \code{\link[=load_parameters]{load_parameters()}}.
+This is also a wrapper of \code{\link[=crops_rast]{crops_rast()}}.
 Function creates 2 raster object - one is a sum of all the crops specified under sources
-and other using the provided raster file. See \code{\link[=get_crop_raster_fromtif]{get_crop_raster_fromtif()}}
+and other using the provided raster file. See \code{\link[=tiff_torast]{tiff_torast()}}
 }
 \examples{
 # Get default rasters
@@ -24,5 +25,5 @@ get_rasters(list(mapspam = c("wheat"), monfreda = c("avocado"), file = "some_ras
 }
 }
 \seealso{
-\code{\link[=load_parameters]{load_parameters()}}, \code{\link[=get_parameters]{get_parameters()}}, \code{\link[=get_crop_raster_fromtif]{get_crop_raster_fromtif()}}, \code{\link[=get_cropharvest_raster]{get_cropharvest_raster()}}
+\code{\link[=load_parameters]{load_parameters()}}, \code{\link[=get_parameters]{get_parameters()}}, \code{\link[=tiff_torast]{tiff_torast()}}, \code{\link[=cropharvest_rast]{cropharvest_rast()}}
 }
