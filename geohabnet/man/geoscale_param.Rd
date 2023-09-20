@@ -13,3 +13,12 @@ A list of geographical scales
 This function returns a list of geographical scales set in global and custom extent in \code{parameters.yaml}.
 If \code{global} is \code{TRUE}, the \code{CustomExt} is ignored.
 }
+\details{
+The geographical scales provided are converted using \code{\link[terra:ext]{terra::ext()}}.
+Although, no particular CRS is enforced,
+we recommend using WGS84(Google maps) or EPSG:32611.
+}
+\references{
+Hijmans R (2023). \emph{terra: Spatial Data Analysis}. R package version 1.7-46,
+\url{https://CRAN.R-project.org/package=terra}.
+}

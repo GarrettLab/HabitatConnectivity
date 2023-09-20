@@ -9,8 +9,12 @@ default:
     DistanceStrategy: "geodesic"
     Resolution: 12
     GeoExtent: 
-      global: TRUE
-      customExt: [-115, -75, 5, 32] # set this to NA/Empty if not required #[32, 48, 2.9, 17], [-115, -75, 5, 32]
+      global: TRUE # customExt is ignored, when global = TRUE
+      customExt: 
+        Xmin: -115
+        Xmax: -75
+        Ymin: 5
+        Ymax: 32
     LinkThreshold: [0.000001]
     DispersalKernelModels:
       InversePowerLaw:

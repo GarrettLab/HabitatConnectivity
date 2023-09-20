@@ -234,7 +234,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' Calculate sensitivity analysis on cropland harvested area fraction
 #'
 #'   This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
-#'   It can be used as an entry point for sensitivity analysis.
+#'   Some parameters are only accessible from `paramters.yaml` and uses value from here.
 #' @param link_threshold numeric. A threshold value for link
 #' @param host_density_threshold A host density threshold value
 #' @inheritParams sa_onrasters
@@ -242,7 +242,8 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' @export
 #' @details
 #' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used
-#'
+#' @inherit geoscale_param details references
+#' @inherit sensitivity_analysis references
 #' @seealso Uses [connectivity()]
 sean <- function(rast,
                  global = TRUE,
@@ -256,7 +257,7 @@ sean <- function(rast,
 
   .resetgan()
   .loadparam_ifnull()
-
+  .validate_scales()
   mets <- get_param_metrics(the$parameters_config)
 
   sean_geo <- function(geoext) {
@@ -478,6 +479,7 @@ sa_onrasters <- function(rast,
 #' @param alert logical. `TRUE` if beep sound is to be played, `FALSE` otherwise
 #' @return logical. `TRUE` if analysis is completed, `FALSE` otherwise.
 #' Errors are not handled.
+#' @inherit geoscale_param details references
 #' @export
 #' @examples
 #' \dontrun{
@@ -497,6 +499,14 @@ sa_onrasters <- function(rast,
 #' [get_parameters()]
 #' [set_parameters()]
 #' [connectivity()]
+#'
+#' @references Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,
+#' Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,
+#' Jan F Kreuze, Jürgen Kroschel, P Lava Kumar, James P Legg, Monica Parker, Elmar Schulte-Geldermann,
+#' Kalpana Sharma, Karen A Garrett,
+#' Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests,
+#' BioScience, Volume 70, Issue 9, September 2020, Pages 744–758, [https://doi.org/10.1093/biosci/]
+#'
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   #.resetglobals()

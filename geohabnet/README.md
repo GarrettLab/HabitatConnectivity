@@ -37,7 +37,7 @@ You can install the development version of geohabnet from
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 ```
 
-## geohabnet Example
+## Quick start
 
 ``` r
 library(geohabnet)
@@ -61,3 +61,21 @@ respectively. By default risk analysis is run on global index, for which
 scales are present in `global_scales()` .
 
 See other functions and articles for more sophisticated usage.
+
+## References
+
+(Xing et al. 2020)
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-xing2020" class="csl-entry">
+
+Xing, Yanru, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L
+Andrade-Piedra, Fenton D Beed, Guy Blomme, Mónica Carvajal-Yepes, et al.
+2020. “Global Cropland Connectivity: A Risk Factor for Invasion and
+Saturation by Emerging Pathogens and Pests.” *BioScience* 70 (9):
+744–58. <https://doi.org/10.1093/biosci/biaa067>.
+
+</div>
+
+</div>

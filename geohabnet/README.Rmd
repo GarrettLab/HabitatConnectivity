@@ -1,5 +1,6 @@
 ---
 output: github_document
+bibliography: references.bib
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -34,7 +35,7 @@ You can install the development version of geohabnet from [GitHub](GarrettLab/Cr
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 ```
 
-## geohabnet Example
+## Quick start
 
 ```{r example}
 library(geohabnet)
@@ -53,3 +54,7 @@ geohabnet::senstivity_analysis()
 `parameters.yaml` stores the parameter and its values. It can be accessed and set using `get_parameters()` and `set_parameters()` respectively. By default risk analysis is run on global index, for which scales are present in `global_scales()` .
 
 See other functions and articles for more sophisticated usage.
+
+## References
+
+[@xing2020]

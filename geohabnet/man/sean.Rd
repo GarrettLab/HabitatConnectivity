@@ -44,10 +44,14 @@ A list of calculated CCRI values using negative exponential
 }
 \description{
 This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
-It can be used as an entry point for sensitivity analysis.
+Some parameters are only accessible from \code{paramters.yaml} and uses value from here.
 }
 \details{
 When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used
+}
+\references{
+Hijmans R (2023). \emph{terra: Spatial Data Analysis}. R package version 1.7-46,
+\url{https://CRAN.R-project.org/package=terra}.
 }
 \seealso{
 Uses \code{\link[=connectivity]{connectivity()}}

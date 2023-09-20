@@ -144,7 +144,7 @@ The results should be interpreted in accordance to the values of other parameter
 
 ### Using configuration
 
-More parameters are available under configuration and thus more control over the analysis. The configuration filename is *parameters.yaml* . We currently support up to 10 parameters. The snippet below describes the basic usage of configuration.
+More parameters are available under configuration and thus more control over the analysis. The configuration file name is *parameters.yaml* , currently supporting up to 10 parameters. The intution behind this methodology is to provide a basic interface for setting new values. The snippet below describes the basic usage of configuration.
 
 Get the initial configuration file. By default this function will save the file in current working directory which in context of R is `getwd()` . Using *iwindow = TRUE* will prompt a selection window to save config file.
 
