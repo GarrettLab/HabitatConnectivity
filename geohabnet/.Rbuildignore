@@ -13,3 +13,4 @@
 ^Meta$
 ^.*\.html$
 ^lib$
+^LICENSE\.md$

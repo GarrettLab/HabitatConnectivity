@@ -7,7 +7,7 @@
 \alias{ev}
 \alias{degree}
 \alias{closeness}
-\alias{page_rank}
+\alias{pagerank}
 \title{Calculation on network matrix.}
 \usage{
 nn_sum(crop_dm, we)
@@ -22,7 +22,7 @@ degree(crop_dm, we)
 
 closeness(crop_dm, we)
 
-page_rank(crop_dm, we)
+pagerank(crop_dm, we)
 }
 \arguments{
 \item{crop_dm}{Distance matrix.
@@ -46,7 +46,7 @@ The functions included in this abstraction are:
 \item \code{closeness()}: measures how many steps is required to access every other vertex from a given vertex
 \code{\link[igraph:closeness]{igraph::closeness()}}.
 \item \code{degree()}: number of adjacent edges \code{\link[igraph:degree]{igraph::degree()}}.
-\item \code{page_rank()}: page rank score for vertices \code{\link[igraph:page_rank]{igraph::page_rank()}}.
+\item \code{pagerank()}: page rank score for vertices \code{\link[igraph:page_rank]{igraph::page_rank()}}.
 }
 }
 \seealso{

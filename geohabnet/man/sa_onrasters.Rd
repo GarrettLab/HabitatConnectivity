@@ -69,6 +69,18 @@ sa_onrasters(rr[[1]],
             res = 24)
 }
 }
+\references{
+Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,
+Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,
+Jan F Kreuze, Jürgen Kroschel, P Lava Kumar, James P Legg, Monica Parker, Elmar Schulte-Geldermann,
+Kalpana Sharma, Karen A Garrett,
+\emph{Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests},
+BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
+\@url{https://doi.org/10.1093/biosci/}
+
+Hijmans R (2023). \emph{terra: Spatial Data Analysis}.
+R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}
+}
 \seealso{
 Use \code{\link[=get_rasters]{get_rasters()}} to obtain raster object.
 }

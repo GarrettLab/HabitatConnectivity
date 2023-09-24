@@ -1,10 +1,11 @@
 Package: geohabnet
 Title: Analysis of Cropland Connectivity
 Version: 1.0.0
+Date: 2023-09-22
 Authors@R: c(
+    person("Krishna", "Keshav", email = "kkeshav@ufl.edu", role = c("aut", "cre")),
     person("Garrett", "Lab", role = "aut", email = "karengarrett@ufl.edu",
             comment = "https://garrettlab.com"),
-    person("Krishna", "Keshav", email = "kkeshav@ufl.edu", role = c("aut", "cre")),
     person("Karen", "Garrett", email = "karengarrett@ufl.edu", role = "aut",
            comment = c(ORCID = "0000-0002-6578-1616")),
     person("Aaron", "Plex", email = "plexaaron@ufl.edu", role = "aut",
@@ -15,13 +16,14 @@ Description:
     Geographical spatial analysis of cropland connectivity.,
     Allows users to visualize risk index plots for a given set of crops.
     The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
+    The primary function is \code{\link{sean}()} and is indicative of sensitivity analysis.
     Package currently supports crops sourced from monfreda and mapspam.
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
     \code{\link{sean}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
     \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
-License: file LICENSE
+License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
@@ -37,7 +39,6 @@ Imports:
     stringr (>= 1.5.0),
     memoise (>= 2.0.1),
     graphics (>= 4.2.3),
-    stringi,
     rlang (>= 1.1.1),
     viridisLite (>= 0.4.2),
     beepr (>= 1.3),
