@@ -3,7 +3,7 @@
 \docType{data}
 \name{metric_funs}
 \alias{metric_funs}
-\title{list stores functions to apply metrics to distance metrics.}
+\title{list stores functions to apply metrics to distance matrix}
 \format{
 An object of class \code{list} of length 7.
 }
@@ -11,6 +11,6 @@ An object of class \code{list} of length 7.
 metric_funs
 }
 \description{
-list stores functions to apply metrics to distance metrics.
+list stores functions to apply metrics to distance matrix
 }
 \keyword{internal}

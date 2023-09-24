@@ -27,10 +27,13 @@ Package currently support crops sourced from `geodata::monfredaCrops()` and `geo
 
 ## Installation
 
-You can install the development version of geohabnet from [GitHub](GarrettLab/CroplandConnectivity) with:
+The source version of package can be installed from [GitHub](https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet) with:
 
-``` r
-# install.packages("devtools")
+```{r setup}
+if (!require("devtools")) {
+  install.packages("devtools")
+}
+
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 ```
 
@@ -52,4 +55,6 @@ geohabnet::senstivity_analysis()
 
 `parameters.yaml` stores the parameter and its values. It can be accessed and set using `get_parameters()` and `set_parameters()` respectively. By default risk analysis is run on global index, for which scales are present in `global_scales()` .
 
-See other functions and articles for more sophisticated usage.
+Refer to help using ?*geohabnet::fun* or *help(geohabnet::fun)*
+
+Refer to article *Analyzing risk index using cropland connectivity* for more elaborate description and usages of functions in this package.

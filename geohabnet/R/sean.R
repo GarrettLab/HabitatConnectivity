@@ -71,11 +71,11 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 }
 
 .init_cd <- function(cropharvest_raster,
-                                     resolution = 12,
-                                     geo_scale,
-                                     host_density_threshold = 0,
-                                     agg_method = "sum",
-                                     dist_method = "geodesic") {
+                     resolution = reso(),
+                     geo_scale,
+                     host_density_threshold = 0,
+                     agg_method = "sum",
+                     dist_method = "geodesic") {
 
   # aggregation will be cached
   cropharvest_agg <- .apply_agg(cropharvest_raster,
@@ -234,7 +234,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' Calculate sensitivity analysis on cropland harvested area fraction
 #'
 #'   This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
-#'   It can be used as an entry point for sensitivity analysis.
+#'   Some parameters are only accessible from `paramters.yaml` and uses value from here
 #' @param link_threshold numeric. A threshold value for link
 #' @param host_density_threshold A host density threshold value
 #' @inheritParams sa_onrasters
@@ -244,6 +244,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used
 #'
 #' @seealso Uses [connectivity()]
+#' @inherit sensitivity_analysis references
 sean <- function(rast,
                  global = TRUE,
                  geoscale,
@@ -254,6 +255,7 @@ sean <- function(rast,
                  res = reso(),
                  maps = TRUE) {
 
+  stopifnot("Need atleast one aggregation method: " = length(agg_methods) == 2)
   .resetgan()
   .loadparam_ifnull()
 
@@ -416,7 +418,7 @@ sean <- function(rast,
 #'             agg_methods = c("sum"),
 #'             res = 24)
 #'}
-#' @inherit sensitivity_analysis seealso
+#' @inherit sensitivity_analysis seealso references
 sa_onrasters <- function(rast,
                          global = TRUE,
                          geoscale,
@@ -479,6 +481,7 @@ sa_onrasters <- function(rast,
 #' @return logical. `TRUE` if analysis is completed, `FALSE` otherwise.
 #' Errors are not handled.
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' # Run analysis on specified parameters.yaml
@@ -486,10 +489,6 @@ sa_onrasters <- function(rast,
 #' sensitivity_analysis(FALSE, FALSE)
 #' sensitivity_analysis(TRUE, FALSE)
 #' }
-#' @details
-#'
-#' \code{vignette("global_analysis", package = "geohabnet")}
-#'
 #' @seealso
 #' [sa_onrasters()]
 #' [sean()]
@@ -497,6 +496,16 @@ sa_onrasters <- function(rast,
 #' [get_parameters()]
 #' [set_parameters()]
 #' [connectivity()]
+#'
+#' @references Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,
+#' Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,
+#' Jan F Kreuze, Jürgen Kroschel, P Lava Kumar, James P Legg, Monica Parker, Elmar Schulte-Geldermann,
+#' Kalpana Sharma, Karen A Garrett,
+#' _Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests_,
+#' BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
+#' \@url{https://doi.org/10.1093/biosci/}
+#' @references Hijmans R (2023). _terra: Spatial Data Analysis_.
+#' R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   #.resetglobals()

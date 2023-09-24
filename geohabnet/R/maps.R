@@ -1,8 +1,8 @@
 #' Calculate and plot maps
 #'
-#'     Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
-#'     Currently, the settings for plot cannot be customized.
-#'     Default value is `TRUE` for all logical arguments
+#' Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
+#' Currently, the settings for plot cannot be customized.
+#' Default value is `TRUE` for all logical arguments
 #' @param indexes list of rasters. See details.
 #' @param global logical. `TRUE` if global analysis is required, `FALSE` otherwise.
 #' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
@@ -19,6 +19,7 @@
 #' File will be saved in [getwd()].If [interactive()] is `TRUE`,
 #' then plots can be seen in active plot window. E.g. Rstudio
 #'
+#' @inherit sensitivity_analysis references
 #' @export
 connectivity <- function(indexes,
                          global = TRUE,
@@ -276,7 +277,7 @@ ccri_diff <- function(rast,
   # Save the plot as a raster file
   fname <- paste("plots", "/", typ,
                  "_",
-                 stringi::stri_rand_strings(1, 5),
+                 stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
                  ".tif", sep = "")
   terra::writeRaster(rast, overwrite = TRUE,
                      filename = fname,

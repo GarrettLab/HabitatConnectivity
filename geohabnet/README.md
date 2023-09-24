@@ -29,12 +29,28 @@ the usage below.
 
 ## Installation
 
-You can install the development version of geohabnet from
+The source version of package can be installed from
 [GitHub](GarrettLab/CroplandConnectivity) with:
 
 ``` r
-# install.packages("devtools")
+if (!require("devtools")) {
+  install.packages("devtools")
+}
+#> Loading required package: devtools
+#> Loading required package: usethis
+
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+#> Downloading GitHub repo GarrettLab/CroplandConnectivity@HEAD
+#> 
+#> ── R CMD build ─────────────────────────────────────────────────────────────────
+#> * checking for file ‘/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpwilOF7/remotesf3f6216b303/GarrettLab-CroplandConnectivity-132e50e/geohabnet/DESCRIPTION’ ... OK
+#> * preparing ‘geohabnet’:
+#> * checking DESCRIPTION meta-information ... OK
+#> * checking for LF line-endings in source and make files and shell scripts
+#> * checking for empty or unneeded directories
+#> * building ‘geohabnet_1.0.0.tar.gz’
+#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpD8scWO/temp_libpath1d72561f6d57'
+#> (as 'lib' is unspecified)
 ```
 
 ## geohabnet Example
@@ -60,4 +76,7 @@ accessed and set using `get_parameters()` and `set_parameters()`
 respectively. By default risk analysis is run on global index, for which
 scales are present in `global_scales()` .
 
-See other functions and articles for more sophisticated usage.
+Refer to help using ?*geohabnet::fun* or *help(geohabnet::fun)*
+
+Refer to article *Analyzing risk index using cropland connectivity* for
+more elaborate description and usages of functions in this package.

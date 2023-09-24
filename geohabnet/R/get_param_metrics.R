@@ -1,6 +1,6 @@
 # exported functions ------------------------------------------------------
 
-#' list stores functions to apply metrics to distance metrics.
+#' list stores functions to apply metrics to distance matrix
 #' @keywords internal
 metric_funs <- list(
   STR_NEAREST_NEIGHBORS_SUM = function(graph, param) nn_sum(graph, param),
@@ -65,7 +65,7 @@ get_param_metrics <- function(params = load_parameters()) {
 #' - `closeness()`: measures how many steps is required to access every other vertex from a given vertex
 #' [igraph::closeness()].
 #' - `degree()`: number of adjacent edges [igraph::degree()].
-#' - `page_rank()`: page rank score for vertices [igraph::page_rank()].
+#' - `pagerank()`: page rank score for vertices [igraph::page_rank()].
 #' @param crop_dm Distance matrix.
 #'  In the internal workflow,
 #'  the distance matrix comes is a result of operations within [sean()] and risk functions.
@@ -159,7 +159,7 @@ closeness <- function(crop_dm, we) {
 }
 
 #' @rdname nn_sum
-page_rank <- function(crop_dm, we) {
+pagerank <- function(crop_dm, we) {
   pr_scores <- igraph::page_rank(crop_dm)
   prv <- pr_scores$vector
   prv[is.na(prv)] <- 0

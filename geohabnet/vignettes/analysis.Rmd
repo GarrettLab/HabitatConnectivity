@@ -1,7 +1,8 @@
 ---
 title: "Analyzing risk index using cropland connectivity"
-author: "Krishna Keshav (kkeshav@ufl.edu)"
-
+author: 
+  - Krishna Keshav^[Garrett Lab, kkeshav@ufl.edu]
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_vignette:
     toc: true
@@ -9,6 +10,7 @@ vignette: >
   %\VignetteIndexEntry{Analyzing risk index using cropland connectivity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: references.bib
 ---
 
 ```{r, include = FALSE}
@@ -20,9 +22,11 @@ knitr::opts_chunk$set(
 
 # Abstract
 
-The network and connectivity of cropland can be used to analyse the potential spread of plant pathogen. While network plays a crucial role, there are several other factors that affects the spread and thus the connectivity. Although croplands may be geographically connected, the risk cannot be generalized as pathogen may not spread if it's exclusive to specific crop. Geohabnet supports up to 10 parameters that has potential to impact risk and connectivity among croplands. The implementation is expanded upon [Xing et al(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255)) which discusses global cropland connectivity. This framework uses default values from the paper at the same time making them as parameters and eventually turning it into framework for the analysis of crops.
+The network and connectivity of cropland can be used to analyse the potential spread of plant pathogen. While network plays a crucial role, there are several other factors that affects the spread and thus the connectivity. Although croplands may be geographically connected, the risk cannot be generalized as pathogen may not spread if it's exclusive to specific crop. *geohabnet* supports up to 10 parameters that has potential to impact risk and connectivity among croplands. The implementation is expanded upon [@xing2020], which discusses global cropland connectivity. This framework uses default values from the paper at the same time making them as parameters and eventually turning it into framework for the analysis of crops.
 
-Throughout the article, we will citing external sites and resources which is relevant to usage of this package.
+Although this article is focused on usage, it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009], [@config] and provides a text based interface to control the parameters values for risk analysis in this context.
+
+Primary objective of this vignette is help user in getting started, list capabilities and intuition behind them. It also describes underlying implementation at high level to support the intuition behind functions. Throughout the article, we will citing external sites and resources which is relevant to usage of this package.
 
 ## Pre-requisites
 
@@ -62,11 +66,13 @@ Geodata provides set of APIs to access these datasets. For visualization and plo
 
 Lab G, Keshav K, Garrett K, Plex A (????). \_geohabnet: Analysis of Cropland Connectivity\_. <https://github.com/GarrettLab/CroplandConnectivity,> <https://garrettlab.com.>
 
+or `citation("geohabnet")`
+
 ### Installation and loading
 
 Installing `geohabnet` will also install its dependencies. Please see the list of dependencies using `desc::desc(package = "geohabnet")`
 
-```{r}
+```{r setup}
 
 if (!require("devtools")) {
   install.packages("devtools")
@@ -90,9 +96,9 @@ At any point, access the help page using following -
 
 ### Run analysis on default configuration
 
-This is to run the analysis on default set of values for the supported parameters. Initially, the values are set based on the Xing et al(2021) and crop is *Avocado*. This would run the workflow on global geogrphical extent quickly since the crop presence is relatively low.
+This is to run the analysis on default set of values for the supported parameters. Initially, the values are set based on the Xing et al(2021) [@xing2020] and crop is *Avocado*. This would run the workflow on global geographical extent quickly since the crop presence is relatively low.
 
-```{r }
+```{r}
 sensitivity_analysis()
 ```
 
@@ -104,7 +110,7 @@ We provide 2 methods or entry points to run analysis by setting new values for t
 
 ### Setting values in a function
 
-The goal of the this function is to provide simple invasive factors as parameters. The internal implementation and program deals with object of `terra` and `igraph` . The primary object is of type `spatRaster` from `terra` . To get started, we will use quick way to obtain raster and later we will understand the details.
+The goal of the this function is to provide simple invasive factors as parameters. The internal implementation and program deals with object of `terra` [@terra] and `igraph`[@igraph] . The primary object is of type `SpatRaster` from `terra` . To get started, we will use quick way to obtain raster and later we will understand the details.
 
 ```{r}
 avocado <- cropharvest_rast("avocado", "monfreda")
@@ -140,11 +146,9 @@ The results should be interpreted in accordance to the values of other parameter
         #set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
         ```
 
-4.  agg_methods - Vector.
-
 ### Using configuration
 
-More parameters are available under configuration and thus more control over the analysis. The configuration filename is *parameters.yaml* . We currently support up to 10 parameters. The snippet below describes the basic usage of configuration.
+More parameters are available under configuration and thus more control over the analysis. The configuration file name is `parameters.yaml`, currently supporting up to 10 parameters. The intuition behind this methodology is to provide a basic interface for setting new values. The snippet below describes the basic usage of configuration.
 
 Get the initial configuration file. By default this function will save the file in current working directory which in context of R is `getwd()` . Using *iwindow = TRUE* will prompt a selection window to save config file.
 
@@ -216,3 +220,100 @@ So far, we have now run the sensitivity analysis workflow for avocado and banana
 ```{r}
 results <- sensitivity_analysis()
 ```
+
+### Thresholds
+
+Thresholds are used to select subset of values from the `SpatRaster` on which the operations are applied. It directly effects the connectivty and gives a sense of sensitivity in the network. The intermediate goal is to produce a adjacency graph which essentially determines the connectivity. Cells which doesn't meet the threshold are removed from the consideration by dispersal models.
+
+```{r}
+risk_indexes <- sean(avocado, host_density_threshold = 0.00001, link_threshold = 0.00001)
+```
+
+#### Density Thresholds
+
+host density threshold. The host density threshold is the minimum cropland proportion in the grid cells (or locations) that will be included in the analysis. This parameter is called `HostDensityThreshold` and supports a list of values between 0 and 1. Before running the sensitivity_analysis() function, check that the values for the host density threshold are smaller than the maximum host density in the map to prevent errors. The values are rounded off to 5 decimal points.
+
+#### Link Thresholds
+
+Based on the information on host distribution and dispersal kernels, adjacency matrices are created, where entries are the likelihood of pathogen movement between locations. Then, adjacency matrices are converted into graph objects to perform a network analysis, where the entries in the adjacency matrices now are the weight of the links of the network.
+
+Choosing link weight thresholds helps to focus the analysis on the more likely pathogen dispersal in the landscape.
+
+Like what you did with the host density threshold, you can provide a list of positive values to `LinkThreshold`. Before running the sensitivity_analysis() function, check that the values for the link weight threshold are smaller than the maximum link weight in the network to prevent errors.
+
+### Aggregation
+
+Aggregation strategy refers to the function used to create a new map of host density with a lower resolution (larger cells). Reducing the spatial resolution helps to reduce the computational power needed to run the analysis.
+
+-   If AggregationStrategy: [sum], then the sum of the cropland proportion of all initially small grids within a large grid is divided by the total number of initially small grids within that large grid.
+
+-   If AggregationStrategy: [mean], then the sum of the cropland proportion of all initially small grids within a large grid is divided by the total number of initially small grids containing only land (where small grids with water are excluded) within that large grid.
+
+By default, analysis is run on both but can be opted out from one. If only one method is used, then the difference map is skipped from the outcome.
+
+### Distance methods
+
+For each pair of locations in the host map with values greater than the host density threshold, the sensitivity_analysis() function will calculate the physical distances and use them to calculate the relative likelihood of pathogen movement between locations based on their pairwise geographical proximity.
+
+There are two different options to calculate the distance between locations.
+
+· Vincenty ellipsoid distance
+
+This option is highly accurate but more computationally expensive.
+
+· Geodesic distance
+
+This option is less computationally expensive and less accurate than the option above.
+
+You can set the distance option either as DistanceStrategy: "vincentyEllipsoid" or DistanceStrategy: "geodesic". One of these options should be used as input to run the analysis. You can check supported methods in analysis by running `dist_methods()` in the console.
+
+```{r}
+dist_methods()
+```
+
+### Resolution
+
+The aggregation factor or granularity is the number of small grid cells that are aggregated into larger grid cells in each direction (horizontally and vertically). The finest value is 1 which can require analysis to run up to hours because of large number of cells in `SpatRaster` . The resolution is also used in calculation of variance while dis-aggregating the risk indices into coarser resolution for producing maps.
+
+If not provided, the defaulted value is selected from `reso()`
+
+### Metrics
+
+See available metrics using
+
+```{r}
+supported_metrics()
+```
+
+Metrics corresponding to dispersal models are applied to distance matrix with specified weights. The weights must be specified in % and sum of all the weights should be equal to 100. We use functions from [@igraph] to calclulate metrics for each dispersal model. The 2 dispersal models that are applied to parameters *inverse power law* and *negative exponential*. More formally, metrics are way to determine connectivity among nodes in a network.
+
+## Outputs
+
+By default, 3 maps are produced for each analysis. `sean()` also returns list of risk indexes which are then fed to `connectivity()` . This flexibility is supposed to allow users to use the risk indexes for their purposes or use our function to produce maps with further different parameters.
+
+In a code below, after obtaining results, the maps are produced. In order to produce calculate variance, cells of `SpatRaster` is extended to coarser value using `res` parameter. Setting `maps = FALSE` will supress the calculation of outputs.
+
+```{r}
+risk_indexes <- sean(avocado)
+connectivity(risk_indexes)
+```
+
+is equivalent to `sensitivity_analysis()` .
+
+The final operations are performed risk indices and on the 3 results that are produced -
+
+1.  Mean
+
+    Simply a mean of all the `SpatRasters` resulting from combination of parameter values. The values in cells are added across all the indices and divided by number of indices.
+
+2.  Variance
+
+    Uses `stats::var` on risk indices, subset is extracted for provided scale and finally pixels are dis-aggregated using *factor = resolution value in original parameter* to from previous step.
+
+3.  Difference
+
+    If both the aggregation methods (*sum and mean*) is selected, then difference is calculated between the rank of matrices which are essentially numeric cells of risk indices of type *SpatRaster*. The result is dis-aggregated in the same way as previous step.
+
+Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under current working directory with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created.
+
+### References
