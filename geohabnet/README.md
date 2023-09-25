@@ -30,7 +30,8 @@ the usage below.
 ## Installation
 
 The source version of package can be installed from
-[GitHub](GarrettLab/CroplandConnectivity) with:
+[GitHub](https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet)
+with:
 
 ``` r
 if (!require("devtools")) {
@@ -43,13 +44,14 @@ devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet"
 #> Downloading GitHub repo GarrettLab/CroplandConnectivity@HEAD
 #> 
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#> * checking for file ‘/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpwilOF7/remotesf3f6216b303/GarrettLab-CroplandConnectivity-132e50e/geohabnet/DESCRIPTION’ ... OK
+#> * checking for file ‘/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/Rtmp5Du3oI/remotes142c87b1a1d86/GarrettLab-CroplandConnectivity-f1e22a1/geohabnet/DESCRIPTION’ ... OK
 #> * preparing ‘geohabnet’:
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
 #> * checking for empty or unneeded directories
+#> Removed empty directory ‘geohabnet/vignettes’
 #> * building ‘geohabnet_1.0.0.tar.gz’
-#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpD8scWO/temp_libpath1d72561f6d57'
+#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpU8nDB5/temp_libpath12bd83bd84ecb'
 #> (as 'lib' is unspecified)
 ```
 

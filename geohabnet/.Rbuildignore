@@ -14,4 +14,5 @@
 ^.*\.html$
 ^lib$
 ^LICENSE\.md$
-^vignettes/
+^CRAN-SUBMISSION$
+^cran-comments.md$
