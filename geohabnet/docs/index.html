@@ -9,12 +9,12 @@
     Geographical spatial analysis of cropland connectivity.,
     Allows users to visualize risk index plots for a given set of crops.
     The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
-    The primary function is \code{\link{sean}()} and is indicative of sensitivity analysis.
+    The primary function is \code{sean()} and is indicative of how sensitive analysis is to parameters using kernel models.
     Package currently supports crops sourced from monfreda and mapspam.
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
-    \code{\link{sean}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
+    \code{sean()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
     \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.">
 <title>Analysis of Cropland Connectivity • geohabnet</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -32,12 +32,12 @@
     Geographical spatial analysis of cropland connectivity.,
     Allows users to visualize risk index plots for a given set of crops.
     The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
-    The primary function is \code{\link{sean}()} and is indicative of sensitivity analysis.
+    The primary function is \code{sean()} and is indicative of how sensitive analysis is to parameters using kernel models.
     Package currently supports crops sourced from monfreda and mapspam.
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
-    \code{\link{sean}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
+    \code{sean()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
     \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -111,7 +111,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The source version of package can be installed from <a href="GarrettLab/CroplandConnectivity">GitHub</a> with:</p>
+<p>The source version of package can be installed from <a href="https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
@@ -123,20 +123,21 @@
 <span><span class="co">#&gt; Downloading GitHub repo GarrettLab/CroplandConnectivity@HEAD</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── R CMD build ─────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; * checking for file ‘/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpwilOF7/remotesf3f6216b303/GarrettLab-CroplandConnectivity-132e50e/geohabnet/DESCRIPTION’ ... OK</span></span>
+<span><span class="co">#&gt; * checking for file ‘/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/Rtmp5Du3oI/remotes142c87b1a1d86/GarrettLab-CroplandConnectivity-f1e22a1/geohabnet/DESCRIPTION’ ... OK</span></span>
 <span><span class="co">#&gt; * preparing ‘geohabnet’:</span></span>
 <span><span class="co">#&gt; * checking DESCRIPTION meta-information ... OK</span></span>
 <span><span class="co">#&gt; * checking for LF line-endings in source and make files and shell scripts</span></span>
 <span><span class="co">#&gt; * checking for empty or unneeded directories</span></span>
+<span><span class="co">#&gt; Removed empty directory ‘geohabnet/vignettes’</span></span>
 <span><span class="co">#&gt; * building ‘geohabnet_1.0.0.tar.gz’</span></span>
-<span><span class="co">#&gt; Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpD8scWO/temp_libpath1d72561f6d57'</span></span>
+<span><span class="co">#&gt; Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpU8nDB5/temp_libpath12bd83bd84ecb'</span></span>
 <span><span class="co">#&gt; (as 'lib' is unspecified)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="geohabnet-example">geohabnet Example<a class="anchor" aria-label="anchor" href="#geohabnet-example"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GarrettLab/CroplandConnectivity" class="external-link">geohabnet</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.geohab-site.s3-website.us-east-2.amazonaws.com/docs/" class="external-link">geohabnet</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">param_file</span> <span class="op">&lt;-</span> <span class="fu">geohabnet</span><span class="fu">::</span><span class="fu"><a href="reference/get_parameters.html">get_parameters</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "parameters fetched successfully"</span></span>

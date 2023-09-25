@@ -3,26 +3,27 @@ Title: Analysis of Cropland Connectivity
 Version: 1.0.0
 Date: 2023-09-22
 Authors@R: c(
-    person("Krishna", "Keshav", email = "kkeshav@ufl.edu", role = c("aut", "cre")),
-    person("Garrett", "Lab", role = "aut", email = "karengarrett@ufl.edu",
-            comment = "https://garrettlab.com"),
-    person("Karen", "Garrett", email = "karengarrett@ufl.edu", role = "aut",
+    person("Krishna", "Keshav", , "kkeshav@ufl.edu", role = c("aut", "cre")),
+    person("Garrett", "Lab", , "karengarrett@ufl.edu", role = "aut",
+           comment = "https://garrettlab.com"),
+    person("Karen", "Garrett", , "karengarrett@ufl.edu", role = "aut",
            comment = c(ORCID = "0000-0002-6578-1616")),
-    person("Aaron", "Plex", email = "plexaaron@ufl.edu", role = "aut",
+    person("Aaron", "Plex", , "plexaaron@ufl.edu", role = "aut",
            comment = c(ORCID = "0000-0001-7317-3090")),
-    person("University of Florida", role = c("cph", "fnd"), comment = "https://www.ufl.edu")
-    )
+    person("University of Florida", role = c("cph", "fnd"),
+           comment = "https://www.ufl.edu")
+  )
 Description: 
     Geographical spatial analysis of cropland connectivity.,
     Allows users to visualize risk index plots for a given set of crops.
     The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
-    The primary function is \code{\link{sean}()} and is indicative of sensitivity analysis.
-    Package currently supports crops sourced from monfreda and mapspam.
+    The primary function is \code{'sean()'} and is indicative of how sensitive analysis is to parameters using kernel models.
+    Package currently supports crops sourced from 'monfreda' and 'mapspam'.
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
-    \code{\link{sean}()} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
-    \code{parameters.yaml} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
+    \code{'sean()'} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
+    \code{'parameters.yaml'} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -51,7 +52,8 @@ Suggests:
     rmarkdown,
     testthat (>= 3.1.7)
 URL:
-  https://github.com/GarrettLab/CroplandConnectivity,
-  https://garrettlab.com
+  http://geohab-site.s3-website.us-east-2.amazonaws.com/docs/,
+  https://www.github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/,
+  https://www.garrettlab.com/
 BugReports: https://github.com/GarrettLab/CroplandConnectivity/issues
-VignetteBuilder: knitr
+VignettteBuilder: knitr
