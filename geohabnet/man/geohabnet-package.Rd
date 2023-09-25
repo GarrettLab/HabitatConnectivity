@@ -14,7 +14,7 @@ Geographical spatial analysis of cropland connectivity., Allows users to visuali
 Useful links:
 \itemize{
   \item \url{http://geohab-site.s3-website.us-east-2.amazonaws.com/docs/}
-  \item \url{https://www.github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/}
+  \item \url{https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/}
   \item \url{https://www.garrettlab.com/}
   \item Report bugs at \url{https://github.com/GarrettLab/CroplandConnectivity/issues}
 }
