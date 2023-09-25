@@ -14,3 +14,4 @@
 ^.*\.html$
 ^lib$
 ^LICENSE\.md$
+^vignettes/
