@@ -23,6 +23,11 @@ Found the following (possibly) invalid file URI:
     From: README.md
 ```
 
+```         
+Output(s) listed in 'build/vignette.rds' but not in package:
+  'inst/doc/analysis.html'
+```
+
 Following were not addressed -
 
 ```         
