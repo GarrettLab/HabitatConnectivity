@@ -11,8 +11,8 @@
 ^pkgdown$
 ^plots$
 ^Meta$
-^.*\.html$
 ^lib$
 ^LICENSE\.md$
 ^CRAN-SUBMISSION$
 ^cran-comments.md$
+^geohabnet-report\.html$
