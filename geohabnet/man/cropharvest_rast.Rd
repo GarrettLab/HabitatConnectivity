@@ -18,5 +18,8 @@ Raster object
 Get cropland information in a form of raster object from data source for crop
 }
 \examples{
+\dontrun{
 cropharvest_rast("avocado", "monfreda")
+}
+
 }

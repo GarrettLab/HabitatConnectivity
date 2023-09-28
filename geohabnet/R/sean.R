@@ -245,6 +245,12 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #'
 #' @seealso Uses [connectivity()]
 #' @inherit sensitivity_analysis references
+#'
+#' @examples
+#' \dontrun{
+#' avocado <- cropharvest_rast("avocado", "monfreda")
+#' risk_indexes <- sean(avocado)
+#' }
 sean <- function(rast,
                  global = TRUE,
                  geoscale,

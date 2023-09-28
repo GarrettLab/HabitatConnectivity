@@ -82,7 +82,10 @@ crops_rast <- function(crop_names) {
 #' @return Raster object
 #' @export
 #' @examples
+#' \dontrun{
 #' cropharvest_rast("avocado", "monfreda")
+#' }
+#'
 cropharvest_rast <- function(crop_name, data_source) {
   # supported sources
   sources <- get_supported_sources()

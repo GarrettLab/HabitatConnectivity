@@ -35,11 +35,11 @@ Primary objective of this vignette is help user in getting started, list capabil
 
 ### External materials
 
--   Download and install R, R Studio - <https://rstudio-education.github.io/hopr/starting.html>
+-   Download and install R, R Studio - [https://rstudio-education.github.io/hopr/starting.html/](https://rstudio-education.github.io/hopr/starting.html){.uri}
 
 -   Rasters - <https://www.adobe.com/creativecloud/file-types/image/raster.html>
 
--   TIFF - <https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html>
+-   TIFF - [https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html/](https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html){.uri}
 
 ## Datasets
 
@@ -47,7 +47,7 @@ We use publicly available sources to obtain crop information -
 
 -   [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/)
 
--   MapSpam (2005) (<https://dataverse.harvard.edu/dataset.xhtml>?)
+-   [MapSpam (2005)](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PRFF8V) [@internationalfoodpolicyresearchinstitute2019]
 
 Geodata provides set of APIs to access these datasets. For visualization and plots, we use [rnaturalearth](https://docs.ropensci.org/rnaturalearth/).
 
@@ -55,15 +55,10 @@ Geodata provides set of APIs to access these datasets. For visualization and plo
 
 ### Meta information
 
--   Package documentation - [http://geohab-site.s3-website.us-east-2.amazonaws.com/docs/](https://nam10.safelinks.protection.outlook.com/?url=http%3A%2F%2Fgeohab-site.s3-website.us-east-2.amazonaws.com%2Fdocs%2F&data=05%7C01%7Ckkeshav%40ufl.edu%7C001659722a5b4f6bd69d08dbb2ff9d1d%7C0d4da0f84a314d76ace60a62331e1b84%7C0%7C0%7C638300583136095106%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GK4pGbtNQWNF60ryAB9pVtbBt4tq5K3daNHV9Un%2FhtM%3D&reserved=0 "https://nam10.safelinks.protection.outlook.com/?url=http%3A%2F%2Fgeohab-site.s3-website.us-east-2.amazonaws.com%2Fdocs%2F&data=05%7C01%7Ckkeshav%40ufl.edu%7C001659722a5b4f6bd69d08dbb2ff9d1d%7C0d4da0f84a314d76ace60a62331e1b84%7C0%7C0%7C638300583136095106%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GK4pGbtNQWNF60ryAB9pVtbBt4tq5K3daNHV9Un%2FhtM%3D&reserved=0")
--   Source code - <https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet>
--   Report issues - <https://github.com/GarrettLab/CroplandConnectivity/issues>
--   Lab website - [https://garrettlab.com](https://garrettlab.com.)
--   To cite package 'geohabnet' in publications use:
-
-Lab G, Keshav K, Garrett K, Plex A (????). \_geohabnet: Analysis of Cropland Connectivity\_. <https://github.com/GarrettLab/CroplandConnectivity,> <https://garrettlab.com.>
-
-or `citation("geohabnet")`
+-   Package documentation - <http://geohab-site.s3-website.us-east-2.amazonaws.com/docs/>
+-   Source code - <https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/>
+-   Report issues - <https://github.com/GarrettLab/CroplandConnectivity/issues/>
+-   Lab website - <https://www.garrettlab.com/>
 
 ### Installation and loading
 
@@ -177,7 +172,7 @@ We have some helper functions to make the analysis easier. Available sources can
 geohabnet::get_supported_sources()
 ```
 
-More specifically, we support 2 data set sources - [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/) and [Mapspam](https://dataverse.harvard.edu/dataset.xhtml) using the APIs provided by [Geodata](https://cran.r-project.org/web/packages/geodata/index.html). These sources have crop presence in the geographical areas in the form of raster(tiff). To start with, we can check if a certain crop is available in the source -
+More specifically, we support 2 data set sources - [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/) and [Mapspam](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PRFF8V) using the APIs provided by [Geodata](https://CRAN.R-project.org/package=geodata). These sources have crop presence in the geographical areas in the form of raster(tiff). To start with, we can check if a certain crop is available in the source -
 
 ```{r}
 search_crop("avocado") #1

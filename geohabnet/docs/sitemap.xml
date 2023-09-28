@@ -61,9 +61,6 @@
     <loc>/reference/STR_WEST.html</loc>
   </url>
   <url>
-    <loc>/reference/cal_diff_map.html</loc>
-  </url>
-  <url>
     <loc>/reference/calculate_ccri.html</loc>
   </url>
   <url>
@@ -83,9 +80,6 @@
   </url>
   <url>
     <loc>/reference/ccri_neg_exponential_function.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ccri_negative_exp.html</loc>
   </url>
   <url>
     <loc>/reference/ccri_negative_exponential.html</loc>
@@ -122,9 +116,6 @@
   </url>
   <url>
     <loc>/reference/geoscale_param.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_crop_raster_fromtif.html</loc>
   </url>
   <url>
     <loc>/reference/get_cropharvest_raster.html</loc>
@@ -172,9 +163,6 @@
     <loc>/reference/nn_sum.html</loc>
   </url>
   <url>
-    <loc>/reference/plot_maps.html</loc>
-  </url>
-  <url>
     <loc>/reference/reset_params.html</loc>
   </url>
   <url>
@@ -202,13 +190,7 @@
     <loc>/reference/sensitivity_analysis_on_geoextent_scale.html</loc>
   </url>
   <url>
-    <loc>/reference/sensitivity_analysis_on_geoscale.html</loc>
-  </url>
-  <url>
     <loc>/reference/sensitivity_analysis_on_link_weight.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sensitivity_analysis_on_params.html</loc>
   </url>
   <url>
     <loc>/reference/senstivity_analysis.html</loc>
@@ -224,9 +206,6 @@
   </url>
   <url>
     <loc>/reference/set_reso.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sonn.html</loc>
   </url>
   <url>
     <loc>/reference/sp_rast.html</loc>

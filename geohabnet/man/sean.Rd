@@ -49,6 +49,12 @@ Some parameters are only accessible from \code{paramters.yaml} and uses value fr
 \details{
 When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used
 }
+\examples{
+\dontrun{
+avocado <- cropharvest_rast("avocado", "monfreda")
+risk_indexes <- sean(avocado)
+}
+}
 \references{
 Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,
 Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,
