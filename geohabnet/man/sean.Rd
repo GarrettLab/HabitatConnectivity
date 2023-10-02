@@ -13,7 +13,8 @@ sean(
   link_threshold = 0,
   host_density_threshold = 0,
   res = reso(),
-  maps = TRUE
+  maps = TRUE,
+  outdir = tempdir()
 )
 }
 \arguments{
@@ -38,6 +39,9 @@ resolution at which operations will run.
 Default is \code{\link[=reso]{reso()}}}
 
 \item{maps}{logical. \code{TRUE} if maps are to be plotted, \code{FALSE} otherwise}
+
+\item{outdir}{Character. Output directory for saving raster in TIFF format.
+Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
 A list of calculated CCRI values using negative exponential
@@ -50,7 +54,7 @@ Some parameters are only accessible from \code{paramters.yaml} and uses value fr
 When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used
 }
 \examples{
-\dontrun{
+\donttest{
 avocado <- cropharvest_rast("avocado", "monfreda")
 risk_indexes <- sean(avocado)
 }

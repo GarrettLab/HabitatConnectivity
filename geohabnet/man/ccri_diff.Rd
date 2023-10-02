@@ -4,7 +4,7 @@
 \alias{ccri_diff}
 \title{Calculate difference map}
 \usage{
-ccri_diff(rast, x, y, global, geoscale, res = reso())
+ccri_diff(rast, x, y, global, geoscale, res = reso(), outdir = tempdir())
 }
 \arguments{
 \item{rast}{A raster object for mean index raster difference}
@@ -18,7 +18,10 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{vector. geographical scale}
 
-\item{res}{numeric. map resolution}
+\item{res}{numeric. map resolution.}
+
+\item{outdir}{Character. Output directory for saving raster in TIFF format.
+Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \description{
 This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.

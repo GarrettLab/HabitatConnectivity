@@ -14,16 +14,20 @@ Authors@R: c(
            comment = "https://www.ufl.edu")
   )
 Description: 
-    Geographical spatial analysis of cropland connectivity.,
+    Geographical spatial analysis of cropland connectivity.
     Allows users to visualize risk index plots for a given set of crops.
-    The functions are developed as an extension to analysis from 10.1093/biosci/biaa067.
-    The primary function is \code{'sean()'} and is indicative of how sensitive analysis is to parameters using kernel models.
-    Package currently supports crops sourced from 'monfreda' and 'mapspam'.
-    This analysis produces 3 maps - mean, variance, and difference for the crop risk index.
+    The functions are developed as an extension to analysis from Xing et al (2021) <doi:10.1093/biosci/biaa067>.
+    The primary function is sean() and is indicative of how sensitive analysis is to parameters using kernel models.
+    Package currently supports crops sourced from Monfreda, C., N. Ramankutty, and J. A. Foley (2008) <doi: 10.1029/2007GB002947> "Farming the planet: 2. Geographic distribution of crop areas, yields, physiological types, and net primary production in the year 2000, Global Biogeochem. Cycles, 22, GB1022" and
+    International Food Policy Research Institute (2019), "Global Spatially-Disaggregated Crop Production Statistics Data for 2010 Version 2.0, Harvard Dataverse, V4" <doi: 10.7910/DVN/PRFF8V>.
+    This analysis produces 3 maps - mean, variance, and difference for the crop risk index. It applies distance functions and graph operations on network to calculate risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
-    \code{'sean()'} will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
-    \code{'parameters.yaml'} stores the parameters and values and can be accessed using \code{\link{get_parameters}()}. Refer it's usage.
+    sean() will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
+    \code{'parameters.yaml'} stores the parameters and values and can be accessed using get_parameters(). Refer it's usage.
+    The objective of this package to support risk analysis using cropland conenctivity on 10 parameters -
+    host crops, density threshold, aggregation and distance method, resolution, geograohic extent, link threshold, kernel models, network metrics and maps.
+    These parameters serves as an input and are used different phases of analysis workflow.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

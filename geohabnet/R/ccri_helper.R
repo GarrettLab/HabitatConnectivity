@@ -292,9 +292,8 @@ get_supported_sources <- function() {
 #' @examples
 #' search_crop("coffee")
 #' search_crop("wheat")
-#' \dontrun{
 #' search_crop("jackfruit")
-#' }
+#'
 #' @seealso [get_supported_sources()]
 search_crop <- function(name) {
   crp <- tolower(trimws(name))
@@ -324,6 +323,10 @@ search_crop <- function(name) {
 #' Use of one the methods in [sean()] or [sensitivity_analysis()].
 #' @return vector
 #' @export
+#' 
+#' @examples
+#' dist_methods()
+#'
 dist_methods <- function() {
   return(c("geodesic", "vincentyellipsoid"))
 }

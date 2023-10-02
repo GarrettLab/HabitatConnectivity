@@ -4,7 +4,14 @@
 \alias{ccri_variance}
 \title{Calculate variance of CCRI}
 \usage{
-ccri_variance(indexes, rast, global, geoscale, res = reso())
+ccri_variance(
+  indexes,
+  rast,
+  global,
+  geoscale,
+  res = reso(),
+  outdir = tempdir()
+)
 }
 \arguments{
 \item{indexes}{list of rasters. See details.}
@@ -16,7 +23,10 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{vector. geographical scale}
 
-\item{res}{numeric. map resolution}
+\item{res}{numeric. map resolution.}
+
+\item{outdir}{Character. Output directory for saving raster in TIFF format.
+Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \description{
 This function produces a map of variance of CCRI based on input parameters

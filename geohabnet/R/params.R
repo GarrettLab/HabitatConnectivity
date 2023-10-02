@@ -4,7 +4,7 @@
 #' Retrieves the parameters and copies the parameter file to the specified
 #' output path.
 #' @param out_path character. The output path where the parameter file will be
-#' copied. Default is current working directory [getwd()]
+#' copied. Default is temporary directory [tempdir()]
 #' @param iwindow logical. If `TRUE`, prompts the user to select the output
 #' directory using a file chooser window. Default is `FALSE`
 #' @return character. The path to the copied parameter file.
@@ -13,7 +13,11 @@
 #' Using configuration file is an alternative to [sean()]
 #'
 #' @seealso [set_parameters()]
-get_parameters <- function(out_path = getwd(), iwindow = FALSE) {
+#' 
+#' @examples
+#' get_parameters(out_path = getwd())
+#' 
+get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
   if (interactive() && iwindow) {
     out_path <- .get_directoryfromuser()
   }
@@ -34,6 +38,11 @@ get_parameters <- function(out_path = getwd(), iwindow = FALSE) {
 #' new parameters file using a file selection window. Defaults to FALSE.
 #' @return None
 #' @export
+#' 
+#' @examples
+#' param_fp <- get_parameters()
+#' set_parameters(param_fp)
+#'
 set_parameters <- function(new_params, iwindow = FALSE) {
   if (iwindow && interactive()) {
     new_params <- .open_file_selection_prompt()

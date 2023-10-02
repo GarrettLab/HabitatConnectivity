@@ -4,7 +4,13 @@
 \alias{ccri_mean}
 \title{Calculate mean of raster objects}
 \usage{
-ccri_mean(indexes, global = TRUE, geoscale = NULL, plt = TRUE)
+ccri_mean(
+  indexes,
+  global = TRUE,
+  geoscale = NULL,
+  plt = TRUE,
+  outdir = tempdir()
+)
 }
 \arguments{
 \item{indexes}{list of rasters. See details.}
@@ -15,6 +21,9 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 \item{geoscale}{vector. geographical scale}
 
 \item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise and \code{geoscale}.}
+
+\item{outdir}{Character. Output directory for saving raster in TIFF format.
+Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \description{
 Wrapper for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.

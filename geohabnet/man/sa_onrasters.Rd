@@ -13,7 +13,8 @@ sa_onrasters(
   agg_methods = c("sum", "mean"),
   dist_method = "geodesic",
   res = reso(),
-  maps = TRUE
+  maps = TRUE,
+  outdir = tempdir()
 )
 }
 \arguments{
@@ -38,6 +39,9 @@ resolution at which operations will run.
 Default is \code{\link[=reso]{reso()}}}
 
 \item{maps}{logical. \code{TRUE} if maps are to be plotted, \code{FALSE} otherwise}
+
+\item{outdir}{Character. Output directory for saving raster in TIFF format.
+Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
 A list of calculated CCRI indices after operations.
@@ -52,7 +56,7 @@ When \code{global = TRUE}, \code{geo_scale} is ignored.
 Instead uses scales from \code{\link[=global_scales]{global_scales()}}.
 }
 \examples{
-\dontrun{
+\donttest{
 rr <- get_rasters(list(monfreda = c("avocado")))
 sa_onrasters(rr[[1]],
             global = FALSE,

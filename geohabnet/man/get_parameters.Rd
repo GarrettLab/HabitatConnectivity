@@ -4,11 +4,11 @@
 \alias{get_parameters}
 \title{Get Parameters}
 \usage{
-get_parameters(out_path = getwd(), iwindow = FALSE)
+get_parameters(out_path = tempdir(), iwindow = FALSE)
 }
 \arguments{
 \item{out_path}{character. The output path where the parameter file will be
-copied. Default is current working directory \code{\link[=getwd]{getwd()}}}
+copied. Default is temporary directory \code{\link[=tempdir]{tempdir()}}}
 
 \item{iwindow}{logical. If \code{TRUE}, prompts the user to select the output
 directory using a file chooser window. Default is \code{FALSE}}
@@ -22,6 +22,10 @@ output path.
 }
 \details{
 Using configuration file is an alternative to \code{\link[=sean]{sean()}}
+}
+\examples{
+get_parameters(out_path = getwd())
+
 }
 \seealso{
 \code{\link[=set_parameters]{set_parameters()}}

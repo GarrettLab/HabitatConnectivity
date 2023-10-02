@@ -24,10 +24,9 @@ sp_rast("rice")
 }
 }
 \references{
-www.mapspam.com/data
 International Food Policy Research Institute, 2020.
 Spatially-Disaggregated Crop Production Statistics Data in Africa South of the Sahara for 2017.
-https://doi.org/10.7910/DVN/FSSKBW, Harvard Dataverse, V2
+<doi: 10.7910/DVN/FSSKBW>, Harvard Dataverse, V2
 }
 \seealso{
 \code{\link[geodata:crop_spam]{geodata::spamCrops()}}

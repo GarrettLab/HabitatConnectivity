@@ -25,7 +25,7 @@ it will suppress maps for outcomes if \code{maps = FALSE} or
 \code{\link[=interactive]{interactive()}} is \code{FALSE}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Run analysis on specified parameters.yaml
 sensitivity_analysis()
 sensitivity_analysis(FALSE, FALSE)
