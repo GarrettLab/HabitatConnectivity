@@ -10,7 +10,7 @@ default:
     Resolution: 12
     GeoExtent: 
       global: TRUE
-      customExt: [-115, -75, 5, 32] # set this to NA/Empty if not required #[32, 48, 2.9, 17], [-115, -75, 5, 32]
+      customExt: [-115, -75, 5, 32] # ignored, when global = TRUE
     LinkThreshold: [0.000001]
     DispersalKernelModels:
       InversePowerLaw:
@@ -25,6 +25,7 @@ default:
         metrics: ["betweeness", "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
         weights: [50, 15, 15, 20]
     PriorityMaps:
+      OutDir: 
       MeanCC: TRUE
       Difference: TRUE
       Variance: TRUE

@@ -159,7 +159,7 @@ ccri_variance <- function(indexes,
         geoscale,
         zlim = z_var_w,
         typ = "variance",
-        outdir)
+        outdir = outdir)
 
   invisible(1)
 }
@@ -281,11 +281,7 @@ ccri_diff <- function(rast,
 }
 
 .saverast <- function(typ, rast, outdir) {
-  # Create the "plots" directory if it doesn't exist
-  if (!dir.exists("plots")) {
-    dir.create("plots")
-  }
-  
+
   if (is.null(outdir) || length(outdir) == 0) {
     outdir <- tempdir()
   }
@@ -295,6 +291,10 @@ ccri_diff <- function(rast,
                                 typ, "_",
                                 stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
                                 ".tif", sep = ""))
+    # Create the "plots" directory if it doesn't exist
+  if (!dir.exists(fp)) {
+    dir.create(fp, recursive = TRUE)
+  }
 
   terra::writeRaster(rast, overwrite = TRUE,
                      filename = fp,

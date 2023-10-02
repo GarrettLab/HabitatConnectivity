@@ -568,7 +568,8 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
                  the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir
-                 )}
+    )
+    }
 
   message("sensitivity analysis completed. Refer to maps for results.")
   if (alert == TRUE) {

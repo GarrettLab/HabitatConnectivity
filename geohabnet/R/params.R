@@ -13,10 +13,10 @@
 #' Using configuration file is an alternative to [sean()]
 #'
 #' @seealso [set_parameters()]
-#' 
+#'
 #' @examples
 #' get_parameters(out_path = getwd())
-#' 
+#'
 get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
   if (interactive() && iwindow) {
     out_path <- .get_directoryfromuser()
@@ -38,7 +38,7 @@ get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
 #' new parameters file using a file selection window. Defaults to FALSE.
 #' @return None
 #' @export
-#' 
+#'
 #' @examples
 #' param_fp <- get_parameters()
 #' set_parameters(param_fp)
