@@ -24,7 +24,8 @@ output path.
 Using configuration file is an alternative to \code{\link[=sean]{sean()}}
 }
 \examples{
-get_parameters(out_path = getwd())
+get_parameters()
+get_parameters(out = tempdir())
 
 }
 \seealso{

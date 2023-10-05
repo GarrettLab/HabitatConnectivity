@@ -58,14 +58,14 @@ Instead uses scales from \code{\link[=global_scales]{global_scales()}}.
 \examples{
 \donttest{
 rr <- get_rasters(list(monfreda = c("avocado")))
-sa_onrasters(rr[[1]],
+res1 <- sa_onrasters(rr[[1]],
             global = FALSE,
             geoscale = c(-115, -75, 5, 32),
             c(0.0001, 0.00004),
             c(0.0001, 0.00005),
             c("sum", "mean"),
             res = 24)
-sa_onrasters(rr[[1]],
+res2 <- sa_onrasters(rr[[1]],
             global = TRUE,
             link_thresholds = c(0.000001),
             host_density_thresholds = c(0.00015),
@@ -80,7 +80,7 @@ Jan F Kreuze, Jürgen Kroschel, P Lava Kumar, James P Legg, Monica Parker, Elmar
 Kalpana Sharma, Karen A Garrett,
 \emph{Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests},
 BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
-\@url{https://doi.org/10.1093/biosci/}
+\doi{10.1093/biosci/}
 
 Hijmans R (2023). \emph{terra: Spatial Data Analysis}.
 R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}

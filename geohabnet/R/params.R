@@ -15,7 +15,8 @@
 #' @seealso [set_parameters()]
 #'
 #' @examples
-#' get_parameters(out_path = getwd())
+#' get_parameters()
+#' get_parameters(out = tempdir())
 #'
 get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
   if (interactive() && iwindow) {

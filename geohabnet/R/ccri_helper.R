@@ -314,7 +314,11 @@ search_crop <- function(name) {
     }
   }
 
-  stopifnot("Crop not present in supported sources." = length(srcs) > 0)
+  srcs <- if (is.null(srcs) || length(srcs) < 1) {
+    "Crop not present in supported sources." 
+  } else {
+    srcs
+  }
 
   return(srcs)
 }

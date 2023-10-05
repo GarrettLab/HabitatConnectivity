@@ -28,10 +28,8 @@ test_that("Test 4: Test with default parameters", {
 })
 
 test_that("Test 5: Test to fetch currently used parameters.yaml", {
-  save_path <- getwd()
-  param_file <- get_parameters(out_path = save_path)
+  param_file <- get_parameters(out_path = tempdir())
   expect_true(file.exists(param_file))
-  file.remove(param_file)
 })
 
 test_that("Test 6: Test to set new parameters.yaml", {

@@ -16,3 +16,4 @@
 ^CRAN-SUBMISSION$
 ^cran-comments.md$
 ^geohabnet-report\.html$
+^parameters\.yaml$

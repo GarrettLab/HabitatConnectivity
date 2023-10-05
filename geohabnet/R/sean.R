@@ -262,7 +262,7 @@ sean <- function(rast,
                  maps = TRUE,
                  outdir = tempdir()) {
 
-  stopifnot("Need atleast one aggregation method: " = length(agg_methods) == 2)
+  stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
   .resetgan()
   .loadparam_ifnull()
 
@@ -416,14 +416,14 @@ sean <- function(rast,
 #' @examples
 #' \donttest{
 #' rr <- get_rasters(list(monfreda = c("avocado")))
-#' sa_onrasters(rr[[1]],
+#' res1 <- sa_onrasters(rr[[1]],
 #'             global = FALSE,
 #'             geoscale = c(-115, -75, 5, 32),
 #'             c(0.0001, 0.00004),
 #'             c(0.0001, 0.00005),
 #'             c("sum", "mean"),
 #'             res = 24)
-#' sa_onrasters(rr[[1]],
+#' res2 <- sa_onrasters(rr[[1]],
 #'             global = TRUE,
 #'             link_thresholds = c(0.000001),
 #'             host_density_thresholds = c(0.00015),
@@ -431,6 +431,7 @@ sean <- function(rast,
 #'             res = 24)
 #'}
 #' @inherit sensitivity_analysis seealso references
+#' 
 sa_onrasters <- function(rast,
                          global = TRUE,
                          geoscale,
@@ -517,7 +518,7 @@ sa_onrasters <- function(rast,
 #' Kalpana Sharma, Karen A Garrett,
 #' _Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests_,
 #' BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
-#' \@url{https://doi.org/10.1093/biosci/}
+#' \doi{10.1093/biosci/}
 #' @references Hijmans R (2023). _terra: Spatial Data Analysis_.
 #' R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
