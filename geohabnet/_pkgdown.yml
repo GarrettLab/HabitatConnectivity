@@ -2,4 +2,4 @@ url: ~
 destination: ../docs
 template:
   bootstrap: 5
-
+  bootswatch: minty
