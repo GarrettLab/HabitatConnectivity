@@ -292,9 +292,10 @@ get_supported_sources <- function() {
 #' @examples
 #' search_crop("coffee")
 #' search_crop("wheat")
-#' \dontrun{
+#' \donttest{
 #' search_crop("jackfruit")
 #' }
+#'
 #' @seealso [get_supported_sources()]
 search_crop <- function(name) {
   crp <- tolower(trimws(name))
@@ -313,7 +314,11 @@ search_crop <- function(name) {
     }
   }
 
-  stopifnot("Crop not present in supported sources." = length(srcs) > 0)
+  srcs <- if (is.null(srcs) || length(srcs) < 1) {
+    "Crop not present in supported sources." 
+  } else {
+    srcs
+  }
 
   return(srcs)
 }
@@ -324,6 +329,10 @@ search_crop <- function(name) {
 #' Use of one the methods in [sean()] or [sensitivity_analysis()].
 #' @return vector
 #' @export
+#'
+#' @examples
+#' dist_methods()
+#'
 dist_methods <- function() {
   return(c("geodesic", "vincentyellipsoid"))
 }

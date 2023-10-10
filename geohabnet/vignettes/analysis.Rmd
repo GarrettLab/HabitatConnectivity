@@ -21,9 +21,9 @@ knitr::opts_chunk$set(
 
 The network and connectivity of cropland can be used to analyse the potential spread of plant pathogen. While network plays a crucial role, there are several other factors that affects the spread and thus the connectivity. Although croplands may be geographically connected, the risk cannot be generalized as pathogen may not spread if it's exclusive to specific crop. *geohabnet* supports up to 10 parameters that has potential to impact risk and connectivity among croplands. The implementation is expanded upon [@xing2020], which discusses global cropland connectivity. This framework uses default values from the paper at the same time making them as parameters and eventually turning it into framework for the analysis of crops.
 
-Although this article is focused on usage, it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009], [@config] and provides a text based interface to control the parameters values for risk analysis in this context.
+Although this article is focused on usage, it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009], and [@config] provides a text based interface to control the parameters values for risk analysis in this context.
 
-Primary objective of this vignette is help user in getting started, list capabilities and intuition behind them. It also describes underlying implementation at high level to support the intuition behind functions. Throughout the article, we will citing external sites and resources which is relevant to usage of this package.
+Primary objective of this vignette is to help user in getting started, list capabilities and intuition behind them. It also describes underlying implementation at high level to support the intuition behind functions. Throughout the article, we will citing external sites and resources which is relevant to usage of this package.
 
 ## Pre-requisites
 
@@ -45,7 +45,7 @@ Primary objective of this vignette is help user in getting started, list capabil
 
 We use publicly available sources to obtain crop information -
 
--   [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/)
+-   [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/) [@monfreda2008]
 
 -   [MapSpam (2005)](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PRFF8V) [@internationalfoodpolicyresearchinstitute2019]
 
@@ -64,17 +64,22 @@ Geodata provides set of APIs to access these datasets. For visualization and plo
 
 Installing `geohabnet` will also install its dependencies. Please see the list of dependencies using `desc::desc(package = "geohabnet")`
 
-```{r setup}
-
+```{r eval = FALSE}
 if (!require("devtools")) {
   install.packages("devtools")
 }
+```
+
+```{r setup, eval=FALSE}
+
 library("devtools")
 
 if (!require("geohabnet")) {
   install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 }
+```
 
+```{r}
 library(geohabnet)
 ```
 
@@ -112,7 +117,7 @@ avocado
 terra::plot(avocado)
 ```
 
-Now that we have a raster object, it can be fed directly to the workflow. We will only be setting the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
+Now that we have a raster object, it can be fed directly to the workflow. We will only set the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
 
 ```{r}
 risk_indexes <- sean(avocado)
@@ -142,10 +147,10 @@ The results should be interpreted in accordance to the values of other parameter
 
 More parameters are available under configuration and thus more control over the analysis. The configuration file name is `parameters.yaml`, currently supporting up to 10 parameters. The intuition behind this methodology is to provide a basic interface for setting new values. The snippet below describes the basic usage of configuration.
 
-Get the initial configuration file. By default this function will save the file in current working directory which in context of R is `getwd()` . Using *iwindow = TRUE* will prompt a selection window to save config file.
+Get the initial configuration file. By default this function will save the file in temporary directory `tempdir()`, however we recommend saving path where program will have write permissions. Using *iwindow = TRUE* will prompt a selection window to save config file.
 
 ```{r}
-config_file <- get_parameters()
+config_file <- get_parameters(out_path = tempdir())
 config_file
 ```
 
@@ -215,7 +220,7 @@ results <- sensitivity_analysis()
 
 ### Thresholds
 
-Thresholds are used to select subset of values from the `SpatRaster` on which the operations are applied. It directly effects the connectivty and gives a sense of sensitivity in the network. The intermediate goal is to produce a adjacency graph which essentially determines the connectivity. Cells which doesn't meet the threshold are removed from the consideration by dispersal models.
+Thresholds are used to select subset of values from the `SpatRaster` on which the operations are applied. It directly effects the connectivity and gives a sense of sensitivity in the network. The intermediate goal is to produce a adjacency graph which essentially determines the connectivity. Cells which doesn't meet the threshold are removed from the consideration by dispersal models.
 
 ```{r}
 risk_indexes <- sean(avocado, host_density_threshold = 0.00001, link_threshold = 0.00001)
@@ -277,13 +282,29 @@ See available metrics using
 supported_metrics()
 ```
 
-Metrics corresponding to dispersal models are applied to distance matrix with specified weights. The weights must be specified in % and sum of all the weights should be equal to 100. We use functions from [@igraph] to calclulate metrics for each dispersal model. The 2 dispersal models that are applied to parameters *inverse power law* and *negative exponential*. More formally, metrics are way to determine connectivity among nodes in a network.
+Metrics corresponding to dispersal models are applied to distance matrix with specified weights. The weights must be specified in % and sum of all the weights should be equal to 100. We use functions from [@igraph] to calculate metrics for each dispersal model. The 2 dispersal models that are applied to parameters *inverse power law* and *negative exponential*. More formally, metrics are way to determine connectivity among nodes in a network.
+
+### Geographical Extent
+
+Geographical extent is a subset of world map defined by coordinate reference system. The corresponding parameter to set the area in `sean()` and `sensitivity_analyis()` is `geoscale` and `GeoExtent` respectively. Default setting is `global = TRUE` which will ignore the value of `geoscale`. This will consider take the world map into account using values from `global_scales()` .
+
+1.  Using function
+
+    ```{r non-global}
+    results <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+    ```
+
+2.  Using config
+
+    Set `Global = FALSE` and `CustomExt = [-115, -75, 5, 32]` . The initial `parameters.yaml` already contains this value which would run in combination with other parameters.
+
+When provided with `geoscale`, program will take the subset of provided raster (dataset of crop). The workflow will apply graph operations and network connectivity only to the subset.
 
 ## Outputs
 
 By default, 3 maps are produced for each analysis. `sean()` also returns list of risk indexes which are then fed to `connectivity()` . This flexibility is supposed to allow users to use the risk indexes for their purposes or use our function to produce maps with further different parameters.
 
-In a code below, after obtaining results, the maps are produced. In order to produce calculate variance, cells of `SpatRaster` is extended to coarser value using `res` parameter. Setting `maps = FALSE` will supress the calculation of outputs.
+In a code below, after obtaining results, the maps are produced. In order to produce calculate variance, cells of `SpatRaster` is extended to coarser value using `res` parameter. Setting `maps = FALSE` will suppress the calculation of outputs.
 
 ```{r}
 risk_indexes <- sean(avocado)
@@ -306,6 +327,6 @@ The final operations are performed risk indices and on the 3 results that are pr
 
     If both the aggregation methods (*sum and mean*) is selected, then difference is calculated between the rank of matrices which are essentially numeric cells of risk indices of type *SpatRaster*. The result is dis-aggregated in the same way as previous step.
 
-Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under current working directory with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created.
+Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under the specified path in `OutDir` with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created. If the `outdir` is empty, the value is defaulted to `tempdir()` . This applies to correponding parameter `outdir` in all the functions.
 
 ### References

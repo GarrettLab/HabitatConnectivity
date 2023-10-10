@@ -247,7 +247,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' @inherit sensitivity_analysis references
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' avocado <- cropharvest_rast("avocado", "monfreda")
 #' risk_indexes <- sean(avocado)
 #' }
@@ -259,9 +259,10 @@ sean <- function(rast,
                  link_threshold = 0,
                  host_density_threshold = 0,
                  res = reso(),
-                 maps = TRUE) {
+                 maps = TRUE,
+                 outdir = tempdir()) {
 
-  stopifnot("Need atleast one aggregation method: " = length(agg_methods) == 2)
+  stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
   .resetgan()
   .loadparam_ifnull()
 
@@ -333,7 +334,8 @@ sean <- function(rast,
                  res,
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                 as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
+                 as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
+                 outdir = outdir
     )
   }
   the$is_initialized <- FALSE
@@ -348,7 +350,8 @@ sean <- function(rast,
                               rast,
                               res,
                               dist_method = "geodesic",
-                              maps = TRUE) {
+                              maps = TRUE,
+                              outdir = tempdir()) {
 
   risk_indexes <- lapply(host_density_thresholds,
                                 function(threshold) {
@@ -362,7 +365,8 @@ sean <- function(rast,
                                       dist_method = dist_method,
                                       rast = rast,
                                       res = res,
-                                      maps = FALSE
+                                      maps = FALSE,
+                                      outdir = outdir
                                     )
                                   )
                                 })
@@ -399,6 +403,8 @@ sean <- function(rast,
 #' resolution at which operations will run.
 #' Default is [reso()]
 #' @param maps logical. `TRUE` if maps are to be plotted, `FALSE` otherwise
+#' @param outdir Character. Output directory for saving raster in TIFF format.
+#' Default is [tempdir()].
 #' @return A list of calculated CCRI indices after operations.
 #' An index is generated for each combination of paramters.
 #' One combination is equivalent to [sean()] function.
@@ -408,16 +414,16 @@ sean <- function(rast,
 #' Instead uses scales from [global_scales()].
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' rr <- get_rasters(list(monfreda = c("avocado")))
-#' sa_onrasters(rr[[1]],
+#' res1 <- sa_onrasters(rr[[1]],
 #'             global = FALSE,
 #'             geoscale = c(-115, -75, 5, 32),
 #'             c(0.0001, 0.00004),
 #'             c(0.0001, 0.00005),
 #'             c("sum", "mean"),
 #'             res = 24)
-#' sa_onrasters(rr[[1]],
+#' res2 <- sa_onrasters(rr[[1]],
 #'             global = TRUE,
 #'             link_thresholds = c(0.000001),
 #'             host_density_thresholds = c(0.00015),
@@ -425,6 +431,7 @@ sean <- function(rast,
 #'             res = 24)
 #'}
 #' @inherit sensitivity_analysis seealso references
+#' 
 sa_onrasters <- function(rast,
                          global = TRUE,
                          geoscale,
@@ -433,9 +440,10 @@ sa_onrasters <- function(rast,
                          agg_methods = c("sum", "mean"),
                          dist_method = "geodesic",
                          res = reso(),
-                         maps = TRUE) {
+                         maps = TRUE,
+                         outdir = tempdir()) {
 
-  cat("New analysis started for given raster")
+  message("New analysis started for given raster")
 
   .loadparam_ifnull()
 
@@ -451,7 +459,8 @@ sa_onrasters <- function(rast,
                                       dist_method = dist_method,
                                       rast = rast,
                                       res = res,
-                                      maps = FALSE
+                                      maps = FALSE,
+                                      outdir = outdir
                                     )
                                   )
                                 })
@@ -489,7 +498,7 @@ sa_onrasters <- function(rast,
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Run analysis on specified parameters.yaml
 #' sensitivity_analysis()
 #' sensitivity_analysis(FALSE, FALSE)
@@ -509,7 +518,7 @@ sa_onrasters <- function(rast,
 #' Kalpana Sharma, Karen A Garrett,
 #' _Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests_,
 #' BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
-#' \@url{https://doi.org/10.1093/biosci/}
+#' \doi{10.1093/biosci/}
 #' @references Hijmans R (2023). _terra: Spatial Data Analysis_.
 #' R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
@@ -544,7 +553,8 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                              agg_methods = agg_methods,
                              dist_method = the$parameters_config$`CCRI parameters`$DistanceStrategy,
                              res = resolution,
-                             maps = FALSE
+                             maps = FALSE,
+                             the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir
                            )
                          }))
 
@@ -557,9 +567,10 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                  resolution,
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                 as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference)
+                 as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
+                 the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir
     )
-  }
+    }
 
   message("sensitivity analysis completed. Refer to maps for results.")
   if (alert == TRUE) {

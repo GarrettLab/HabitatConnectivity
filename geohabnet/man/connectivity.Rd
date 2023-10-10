@@ -11,7 +11,8 @@ connectivity(
   res = reso(),
   pmean = TRUE,
   pvar = TRUE,
-  pdiff = TRUE
+  pdiff = TRUE,
+  outdir = tempdir()
 )
 }
 \arguments{
@@ -22,13 +23,16 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{vector. geographical scale}
 
-\item{res}{numeric. map resolution}
+\item{res}{numeric. map resolution.}
 
 \item{pmean}{\code{TRUE} if map of mean should be plotted, \code{FALSE} otherwise.}
 
-\item{pvar}{\code{TRUE} if variance map should be plotted, \code{FALSE} otherwise}
+\item{pvar}{\code{TRUE} if variance map should be plotted, \code{FALSE} otherwise.}
 
-\item{pdiff}{\code{TRUE} if difference map should be plotted, \code{FALSE} otherwise}
+\item{pdiff}{\code{TRUE} if difference map should be plotted, \code{FALSE} otherwise.}
+
+\item{outdir}{Character. Output directory for saving raster in TIFF format.
+Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \description{
 Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
@@ -40,7 +44,7 @@ Default value is \code{TRUE} for all logical arguments
 parameters provided in either \code{parameters.yaml} or \code{\link[=sean]{sean()}}.
 
 It will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
-File will be saved in \code{\link[=getwd]{getwd()}}.If \code{\link[=interactive]{interactive()}} is \code{TRUE},
+File will be saved in provided value of \code{outdir} or  \code{\link[=tempdir]{tempdir()}}.If \code{\link[=interactive]{interactive()}} is \code{TRUE},
 then plots can be seen in active plot window. E.g. Rstudio
 }
 \references{
@@ -50,7 +54,7 @@ Jan F Kreuze, Jürgen Kroschel, P Lava Kumar, James P Legg, Monica Parker, Elmar
 Kalpana Sharma, Karen A Garrett,
 \emph{Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests},
 BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
-\@url{https://doi.org/10.1093/biosci/}
+\doi{10.1093/biosci/}
 
 Hijmans R (2023). \emph{terra: Spatial Data Analysis}.
 R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}

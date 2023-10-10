@@ -7,16 +7,18 @@
 #' @param global logical. `TRUE` if global analysis is required, `FALSE` otherwise.
 #' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
 #' @param geoscale vector. geographical scale
-#' @param res numeric. map resolution
+#' @param res numeric. map resolution.
 #' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise.
-#' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise
-#' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise
+#' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise.
+#' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise.
+#' @param outdir Character. Output directory for saving raster in TIFF format.
+#' Default is [tempdir()].
 #' @details
 #' `indexes` are actually risk resulting from operations on crop's raster and
 #' parameters provided in either `parameters.yaml` or [sean()].
 #'
 #' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
-#' File will be saved in [getwd()].If [interactive()] is `TRUE`,
+#' File will be saved in provided value of `outdir` or  [tempdir()].If [interactive()] is `TRUE`,
 #' then plots can be seen in active plot window. E.g. Rstudio
 #'
 #' @inherit sensitivity_analysis references
@@ -27,9 +29,10 @@ connectivity <- function(indexes,
                          res = reso(),
                          pmean = TRUE,
                          pvar = TRUE,
-                         pdiff = TRUE) {
+                         pdiff = TRUE,
+                         outdir = tempdir()) {
 
-  mean_rast <- ccri_mean(indexes, global, geoscale, pmean)
+  mean_rast <- ccri_mean(indexes, global, geoscale, pmean, outdir)
 
   if (pvar == TRUE) {
     ccri_variance(
@@ -37,7 +40,8 @@ connectivity <- function(indexes,
       mean_rast,
       global,
       geoscale,
-      res)
+      res,
+      outdir)
   }
 
   if (pdiff == TRUE) {
@@ -51,7 +55,8 @@ connectivity <- function(indexes,
       the$cropharvest_agglm_crop,
       global,
       geoscale,
-      res)
+      res,
+      outdir)
   }
   invisible()
 }
@@ -67,7 +72,8 @@ connectivity <- function(indexes,
 ccri_mean <- function(indexes,
                       global = TRUE,
                       geoscale = NULL,
-                      plt = TRUE) {
+                      plt = TRUE,
+                      outdir = tempdir()) {
 
   .cal_mean <- function(ext_indices) {
     mean_idx <- terra::app(terra::rast(ext_indices), sum, na.rm = TRUE) / length(ext_indices)
@@ -95,7 +101,8 @@ ccri_mean <- function(indexes,
           global,
           geoscale,
           zlim = c(0, 1),
-          typ = "mean")
+          typ = "mean",
+          outdir = outdir)
   }
 
   return(mean_index)
@@ -111,7 +118,8 @@ ccri_variance <- function(indexes,
                           rast,
                           global,
                           geoscale,
-                          res = reso()) {
+                          res = reso(),
+                          outdir = tempdir()) {
 
   .cal_var <- function(ext_indices, scale) {
     var_rastvect <-
@@ -150,7 +158,8 @@ ccri_variance <- function(indexes,
         global,
         geoscale,
         zlim = z_var_w,
-        typ = "variance")
+        typ = "variance",
+        outdir = outdir)
 
   invisible(1)
 }
@@ -168,7 +177,8 @@ ccri_diff <- function(rast,
                       y,
                       global,
                       geoscale,
-                      res = reso()) {
+                      res = reso(),
+                      outdir = tempdir()) {
   # difference map
   # Function to check for missing or null values
   .params_ok <- function(...) {
@@ -236,7 +246,8 @@ ccri_diff <- function(rast,
         geoscale,
         .get_palette_for_diffmap(),
         zr2,
-        typ = "difference")
+        typ = "difference",
+        outdir)
 
   invisible()
 }
@@ -250,9 +261,10 @@ ccri_diff <- function(rast,
                   colorss = .get_palette(),
                   zlim,
                   typ = "plot",
+                  outdir,
                   plotf = .plotmap) {
 
-  .saverast(typ, rast)
+  .saverast(typ, rast, outdir)
 
   if (is.null(plotf)) {
     .plotmap(rast, geoscale, isglobal, label, colorss, zlim)
@@ -268,25 +280,28 @@ ccri_diff <- function(rast,
   invisible()
 }
 
-.saverast <- function(typ, rast) {
-  # Create the "plots" directory if it doesn't exist
-  if (!dir.exists("plots")) {
-    dir.create("plots")
+.saverast <- function(typ, rast, outdir) {
+
+  if (is.null(outdir) || length(outdir) == 0) {
+    outdir <- tempdir()
   }
 
-  # Save the plot as a raster file
-  fname <- paste("plots", "/", typ,
-                 "_",
-                 stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
-                 ".tif", sep = "")
+  outdir <- file.path(outdir, "plots")
+  if (!dir.exists(outdir)) {
+    dir.create(outdir, recursive = TRUE)
+  }
+
+  fp <- file.path(outdir, paste(typ, "_",
+                                stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
+                                ".tif", sep = ""))
   terra::writeRaster(rast, overwrite = TRUE,
-                     filename = fname,
+                     filename = fp,
                      gdal = c("COMPRESS=NONE"))
-  message(paste("raster created", fname, sep = ": "), "\n")
+  message(paste("raster created", fp, sep = ": "), "\n")
 }
 
 .plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {
-  if (interactive()) {
+  if (interactive() || pkgdown::in_pkgdown()) {
 
     # Set the plot parameters
     graphics::par(bg = "aliceblue")

@@ -19,3 +19,8 @@ None
 This function allows you to set the parameters by replacing the existing
 parameters file with a new one. Use \code{\link[=get_parameters]{get_parameters()}} to modify the parameter values.
 }
+\examples{
+param_fp <- get_parameters()
+set_parameters(param_fp)
+
+}

@@ -13,3 +13,7 @@ vector
 Contains supported strategies to calculate distance between two points.
 Use of one the methods in \code{\link[=sean]{sean()}} or \code{\link[=sensitivity_analysis]{sensitivity_analysis()}}.
 }
+\examples{
+dist_methods()
+
+}
