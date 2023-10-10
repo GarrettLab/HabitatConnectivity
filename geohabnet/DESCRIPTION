@@ -25,8 +25,8 @@ Description:
     Refer to vignettes.
     sean() will set some global variables which can be accessed using \code{the$} prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
     \code{'parameters.yaml'} stores the parameters and values and can be accessed using get_parameters(). Refer it's usage.
-    The objective of this package to support risk analysis using cropland conenctivity on 10 parameters -
-    host crops, density threshold, aggregation and distance method, resolution, geograohic extent, link threshold, kernel models, network metrics and maps.
+    The objective of this package to support risk analysis using cropland connectivity on 10 parameters -
+    host crops, density threshold, aggregation and distance method, resolution, geographic extent, link threshold, kernel models, network metrics and maps.
     These parameters serves as an input and are used different phases of analysis workflow.
 License: GPL-3
 Encoding: UTF-8
@@ -53,6 +53,7 @@ Suggests:
     knitr,
     lintr (>= 3.0.2),
     mockthat (>= 0.2.8),
+    pkgdown (>= 2.0.7.9000),
     rmarkdown,
     testthat (>= 3.1.7)
 URL:

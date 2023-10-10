@@ -286,16 +286,14 @@ ccri_diff <- function(rast,
     outdir <- tempdir()
   }
 
-  # Save the plot as a raster file
-  fp <- file.path(outdir, paste("plots", "/",
-                                typ, "_",
-                                stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
-                                ".tif", sep = ""))
-    # Create the "plots" directory if it doesn't exist
-  if (!dir.exists(fp)) {
-    dir.create(fp, recursive = TRUE)
+  outdir <- file.path(outdir, "plots")
+  if (!dir.exists(outdir)) {
+    dir.create(outdir, recursive = TRUE)
   }
 
+  fp <- file.path(outdir, paste(typ, "_",
+                                stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
+                                ".tif", sep = ""))
   terra::writeRaster(rast, overwrite = TRUE,
                      filename = fp,
                      gdal = c("COMPRESS=NONE"))
@@ -303,7 +301,7 @@ ccri_diff <- function(rast,
 }
 
 .plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {
-  if (interactive()) {
+  if (interactive() || pkgdown::in_pkgdown()) {
 
     # Set the plot parameters
     graphics::par(bg = "aliceblue")
