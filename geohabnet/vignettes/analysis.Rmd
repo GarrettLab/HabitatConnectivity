@@ -208,7 +208,7 @@ results <- lapply(list(rast_avocado, rast_ban, rast_avo_ban), terra::rast)
 
 The result obtained from one of these methods can be used as an argument to `sean()` . Value of `results` is list of risk indices.
 
-```{r}
+```{r eval = FALSE}
 results <- lapply(list(rast_avocado, rast_ban, rast_avo_ban), sean)
 ```
 

@@ -66,7 +66,7 @@ Jan F Kreuze, Jürgen Kroschel, P Lava Kumar, James P Legg, Monica Parker, Elmar
 Kalpana Sharma, Karen A Garrett,
 \emph{Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests},
 BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
-\doi{10.1093/biosci/}
+\doi{10.1093/biosci/biaa067}
 
 Hijmans R (2023). \emph{terra: Spatial Data Analysis}.
 R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}

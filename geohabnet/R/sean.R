@@ -518,7 +518,7 @@ sa_onrasters <- function(rast,
 #' Kalpana Sharma, Karen A Garrett,
 #' _Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests_,
 #' BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
-#' \doi{10.1093/biosci/}
+#' \doi{10.1093/biosci/biaa067}
 #' @references Hijmans R (2023). _terra: Spatial Data Analysis_.
 #' R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
