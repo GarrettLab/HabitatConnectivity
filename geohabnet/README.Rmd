@@ -57,4 +57,4 @@ geohabnet::senstivity_analysis()
 
 Refer to help using ?*geohabnet::fun* or *help(geohabnet::fun)*
 
-Refer to article *Analyzing risk index using cropland connectivity* for more elaborate description and usages of functions in this package.
+Refer to article [*Analyzing risk index using cropland connectivity*](https://garrettlab.github.io/CroplandConnectivity/articles/analysis.html) for more elaborate description and usages of functions in this package.

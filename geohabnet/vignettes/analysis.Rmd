@@ -55,7 +55,7 @@ Geodata provides set of APIs to access these datasets. For visualization and plo
 
 ### Meta information
 
--   Package documentation - <http://geohab-site.s3-website.us-east-2.amazonaws.com/docs/>
+-   Package information - <https://garrettlab.github.io/CroplandConnectivity/>
 -   Source code - <https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/>
 -   Report issues - <https://github.com/GarrettLab/CroplandConnectivity/issues/>
 -   Lab website - <https://www.garrettlab.com/>
@@ -79,13 +79,13 @@ if (!require("geohabnet")) {
 }
 ```
 
-```{r}
+```{r message=FALSE}
 library(geohabnet)
 ```
 
 At any point, access the help page using following -
 
-```{r}
+```{r message=FALSE}
 ?geohabnet
 # and
 ?geohabnet::sean # any function
@@ -95,7 +95,7 @@ At any point, access the help page using following -
 
 This is to run the analysis on default set of values for the supported parameters. Initially, the values are set based on the Xing et al(2021) [@xing2020] and crop is *Avocado*. This would run the workflow on global geographical extent quickly since the crop presence is relatively low.
 
-```{r}
+```{r message=FALSE}
 sensitivity_analysis()
 ```
 
@@ -109,7 +109,7 @@ We provide 2 methods or entry points to run analysis by setting new values for t
 
 The goal of the this function is to provide simple invasive factors as parameters. The internal implementation and program deals with object of `terra` [@terra] and `igraph`[@igraph] . The primary object is of type `SpatRaster` from `terra` . To get started, we will use quick way to obtain raster and later we will understand the details.
 
-```{r}
+```{r message=FALSE}
 avocado <- cropharvest_rast("avocado", "monfreda")
 
 # verify the raster object
@@ -119,7 +119,7 @@ terra::plot(avocado)
 
 Now that we have a raster object, it can be fed directly to the workflow. We will only set the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
 
-```{r}
+```{r message=FALSE}
 risk_indexes <- sean(avocado)
 ```
 
@@ -208,13 +208,13 @@ results <- lapply(list(rast_avocado, rast_ban, rast_avo_ban), terra::rast)
 
 The result obtained from one of these methods can be used as an argument to `sean()` . Value of `results` is list of risk indices.
 
-```{r eval = FALSE}
+```{r eval = FALSE, message=FALSE}
 results <- lapply(list(rast_avocado, rast_ban, rast_avo_ban), sean)
 ```
 
 So far, we have now run the sensitivity analysis workflow for avocado and banana on global scale and default set of parameter values. Alternatively, we can just specify the crops under `parameters.yaml` and run the workflow -
 
-```{r}
+```{r message=FALSE}
 results <- sensitivity_analysis()
 ```
 
@@ -222,7 +222,7 @@ results <- sensitivity_analysis()
 
 Thresholds are used to select subset of values from the `SpatRaster` on which the operations are applied. It directly effects the connectivity and gives a sense of sensitivity in the network. The intermediate goal is to produce a adjacency graph which essentially determines the connectivity. Cells which doesn't meet the threshold are removed from the consideration by dispersal models.
 
-```{r}
+```{r message=FALSE}
 risk_indexes <- sean(avocado, host_density_threshold = 0.00001, link_threshold = 0.00001)
 ```
 
@@ -262,7 +262,7 @@ This option is highly accurate but more computationally expensive.
 
 This option is less computationally expensive and less accurate than the option above.
 
-You can set the distance option either as DistanceStrategy: "vincentyEllipsoid" or DistanceStrategy: "geodesic". One of these options should be used as input to run the analysis. You can check supported methods in analysis by running `dist_methods()` in the console.
+You can set the distance option either as *DistanceStrategy: "vincentyEllipsoid"* or *DistanceStrategy: "geodesic"*. One of these options should be used as input to run the analysis. Check for supported methods in analysis by running `dist_methods()` in the console.
 
 ```{r}
 dist_methods()
@@ -290,7 +290,7 @@ Geographical extent is a subset of world map defined by coordinate reference sys
 
 1.  Using function
 
-    ```{r non-global}
+    ```{r non-global, message=FALSE}
     results <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
     ```
 
@@ -306,7 +306,7 @@ By default, 3 maps are produced for each analysis. `sean()` also returns list of
 
 In a code below, after obtaining results, the maps are produced. In order to produce calculate variance, cells of `SpatRaster` is extended to coarser value using `res` parameter. Setting `maps = FALSE` will suppress the calculation of outputs.
 
-```{r}
+```{r message=FALSE}
 risk_indexes <- sean(avocado)
 connectivity(risk_indexes)
 ```

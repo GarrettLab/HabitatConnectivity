@@ -1,159 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/Using-raster-file.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/articles/Using-raster-file.html</loc>
   </url>
   <url>
-    <loc>/articles/analysis.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/articles/analysis.html</loc>
   </url>
   <url>
-    <loc>/articles/distance_strategy.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/articles/distance_strategy.html</loc>
   </url>
   <url>
-    <loc>/articles/global_analysis.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/articles/global_analysis.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/articles/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_BETWEENNESS.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_BETWEENNESS.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_CLOSENESS_CENTRALITY.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_CLOSENESS_CENTRALITY.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_DEGREE.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_DEGREE.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_EAST.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_EAST.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_EIGEN_VECTOR_CENTRALITY.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_EIGEN_VECTOR_CENTRALITY.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_NEAREST_NEIGHBORS_SUM.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_NEAREST_NEIGHBORS_SUM.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_NODE_STRENGTH.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_NODE_STRENGTH.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_PAGE_RANK.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_PAGE_RANK.html</loc>
   </url>
   <url>
-    <loc>/reference/STR_WEST.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_WEST.html</loc>
   </url>
   <url>
-    <loc>/reference/ccri_diff.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/ccri_diff.html</loc>
   </url>
   <url>
-    <loc>/reference/ccri_mean.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/ccri_mean.html</loc>
   </url>
   <url>
-    <loc>/reference/ccri_variance.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/ccri_variance.html</loc>
   </url>
   <url>
-    <loc>/reference/connectivity.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/connectivity.html</loc>
   </url>
   <url>
-    <loc>/reference/cropharvest_rast.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/cropharvest_rast.html</loc>
   </url>
   <url>
-    <loc>/reference/crops_rast.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/crops_rast.html</loc>
   </url>
   <url>
-    <loc>/reference/dist_methods.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/dist_methods.html</loc>
   </url>
   <url>
-    <loc>/reference/geohabnet-package.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/geohabnet-package.html</loc>
   </url>
   <url>
-    <loc>/reference/geoscale_param.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/geoscale_param.html</loc>
   </url>
   <url>
-    <loc>/reference/get_param_metrics.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/get_param_metrics.html</loc>
   </url>
   <url>
-    <loc>/reference/get_parameters.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/get_parameters.html</loc>
   </url>
   <url>
-    <loc>/reference/get_rasters.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/get_rasters.html</loc>
   </url>
   <url>
-    <loc>/reference/get_supported_sources.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/get_supported_sources.html</loc>
   </url>
   <url>
-    <loc>/reference/global_scales.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/global_scales.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/load_parameters.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/load_parameters.html</loc>
   </url>
   <url>
-    <loc>/reference/metric_funs.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/metric_funs.html</loc>
   </url>
   <url>
-    <loc>/reference/model_powerlaw.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/model_powerlaw.html</loc>
   </url>
   <url>
-    <loc>/reference/nn_sum.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/nn_sum.html</loc>
   </url>
   <url>
-    <loc>/reference/reset_params.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/reset_params.html</loc>
   </url>
   <url>
-    <loc>/reference/reso.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/reso.html</loc>
   </url>
   <url>
-    <loc>/reference/sa_onrasters.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/sa_onrasters.html</loc>
   </url>
   <url>
-    <loc>/reference/scales.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/scales.html</loc>
   </url>
   <url>
-    <loc>/reference/sean.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/sean.html</loc>
   </url>
   <url>
-    <loc>/reference/search_crop.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/search_crop.html</loc>
   </url>
   <url>
-    <loc>/reference/sensitivity_analysis.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/sensitivity_analysis.html</loc>
   </url>
   <url>
-    <loc>/reference/set_global_scales.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/set_global_scales.html</loc>
   </url>
   <url>
-    <loc>/reference/set_parameters.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/set_parameters.html</loc>
   </url>
   <url>
-    <loc>/reference/set_reso.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/set_reso.html</loc>
   </url>
   <url>
-    <loc>/reference/sp_rast.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/sp_rast.html</loc>
   </url>
   <url>
-    <loc>/reference/supported_metrics.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/supported_metrics.html</loc>
   </url>
   <url>
-    <loc>/reference/the.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/the.html</loc>
   </url>
   <url>
-    <loc>/reference/tiff_torast.html</loc>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/tiff_torast.html</loc>
   </url>
 </urlset>

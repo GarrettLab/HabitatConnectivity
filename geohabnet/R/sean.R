@@ -46,7 +46,6 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 }
 
 .gan_table <- function(row, col, val) {
-  #stopifnot("Not a spatRaster" = tolower(class(val)) == "spatraster")
   the$gan[[row]][[col]] <- val
   invisible()
 }
