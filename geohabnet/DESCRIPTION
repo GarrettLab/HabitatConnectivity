@@ -53,7 +53,7 @@ Suggests:
     knitr,
     lintr (>= 3.0.2),
     mockthat (>= 0.2.8),
-    pkgdown (>= 2.0.7.9000),
+    pkgdown,
     rmarkdown,
     testthat (>= 3.1.7)
 URL:
