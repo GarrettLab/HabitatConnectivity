@@ -83,7 +83,7 @@ BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
 \doi{10.1093/biosci/biaa067}
 
 Hijmans R (2023). \emph{terra: Spatial Data Analysis}.
-R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}
+R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
 }
 \seealso{
 Use \code{\link[=get_rasters]{get_rasters()}} to obtain raster object.

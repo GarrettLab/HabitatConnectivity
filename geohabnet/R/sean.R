@@ -519,7 +519,7 @@ sa_onrasters <- function(rast,
 #' BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
 #' \doi{10.1093/biosci/biaa067}
 #' @references Hijmans R (2023). _terra: Spatial Data Analysis_.
-#' R package version 1.7-46, \@url{https://CRAN.R-project.org/package=terra}
+#' R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   #.resetglobals()
