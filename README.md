@@ -1,4 +1,4 @@
-[![](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main){width="261" height="25"}](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment)
+[![](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment)
 
 # Global cropland connectivity
 
