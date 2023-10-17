@@ -1,17 +1,5 @@
 # exported functions ------------------------------------------------------
 
-#' list stores functions to apply metrics to distance matrix
-#' @keywords internal
-metric_funs <- list(
-  STR_NEAREST_NEIGHBORS_SUM = function(graph, param) nn_sum(graph, param),
-  STR_NODE_STRENGTH = function(graph, param) node_strength(graph, param),
-  STR_BETWEENNESS = function(graph, param) betweeness(graph, param),
-  STR_EIGEN_VECTOR_CENTRALITY = function(graph, param) ev(graph, param),
-  STR_CLOSENESS_CENTRALITY = function(graph, param) closeness(graph, param),
-  STR_PAGE_RANK = function(graph, param) pagerank(graph, param),
-  STR_DEGREE = function(graph, param) degree(graph, param)
-)
-
 #'
 #'  Returns metrics currently supported in the analysis.
 #'
@@ -172,6 +160,20 @@ pagerank <- function(crop_dm, we) {
 }
 
 # ------------------------------------------Private methods------------------------------------------
+
+
+
+.metric_funs <- function() {
+  return (list(
+    STR_NEAREST_NEIGHBORS_SUM = function(graph, param) nn_sum(graph, param),
+    STR_NODE_STRENGTH = function(graph, param) node_strength(graph, param),
+    STR_BETWEENNESS = function(graph, param) betweeness(graph, param),
+    STR_EIGEN_VECTOR_CENTRALITY = function(graph, param) ev(graph, param),
+    STR_CLOSENESS_CENTRALITY = function(graph, param) closeness(graph, param),
+    STR_PAGE_RANK = function(graph, param) pagerank(graph, param),
+    STR_DEGREE = function(graph, param) degree(graph, param)
+  ))
+}
 
 .validate_weights <- function(me, we) {
   stopifnot("Sum of metric weights should be 100" = sum(we) == 100)

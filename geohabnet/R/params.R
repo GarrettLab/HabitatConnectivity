@@ -25,7 +25,7 @@ get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
 
   params_file_path <- .param_fp()
   .copy_file(params_file_path, out_path)
-  mesage("parameters fetched successfully")
+  message("parameters fetched successfully")
   return(file.path(paste(out_path, "parameters.yaml", sep = "/")))
 }
 
@@ -120,7 +120,7 @@ reset_params <- function() {
 #' set_reso(24)
 #'
 set_reso <- function(value) {
-  stopifnot("Invalid resolution" = is.numeric(value), value <= 0, value >= 48)
+  stopifnot("Invalid resolution" = is.numeric(value), value >= 0, value <= 48)
   .loadparam_ifnull()
   the$parameters_config$`CCRI parameters`$Resolution <- value
   invisible(TRUE)

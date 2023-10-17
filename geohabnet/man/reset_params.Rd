@@ -11,7 +11,6 @@ Resets the values in the \code{parameters.yaml}
 file to the default initial values.
 }
 \examples{
-\dontrun{
 reset_params()
-}
+
 }
