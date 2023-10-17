@@ -25,7 +25,7 @@ get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
 
   params_file_path <- .param_fp()
   .copy_file(params_file_path, out_path)
-  print("parameters fetched successfully")
+  mesage("parameters fetched successfully")
   return(file.path(paste(out_path, "parameters.yaml", sep = "/")))
 }
 
@@ -100,9 +100,8 @@ reso <- function() {
 #' file to the default initial values.
 #' @export
 #' @examples
-#' \dontrun{
 #' reset_params()
-#' }
+#'
 reset_params <- function() {
   .copy_file(.default_param(), .param_fp())
   return(TRUE)
@@ -118,9 +117,7 @@ reset_params <- function() {
 #' @param value numeric. Resolution value.
 #' @export
 #' @examples
-#' \dontrun{
 #' set_reso(24)
-#' }
 #'
 set_reso <- function(value) {
   stopifnot("Invalid resolution" = is.numeric(value), value <= 0, value >= 48)

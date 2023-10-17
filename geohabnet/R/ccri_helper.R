@@ -107,7 +107,6 @@ library(yaml)
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
   .apply_agg <<- memoise::memoise(.apply_agg)
-  #.crop_rast <<- memoise::memoise(.crop_rast)
 
   metric_funs <<- stats::setNames(metric_funs,
                                   c(STR_NEAREST_NEIGHBORS_SUM,

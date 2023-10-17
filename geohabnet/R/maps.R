@@ -13,6 +13,7 @@
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise.
 #' @param outdir Character. Output directory for saving raster in TIFF format.
 #' Default is [tempdir()].
+#' @returns NULL
 #' @details
 #' `indexes` are actually risk resulting from operations on crop's raster and
 #' parameters provided in either `parameters.yaml` or [sean()].
@@ -282,16 +283,17 @@ ccri_diff <- function(rast,
 
 .saverast <- function(typ, rast, outdir) {
 
+  newdir <- outdir
   if (is.null(outdir) || length(outdir) == 0) {
-    outdir <- tempdir()
+    newdir <- tempdir()
   }
 
-  outdir <- file.path(outdir, "plots")
-  if (!dir.exists(outdir)) {
-    dir.create(outdir, recursive = TRUE)
+  newdir <- file.path(outdir, "plots")
+  if (!dir.exists(newdir)) {
+    dir.create(newdir, recursive = TRUE)
   }
 
-  fp <- file.path(outdir, paste(typ, "_",
+  fp <- file.path(newdir, paste(typ, "_",
                                 stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
                                 ".tif", sep = ""))
   terra::writeRaster(rast, overwrite = TRUE,
