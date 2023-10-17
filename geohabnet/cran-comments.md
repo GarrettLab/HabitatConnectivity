@@ -22,4 +22,8 @@ Maintainer: ‘Krishna Keshav <kkeshav@ufl.edu>’
 
 We found a relevant discussion in a CRAN's mailing list that it is due to issue in underlying server and thus proceeding with submission.
 
-One of the feedback was to avoid installation of packages in vignette. We have addressed it by setting `eval = FALSE` for the code chunks which does installation.
+Eliminated usage of `<<-`. However, we still use this assignment operator with `memoise` package in `.onLoad()` of `ccri_helper.R` which is the recommended way by. Based on this [thread](https://github.com/r-lib/memoise/issues/76) , `memoise` doesn't modify R enviroment.
+
+## Reviewer
+
+Victoria Wimmer \<[vwimmer\@wu.ac.at](mailto:vwimmer@wu.ac.at)\>

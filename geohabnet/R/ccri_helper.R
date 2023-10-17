@@ -107,15 +107,6 @@ library(yaml)
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
   .apply_agg <<- memoise::memoise(.apply_agg)
-
-  metric_funs <<- stats::setNames(metric_funs,
-                                  c(STR_NEAREST_NEIGHBORS_SUM,
-                                    STR_NODE_STRENGTH,
-                                    STR_BETWEENNESS,
-                                    STR_EIGEN_VECTOR_CENTRALITY,
-                                    STR_CLOSENESS_CENTRALITY,
-                                    STR_PAGE_RANK,
-                                    STR_DEGREE))
 }
 
 .get_helper_filepath <- function(file_type) {

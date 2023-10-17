@@ -121,11 +121,12 @@ model_neg_exp <- function(gamma_val,
   mets <- Map(c, mets[[1]], mets[[2]])
   index <- 0
 
+  mfuns <- .metric_funs()
   # Iterate over the metric names and values in 'mets'
   for (mname in names(mets)) {
-    if (mname %in% names(metric_funs)) {
+    if (mname %in% names(mfuns)) {
       val <- mets[[mname]][[2]]
-      mfun <- metric_funs[[mname]]
+      mfun <- mfuns[[mname]]
       index <- index + mfun(adj_graph, val)
     }
   }

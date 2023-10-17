@@ -16,8 +16,6 @@ but instead a currently loaded instance of it.
 Must be greater than 0 and less than or equal to 48.
 }
 \examples{
-\dontrun{
 set_reso(24)
-}
 
 }

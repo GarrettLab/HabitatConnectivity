@@ -288,7 +288,7 @@ ccri_diff <- function(rast,
     newdir <- tempdir()
   }
 
-  newdir <- file.path(outdir, "plots")
+  newdir <- file.path(newdir, "plots")
   if (!dir.exists(newdir)) {
     dir.create(newdir, recursive = TRUE)
   }
@@ -342,7 +342,6 @@ ccri_diff <- function(rast,
       )
     }
 
-    # plg = list(loc = "bottom", horizontal = TRUE)
     # Plot the country boundaries
     world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
     world <- world[which(world$continent != "Antarctica"), ]["geometry"]
