@@ -7,7 +7,7 @@
 get_supported_sources()
 }
 \value{
-return vector of supported sources.
+Vector of supported sources.
 Also used as a lookup to find get raster object.
 }
 \description{

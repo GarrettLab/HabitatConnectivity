@@ -22,8 +22,13 @@ Maintainer: ‘Krishna Keshav <kkeshav@ufl.edu>’
 
 We found a relevant discussion in a CRAN's mailing list that it is due to issue in underlying server and thus proceeding with submission.
 
-Eliminated usage of `<<-`. However, we still use this assignment operator with `memoise` package in `.onLoad()` of `ccri_helper.R` which is the recommended way by. Based on this [thread](https://github.com/r-lib/memoise/issues/76) , `memoise` doesn't modify R enviroment.
+Eliminated usage of `<<-`. However, we still use this assignment operator with `memoise` package in `.onLoad()` of `ccri_helper.R` which is the recommended way by. Based on this [thread](https://github.com/r-lib/memoise/issues/76) , `memoise` doesn't modify R environment.
+
+We have used `dontrun` to prevent some time consuming functions to run during build process. These functions might run slow since they are required to download files (up to 37mb each).
 
 ## Reviewer
 
-Victoria Wimmer \<[vwimmer\@wu.ac.at](mailto:vwimmer@wu.ac.at)\>
+In order of review,
+
+1.  Victoria Wimmer \<[vwimmer\@wu.ac.at](mailto:vwimmer@wu.ac.at)\>
+2.  Beni Altmann \<[benjamin.altmann\@wu.ac.at](mailto:benjamin.altmann@wu.ac.at)\>

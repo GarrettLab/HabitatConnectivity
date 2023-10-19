@@ -10,7 +10,7 @@ sp_rast(crp)
 \item{crp}{character. name of a crop. Case-insensitive.}
 }
 \value{
-spatRaster
+SpatRaster
 }
 \description{
 get raster for crop in mapspam dataset

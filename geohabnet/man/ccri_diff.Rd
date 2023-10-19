@@ -23,6 +23,9 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
+\value{
+Invisible NULL.
+}
 \description{
 This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
 }

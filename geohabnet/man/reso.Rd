@@ -6,6 +6,9 @@
 \usage{
 reso()
 }
+\value{
+Numeric. Resolution from \code{parameters.yaml}. Default is 24.
+}
 \description{
 Resolution stored in \code{parameter.yaml}.
 If not present it will result default value.

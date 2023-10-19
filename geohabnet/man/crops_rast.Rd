@@ -10,7 +10,7 @@ crops_rast(crop_names)
 \item{crop_names}{A named list of source along with crop names}
 }
 \value{
-SpatRaster. Raster object which is sum of all the individual crop rasters
+SpatRaster. Raster object which is sum of all the individual crop raster
 }
 \description{
 Takes crop names and returns raster object which is sum of raster of individual crops.

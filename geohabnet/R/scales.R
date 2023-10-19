@@ -9,7 +9,12 @@ scales$gwest <- c(-140, -34, -58, 60)
 #'   See geographical extents used in global analysis.
 #'   Returns eastern and western hemisphere extents.
 #'   Each extent is in the form of c(Xmin, Xmax, Ymin, Ymax).
+#' @return List. Named list with scales for eastern and western hemisphere
 #' @export
+#' @details
+#' Seperate analysis on geographical scales of eastern and western hemisphere
+#' are combined to run global analysis.
+#'
 #' @seealso [set_global_scales()]
 global_scales <- function() {
   sc <- list(scales$geast, scales$gwest)
@@ -28,9 +33,7 @@ global_scales <- function() {
 #' @param value list. Named list of eastern and western hemisphere extents. See usage.
 #' @export
 #' @examples
-#' \dontrun{
 #' set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
-#' }
 #' @seealso
 #' [global_scales()]
 #' [terra::ext()]
@@ -51,7 +54,7 @@ set_global_scales <- function(value) {
 #'
 #'   This function returns a list of geographical scales set in global and custom extent in `parameters.yaml`.
 #'   If `global` is `TRUE`, the `CustomExt` is ignored.
-#' @return A list of geographical scales
+#' @return Vector. A set of geographical scales
 #' @export
 geoscale_param <- function() {
   .loadparam_ifnull()

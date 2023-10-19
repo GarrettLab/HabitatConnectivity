@@ -32,7 +32,7 @@ get_rasters <- function(hosts) {
 #' [geodata::monfredaCrops()], [geodata::spamCrops()]
 #' If crop is present in multiple sources, then their mean is calculated.
 #' @param crop_names A named list of source along with crop names
-#' @return SpatRaster. Raster object which is sum of all the individual crop rasters
+#' @return SpatRaster. Raster object which is sum of all the individual crop raster
 #' @export
 #' @examples
 #' \dontrun{
@@ -79,7 +79,7 @@ crops_rast <- function(crop_names) {
 #' @description Get cropland information in a form of raster object from data source for crop
 #' @param crop_name Name of the crop
 #' @param data_source Data source for cropland information
-#' @return Raster object
+#' @return Raster.
 #' @export
 #' @examples
 #' \dontrun{
@@ -101,7 +101,7 @@ cropharvest_rast <- function(crop_name, data_source) {
 #'
 #' This is a wrapper of [terra::rast()] and generates a raster object if provided with a TIF file.
 #'
-#' @param path_to_tif TIF file
+#' @param path_to_tif TIFF file. This is an encoding of map in raster format.
 #' @return SpatRaster.
 #' @examples
 #' \dontrun{

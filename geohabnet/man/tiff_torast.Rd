@@ -7,7 +7,7 @@
 tiff_torast(path_to_tif)
 }
 \arguments{
-\item{path_to_tif}{TIF file}
+\item{path_to_tif}{TIFF file. This is an encoding of map in raster format.}
 }
 \value{
 SpatRaster.

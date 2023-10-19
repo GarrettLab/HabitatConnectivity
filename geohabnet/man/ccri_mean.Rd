@@ -25,6 +25,9 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
+\value{
+Invisible NULL.
+}
 \description{
 Wrapper for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.
 }

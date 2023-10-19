@@ -6,10 +6,17 @@
 \usage{
 global_scales()
 }
+\value{
+List. Named list with scales for eastern and western hemisphere
+}
 \description{
 See geographical extents used in global analysis.
 Returns eastern and western hemisphere extents.
 Each extent is in the form of c(Xmin, Xmax, Ymin, Ymax).
+}
+\details{
+Seperate analysis on geographical scales of eastern and western hemisphere
+are combined to run global analysis.
 }
 \seealso{
 \code{\link[=set_global_scales]{set_global_scales()}}

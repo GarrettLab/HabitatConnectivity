@@ -134,9 +134,6 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                        metrics = metrics
                        )
   return(index_list)
-
-  #the$result_index_list <- c(the$result_index_list, index_list)
-  #invisible()
 }
 
 .ccri_negative_exp <- function(gammas,
@@ -164,8 +161,6 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
   )
 
   return(index_list)
-  #the$result_index_list <- c(the$result_index_list, index_list)
-  #invisible()
 }
 
 
@@ -430,7 +425,7 @@ sean <- function(rast,
 #'             res = 24)
 #'}
 #' @inherit sensitivity_analysis seealso references
-#' 
+#'
 sa_onrasters <- function(rast,
                          global = TRUE,
                          geoscale,
