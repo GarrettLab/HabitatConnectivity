@@ -18,7 +18,7 @@ Raster.
 Get cropland information in a form of raster object from data source for crop
 }
 \examples{
-\dontrun{
+\donttest{
 cropharvest_rast("avocado", "monfreda")
 }
 

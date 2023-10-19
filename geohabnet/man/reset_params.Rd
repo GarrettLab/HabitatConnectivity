@@ -6,6 +6,9 @@
 \usage{
 reset_params()
 }
+\value{
+Logical. \code{TRUE} if function was succesfully executed
+}
 \description{
 Resets the values in the \code{parameters.yaml}
 file to the default initial values.

@@ -19,7 +19,7 @@ Currently, only supports crops listed in
 If crop is present in multiple sources, then their mean is calculated.
 }
 \examples{
-\dontrun{
+\donttest{
 crops_rast(list(monfreda = c("wheat", "barley"), mapspam = c("wheat", "potato")))
 }
 }

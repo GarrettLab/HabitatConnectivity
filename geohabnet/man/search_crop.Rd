@@ -9,6 +9,9 @@ search_crop(name)
 \arguments{
 \item{name}{name of crop}
 }
+\value{
+Logical. Sources iin crop data is available.
+}
 \description{
 It returns the dataset sources in which crop data is available.
 It's a wrapper around \code{\link[geodata:crop_spam]{geodata::spamCrops()}} and \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}

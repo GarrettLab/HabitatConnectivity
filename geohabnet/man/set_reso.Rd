@@ -9,6 +9,9 @@ set_reso(value)
 \arguments{
 \item{value}{numeric. Resolution value.}
 }
+\value{
+Invisible TRUE
+}
 \description{
 Set \code{resolution} to be used in analysis.
 It doesn't modify the \code{parameters.yaml}

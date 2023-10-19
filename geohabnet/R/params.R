@@ -99,6 +99,7 @@ reso <- function() {
 #'
 #' Resets the values in the `parameters.yaml`
 #' file to the default initial values.
+#' @return Logical. `TRUE` if function was succesfully executed
 #' @export
 #' @examples
 #' reset_params()
@@ -116,6 +117,7 @@ reset_params <- function() {
 #' Must be greater than 0 and less than or equal to 48.
 #'
 #' @param value numeric. Resolution value.
+#' @return Invisible TRUE
 #' @export
 #' @examples
 #' set_reso(24)

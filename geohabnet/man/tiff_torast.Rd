@@ -16,7 +16,7 @@ SpatRaster.
 This is a wrapper of \code{\link[terra:rast]{terra::rast()}} and generates a raster object if provided with a TIF file.
 }
 \examples{
-\dontrun{
+\donttest{
 # Generate raster for usage
 fp <- .get_helper_filepath("avocado")
 tiff_torast(fp)
