@@ -7,7 +7,7 @@
 geoscale_param()
 }
 \value{
-A list of geographical scales
+Vector. A set of geographical scales
 }
 \description{
 This function returns a list of geographical scales set in global and custom extent in \code{parameters.yaml}.

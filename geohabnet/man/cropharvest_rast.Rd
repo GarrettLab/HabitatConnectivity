@@ -12,7 +12,7 @@ cropharvest_rast(crop_name, data_source)
 \item{data_source}{Data source for cropland information}
 }
 \value{
-Raster object
+Raster.
 }
 \description{
 Get cropland information in a form of raster object from data source for crop

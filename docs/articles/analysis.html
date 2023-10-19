@@ -85,7 +85,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:kkeshav@ufl.edu" class="email">kkeshav@ufl.edu</a>)</h4>
             
-            <h4 data-toc-skip class="date">17 October, 2023</h4>
+            <h4 data-toc-skip class="date">19 October, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/CroplandConnectivity/blob/HEAD/vignettes/analysis.Rmd" class="external-link"><code>vignettes/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -209,32 +209,25 @@ supported parameters. Initially, the values are set based on the Xing et
 al(2021) <span class="citation">(Xing et al. 2020)</span> and crop is
 <em>Avocado</em>. This would run the workflow on global geographical
 extent quickly since the crop presence is relatively low.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sensitivity_analysis</span>()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="er">====</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="er">=======</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inf</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in max(x, na.rm = na.rm): no non-missing arguments to max; returning</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/sensitivity_analysis.html">sensitivity_analysis</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<pre><code>#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf
-#&gt; 
+<pre><code>#&gt; 
 |---------|---------|---------|---------|
-====
+===
                                           
-#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf</code></pre>
+
+|---------|---------|---------|---------|
+======
+                                          </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-=======
+===
+                                          
+
+|---------|---------|---------|---------|
+=====
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-3.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; [1] TRUE</span></span></code></pre>
@@ -275,32 +268,25 @@ obtain raster and later we will understand the details.</p>
 workflow. We will only set the required parameter - <em>rast</em>. The
 value represents <em>Avocado</em> plantation in geographical area of
 North America.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>risk_indexes <span class="ot">&lt;-</span> <span class="fu">sean</span>(avocado)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="er">====</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="er">=======</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inf</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in max(x, na.rm = na.rm): no non-missing arguments to max; returning</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">risk_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<pre><code>#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf
-#&gt; 
+<pre><code>#&gt; 
 |---------|---------|---------|---------|
 ===
                                           
-#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf</code></pre>
+
+|---------|---------|---------|---------|
+======
+                                          </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-=======
+===
+                                          
+
+|---------|---------|---------|---------|
+======
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
 <p>The results should be interpreted in accordance to the values of
@@ -355,7 +341,7 @@ file.</p>
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; parameters fetched successfully</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpoT1MN5/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpaHhBh6/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="figure">
 <img src="images/initconfig.png" width="700" alt=""><p class="caption">Initial parameters.yaml</p>
@@ -428,32 +414,25 @@ of risk indices.</p>
 and banana on global scale and default set of parameter values.
 Alternatively, we can just specify the crops under
 <code>parameters.yaml</code> and run the workflow -</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">sensitivity_analysis</span>()</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="er">===</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="er">======</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inf</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in max(x, na.rm = na.rm): no non-missing arguments to max; returning</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sensitivity_analysis.html">sensitivity_analysis</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
-<pre><code>#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf
-#&gt; 
+<pre><code>#&gt; 
 |---------|---------|---------|---------|
 ===
                                           
-#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf</code></pre>
+
+|---------|---------|---------|---------|
+=====
+                                          </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-18-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-======
+===
+                                          
+
+|---------|---------|---------|---------|
+=====
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-18-3.png" width="700"></p>
 </div>
@@ -466,32 +445,25 @@ effects the connectivity and gives a sense of sensitivity in the
 network. The intermediate goal is to produce a adjacency graph which
 essentially determines the connectivity. Cells which doesn’t meet the
 threshold are removed from the consideration by dispersal models.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>risk_indexes <span class="ot">&lt;-</span> <span class="fu">sean</span>(avocado, <span class="at">host_density_threshold =</span> <span class="fl">0.00001</span>, <span class="at">link_threshold =</span> <span class="fl">0.00001</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="er">===</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="er">======</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inf</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in max(x, na.rm = na.rm): no non-missing arguments to max; returning</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">risk_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span>, host_density_threshold <span class="op">=</span> <span class="fl">0.00001</span>, link_threshold <span class="op">=</span> <span class="fl">0.00001</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
-<pre><code>#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf
-#&gt; 
+<pre><code>#&gt; 
 |---------|---------|---------|---------|
 ===
                                           
-#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf</code></pre>
+
+|---------|---------|---------|---------|
+=====
+                                          </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-19-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-======
+===
+                                          
+
+|---------|---------|---------|---------|
+=====
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-19-3.png" width="700"></p>
 <div class="section level5">
@@ -616,15 +588,8 @@ account using values from <code><a href="../reference/global_scales.html">global
 <li>
 <p>Using function</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning</span></span>
-<span><span class="co">#&gt; Inf</span></span>
-<span><span class="co">#&gt; Warning in max(x, na.rm = na.rm): no non-missing arguments to max; returning</span></span>
-<span><span class="co">#&gt; -Inf</span></span></code></pre></div>
-<p><img src="analysis_files/figure-html/non-global-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;</span></span>
-<span><span class="co">#&gt; returning -Inf</span></span></code></pre>
-<p><img src="analysis_files/figure-html/non-global-2.png" width="700"><img src="analysis_files/figure-html/non-global-3.png" width="700"></p>
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="analysis_files/figure-html/non-global-1.png" width="700"><img src="analysis_files/figure-html/non-global-2.png" width="700"><img src="analysis_files/figure-html/non-global-3.png" width="700"></p>
 </li>
 <li>
 <p>Using config</p>
@@ -651,61 +616,46 @@ produce maps with further different parameters.</p>
 order to produce calculate variance, cells of <code>SpatRaster</code> is
 extended to coarser value using <code>res</code> parameter. Setting
 <code>maps = FALSE</code> will suppress the calculation of outputs.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>risk_indexes <span class="ot">&lt;-</span> <span class="fu">sean</span>(avocado)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="er">===</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="er">======</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inf</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in max(x, na.rm = na.rm): no non-missing arguments to max; returning</span></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -Inf</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">risk_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
-<pre><code>#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf
-#&gt; 
+<pre><code>#&gt; 
 |---------|---------|---------|---------|
 ===
                                           
-#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf</code></pre>
+
+|---------|---------|---------|---------|
+=====
+                                          </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-22-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-======
-                                          </code></pre>
-<p><img src="analysis_files/figure-html/unnamed-chunk-22-3.png" width="700"></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">connectivity</span>(risk_indexes)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="er">===</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="er">======</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>                                          </span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning</span></span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Inf</span></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in min(x, na.rm = na.rm): no non-missing arguments to max; returning</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -Inf</span></span></code></pre></div>
-<p><img src="analysis_files/figure-html/unnamed-chunk-22-4.png" width="700"></p>
-<pre><code>#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf
-#&gt; 
-|---------|---------|---------|---------|
 ===
                                           
-#&gt; Warning in max(abs(rankdifferent_w)): no non-missing arguments to max;
-#&gt; returning -Inf</code></pre>
+
+|---------|---------|---------|---------|
+=====
+                                          </code></pre>
+<p><img src="analysis_files/figure-html/unnamed-chunk-22-3.png" width="700"></p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/connectivity.html">connectivity</a></span><span class="op">(</span><span class="va">risk_indexes</span><span class="op">)</span></span></code></pre></div>
+<p><img src="analysis_files/figure-html/unnamed-chunk-22-4.png" width="700"></p>
+<pre><code>#&gt; 
+|---------|---------|---------|---------|
+==
+                                          
+
+|---------|---------|---------|---------|
+=====
+                                          </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-22-5.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-======
+==
+                                          
+
+|---------|---------|---------|---------|
+=====
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-22-6.png" width="700"></p>
 <p>is equivalent to <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> .</p>

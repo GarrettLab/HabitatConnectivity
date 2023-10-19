@@ -2,7 +2,7 @@
 #'
 #' get raster for crop in mapspam dataset
 #' @param crp character. name of a crop. Case-insensitive.
-#' @return spatRaster
+#' @return SpatRaster
 #' @details
 #' See [geodata::spamCrops()] for supported crops.
 #' @export

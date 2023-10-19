@@ -128,6 +128,8 @@ model_neg_exp <- function(gamma_val,
       val <- mets[[mname]][[2]]
       mfun <- mfuns[[mname]]
       index <- index + mfun(adj_graph, val)
+    } else {
+      warning(mname, " is not a valid metric for network connectivity")
     }
   }
 

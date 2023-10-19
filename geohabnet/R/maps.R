@@ -13,7 +13,7 @@
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise.
 #' @param outdir Character. Output directory for saving raster in TIFF format.
 #' Default is [tempdir()].
-#' @returns NULL
+#' @return Invisible NULL.
 #' @details
 #' `indexes` are actually risk resulting from operations on crop's raster and
 #' parameters provided in either `parameters.yaml` or [sean()].
@@ -68,6 +68,7 @@ connectivity <- function(indexes,
 #'
 #'   Wrapper for [terra::mean()]. Calculates mean of list of rasters.
 #' @inheritParams connectivity
+#' @inherit connectivity return
 #' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`.
 #' @export
 ccri_mean <- function(indexes,
@@ -113,6 +114,7 @@ ccri_mean <- function(indexes,
 #'
 #'    This function produces a map of variance of CCRI based on input parameters
 #' @inheritParams connectivity
+#' @inherit connectivity return
 #' @param rast A raster object. It will be used in calculating variance.
 #' @export
 ccri_variance <- function(indexes,
@@ -172,6 +174,7 @@ ccri_variance <- function(indexes,
 #' @param x A raster object for cropland harvest
 #' @param y A raster object for cropland harvest
 #' @inheritParams connectivity
+#' @inherit connectivity return
 #' @export
 ccri_diff <- function(rast,
                       x,
@@ -306,7 +309,10 @@ ccri_diff <- function(rast,
   if (interactive() || pkgdown::in_pkgdown()) {
 
     # Set the plot parameters
+    oldpar <- graphics::par(no.readonly = TRUE)
+    on.exit(graphics::par(oldpar))
     graphics::par(bg = "aliceblue")
+
     # Plot the base map
     terra::plot(.cal_mgb(geoscale, isglobal),
                 col = "grey85",

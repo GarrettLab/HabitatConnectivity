@@ -10,7 +10,7 @@ get_param_metrics(params = load_parameters())
 \item{params}{R object of \code{\link[=load_parameters]{load_parameters()}}. Default is \code{load_parameters()}.}
 }
 \value{
-List of metrics - parameters and values. See usage.
+List. List of metrics - parameters and values. See usage.
 }
 \description{
 Get metrics and parameters stored in \code{parameters.yaml}.

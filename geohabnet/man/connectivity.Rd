@@ -34,6 +34,9 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
+\value{
+Invisible NULL.
+}
 \description{
 Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 Currently, the settings for plot cannot be customized.

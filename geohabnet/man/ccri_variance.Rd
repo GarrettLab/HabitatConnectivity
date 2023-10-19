@@ -28,6 +28,9 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
+\value{
+Invisible NULL.
+}
 \description{
 This function produces a map of variance of CCRI based on input parameters
 }

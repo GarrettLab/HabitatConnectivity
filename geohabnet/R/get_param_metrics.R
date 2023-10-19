@@ -26,7 +26,7 @@ supported_metrics <- function() {
 #'
 #' @param params R object of [load_parameters()]. Default is `load_parameters()`.
 #'
-#' @return List of metrics - parameters and values. See usage.
+#' @return List. List of metrics - parameters and values. See usage.
 #'
 #' @examples
 #' # Get metrics from parameters
@@ -164,16 +164,23 @@ pagerank <- function(crop_dm, we) {
 
 
 .metric_funs <- function() {
-  return (list(
-    STR_NEAREST_NEIGHBORS_SUM = function(graph, param) nn_sum(graph, param),
-    STR_NODE_STRENGTH = function(graph, param) node_strength(graph, param),
-    STR_BETWEENNESS = function(graph, param) betweeness(graph, param),
-    STR_EIGEN_VECTOR_CENTRALITY = function(graph, param) ev(graph, param),
-    STR_CLOSENESS_CENTRALITY = function(graph, param) closeness(graph, param),
-    STR_PAGE_RANK = function(graph, param) pagerank(graph, param),
-    STR_DEGREE = function(graph, param) degree(graph, param)
-  ))
+
+  # Create an empty R environment
+  envmap <- new.env()
+
+  # Define the metric functions
+  envmap[[STR_NEAREST_NEIGHBORS_SUM]] <- function(graph, param) nn_sum(graph, param)
+  envmap[[STR_NODE_STRENGTH]] <- function(graph, param) node_strength(graph, param)
+  envmap[[STR_BETWEENNESS]] <- function(graph, param) betweeness(graph, param)
+  envmap[[STR_EIGEN_VECTOR_CENTRALITY]] <- function(graph, param) ev(graph, param)
+  envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph, param) closeness(graph, param)
+  envmap[[STR_PAGE_RANK]] <- function(graph, param) pagerank(graph, param)
+  envmap[[STR_DEGREE]] <- function(graph, param) degree(graph, param)
+  
+  # Return the environment
+  return(envmap)
 }
+
 
 .validate_weights <- function(me, we) {
   stopifnot("Sum of metric weights should be 100" = sum(we) == 100)

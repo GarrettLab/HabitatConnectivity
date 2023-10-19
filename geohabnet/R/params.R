@@ -82,6 +82,7 @@ load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_ty
 #'
 #' Resolution stored in `parameter.yaml`.
 #' If not present it will result default value.
+#' @return Numeric. Resolution from `parameters.yaml`. Default is 24.
 #' @export
 #' @seealso [set_reso()]
 reso <- function() {

@@ -263,7 +263,7 @@ library(yaml)
 #'
 #' When provided, [cropharvest_rast()] will
 #' look for cropland data in this specific source.
-#' @returns return vector of supported sources.
+#' @returns Vector of supported sources.
 #' Also used as a lookup to find get raster object.
 #' @export
 #' @examples
@@ -305,7 +305,7 @@ search_crop <- function(name) {
   }
 
   srcs <- if (is.null(srcs) || length(srcs) < 1) {
-    "Crop not present in supported sources." 
+    "Crop not present in supported sources."
   } else {
     srcs
   }
