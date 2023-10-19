@@ -176,7 +176,7 @@ pagerank <- function(crop_dm, we) {
   envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph, param) closeness(graph, param)
   envmap[[STR_PAGE_RANK]] <- function(graph, param) pagerank(graph, param)
   envmap[[STR_DEGREE]] <- function(graph, param) degree(graph, param)
-  
+
   # Return the environment
   return(envmap)
 }

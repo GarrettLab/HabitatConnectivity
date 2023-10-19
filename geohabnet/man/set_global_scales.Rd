@@ -9,14 +9,15 @@ set_global_scales(value)
 \arguments{
 \item{value}{list. Named list of eastern and western hemisphere extents. See usage.}
 }
+\value{
+List. Named list with scales for eastern and western hemisphere
+}
 \description{
 Set the geographical extents used in global analysis.
 Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)
 }
 \examples{
-\dontrun{
 set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
-}
 }
 \seealso{
 \code{\link[=global_scales]{global_scales()}}

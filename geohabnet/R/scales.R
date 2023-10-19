@@ -31,6 +31,7 @@ global_scales <- function() {
 #'   Set the geographical extents used in global analysis.
 #'   Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)
 #' @param value list. Named list of eastern and western hemisphere extents. See usage.
+#' @inherit global_scales return
 #' @export
 #' @examples
 #' set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
@@ -47,7 +48,7 @@ set_global_scales <- function(value) {
   scales$geast <- east
   scales$gwest <- west
   value <- c(east, west)
-  return(invisible(value))
+  return(global_scales())
 }
 
 #' Get geographical scales from the parameters

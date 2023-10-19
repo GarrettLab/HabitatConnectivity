@@ -7,7 +7,7 @@
 #' See [geodata::spamCrops()] for supported crops.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sp_rast("rice")
 #' }
 #' @seealso

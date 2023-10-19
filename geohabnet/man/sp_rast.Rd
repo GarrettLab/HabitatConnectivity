@@ -19,7 +19,7 @@ get raster for crop in mapspam dataset
 See \code{\link[geodata:crop_spam]{geodata::spamCrops()}} for supported crops.
 }
 \examples{
-\dontrun{
+\donttest{
 sp_rast("rice")
 }
 }

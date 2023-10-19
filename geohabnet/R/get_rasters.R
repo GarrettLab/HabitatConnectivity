@@ -8,7 +8,7 @@
 #' @return List of SpatRaster.
 #' @examples
 #' # Get default rasters
-#' \dontrun{
+#' \donttest{
 #' get_rasters(list(mapspam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
 #' }
 #' @seealso [load_parameters()], [get_parameters()], [tiff_torast()], [cropharvest_rast()]
@@ -35,7 +35,7 @@ get_rasters <- function(hosts) {
 #' @return SpatRaster. Raster object which is sum of all the individual crop raster
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' crops_rast(list(monfreda = c("wheat", "barley"), mapspam = c("wheat", "potato")))
 #' }
 crops_rast <- function(crop_names) {
@@ -82,7 +82,7 @@ crops_rast <- function(crop_names) {
 #' @return Raster.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' cropharvest_rast("avocado", "monfreda")
 #' }
 #'
@@ -104,7 +104,7 @@ cropharvest_rast <- function(crop_name, data_source) {
 #' @param path_to_tif TIFF file. This is an encoding of map in raster format.
 #' @return SpatRaster.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Generate raster for usage
 #' fp <- .get_helper_filepath("avocado")
 #' tiff_torast(fp)
