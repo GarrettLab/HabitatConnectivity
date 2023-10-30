@@ -146,7 +146,7 @@ set_reso <- function(value) {
 }
 
 .copy_file <- function(from, to) {
-  file.copy(from = from, to = to, copy.mode = FALSE, overwrite = TRUE)
+  file.copy(from = from, to = to, overwrite = TRUE)
 }
 
 .extract_hosts <- function(params = load_parameters()) {
