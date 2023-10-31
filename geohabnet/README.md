@@ -1,5 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
+
+[<img
+src="https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main"
+width="250" height="25" alt="Github Pages" />](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment)
+[<img src="https://www.r-pkg.org/badges/version/geohabnet" width="100"
+height="25" alt="CRAN status" />](https://CRAN.R-project.org/package=geohabnet)
+
+<!-- badges: end -->
 
 # geohabnet
 
@@ -24,12 +33,21 @@ in which functions can be used - generate final outcome and then the
 intermediate outcomes for more sophisticated use cases. Refer to
 vignettes. This values are propagated to other functions for performing
 operations such distance matrix calculation. The values are set in
-`parameters.yaml` and it can be accessed using `get_parameters()`. See
-the usage below.
+`parameters.yaml` using and it can be accessed using `get_parameters()`.
+See the usage below.
 
 ## Installation
 
-The source version of package can be installed from
+Package can either be installed from CRAN:
+
+``` r
+install.packages("geohabnet")
+#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpgAVmQR/temp_libpath15ebc6703a975'
+#> (as 'lib' is unspecified)
+#> installing the source package 'geohabnet'
+```
+
+or the source version of package can be installed from
 [GitHub](https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet)
 with:
 
@@ -42,17 +60,8 @@ if (!require("devtools")) {
 
 devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 #> Downloading GitHub repo GarrettLab/CroplandConnectivity@HEAD
-#> 
-#> ── R CMD build ─────────────────────────────────────────────────────────────────
-#> * checking for file ‘/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/Rtmp5Du3oI/remotes142c87b1a1d86/GarrettLab-CroplandConnectivity-f1e22a1/geohabnet/DESCRIPTION’ ... OK
-#> * preparing ‘geohabnet’:
-#> * checking DESCRIPTION meta-information ... OK
-#> * checking for LF line-endings in source and make files and shell scripts
-#> * checking for empty or unneeded directories
-#> Removed empty directory ‘geohabnet/vignettes’
-#> * building ‘geohabnet_1.0.0.tar.gz’
-#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpU8nDB5/temp_libpath12bd83bd84ecb'
-#> (as 'lib' is unspecified)
+#> Error in utils::download.file(url, path, method = method, quiet = quiet,  : 
+#>   download from 'https://api.github.com/repos/GarrettLab/CroplandConnectivity/tarball/HEAD' failed
 ```
 
 ## geohabnet Example
@@ -61,7 +70,7 @@ devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet"
 library(geohabnet)
 
 param_file <- geohabnet::get_parameters()
-#> [1] "parameters fetched successfully"
+#> parameters fetched successfully
 # now edit the file
 geohabnet::set_parameters(new_params = param_file)
 #> [1] TRUE
@@ -80,5 +89,6 @@ scales are present in `global_scales()` .
 
 Refer to help using ?*geohabnet::fun* or *help(geohabnet::fun)*
 
-Refer to article *Analyzing risk index using cropland connectivity* for
-more elaborate description and usages of functions in this package.
+Refer to article [*Analyzing risk index using cropland
+connectivity*](https://garrettlab.github.io/CroplandConnectivity/articles/analysis.html)
+for more elaborate description and usages of functions in this package.

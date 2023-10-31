@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 # Abstract
 
-The network and connectivity of cropland can be used to analyse the potential spread of plant pathogen. While network plays a crucial role, there are several other factors that affects the spread and thus the connectivity. Although croplands may be geographically connected, the risk cannot be generalized as pathogen may not spread if it's exclusive to specific crop. *geohabnet* supports up to 10 parameters that has potential to impact risk and connectivity among croplands. The implementation is expanded upon [@xing2020], which discusses global cropland connectivity. This framework uses default values from the paper at the same time making them as parameters and eventually turning it into framework for the analysis of crops.
+The network and connectivity of cropland can be used to analyse the potential spread of plant pathogen. While network plays a crucial role, there are several other factors that affects the spread and thus the connectivity. Although croplands may be geographically connected, the risk cannot be generalized as pathogen may not spread if it's exclusive to specific crop. [@geohabnet] supports up to 10 parameters that has potential to impact risk and connectivity among croplands. The implementation is expanded upon [@xing2020], which discusses global cropland connectivity. This framework uses default values from the paper at the same time making them as parameters and eventually turning it into framework for the analysis of crops.
 
 Although this article is focused on usage, it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009], and [@config] provides a text based interface to control the parameters values for risk analysis in this context.
 
@@ -37,7 +37,7 @@ Primary objective of this vignette is to help user in getting started, list capa
 
 -   Download and install R, R Studio - [https://rstudio-education.github.io/hopr/starting.html/](https://rstudio-education.github.io/hopr/starting.html){.uri}
 
--   Rasters - <https://www.adobe.com/creativecloud/file-types/image/raster.html>
+-   Raster - <https://www.adobe.com/creativecloud/file-types/image/raster.html>
 
 -   TIFF - [https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html/](https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html){.uri}
 
@@ -49,13 +49,14 @@ We use publicly available sources to obtain crop information -
 
 -   [MapSpam (2005)](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PRFF8V) [@internationalfoodpolicyresearchinstitute2019]
 
-Geodata provides set of APIs to access these datasets. For visualization and plots, we use [rnaturalearth](https://docs.ropensci.org/rnaturalearth/).
+Geodata provides set of APIs to access these data-sets. For visualization and plots, we use [rnaturalearth](https://docs.ropensci.org/rnaturalearth/).
 
 ## Quick Start
 
 ### Meta information
 
 -   Package information - <https://garrettlab.github.io/CroplandConnectivity/>
+-   CRAN site - <https://CRAN.R-project.org/package=geohabnet>
 -   Source code - <https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/>
 -   Report issues - <https://github.com/GarrettLab/CroplandConnectivity/issues/>
 -   Lab website - <https://www.garrettlab.com/>
@@ -147,7 +148,7 @@ The results should be interpreted in accordance to the values of other parameter
 
 More parameters are available under configuration and thus more control over the analysis. The configuration file name is `parameters.yaml`, currently supporting up to 10 parameters. The intuition behind this methodology is to provide a basic interface for setting new values. The snippet below describes the basic usage of configuration.
 
-Get the initial configuration file. By default this function will save the file in temporary directory `tempdir()`, however we recommend saving path where program will have write permissions. Using *iwindow = TRUE* will prompt a selection window to save config file.
+Get the initial configuration file. By default this function will save the file in temporary directory `tempdir()`, however we recommend saving to path where program will have write permissions. Using *iwindow = TRUE* will prompt a selection window to save config file.
 
 ```{r}
 config_file <- get_parameters(out_path = tempdir())
@@ -165,7 +166,7 @@ set_parameters(new_params = config_file)
 #using iwindow = true will prompt a selction window to choose config file.
 ```
 
-`get_parameters()` was only to fetch the initial parameters. While you can, it is not required to re-fetch. Modify the value and feed it to workflow using `set_parameters()`.
+`get_parameters()` was only to fetch the initial parameters. While you can, it is not required to re-fetch if the parameters has not been modified in the configuration. Modify the value and feed it to workflow using `set_parameters()`.
 
 ## Parameters
 
@@ -194,7 +195,7 @@ rast_avocado <- crops_rast(list(monfreda = "avocado"))
 rast_ban <- crops_rast(list(mapspam = "banana"))
 ```
 
-The returned is actually if type `SpatRaster`. In above, we will have seperate raster information for each of the crop. Crops can be combined and be returned as one raster.
+The returned is actually if type `SpatRaster`. In above, we will have separate raster information for each of the crop. Crops can be combined and be returned as one raster.
 
 ```{r}
 rast_avo_ban <- crops_rast(list(monfreda = c("avocado", "banana"), mapspam = c("banana")))
@@ -327,6 +328,6 @@ The final operations are performed risk indices and on the 3 results that are pr
 
     If both the aggregation methods (*sum and mean*) is selected, then difference is calculated between the rank of matrices which are essentially numeric cells of risk indices of type *SpatRaster*. The result is dis-aggregated in the same way as previous step.
 
-Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under the specified path in `OutDir` with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created. If the `outdir` is empty, the value is defaulted to `tempdir()` . This applies to correponding parameter `outdir` in all the functions.
+Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under the specified path in `OutDir` with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created. If the `outdir` is empty, the value is defaulted to `tempdir()` . This applies to corresponding parameter `outdir` in all the functions.
 
 ### References

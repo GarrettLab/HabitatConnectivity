@@ -20,7 +20,7 @@ and other using the provided raster file. See \code{\link[=tiff_torast]{tiff_tor
 }
 \examples{
 # Get default rasters
-\donttest{
+\dontrun{
 get_rasters(list(mapspam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
 }
 }

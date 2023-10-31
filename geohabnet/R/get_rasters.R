@@ -8,7 +8,7 @@
 #' @return List of SpatRaster.
 #' @examples
 #' # Get default rasters
-#' \donttest{
+#' \dontrun{
 #' get_rasters(list(mapspam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
 #' }
 #' @seealso [load_parameters()], [get_parameters()], [tiff_torast()], [cropharvest_rast()]
@@ -106,10 +106,11 @@ cropharvest_rast <- function(crop_name, data_source) {
 #' @examples
 #' \donttest{
 #' # Generate raster for usage
-#' fp <- .get_helper_filepath("avocado")
+#' fp <- paste(tempfile(), ".tif", sep = "")
+#' ret <- utils::download.file(
+#' "https://geohabnet.s3.us-east-2.amazonaws.com/util-rasters/avocado_HarvestedAreaFraction.tif",
+#' destfile = fp, method = "auto", mode = "wb")
 #' tiff_torast(fp)
-#' tiff_torast("avocado_HarvestedAreaFraction.tif")
-#'
 #' }
 tiff_torast <- function(path_to_tif) {
   .validate_tif(path_to_tif)

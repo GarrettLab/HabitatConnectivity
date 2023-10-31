@@ -18,9 +18,10 @@ This is a wrapper of \code{\link[terra:rast]{terra::rast()}} and generates a ras
 \examples{
 \donttest{
 # Generate raster for usage
-fp <- .get_helper_filepath("avocado")
+fp <- paste(tempfile(), ".tif", sep = "")
+ret <- utils::download.file(
+"https://geohabnet.s3.us-east-2.amazonaws.com/util-rasters/avocado_HarvestedAreaFraction.tif",
+destfile = fp, method = "auto", mode = "wb")
 tiff_torast(fp)
-tiff_torast("avocado_HarvestedAreaFraction.tif")
-
 }
 }

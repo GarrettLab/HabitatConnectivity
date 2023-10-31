@@ -7,7 +7,7 @@
 reset_params()
 }
 \value{
-Logical. \code{TRUE} if function was succesfully executed
+Logical. \code{TRUE} if function was successfully executed
 }
 \description{
 Resets the values in the \code{parameters.yaml}

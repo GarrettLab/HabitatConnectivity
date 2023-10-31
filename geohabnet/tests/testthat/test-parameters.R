@@ -32,9 +32,10 @@ test_that("Test 5: Test to fetch currently used parameters.yaml", {
   expect_true(file.exists(param_file))
 })
 
-test_that("Test 6: Test to set new parameters.yaml", {
+test_that("Test 6: Test to set new parameters.yaml in R user's directory", {
   new_param_file <- "params.yaml"
-  after_setting_new_param <- .get_helper_filepath("parameters")
+  dest_pfp <- file.path(tools::R_user_dir("geohabnet", which = "config"), "parameters.yaml")
   expect_no_condition(set_parameters(new_param_file))
-  expect_true(file.exists(after_setting_new_param))
+  expect_true(file.exists(dest_pfp))
+  file.remove(dest_pfp)
 })

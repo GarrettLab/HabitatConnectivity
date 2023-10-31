@@ -13,7 +13,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main){width="333" height="32"}](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment)
+<!-- badges: start -->
+
+[![Github Pages](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main){width="250" height="25"}](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment) [![CRAN status](https://www.r-pkg.org/badges/version/geohabnet){width="100" height="25"}](https://CRAN.R-project.org/package=geohabnet)
+
+<!-- badges: end -->
 
 # geohabnet
 
@@ -25,13 +29,19 @@ This package is expanded upon [Xing et al (2021)](https://academic.oup.com/biosc
 
 3.  Variance
 
-Package currently support crops sourced from `geodata::monfredaCrops()` and `geodata::spamCrops()`. This analysis produces 3 maps - mean, variance and difference for the crop risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. This values are propagated to other functions for performing operations such distance matrix calculation. The values are set in `parameters.yaml` and it can be accessed using `get_parameters()`. See the usage below.
+Package currently support crops sourced from `geodata::monfredaCrops()` and `geodata::spamCrops()`. This analysis produces 3 maps - mean, variance and difference for the crop risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. This values are propagated to other functions for performing operations such distance matrix calculation. The values are set in `parameters.yaml` using and it can be accessed using `get_parameters()`. See the usage below.
 
 ## Installation
 
-The source version of package can be installed from [GitHub](https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet) with:
+Package can either be installed from CRAN:
 
-```{r setup}
+```{r cran}
+install.packages("geohabnet")
+```
+
+or the source version of package can be installed from [GitHub](https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet) with:
+
+```{r github}
 if (!require("devtools")) {
   install.packages("devtools")
 }

@@ -8,12 +8,13 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. The functions are developed as an extension to analysis from Xing et al (2021) \doi{10.1093/biosci/biaa067}. The primary function is sean() and is indicative of how sensitive analysis is to parameters using kernel models. The Package currently supports crops sourced from Monfreda, C., N. Ramankutty, and J. A. Foley (2008) \doi{10.1029/2007gb002947} "Farming the planet: 2. Geographic distribution of crop areas, yields, physiological types, and net primary production in the year 2000, Global Biogeochem. Cycles, 22, GB1022" and International Food Policy Research Institute (2019) \doi{10.7910/DVN/PRFF8V} "Global Spatially-Disaggregated Crop Production Statistics Data for 2010 Version 2.0, Harvard Dataverse, V4". This analysis produces 3 maps - mean, variance, and difference for the crop risk index. It applies distance functions and graph operations on a network to calculate risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. sean() will set some global variables which can be accessed using $ prefix. These values are propagated to other functions for performing operations such as distance matrix calculation. parameters.yaml stores the parameters and values and can be accessed using get_parameters(). Refer it's usage. The objective of this package is to support risk analysis using cropland connectivity on 10 parameters - host crops, density threshold, aggregation and distance method, resolution, geographic extent, link threshold, kernel models, network metrics and maps. These parameters serves as an input and are used different phases of analysis workflow.
+Geographical spatial analysis of cropland connectivity. Allows users to visualize risk index plots for a given set of crops. The functions are developed as an extension to analysis from Xing et al (2021) \doi{10.1093/biosci/biaa067}. The primary function is sean() and is indicative of how sensitive the risk analysis is to parameters using kernel models. The Package currently supports crops sourced from Monfreda, C., N. Ramankutty, and J. A. Foley (2008) \doi{10.1029/2007gb002947} "Farming the planet: 2. Geographic distribution of crop areas, yields, physiological types, and net primary production in the year 2000, Global Biogeochem. Cycles, 22, GB1022" and International Food Policy Research Institute (2019) \doi{10.7910/DVN/PRFF8V} "Global Spatially-Disaggregated Crop Production Statistics Data for 2010 Version 2.0, Harvard Dataverse, V4". This analysis produces 3 maps - mean, variance, and difference for the crop risk index. It applies distance functions and graph operations on a network to calculate risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. sean() will set some global variables which can be accessed using $ prefix. These values are propagated to other functions for performing operations such as distance matrix calculation. parameters.yaml stores the parameters and values and can be accessed using get_parameters(). Refer it's usage. The objective of this package is to support risk analysis using cropland connectivity on 10 parameters - host crops, density threshold, aggregation and distance method, resolution, geographic extent, link threshold, kernel models, network metrics and maps. These parameters serves as an input and are used different phases of analysis workflow.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://garrettlab.github.io/CroplandConnectivity/}
+  \item \url{https://CRAN.R-project.org/package=geohabnet/}
   \item \url{https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/}
   \item \url{https://www.garrettlab.com/}
   \item Report bugs at \url{https://github.com/GarrettLab/CroplandConnectivity/issues}
@@ -25,13 +26,13 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Garrett Lab \email{karengarrett@ufl.edu} (https://garrettlab.com)
   \item Karen Garrett \email{karengarrett@ufl.edu} (\href{https://orcid.org/0000-0002-6578-1616}{ORCID})
   \item Aaron Plex \email{plexaaron@ufl.edu} (\href{https://orcid.org/0000-0001-7317-3090}{ORCID})
 }
 
 Other contributors:
 \itemize{
+  \item Garrett Lab \email{karengarrett@ufl.edu} (https://garrettlab.com) [contributor]
   \item University of Florida (https://www.ufl.edu) [copyright holder, funder]
 }
 
