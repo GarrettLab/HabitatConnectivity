@@ -1,4 +1,9 @@
-This submission addresses the feedback from last CRAN submission.
+\## Resubmission
+This is a resubmission. Package was accepted in the last submission but build failed in few environments. Please see the bottom of this page for the details of this submission.
+
+The review comments are dated as feedback received and the submission addressing them.
+
+## First submission
 
 R cmd check is generating the following note -
 
@@ -41,12 +46,36 @@ Please unwrap the examples if they are executable in < 5 sec, or replace
 necessary for these examples.
 ```
 
-I wrapped all the functions that requires downloading of files with `\dontrun` so that it doesn't slow down the build process. I might be wrong here, but what I have understood is `\donttest` is not triggered in R cmd check. I have now replaced all the occurences with `\donttest` .
+I wrapped all the functions that requires downloading of files with `\dontrun` so that it doesn't slow down the build process. I might be wrong here, but what I have understood is `\donttest` is not triggered in R cmd check. I have now replaced all the occurrences with `\donttest` .
 
-## Reviewer
+## Feedback - 10/22, Submit - 10/30
+
+Our package was conditionally accepted. The build failed for some environments. See the report [here](https://nam10.safelinks.protection.outlook.com/?url=https%3A%2F%2Fcran.r-project.org%2Fweb%2Fchecks%2Fcheck_results_geohabnet.html&data=05%7C01%7Ckkeshav%40ufl.edu%7C0e9750fb07c84cc2d05208dbd2e51116%7C0d4da0f84a314d76ace60a62331e1b84%7C0%7C0%7C638335653506437699%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=EbkniC3U%2FFsPiw%2Bpjg4VxBnbDlEonYh5FioMmTdC3bg%3D&reserved=0).
+
+```         
+Packages required and available but unsuitable versions:  'stats', 'graphics'
+```
+
+I have removed the min_version requirement for above packages.
+
+```         
+    cannot create file '/home/hornik/tmp/R.check/r-devel-gcc/Work/build/Packages/geohabnet/parameters.yaml', reason 'Read-only file system'
+```
+
+Based on suggesstion from CRAN mailing list, I have replaced write destination for my configuration files to tools::R_user_dir(). The usage is following -
+
+1.  Replace the old `parameters.yaml` in tools::R_user_dir() with new copy using `.onLoad()` callback
+2.  Write YAML config into `parameters.yaml` whenever user provides with new copy using `set_parameters()`
+3.  Get user config from `tools::R_user_dir()` whenever needed in the program.
+4.  Unit test added for this capability which removes the file from `tools::R_user_dir()` after test check.
+
+Addtionally, added `dontrun` tag in `\name{get_rasters}` since the example shows usage of dummy file name.
+
+## Reviewers
 
 In order of review,
 
 1.  Victoria Wimmer \<[vwimmer\@wu.ac.at](mailto:vwimmer@wu.ac.at)\>
 2.  Beni Altmann \<[benjamin.altmann\@wu.ac.at](mailto:benjamin.altmann@wu.ac.at)\>
 3.  Victoria Wimmer \<[vwimmer\@wu.ac.at](mailto:vwimmer@wu.ac.at)\>
+4.  Victoria Wimmer \<[vwimmer\@wu.ac.at](mailto:vwimmer@wu.ac.at)\>, Kurt Hornik \<[Kurt.Hornik\@wu.ac.at](mailto:Kurt.Hornik@wu.ac.at)\>

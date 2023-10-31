@@ -26,7 +26,7 @@ get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
   params_file_path <- .param_fp()
   .copy_file(params_file_path, out_path)
   message("parameters fetched successfully")
-  return(file.path(paste(out_path, "parameters.yaml", sep = "/")))
+  return(file.path(paste(out_path, basename(params_file_path), sep = "/")))
 }
 
 #' Set Parameters
@@ -63,7 +63,7 @@ set_parameters <- function(new_params, iwindow = FALSE) {
 #' This function loads parameters from a YAML file and stores them in an object.
 #'
 #' @param filepath Path to the YAML file containing the parameters. By default, it
-#'   takes the value of ".kparameters_file_type" which is set to "parameters.yaml".
+#'   takes the value of `parameters.yaml` in R user's directory.
 #'
 #' @return object with parameters and values
 #'
@@ -74,7 +74,7 @@ set_parameters <- function(new_params, iwindow = FALSE) {
 #' load_parameters()
 #'
 #' @export
-load_parameters <- function(filepath = .get_helper_filepath(.kparameters_file_type)) {
+load_parameters <- function(filepath = .param_fp()) {
   return(config::get(file = filepath))
 }
 
@@ -99,7 +99,7 @@ reso <- function() {
 #'
 #' Resets the values in the `parameters.yaml`
 #' file to the default initial values.
-#' @return Logical. `TRUE` if function was succesfully executed
+#' @return Logical. `TRUE` if function was successfully executed
 #' @export
 #' @examples
 #' reset_params()
@@ -130,7 +130,18 @@ set_reso <- function(value) {
 }
 
 .param_fp <- function() {
-  return(system.file("parameters.yaml", package = "geohabnet", mustWork = TRUE))
+
+  cfp <-  tools::R_user_dir("geohabnet", which = "config")
+  if (!dir.exists(cfp)) {
+    dir.create(cfp, recursive = TRUE)
+  }
+
+  cfp <- file.path(cfp, "parameters.yaml")
+  if (!file.exists(cfp)) {
+    .copy_file(.get_helper_filepath(.kparameters_file_type), cfp)
+  }
+
+  return(cfp)
 }
 
 .default_param <- function() {

@@ -104,6 +104,11 @@ library(yaml)
 }
 
 .onLoad <- function(libname, pkgname) {
+
+  # this will cleanup previously created config and replace it with new one
+  # in case, if it's a first installation, it will simply copy the config.
+  reset_params()
+
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
   .apply_agg <<- memoise::memoise(.apply_agg)

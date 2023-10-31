@@ -4,11 +4,11 @@
 \alias{load_parameters}
 \title{Load Parameters from YAML File}
 \usage{
-load_parameters(filepath = .get_helper_filepath(.kparameters_file_type))
+load_parameters(filepath = .param_fp())
 }
 \arguments{
 \item{filepath}{Path to the YAML file containing the parameters. By default, it
-takes the value of ".kparameters_file_type" which is set to "parameters.yaml".}
+takes the value of \code{parameters.yaml} in R user's directory.}
 }
 \value{
 object with parameters and values
