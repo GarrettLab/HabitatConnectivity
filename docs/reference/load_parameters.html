@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,14 +60,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">load_parameters</span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu">.get_helper_filepath</span><span class="op">(</span><span class="va">.kparameters_file_type</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">load_parameters</span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu">.param_fp</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>filepath</dt>
 <dd><p>Path to the YAML file containing the parameters. By default, it
-takes the value of ".kparameters_file_type" which is set to "parameters.yaml".</p></dd>
+takes the value of <code>parameters.yaml</code> in R user's directory.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -190,7 +190,7 @@ takes the value of ".kparameters_file_type" which is set to "parameters.yaml".</
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Krishna Keshav, Garrett Lab, Karen Garrett, Aaron Plex, University of Florida.</p>
+  <p></p><p>Developed by Krishna Keshav, Karen Garrett, Aaron Plex, University of Florida.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,13 +80,18 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Generate raster for usage</span></span></span>
-<span class="r-in"><span><span class="va">fp</span> <span class="op">&lt;-</span> <span class="fu">.get_helper_filepath</span><span class="op">(</span><span class="st">"avocado"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .get_helper_filepath("avocado"):</span> could not find function ".get_helper_filepath"</span>
+<span class="r-in"><span><span class="va">fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">".tif"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ret</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="st">"https://geohabnet.s3.us-east-2.amazonaws.com/util-rasters/avocado_HarvestedAreaFraction.tif"</span>,</span></span>
+<span class="r-in"><span>destfile <span class="op">=</span> <span class="va">fp</span>, method <span class="op">=</span> <span class="st">"auto"</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">tiff_torast</span><span class="op">(</span><span class="va">fp</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in file.exists(path_to_tif):</span> object 'fp' not found</span>
-<span class="r-in"><span><span class="fu">tiff_torast</span><span class="op">(</span><span class="st">"avocado_HarvestedAreaFraction.tif"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .validate_tif(path_to_tif):</span> file.exists(path_to_tif) is not TRUE</span>
-<span class="r-in"><span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 2160, 4320, 1  (nrow, ncol, nlyr)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 0.08333333, 0.08333333  (x, y)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : lon/lat WGS 84 (EPSG:4326) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file11f519ac4d08.tif </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> name        : file11f519ac4d08 </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
@@ -95,7 +100,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Krishna Keshav, Garrett Lab, Karen Garrett, Aaron Plex, University of Florida.</p>
+  <p></p><p>Developed by Krishna Keshav, Karen Garrett, Aaron Plex, University of Florida.</p>
 </div>
 
 <div class="pkgdown-footer-right">
