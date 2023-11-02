@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:kkeshav@ufl.edu" class="email">kkeshav@ufl.edu</a>)</h4>
             
-            <h4 data-toc-skip class="date">19 October, 2023</h4>
+            <h4 data-toc-skip class="date">02 November, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/CroplandConnectivity/blob/HEAD/vignettes/analysis.Rmd" class="external-link"><code>vignettes/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -101,13 +101,12 @@ potential spread of plant pathogen. While network plays a crucial role,
 there are several other factors that affects the spread and thus the
 connectivity. Although croplands may be geographically connected, the
 risk cannot be generalized as pathogen may not spread if it’s exclusive
-to specific crop. <em>geohabnet</em> supports up to 10 parameters that
-has potential to impact risk and connectivity among croplands. The
-implementation is expanded upon <span class="citation">(Xing et al.
-2020)</span>, which discusses global cropland connectivity. This
-framework uses default values from the paper at the same time making
-them as parameters and eventually turning it into framework for the
-analysis of crops.</p>
+to specific crop. <span class="citation">(Keshav et al. 2023)</span>
+supports up to 10 parameters that has potential to impact risk and
+connectivity among croplands. The implementation is expanded upon <span class="citation">(Xing et al. 2020)</span>, which discusses global
+cropland connectivity. This framework uses default values from the paper
+at the same time making them as parameters and eventually turning it
+into framework for the analysis of crops.</p>
 <p>Although this article is focused on usage, it is useful to know for
 interested developers that package design is inspired from widely used
 Configuration-based design in software development <span class="citation">(Majors 2022)</span>, <span class="citation">(Nash and
@@ -139,7 +138,7 @@ information.</p></li>
 </h4>
 <ul>
 <li><p>Download and install R, R Studio - <a href="https://rstudio-education.github.io/hopr/starting.html" class="external-link uri">https://rstudio-education.github.io/hopr/starting.html/</a></p></li>
-<li><p>Rasters - <a href="https://www.adobe.com/creativecloud/file-types/image/raster.html" class="external-link uri">https://www.adobe.com/creativecloud/file-types/image/raster.html</a></p></li>
+<li><p>Raster - <a href="https://www.adobe.com/creativecloud/file-types/image/raster.html" class="external-link uri">https://www.adobe.com/creativecloud/file-types/image/raster.html</a></p></li>
 <li><p>TIFF - <a href="https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html" class="external-link uri">https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html/</a></p></li>
 </ul>
 </div>
@@ -156,7 +155,7 @@ information.</p></li>
 (2005)</a> <span class="citation">(International Food Policy Research
 Institute 2019)</span></p></li>
 </ul>
-<p>Geodata provides set of APIs to access these datasets. For
+<p>Geodata provides set of APIs to access these data-sets. For
 visualization and plots, we use <a href="https://docs.ropensci.org/rnaturalearth/" class="external-link">rnaturalearth</a>.</p>
 </div>
 <div class="section level3">
@@ -167,6 +166,8 @@ visualization and plots, we use <a href="https://docs.ropensci.org/rnaturalearth
 </h4>
 <ul>
 <li>Package information - <a href="https://garrettlab.github.io/CroplandConnectivity/" class="uri">https://garrettlab.github.io/CroplandConnectivity/</a>
+</li>
+<li>CRAN site - <a href="https://CRAN.R-project.org/package=geohabnet" class="external-link uri">https://CRAN.R-project.org/package=geohabnet</a>
 </li>
 <li>Source code - <a href="https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/" class="external-link uri">https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/</a>
 </li>
@@ -214,11 +215,11 @@ extent quickly since the crop presence is relatively low.</p>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-====
+===
                                           
 
 |---------|---------|---------|---------|
-=======
+======
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
 <pre><code>#&gt; 
@@ -273,11 +274,11 @@ North America.</p>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-====
+===
                                           
 
 |---------|---------|---------|---------|
-=======
+======
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
 <pre><code>#&gt; 
@@ -334,14 +335,14 @@ for setting new values. The snippet below describes the basic usage of
 configuration.</p>
 <p>Get the initial configuration file. By default this function will
 save the file in temporary directory <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>, however we
-recommend saving path where program will have write permissions. Using
-<em>iwindow = TRUE</em> will prompt a selection window to save config
-file.</p>
+recommend saving to path where program will have write permissions.
+Using <em>iwindow = TRUE</em> will prompt a selection window to save
+config file.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; parameters fetched successfully</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpNDxzH9/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpbvRtYA/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="figure">
 <img src="images/initconfig.png" width="700" alt=""><p class="caption">Initial parameters.yaml</p>
@@ -354,8 +355,9 @@ must be fed to the workflow using -</p>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="co">#using iwindow = true will prompt a selction window to choose config file.</span></span></code></pre></div>
 <p><code><a href="../reference/get_parameters.html">get_parameters()</a></code> was only to fetch the initial
-parameters. While you can, it is not required to re-fetch. Modify the
-value and feed it to workflow using <code><a href="../reference/set_parameters.html">set_parameters()</a></code>.</p>
+parameters. While you can, it is not required to re-fetch if the
+parameters has not been modified in the configuration. Modify the value
+and feed it to workflow using <code><a href="../reference/set_parameters.html">set_parameters()</a></code>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -391,7 +393,7 @@ data from the one of the specified sources.</p>
 <span><span class="co">#get data of banana crop</span></span>
 <span><span class="va">rast_ban</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/crops_rast.html">crops_rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mapspam <span class="op">=</span> <span class="st">"banana"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The returned is actually if type <code>SpatRaster</code>. In above,
-we will have seperate raster information for each of the crop. Crops can
+we will have separate raster information for each of the crop. Crops can
 be combined and be returned as one raster.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rast_avo_ban</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/crops_rast.html">crops_rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>monfreda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"avocado"</span>, <span class="st">"banana"</span><span class="op">)</span>, mapspam <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -621,7 +623,7 @@ extended to coarser value using <code>res</code> parameter. Setting
 <p><img src="analysis_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-====
+===
                                           
 
 |---------|---------|---------|---------|
@@ -694,7 +696,7 @@ under the specified path in <code>OutDir</code> with name
 <em>opt_datetime.tif</em>, where <em>opt</em> is one of the above
 suffixed by datetime of the file created. If the <code>outdir</code> is
 empty, the value is defaulted to <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> . This applies
-to correponding parameter <code>outdir</code> in all the functions.</p>
+to corresponding parameter <code>outdir</code> in all the functions.</p>
 <div class="section level4">
 <h4 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h4>
@@ -714,6 +716,10 @@ Hijmans, Robert J. 2023. <span>“Terra: Spatial Data Analysis.”</span> <a hre
 International Food Policy Research Institute. 2019. <span>“Global
 Spatially-Disaggregated Crop Production Statistics Data for 2010 Version
 2.0.”</span> Harvard Dataverse. <a href="https://doi.org/10.7910/DVN/PRFF8V" class="external-link">https://doi.org/10.7910/DVN/PRFF8V</a>.
+</div>
+<div id="ref-geohabnet" class="csl-entry">
+Keshav, Krishna, Garrett Lab, Karen Garrett, and Aaron Plex. 2023.
+<span>“Geohabnet: Analysis of Cropland Connectivity.”</span> <a href="https://CRAN.R-project.org/package=geohabnet" class="external-link">https://CRAN.R-project.org/package=geohabnet</a>.
 </div>
 <div id="ref-sre_book" class="csl-entry">
 Majors, Charity. 2022. <em>SRE Workbook: Configuration Design</em>.
@@ -749,7 +755,7 @@ and Saturation by Emerging Pathogens and Pests.”</span>
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Krishna Keshav, Garrett Lab, Karen Garrett, Aaron Plex, University of Florida.</p>
+<p>Developed by Krishna Keshav, Karen Garrett, Aaron Plex, University of Florida.</p>
 </div>
 
 <div class="pkgdown-footer-right">
