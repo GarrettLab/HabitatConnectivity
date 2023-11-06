@@ -12,33 +12,32 @@ height="25" alt="CRAN status" />](https://CRAN.R-project.org/package=geohabnet)
 
 # geohabnet
 
-This package is expanded upon [Xing et al
-(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255).
-It add capabilities to customize parameter values using functions and
-see results of cropland connectivity risk index in the form of plots.
+The geohabnet R package is based on assumptions from [Xing et al
+(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255) to evaluate habitat connectivity from a network analysis perspective.
+This package adds capabilities to customize parameter values using functions and
+see results of the cropland connectivity risk index in the form of plots.
 The goal of `geohabnet` is to enable users to visualize cropland
-connectivity risk index using their own parameter values. The risk
-analysis includes 3 maps -
+connectivity risk index using their own selected parameter values. The risk
+analysis outcomes include 3 maps:
 
-1.  Mean cropland connectivity
+1.  The mean connectivity of locations across selected parameter combinations
 
-2.  Difference
+2.  Difference in ranks between mean connectivity and host density of locations
 
-3.  Variance
+3.  Variance in connectivity of locations across selected parameter combinations
 
-Package currently support crops sourced from `geodata::monfredaCrops()`
-and `geodata::spamCrops()`. This analysis produces 3 maps - mean,
-variance and difference for the crop risk index. There are multiple ways
+The package currently supports analysis of cropland connectivity for crop species sourced from `geodata::monfredaCrops()`
+and `geodata::spamCrops()` and for any other host species distribution provided by the user. There are multiple ways
 in which functions can be used - generate final outcome and then the
 intermediate outcomes for more sophisticated use cases. Refer to
-vignettes. This values are propagated to other functions for performing
-operations such distance matrix calculation. The values are set in
-`parameters.yaml` using and it can be accessed using `get_parameters()`.
+vignettes. These values are propagated to other functions for performing
+operations, such as distance matrix calculation. The values are set in
+`parameters.yaml` and it can be accessed using `get_parameters()`.
 See the usage below.
 
 ## Installation
 
-Package can either be installed from CRAN:
+The package can either be installed from CRAN:
 
 ``` r
 install.packages("geohabnet")
