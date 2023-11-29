@@ -35,10 +35,14 @@ library(yaml)
   .ew_split <- function() {
     ew_indices <- list(list(), list())
     names(ew_indices) <- c(STR_EAST, STR_WEST)
-    for (indices in ri) {
-      ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], indices[[STR_EAST]])
-      ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], indices[[STR_WEST]])
+
+    for (index in ri@east) {
+      ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], index)
     }
+    for (index in ri@west) {
+      ew_indices[[STR_WEST]] <- c(ew_indices[[STR_EAST]], index)
+    }
+
     return(ew_indices)
   }
 
@@ -111,7 +115,7 @@ library(yaml)
 
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
-  .apply_agg <<- memoise::memoise(.apply_agg)
+  #.apply_agg <<- memoise::memoise(.apply_agg)
 }
 
 .get_helper_filepath <- function(file_type) {
