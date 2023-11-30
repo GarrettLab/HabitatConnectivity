@@ -118,8 +118,10 @@ tiff_torast <- function(path_to_tif) {
 }
 
 .validate_tif <- function(path_to_tif) {
+  file_extension <- stringr::str_sub(path_to_tif, start = -4)
   stopifnot(
     file.exists(path_to_tif),
-    stringr::str_sub(path_to_tif, start = -4) == ".tif"
+    file_extension %in% c(".tif", ".TIF")
   )
 }
+
