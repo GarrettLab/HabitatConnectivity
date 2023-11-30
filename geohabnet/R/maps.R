@@ -223,7 +223,7 @@ ccri_diff <- function(rast,
                     the$gan[["mean"]][[STR_EAST]],
                     the$gan[["sum"]][[STR_WEST]],
                     the$gan[["mean"]][[STR_WEST]])) {
-      message("Either sum or mean aggregate is missing. Aborting difference calculation")
+      .showmsg("Either sum or mean aggregate is missing. Aborting difference calculation")
       return(NULL)
     }
 
@@ -238,7 +238,7 @@ ccri_diff <- function(rast,
     terra::merge(east_var, west_var)
   } else {
     if (!.params_ok(x, y)) {
-      message("Either sum or mean aggregate is missing. Aborting difference calculation")
+      .showmsg("Either sum or mean aggregate is missing. Aborting difference calculation")
       return(NULL)
     }
     .cal_diff(x, y, geoscale)
@@ -302,7 +302,7 @@ ccri_diff <- function(rast,
   terra::writeRaster(rast, overwrite = TRUE,
                      filename = fp,
                      gdal = c("COMPRESS=NONE"))
-  message(paste("raster created", fp, sep = ": "), "\n")
+  .showmsg(paste("raster created", fp, sep = ": "), "\n")
 }
 
 .plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {

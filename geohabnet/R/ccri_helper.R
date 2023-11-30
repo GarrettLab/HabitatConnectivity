@@ -51,7 +51,7 @@ library(yaml)
     #east-west split
     .ew_split()
   } else {
-    unlist(ri, recursive = FALSE)
+    unlist(lapply(ri$rasters, FUN = "[[", "index"), recursive = FALSE)
   }
 }
 
@@ -59,9 +59,9 @@ library(yaml)
   return(terra::ext(geoscale))
 }
 
-.printmsg <- function(x) {
+.showmsg <- function(...) {
   if (getOption("verbose")) {
-    message(x)
+    message(...)
   }
 }
 
@@ -96,7 +96,11 @@ library(yaml)
 
 .download <- function(uri) {
   f <- paste(tempfile(), ".tif", sep = "")
-  stopifnot("dowload failed " = utils::download.file(uri, destfile = f, method = "auto", mode = "wb") == 0)
+  stopifnot("dowload failed " = utils::download.file(uri,
+                                                     destfile = f,
+                                                     method = "auto",
+                                                     mode = "wb",
+                                                     quiet = getOption("verbose")) == 0)
   return(f)
 }
 
@@ -262,7 +266,7 @@ library(yaml)
     }
   )
 
-  message("YAML object successfully written to file:", file_path)
+  .showmsg("YAML object successfully written to file: ", file_path)
 }
 
 .get_cropharvest_raster_helper <- function(crop_name, data_source) {

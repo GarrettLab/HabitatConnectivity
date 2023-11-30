@@ -262,7 +262,7 @@ sean <- function(rast,
   mets <- get_param_metrics(the$parameters_config)
 
   sean_geo <- function(geoext) {
-    message(
+    .showmsg(
       paste(
         "\nRunning sensitivity analysis for the extent: [",
         paste(geoext, collapse = ", "),
@@ -443,7 +443,7 @@ sa_onrasters <- function(rast,
                          maps = TRUE,
                          outdir = tempdir()) {
 
-  message("New analysis started for given raster")
+  .showmsg("New analysis started for given raster")
 
   .loadparam_ifnull()
 
@@ -571,7 +571,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                  the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir
                  )}
 
-  message("sensitivity analysis completed. Refer to maps for results.")
+  .showmsg("sensitivity analysis completed. Refer to maps for results.")
   if (alert == TRUE) {
     beepr::beep(2)
   }

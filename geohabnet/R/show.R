@@ -1,5 +1,6 @@
 setMethod("show", "GhabRasters",
           function(object) {
+            cat("class   : ", "GhabRasters", "\n")
             if (!is.null(object$rasters) && length(object$rasters) > 0) {
               cat("rasters : ", length(object$rasters), "\n") 
             }
@@ -11,14 +12,17 @@ setMethod("show", "GhabRasters",
 
 setMethod("show", "GlobalRast",
           function(object) {
-            cat("east : ", length(object$east), "\n")
-            cat("west : ", length(object$west), "\n")
+            cat("class : ", "GlobalRast", "\n")
+            cat("east  : ", length(object$east), "\n")
+            cat("west  : ", length(object$west), "\n")
           })
 
 setMethod("show", "Model",
           function(object) {
             di_a <- dim(object$amatrix)
             pstr <-  " (nrow, ncol)"
-            cat("adjacency matrix : ", di[1], ", ", di[2], pstr, "\n")
+            
+            cat("class            : ", "Model", "\n")
+            cat("adjacency matrix : ", di_a[1], ", ", di_a[2], pstr, "\n")
             cat("risk index       : ", terra::nrow(object$index), ", ", terra::ncol(object$index), pstr, "\n")
           })
