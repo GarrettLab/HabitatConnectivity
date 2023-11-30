@@ -124,4 +124,3 @@ tiff_torast <- function(path_to_tif) {
     file_extension %in% c(".tif", ".TIF")
   )
 }
-

@@ -33,9 +33,9 @@ connectivity <- function(indexes,
                          pdiff = TRUE,
                          outdir = tempdir()) {
 
-  mean_rast <- ccri_mean(indexes, global, geoscale, pmean, outdir)
+  mobj <- ccri_mean(indexes, global, geoscale, pmean, outdir)
 
-  if (pvar == TRUE) {
+  vobj <- if (pvar == TRUE) {
     ccri_variance(
       indexes,
       mean_rast,
@@ -43,9 +43,9 @@ connectivity <- function(indexes,
       geoscale,
       res,
       outdir)
-  }
+    }
 
-  if (pdiff == TRUE) {
+  dobj <- if (pdiff == TRUE) {
     if (global) {
       geoscale <- .global_ext()
     }
@@ -59,7 +59,8 @@ connectivity <- function(indexes,
       res,
       outdir)
   }
-  invisible()
+
+  return(.merge_mapobs(mobj, vobj, dobj))
 }
 
 # maps --------------------------------------------------------------------
@@ -98,16 +99,16 @@ ccri_mean <- function(indexes,
   }
 
   if (plt == TRUE) {
-    .plot(mean_index,
-          paste("Mean cropland connectivity risk index\n"),
-          global,
-          geoscale,
-          zlim = c(0, 1),
-          typ = "mean",
-          outdir = outdir)
+    plt_ret <- .plot(mean_index,
+                     paste("Mean cropland connectivity risk index\n"),
+                     global,
+                     geoscale,
+                     zlim = c(0, 1),
+                     typ = "mean",
+                     outdir = outdir)
   }
 
-  return(mean_index)
+  return(new("rimap", type = "mean", riid = mean_index, spr = plt_ret[1], fp = plt_ret[2]))
 }
 
 #' Calculate variance of CCRI
@@ -156,15 +157,15 @@ ccri_variance <- function(indexes,
   }
 
   z_var_w <- range(var_out[which(var_out[] > 0)])
-  .plot(var_out,
-        "Variance in cropland connectivity",
-        global,
-        geoscale,
-        zlim = z_var_w,
-        typ = "variance",
-        outdir = outdir)
+  plt_ret <- .plot(var_out,
+                   "Variance in cropland connectivity",
+                   global,
+                   geoscale,
+                   zlim = z_var_w,
+                   typ = "variance",
+                   outdir = outdir)
 
-  invisible(1)
+  return(new("rimap", type = "variance", riid = var_out, spr = plt_ret[1], fp = plt_ret[2]))
 }
 
 #' Calculate difference map
@@ -244,19 +245,26 @@ ccri_diff <- function(rast,
     .cal_diff(x, y, geoscale)
   }
 
-  .plot(diff_out,
-        "Difference in rank of host connectivity and host density",
-        global,
-        geoscale,
-        .get_palette_for_diffmap(),
-        zr2,
-        typ = "difference",
-        outdir)
+  plt_ret <- .plot(diff_out,
+                   "Difference in rank of host connectivity and host density",
+                   global,
+                   geoscale,
+                   .get_palette_for_diffmap(),
+                   zr2,
+                   typ = "difference",
+                   outdir)
 
   invisible()
+  return(new("rimap", type = "difference", riid = diff_out, spr = plt_ret[1], fp = plt_ret[2]))
 }
 
 # private functions -------------------------------------------------------
+
+.merge_mapobs(m, v, d) {
+  gmap <- new("Gmap")
+  gmap@setmaps(m, v, d)
+  return(gmap)
+}
 
 .plot <- function(rast,
                   label,
@@ -268,7 +276,7 @@ ccri_diff <- function(rast,
                   outdir,
                   plotf = .plotmap) {
 
-  .saverast(typ, rast, outdir)
+  info <- .saverast(typ, rast, outdir)
 
   if (is.null(plotf)) {
     .plotmap(rast, geoscale, isglobal, label, colorss, zlim)
@@ -281,7 +289,7 @@ ccri_diff <- function(rast,
       zlim = zlim)
   }
 
-  invisible()
+  return(info)
 }
 
 .saverast <- function(typ, rast, outdir) {
@@ -299,10 +307,12 @@ ccri_diff <- function(rast,
   fp <- file.path(newdir, paste(typ, "_",
                                 stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
                                 ".tif", sep = ""))
-  terra::writeRaster(rast, overwrite = TRUE,
+  spr <- terra::writeRaster(rast, overwrite = TRUE,
                      filename = fp,
                      gdal = c("COMPRESS=NONE"))
   .showmsg(paste("raster created", fp, sep = ": "), "\n")
+  
+  return(c(spr, fp))
 }
 
 .plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {
