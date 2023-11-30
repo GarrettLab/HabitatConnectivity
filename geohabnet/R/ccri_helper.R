@@ -35,14 +35,15 @@ library(yaml)
   .ew_split <- function() {
     ew_indices <- list(list(), list())
     names(ew_indices) <- c(STR_EAST, STR_WEST)
-
-    for (index in ri@east) {
-      ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], index)
+    
+    for (grast in ri$global_rast) {
+      for (mod in grast$east) {
+        ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], mod$index)
+      }
+      for (mod in grast$west) {
+        ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], mod$index)
+      }
     }
-    for (index in ri@west) {
-      ew_indices[[STR_WEST]] <- c(ew_indices[[STR_EAST]], index)
-    }
-
     return(ew_indices)
   }
 
@@ -56,6 +57,12 @@ library(yaml)
 
 .to_ext <- function(geoscale) {
   return(terra::ext(geoscale))
+}
+
+.printmsg <- function(x) {
+  if (getOption("verbose")) {
+    message(x)
+  }
 }
 
 .valid_vector_input <- function(vector_to_check) {

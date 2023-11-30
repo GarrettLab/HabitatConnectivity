@@ -312,33 +312,23 @@ sean <- function(rast,
 
     global_exts <- global_scales()
 
-    grasters <- .grast_ro()
+    graster <- .grast_ro()
 
-    grasters$east <- sean_geo(global_exts[[STR_EAST]])
+    graster$east <- sean_geo(global_exts[[STR_EAST]])
     .addto_tab(STR_EAST)
 
-    grasters$west <- sean_geo(global_exts[[STR_WEST]])
+    graster$west <- sean_geo(global_exts[[STR_WEST]])
     .addto_tab(STR_WEST)
 
-    rasters$global_rast <- grasters
+    rasters$add_gr(graster)
 
   } else {
     rasters$rasters = sean_geo(geoscale)
     rasters$global = FALSE
   }
 
-  # newrast = .rast_ro(global = global)
-  # if (global) {
-  #   lapply(rasters$global_rast, function(x) newrast$c(x))
-  # }else {
-  #   newrast$rasters = rasters$rasters
-  #   newrast$global = rasters$global
-  # }
-
-  # lapply(rasters, function(x) newrast$c(x))
-
   if (maps == TRUE) {
-    connectivity(.flatten_ri(newrast@global, rasters),
+    connectivity(.flatten_ri(newrast$global, rasters),
                  global,
                  geoscale,
                  res,
@@ -377,10 +367,10 @@ sean <- function(rast,
                                        outdir = outdir
                                        )})
 
-  newrast <- Rasters()
-  lapply(rasters, function(x) newrast@c(x))
+  newrast <- .rast_ro()
+  lapply(rasters, function(x) newrast$com(x))
   
-  risk_indexes <- .flatten_ri(newrast@global, newrast)
+  risk_indexes <- .flatten_ri(newrast$global, newrast)
 
   if (maps == TRUE) {
 
@@ -473,9 +463,9 @@ sa_onrasters <- function(rast,
                         )})
 
 
-  newrast <- Rasters()
-  lapply(rasters, function(x) newrast@c(x))
-  risk_indexes <- .flatten_ri(newrast@global, newrast)
+  newrast <- .rast_ro()
+  lapply(rasters, function(x) newrast$com(x))
+  risk_indexes <- .flatten_ri(newrast$global, newrast)
 
   if (maps == TRUE) {
     connectivity(risk_indexes,
@@ -551,7 +541,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   isglobal <- the$parameters_config$`CCRI parameters`$GeoExtent$global
   geoscale <- geoscale_param()
 
-  risk_indexes <- lapply(crop_rasters,
+  rasters <- lapply(crop_rasters,
                          function(rast) {
                            sa_onrasters(
                              rast = rast,
@@ -566,12 +556,12 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                              the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir
                              )})
 
-  newrast <- Rasters()
-  lapply(rasters, function(x) newrast@c(x))
-  risk_indexes <- .flatten_ri(newrast@global, newrast)
+  newrast <- .rast_ro()
+  lapply(rasters, function(x) newrast$com(x))
+  risk_indices <- .flatten_ri(newrast$global, newrast)
 
   if (maps == TRUE) {
-    connectivity(risk_indexes,
+    connectivity(risk_indices,
                  isglobal,
                  geoscale,
                  resolution,
@@ -586,5 +576,5 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
     beepr::beep(2)
   }
 
-  return(TRUE)
+  return(newrast)
 }

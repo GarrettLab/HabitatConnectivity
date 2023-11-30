@@ -10,30 +10,34 @@
             fields = list(east = "ANY",
                           west = "ANY"))
 
-#' @name Rasters
+#' @name GhabRasters
 #' @docType class
 #' @description
 #' A class to represent raster vis-a-vis risk indices.
 #' @field rasters List. List of raster representing risk indices.
 #' @field global Boolean. True if contains `GlobalRast` object, False otherwise.
 #' @export
-.rast_ro <- setRefClass("Rasters",
-            fields = list(rasters = "ANY",
+.rast_ro <- setRefClass("GhabRasters",
+            fields = list(rasters = "list",
                           global = "logical",
-                          global_rast = "ANY"
+                          global_rast = "list"
                           ),
             methods = list(
-              c = function(x) {
-                if (x@global) {
-                  global_rast <<- c(global_rast, x@global_rast)
+              com = function(x) {
+                if (x$global) {
+                  global_rast <<- c(global_rast, x$global_rast)
                 } else {
                   global <<- FALSE
-                  rasters <<- c(rasters, x@rasters)
+                  rasters <<- c(rasters, x$rasters)
                 }
                 return(.self)
               },
               initialize = function(...) {
                 global <<- TRUE
+              },
+              add_gr = function(x) {
+                stopifnot("Object is not of type GlobaRast" = class(x) == "GlobalRast")
+                global_rast <<- c(global_rast, x)
               }
             ))
 
