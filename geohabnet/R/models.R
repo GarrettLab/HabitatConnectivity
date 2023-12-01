@@ -62,17 +62,18 @@ model_powerlaw <- function(beta,
     cropmatrix <- cropmatr1 %*% cropmatr2
     cropmatrix <- as.matrix(cropmatrix)
     # adjacency matrix
-    distancematrexp * cropmatrix # make available to users
+    cropdistancematr <- distancematrexp * cropmatrix # make available to users
+    # adjacency matrix after threshold
+    logicalmatr <- cropdistancematr > link_threshold
+    adjmat <- cropdistancematr * logicalmatr
+    # use round() because betweeness() may have problem when do the calculation
+    round(adjmat, 6)
   } else {
     adj_mat
   }
 
-  # adjacency matrix after threshold
-  # use round() because betweeness() may have problem when do the calculation
-  adjmat <- stan > link_threshold %>% `*` (stan) %>%  round(digits = 6)
-
   # create graph object using adjacency matrix
-  cropdistancematrix <- igraph::graph.adjacency(adjmat,
+  cropdistancematrix <- igraph::graph.adjacency(stan,
                                                 mode = c("undirected"),
                                                 diag = FALSE, weighted = TRUE)
 
@@ -80,7 +81,7 @@ model_powerlaw <- function(beta,
   indexpre[] <- 0
   indexpre[crop_cells_above_threshold] <- .apply_met(metrics, cropdistancematrix)
   indexv <- indexpre
-  return(.model_ob(index = indexv, amatrix = stan))
+  return(.model_ob(index = indexv, amatrix = adjmat))
 }
 
 #' @rdname model_powerlaw
@@ -108,14 +109,14 @@ model_neg_exp <- function(gamma_val,
     cropmatr2 <- matrix(cropmatr, 1, )
     cropmatrix <- cropmatr1 %*% cropmatr2
     cropmatrix <- as.matrix(cropmatrix)
-    distancematrexponential * cropmatrix
+    cropdistancematr <- distancematrexponential * cropmatrix
+    logicalmatr <- cropdistancematr > link_threshold
+    adjmat <- cropdistancematr * logicalmatr
+    # use round() because betweeness() may have problem when do the calculation
+    round(adjmat, 6)
   } else {
     adj_mat
   }
-
-  # adjacency matrix after threshold
-  # use round() because betweeness() may have problem when do the calculation
-  adjmat <- stan > link_threshold %>% `*` (stan) %>%  round(digits = 6)
 
   # create graph object from adjacency matrix
   cropdistancematrix <- igraph::graph.adjacency(stan,
@@ -127,7 +128,7 @@ model_neg_exp <- function(gamma_val,
   indexpre[] <- 0
   indexpre[crop_cells_above_threshold] <- .apply_met(metrics, cropdistancematrix)
   indexv <- indexpre
-  return(.model_ob(index = indexv, amatrix = stan))
+  return(.model_ob(index = indexv, amatrix = adjmat))
 }
 
 # private methods ---------------------------------------------------------

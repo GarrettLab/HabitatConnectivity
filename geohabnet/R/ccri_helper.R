@@ -100,7 +100,7 @@ library(yaml)
                                                      destfile = f,
                                                      method = "auto",
                                                      mode = "wb",
-                                                     quiet = getOption("verbose")) == 0)
+                                                     quiet = !getOption("verbose")) == 0)
   return(f)
 }
 
