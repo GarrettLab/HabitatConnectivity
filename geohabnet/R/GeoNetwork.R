@@ -9,18 +9,18 @@
 #' @export
 setClass("Gmap",
          slots = list(me_rast = "ANY",
-                   me_out = "character",
-                   diff_rast = "ANY",
-                   diff_out = "character",
-                   var_rast = "ANY",
-                   var_out = "character"))
+                      me_out = "character",
+                      diff_rast = "ANY",
+                      diff_out = "character",
+                      var_rast = "ANY",
+                      var_out = "character"))
 
 #' @name Rimap
 #' @doctype class
 #' @description
 #' A class representing resulting maps from the specific operation type.
 #' @export
-setClass("Rimap",
+setClass("RiskMap",
          slots = list(
            map = "character",
            riid = "ANY",
@@ -31,32 +31,41 @@ setClass("Rimap",
            riid = NA,
            spr = NA,
            fp = NA_character_
-           ))
+         ))
 
-setMethod("setmaps", "Person", function(x, me, vari, dif) {
+setGeneric("setmaps", function(x, me, vari, dif) {
+  standardGeneric("setmaps")
+  })
+
+setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
   
-  if (!is.null(me) & !is.na(me)) {
+  if (!is.null(me)) {
     x@me_rast <- me@spr
     x@me_out <- me@fp 
   }
-
-  if (!is.null(vari) & !is.na(vari)) {
+  
+  if (!is.null(vari)) {
     x@var_rast <- vari@spr
-    x@var_out <- vari@sfp 
+    x@var_out <- vari@fp
   }
   
-  if(!is.null(dif) & !is.null(dif)) {
+  if (!is.null(dif)) {
     x@diff_rast <- dif@spr
-    x@dif_out <- dif@fp 
+    x@diff_out <- dif@fp
   }
-
+  
   validObject(x)
   return(x)
 })
 
-setClass("Network", contains = "Gmap",
-         slots = list(indices = "ANY"),
-         prototype = structure(Gmap(), indices = NA))
+#' @name GeoNetwork
+#' @doctype class
+#' @description
+#' A class representing a network of geographical data.
+#' @export
+setClass("GeoNetwork", contains = "Gmap",
+         slots = list(rasters = "ANY"),
+         prototype = list(me_rast = NA, me_out = NA_character_, diff_rast = NA, diff_out = NA_character_, var_rast = NA, var_out = NA_character_, rasters = NA))
 
 .indices <- function(crop_rasters) {
   risk_indices <- sapply(crop_rasters, function(x) x@indices)

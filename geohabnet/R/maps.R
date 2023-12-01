@@ -38,7 +38,7 @@ connectivity <- function(indexes,
   vobj <- if (pvar == TRUE) {
     ccri_variance(
       indexes,
-      mean_rast,
+      mobj@riid,
       global,
       geoscale,
       res,
@@ -51,7 +51,7 @@ connectivity <- function(indexes,
     }
 
     ccri_diff(
-      mean_rast,
+      mobj@riid,
       the$cropharvest_aggtm_crop,
       the$cropharvest_agglm_crop,
       global,
@@ -108,7 +108,7 @@ ccri_mean <- function(indexes,
                      outdir = outdir)
   }
 
-  return(new("rimap", type = "mean", riid = mean_index, spr = plt_ret[1], fp = plt_ret[2]))
+  return(new("RiskMap", map = "mean", riid = mean_index, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
 
 #' Calculate variance of CCRI
@@ -165,7 +165,7 @@ ccri_variance <- function(indexes,
                    typ = "variance",
                    outdir = outdir)
 
-  return(new("rimap", type = "variance", riid = var_out, spr = plt_ret[1], fp = plt_ret[2]))
+  return(new("RiskMap", map = "variance", riid = var_out, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
 
 #' Calculate difference map
@@ -254,16 +254,14 @@ ccri_diff <- function(rast,
                    typ = "difference",
                    outdir)
 
-  invisible()
-  return(new("rimap", type = "difference", riid = diff_out, spr = plt_ret[1], fp = plt_ret[2]))
+
+  return(new("RiskMap", map = "difference", riid = diff_out, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
 
 # private functions -------------------------------------------------------
 
-.merge_mapobs(m, v, d) {
-  gmap <- new("Gmap")
-  gmap@setmaps(m, v, d)
-  return(gmap)
+.merge_mapobs <- function(m, v, d) {
+  return(setmaps(gmap <- new("Gmap"), m, v, d))
 }
 
 .plot <- function(rast,
@@ -312,7 +310,7 @@ ccri_diff <- function(rast,
                      gdal = c("COMPRESS=NONE"))
   .showmsg(paste("raster created", fp, sep = ": "), "\n")
   
-  return(c(spr, fp))
+  return(list(spr, toString(fp)))
 }
 
 .plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {

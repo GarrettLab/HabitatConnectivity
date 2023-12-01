@@ -369,7 +369,7 @@ sean <- function(rast,
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
-  
+
   risk_indexes <- .flatten_ri(newrast$global, newrast)
 
   if (maps == TRUE) {
@@ -560,7 +560,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   lapply(rasters, function(x) newrast$com(x))
   risk_indices <- .flatten_ri(newrast$global, newrast)
 
-  if (maps == TRUE) {
+  gmap <- if (maps == TRUE) {
     connectivity(risk_indices,
                  isglobal,
                  geoscale,
@@ -576,5 +576,12 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
     beepr::beep(2)
   }
 
-  return(newrast)
+  return(new("GeoNetwork",
+             rasters = newrast,
+             me_rast = gmap@me_rast,
+             me_out = gmap@me_out,
+             var_rast = gmap@var_rast,
+             var_out = gmap@var_out,
+             diff_rast = gmap@diff_rast,
+             diff_out = gmap@diff_out))
 }
