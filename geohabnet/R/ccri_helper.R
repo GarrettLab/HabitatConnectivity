@@ -115,6 +115,7 @@ library(yaml)
   return(terra::aggregate(rast,
                           fact = reso,
                           fun = method,
+                          na.rm = TRUE,
                           na.action = stats::na.omit))
 }
 
