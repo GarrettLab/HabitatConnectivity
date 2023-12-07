@@ -525,19 +525,21 @@ msean_onrast <- function(rast,
 #' By default, it runs analysis on global sclaes[global_scales()].
 #' After analysis is complete,
 #' it will suppress maps for outcomes if `maps = FALSE` or
-#' [interactive()] is `FALSE`.
+#' [interactive()] is `FALSE`. Thier are 2 results. The side effects are the plotted maps.
+#' The returned object is of class `GeoNetwork`.
+#' It contains risk indices with corresponding adjacency matrices along with final maps from the outcome.
 #' @param maps logical. `TRUE` if maps are to be plotted, `FALSE` otherwise
 #' @param alert logical. `TRUE` if beep sound is to be played, `FALSE` otherwise
-#' @return logical. `TRUE` if analysis is completed, `FALSE` otherwise.
+#' @return GeoNetwork.
 #' Errors are not handled.
 #' @export
 #'
 #' @examples
 #' \donttest{
 #' # Run analysis on specified parameters.yaml
-#' sensitivity_analysis()
-#' sensitivity_analysis(FALSE, FALSE)
-#' sensitivity_analysis(TRUE, FALSE)
+#' ss1 <- sensitivity_analysis()
+#' ss1 <- sensitivity_analysis(FALSE, FALSE)
+#' ss1 <- sensitivity_analysis(TRUE, FALSE)
 #' }
 #' @seealso
 #' [sa_onrasters()]

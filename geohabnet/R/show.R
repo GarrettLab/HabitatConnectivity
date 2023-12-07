@@ -1,6 +1,6 @@
-setMethod("show", "GhabRasters",
+setMethod("show", "GeoRasters",
           function(object) {
-            cat("class   : ", "GhabRasters", "\n")
+            cat("class   : ", "GeoRasters", "\n")
             if (!is.null(object$rasters) && length(object$rasters) > 0) {
               cat("rasters : ", length(object$rasters), "\n") 
             }

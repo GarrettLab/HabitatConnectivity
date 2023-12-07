@@ -17,7 +17,7 @@
 #' @field rasters List. List of raster representing risk indices.
 #' @field global Boolean. True if contains `GlobalRast` object, False otherwise.
 #' @export
-.rast_ro <- setRefClass("GhabRasters",
+.rast_ro <- setRefClass("GeoRasters",
             fields = list(rasters = "list",
                           global = "logical",
                           global_rast = "list"
