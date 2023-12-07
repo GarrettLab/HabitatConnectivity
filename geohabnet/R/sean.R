@@ -226,8 +226,10 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
 #'
+#' @description 
 #'   This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
-#'   Some parameters are only accessible from `paramters.yaml` and uses value from here
+#'   Some parameters are only accessible from `paramters.yaml` and uses value from here.
+#' - `sensitivity_analysis()` is a wrapper around [sean()] function. Takes raster object and other parameters as an input. 
 #' @param link_threshold numeric. A threshold value for link
 #' @param host_density_threshold A host density threshold value
 #' @inheritParams sa_onrasters
@@ -400,7 +402,12 @@ msean <- function(rast,
 
 #' Run sensitivity analysis
 #'
+#' @description 
 #' Same as [sensitivity_analysis()] but it takes raster object and other parameters as an input.
+#' - `sa_onrasters()` is a wrapper around [sean()] function. Takes raster object and other parameters as an input.
+#' - `msean_onrast()` same as [sa_onrasters()].
+#' It produces and plots the maps for the outcomes and results are returned as an object.
+#' 
 #' @param rast Raster object which will be used in analysis.
 #' @seealso Use [get_rasters()] to obtain raster object.
 #' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise.
@@ -414,7 +421,6 @@ msean <- function(rast,
 #' @param res numeric.
 #' resolution at which operations will run.
 #' Default is [reso()]
-#' @param maps logical. `TRUE` if maps are to be plotted, `FALSE` otherwise
 #' @param outdir Character. Output directory for saving raster in TIFF format.
 #' Default is [tempdir()].
 #' @return A list of calculated CCRI indices after operations.
@@ -441,8 +447,10 @@ msean <- function(rast,
 #'             host_density_thresholds = c(0.00015),
 #'             agg_methods = c("sum"),
 #'             res = 24)
+#' res3 <- msean_onrast(rr[[1]])
 #'}
 #' @inherit sensitivity_analysis seealso references
+#' @seealso [msean_onrast()]
 #'
 sa_onrasters <- function(rast,
                          global = TRUE,
@@ -477,6 +485,7 @@ sa_onrasters <- function(rast,
   return(newrast)
 }
 
+#' @rdname sa_onrasters
 msean_onrast <- function(rast,
                          global = TRUE,
                          geoscale,
@@ -504,7 +513,8 @@ msean_onrast <- function(rast,
                        res,
                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                       as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference))
+                       as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
+                       outdir)
 
  return(new("GeoNetwork",
             rasters = grast,
