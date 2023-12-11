@@ -38,15 +38,15 @@ Matrix with the mean value based on the assigned weight.
 These are basically an abstraction of functions under the \link{igraph} package.
 The functions included in this abstraction are:
 \itemize{
-\item \code{nn_sum()}: Calculates the sum of nearest neighbors \code{\link[igraph:knn]{igraph::graph.knn()}}.
-\item \code{node_strength()}: Calculates the sum of edge weights of adjacent nodes \code{\link[igraph:strength]{igraph::graph.strength()}}.
-\item \code{betweeness()}: Calculates the vertex and edge betweenness based on the number of geodesics
+\item \verb{[nn_sum()]}: Calculates the sum of nearest neighbors \code{\link[igraph:knn]{igraph::graph.knn()}}.
+\item \verb{[node_strength()]}: Calculates the sum of edge weights of adjacent nodes \code{\link[igraph:strength]{igraph::graph.strength()}}.
+\item \verb{[betweeness()]}: Calculates the vertex and edge betweenness based on the number of geodesics
 \code{\link[igraph:betweenness]{igraph::betweenness()}}.
-\item \code{ev()}: Calculates the eigenvector centrality of positions within the network \code{\link[igraph:eigen_centrality]{igraph::evcent()}}.
-\item \code{closeness()}: measures how many steps is required to access every other vertex from a given vertex
+\item \verb{[ev()]}: Calculates the eigenvector centrality of positions within the network \code{\link[igraph:eigen_centrality]{igraph::evcent()}}.
+\item \verb{[closeness()]}: measures how many steps is required to access every other vertex from a given vertex
 \code{\link[igraph:closeness]{igraph::closeness()}}.
-\item \code{degree()}: number of adjacent edges \code{\link[igraph:degree]{igraph::degree()}}.
-\item \code{pagerank()}: page rank score for vertices \code{\link[igraph:page_rank]{igraph::page_rank()}}.
+\item \verb{[degree()]}: number of adjacent edges \code{\link[igraph:degree]{igraph::degree()}}.
+\item \verb{[pagerank()]}: page rank score for vertices \code{\link[igraph:page_rank]{igraph::page_rank()}}.
 }
 }
 \seealso{

@@ -18,8 +18,8 @@
 #' Calculate risk index using inbuilt models.
 #'
 #' @description
-#' - [`model_powerlaw()`] calculates risk index using power law.
-#' - [`model_neg_exp()`] calculates risk index using negative exponential.
+#' - [`model_powerlaw()`]: calculates risk index using power law.
+#' - [`model_neg_exp()`]: calculates risk index using negative exponential.
 #' @param beta A list of beta values. `DispersalParameterBeta` in `parameters.yaml`.
 #' @param gamma_val A list of beta values. `DispersalParameterGamma` in `parameters.yaml`.
 #' @param link_threshold A threshold value for link.

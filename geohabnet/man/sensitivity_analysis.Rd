@@ -12,24 +12,27 @@ sensitivity_analysis(maps = TRUE, alert = TRUE)
 \item{alert}{logical. \code{TRUE} if beep sound is to be played, \code{FALSE} otherwise}
 }
 \value{
-logical. \code{TRUE} if analysis is completed, \code{FALSE} otherwise.
+GeoNetwork.
 Errors are not handled.
 }
 \description{
 This function runs sensitivity analysis on parameters based on
-parameters provided through \code{\link[=set_parameters]{set_parameters()}}.
-It can be used as an entry point for CCRI.
-By default, it runs analysis on global sclaes\code{\link[=global_scales]{global_scales()}}.
+parameters provided through \code{\link[=set_parameters]{set_parameters()}}. If no parameters are provided,
+then it will run analysis on default parameters which is accessible through \code{\link[=get_parameters]{get_parameters()}}.
+It can be used as an entry point for Cropland connectivity risk index vis-a-vis CCRI.
+By default, it runs analysis on global scales\code{\link[=global_scales]{global_scales()}}.
 After analysis is complete,
 it will suppress maps for outcomes if \code{maps = FALSE} or
-\code{\link[=interactive]{interactive()}} is \code{FALSE}.
+\code{\link[=interactive]{interactive()}} is \code{FALSE}. Thier are 2 results. The side effects are the plotted maps.
+The returned object is of class \code{GeoNetwork}.
+It contains risk indices with corresponding adjacency matrices along with final maps from the outcome.
 }
 \examples{
 \donttest{
 # Run analysis on specified parameters.yaml
-sensitivity_analysis()
-sensitivity_analysis(FALSE, FALSE)
-sensitivity_analysis(TRUE, FALSE)
+ss1 <- sensitivity_analysis()
+ss1 <- sensitivity_analysis(FALSE, FALSE)
+ss1 <- sensitivity_analysis(TRUE, FALSE)
 }
 }
 \references{

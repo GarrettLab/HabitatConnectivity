@@ -1,8 +1,10 @@
 
 #' @name GlobalRast
+#' @title GlobalRast. Class to represent global rasters from geohabnet
 #' @docType class
 #' @description
-#' A class to represent raster for global scales.
+#' A class to represent raster for global scales. Global scales are accessible using [global_scales()].
+#' However, this class encapsulates the results of apply dispersal models and metrics.
 #' @field east A list of raster for eastern hemisphere.
 #' @field west A list of raster for western hemisphere.
 #' @export
@@ -10,10 +12,12 @@
             fields = list(east = "ANY",
                           west = "ANY"))
 
-#' @name GhabRasters
+#' @name GeoRasters
+#' @title GeoRasters. Class to represent rasters from geohabnet
 #' @docType class
 #' @description
 #' A class to represent raster vis-a-vis risk indices.
+#' This class encapsulates the results of apply dispersal models and metrics.
 #' @field rasters List. List of raster representing risk indices.
 #' @field global Boolean. True if contains `GlobalRast` object, False otherwise.
 #' @export

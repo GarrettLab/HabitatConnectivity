@@ -226,25 +226,31 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 
 #' Calculate sensitivity analysis on cropland harvested area fraction
 #'
-#' @description 
-#'   This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
-#'   Some parameters are only accessible from `paramters.yaml` and uses value from here.
-#' - `sensitivity_analysis()` is a wrapper around [sean()] function. Takes raster object and other parameters as an input. 
+#' @description
+#' This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
+#' Some parameters are only accessible from `parameters.yaml` and uses value from here.
+#' [sensitivity_analysis()] is a wrapper around [sean()] function.
+#' - `msean()` is a wrapper around [sean()] function. It has additional argument to specify maps which are calculated
+#' using [connectivity()] function. The maps are essentially the risk network.
 #' @param link_threshold numeric. A threshold value for link
 #' @param host_density_threshold A host density threshold value
 #' @inheritParams sa_onrasters
-#' @return A list of calculated CCRI values using negative exponential
+#' @return GeoRasters.
 #' @export
 #' @details
-#' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used
+#' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used. What makes [sean()]
+#' different from [msean()] is thier return value. The return value of [msean()] is `GeoNetwork`
+#' contains the result from applying [connectivity()] function on the risk indexes. Essentially, the risk maps.
 #'
 #' @seealso Uses [connectivity()]
+#' @seealso Uses [msean()]
 #' @inherit sensitivity_analysis references
 #'
 #' @examples
 #' \donttest{
 #' avocado <- cropharvest_rast("avocado", "monfreda")
-#' risk_indexes <- sean(avocado)
+#' ri <- sean(avocado)
+#' mri <- msean(avocado) 
 #' }
 sean <- function(rast,
                  global = TRUE,
@@ -331,6 +337,8 @@ sean <- function(rast,
   return(rasters)
 }
 
+#' @rdname sean
+#' @return GeoNetwork.
 msean <- function(rast,
                  global = TRUE,
                  geoscale,
@@ -401,6 +409,7 @@ msean <- function(rast,
 }
 
 #' Run sensitivity analysis
+#'
 #'
 #' @description 
 #' Same as [sensitivity_analysis()] but it takes raster object and other parameters as an input.
@@ -530,9 +539,10 @@ msean_onrast <- function(rast,
 #'
 #' @description
 #' This function runs sensitivity analysis on parameters based on
-#' parameters provided through [set_parameters()].
-#' It can be used as an entry point for CCRI.
-#' By default, it runs analysis on global sclaes[global_scales()].
+#' parameters provided through [set_parameters()]. If no parameters are provided,
+#' then it will run analysis on default parameters which is accessible through [get_parameters()].
+#' It can be used as an entry point for Cropland connectivity risk index vis-a-vis CCRI.
+#' By default, it runs analysis on global scales[global_scales()].
 #' After analysis is complete,
 #' it will suppress maps for outcomes if `maps = FALSE` or
 #' [interactive()] is `FALSE`. Thier are 2 results. The side effects are the plotted maps.

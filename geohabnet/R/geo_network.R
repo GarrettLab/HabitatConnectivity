@@ -45,9 +45,11 @@ setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
 })
 
 #' @name GeoNetwork
-#' @doctype class
+#' @title Class GeoNetwork.
+#' @docType class
 #' @description
-#' A class representing a network of geographical data. This will wrap all the results from the risk analysis.
+#' A class representing a network of geographical data.
+#' This will wrap all the results from the risk analysis using [sean()] or [sensitivity_analysis()].
 #' @field rasters A list of \code{\link{GhabRasters}} objects.
 #' @export
 setClass("GeoNetwork", contains = "Gmap",

@@ -54,8 +54,8 @@ risk index
 }
 \description{
 \itemize{
-\item \code{\link[=model_powerlaw]{model_powerlaw()}} calculates risk index using power law.
-\item \code{\link[=model_neg_exp]{model_neg_exp()}} calculates risk index using negative exponential.
+\item \code{\link[=model_powerlaw]{model_powerlaw()}}: calculates risk index using power law.
+\item \code{\link[=model_neg_exp]{model_neg_exp()}}: calculates risk index using negative exponential.
 }
 }
 \details{
