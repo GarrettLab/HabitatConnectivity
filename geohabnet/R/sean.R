@@ -249,8 +249,19 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' @examples
 #' \donttest{
 #' avocado <- cropharvest_rast("avocado", "monfreda")
-#' ri <- sean(avocado)
-#' mri <- msean(avocado) 
+#' 
+#' # global
+#' ri <- sean(avocado) # returns a list of GeoRasters
+#' mri <- msean(avocado) # returns GeoNetwork object
+#'
+#' # non-global
+#' # geoscale is a vector of xmin, xmax, ymin, ymax
+#' 
+#' # returns GeoRasters object
+#' ri <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+#' 
+#' # returns GeoNetwork object
+#' mri <- msean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
 #' }
 sean <- function(rast,
                  global = TRUE,

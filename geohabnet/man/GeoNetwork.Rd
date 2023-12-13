@@ -7,10 +7,11 @@
 \description{
 A class representing a network of geographical data.
 This will wrap all the results from the risk analysis using \code{\link[=sean]{sean()}} or \code{\link[=sensitivity_analysis]{sensitivity_analysis()}}.
+This class contains the field from \code{Gmap} class which has results in the form of \code{SpatRaster} and TIFF file.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{rasters}}{A list of \code{\link{GhabRasters}} objects.}
+\item{\code{rasters}}{A list of \code{\link{GeoRasters}} objects.}
 }}
 

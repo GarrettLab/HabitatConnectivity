@@ -3,12 +3,12 @@
 #' @docType class
 #' @description
 #' A class to represent various maps.
-#' @field me_rast Numeric. A raster representing mean risk index.
+#' @field me_rast SpatRaster A raster representing mean risk index.
 #' @field me_out Character. A file path to the mean risk index raster.
-#' @field diff_rast Numeric. A raster representing difference.
+#' @field diff_rast SpatRaster A raster representing difference.
 #' @field diff_out Character. A file path to the difference raster.
 #' @field var_rast Numeric. A raster representing variance.
-#' @field var_out Character. A file path to the variance raster.
+#' @field var_out SpatRaster A file path to the variance raster.
 #' @export
 setClass("Gmap",
          slots = list(me_rast = "ANY",
@@ -50,7 +50,8 @@ setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
 #' @description
 #' A class representing a network of geographical data.
 #' This will wrap all the results from the risk analysis using [sean()] or [sensitivity_analysis()].
-#' @field rasters A list of \code{\link{GhabRasters}} objects.
+#' This class contains the field from `Gmap` class which has results in the form of `SpatRaster` and TIFF file.
+#' @field rasters A list of \code{\link{GeoRasters}} objects.
 #' @export
 setClass("GeoNetwork", contains = "Gmap",
          slots = list(rasters = "ANY"),

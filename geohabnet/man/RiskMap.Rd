@@ -3,7 +3,7 @@
 \docType{class}
 \name{RiskMap}
 \alias{RiskMap}
-\title{RiskMap. Class to represent risk maps from geohabnet}
+\title{RiskMap class}
 \description{
 A class representing resulting maps from the specific operation type.
 }

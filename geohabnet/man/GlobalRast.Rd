@@ -4,7 +4,7 @@
 \name{GlobalRast}
 \alias{GlobalRast}
 \alias{.grast_ro}
-\title{GlobalRast. Class to represent global rasters from geohabnet}
+\title{GlobalRast class}
 \description{
 A class to represent raster for global scales. Global scales are accessible using \code{\link[=global_scales]{global_scales()}}.
 However, this class encapsulates the results of apply dispersal models and metrics.

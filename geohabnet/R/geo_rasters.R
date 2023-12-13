@@ -1,6 +1,6 @@
 
 #' @name GlobalRast
-#' @title GlobalRast. Class to represent global rasters from geohabnet
+#' @title GlobalRast class
 #' @docType class
 #' @description
 #' A class to represent raster for global scales. Global scales are accessible using [global_scales()].
@@ -18,7 +18,7 @@
 #' @description
 #' A class to represent raster vis-a-vis risk indices.
 #' This class encapsulates the results of apply dispersal models and metrics.
-#' @field rasters List. List of raster representing risk indices.
+#' @field rasters List. List of raster representing risk indices. These are of type `GeoModels`.
 #' @field global Boolean. True if contains `GlobalRast` object, False otherwise.
 #' @export
 .rast_ro <- setRefClass("GeoRasters",

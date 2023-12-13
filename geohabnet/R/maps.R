@@ -6,27 +6,29 @@
 #' @param indexes list of rasters. See details.
 #' @param global logical. `TRUE` if global analysis is required, `FALSE` otherwise.
 #' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
-#' @param geoscale vector. geographical scale
+#' @param geoscale Vector. geographical scale. Default is `NULL`.
 #' @param res numeric. map resolution.
 #' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise.
 #' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise.
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise.
 #' @param outdir Character. Output directory for saving raster in TIFF format.
 #' Default is [tempdir()].
-#' @return Invisible NULL.
+#' @return Gmap. See details.
 #' @details
-#' `indexes` are actually risk resulting from operations on crop's raster and
+#' `indexes` are actually risk indices representing in the form of `spatRaster`
+#' resulting from operations on crop's raster and
 #' parameters provided in either `parameters.yaml` or [sean()].
 #'
 #' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
 #' File will be saved in provided value of `outdir` or  [tempdir()].If [interactive()] is `TRUE`,
-#' then plots can be seen in active plot window. E.g. Rstudio
+#' then plots can be seen in active plot window. E.g. Rstudio. The maps are plotted using `SpatRaster` object.
+#' These objects are available as a return value of this function.
 #'
 #' @inherit sensitivity_analysis references
 #' @export
 connectivity <- function(indexes,
                          global = TRUE,
-                         geoscale,
+                         geoscale = NULL,
                          res = reso(),
                          pmean = TRUE,
                          pvar = TRUE,
@@ -69,8 +71,10 @@ connectivity <- function(indexes,
 #'
 #'   Wrapper for [terra::mean()]. Calculates mean of list of rasters.
 #' @inheritParams connectivity
-#' @inherit connectivity return
-#' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`.
+#' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise.
+#' @return RiskMap. [?RiskMap]. It contains result in the form of `SpatRaster` object
+#' and filenames of the saved maps.
+#' 
 #' @export
 ccri_mean <- function(indexes,
                       global = TRUE,
@@ -115,7 +119,7 @@ ccri_mean <- function(indexes,
 #'
 #'    This function produces a map of variance of CCRI based on input parameters
 #' @inheritParams connectivity
-#' @inherit connectivity return
+#' @inherit ccri_mean return
 #' @param rast A raster object. It will be used in calculating variance.
 #' @export
 ccri_variance <- function(indexes,
@@ -175,7 +179,7 @@ ccri_variance <- function(indexes,
 #' @param x A raster object for cropland harvest
 #' @param y A raster object for cropland harvest
 #' @inheritParams connectivity
-#' @inherit connectivity return
+#' @inherit ccri_mean return
 #' @export
 ccri_diff <- function(rast,
                       x,

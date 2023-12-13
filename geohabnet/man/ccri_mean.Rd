@@ -18,15 +18,16 @@ ccri_mean(
 \item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{geoscale}{vector. geographical scale}
+\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
 
-\item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise and \code{geoscale}.}
+\item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-Invisible NULL.
+RiskMap. \link{?RiskMap}. It contains result in the form of \code{SpatRaster} object
+and filenames of the saved maps.
 }
 \description{
 Wrapper for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.

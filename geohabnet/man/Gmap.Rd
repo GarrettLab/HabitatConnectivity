@@ -10,16 +10,16 @@ A class to represent various maps.
 \section{Fields}{
 
 \describe{
-\item{\code{me_rast}}{Numeric. A raster representing mean risk index.}
+\item{\code{me_rast}}{SpatRaster A raster representing mean risk index.}
 
 \item{\code{me_out}}{Character. A file path to the mean risk index raster.}
 
-\item{\code{diff_rast}}{Numeric. A raster representing difference.}
+\item{\code{diff_rast}}{SpatRaster A raster representing difference.}
 
 \item{\code{diff_out}}{Character. A file path to the difference raster.}
 
 \item{\code{var_rast}}{Numeric. A raster representing variance.}
 
-\item{\code{var_out}}{Character. A file path to the variance raster.}
+\item{\code{var_out}}{SpatRaster A file path to the variance raster.}
 }}
 

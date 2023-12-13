@@ -4,7 +4,7 @@
 #' @description
 #' A class to represent results of dispersal models.
 #' @field matrix An adjacency matrix to represent network.
-.model_ob <- setRefClass("Model",
+.model_ob <- setRefClass("GeoModel",
                          fields = list(
                            amatrix = "matrix",
                            index = "ANY"

@@ -7,7 +7,7 @@
 connectivity(
   indexes,
   global = TRUE,
-  geoscale,
+  geoscale = NULL,
   res = reso(),
   pmean = TRUE,
   pvar = TRUE,
@@ -21,7 +21,7 @@ connectivity(
 \item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{geoscale}{vector. geographical scale}
+\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
 
 \item{res}{numeric. map resolution.}
 
@@ -35,7 +35,7 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-Invisible NULL.
+Gmap. See details.
 }
 \description{
 Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
@@ -43,12 +43,14 @@ Currently, the settings for plot cannot be customized.
 Default value is \code{TRUE} for all logical arguments
 }
 \details{
-\code{indexes} are actually risk resulting from operations on crop's raster and
+\code{indexes} are actually risk indices representing in the form of \code{spatRaster}
+resulting from operations on crop's raster and
 parameters provided in either \code{parameters.yaml} or \code{\link[=sean]{sean()}}.
 
 It will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
 File will be saved in provided value of \code{outdir} or  \code{\link[=tempdir]{tempdir()}}.If \code{\link[=interactive]{interactive()}} is \code{TRUE},
-then plots can be seen in active plot window. E.g. Rstudio
+then plots can be seen in active plot window. E.g. Rstudio. The maps are plotted using \code{SpatRaster} object.
+These objects are available as a return value of this function.
 }
 \references{
 Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,

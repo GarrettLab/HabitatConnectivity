@@ -17,7 +17,7 @@ setMethod("show", "GlobalRast",
             cat("west  : ", length(object$west), "\n")
           })
 
-setMethod("show", "Model",
+setMethod("show", "GeoModel",
           function(object) {
             di_a <- dim(object$amatrix)
             pstr <-  " (nrow, ncol)"

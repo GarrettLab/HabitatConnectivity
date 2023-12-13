@@ -21,7 +21,7 @@ ccri_variance(
 \item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{geoscale}{vector. geographical scale}
+\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
 
 \item{res}{numeric. map resolution.}
 
@@ -29,7 +29,8 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-Invisible NULL.
+RiskMap. \link{?RiskMap}. It contains result in the form of \code{SpatRaster} object
+and filenames of the saved maps.
 }
 \description{
 This function produces a map of variance of CCRI based on input parameters
