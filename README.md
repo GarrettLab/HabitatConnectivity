@@ -12,10 +12,17 @@ height="25" alt="CRAN status" />](https://CRAN.R-project.org/package=geohabnet)
 
 # geohabnet
 
-The geohabnet R package is based on assumptions from [Xing et al
-(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255) to evaluate habitat connectivity from a network analysis perspective.
-This package adds capabilities to customize parameter values using functions and
-see results of the cropland connectivity risk index in the form of plots.
+geohabnet is an R package that evaluates habitat connectivity from a network analysis perspective. An explanation of the main theoretical assumptions for the functions in geohabnet is provided by [Xing et al
+(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255).
+In addition to maps of cropland distribution, users can now input maps of host (wild or cropland) species in the functions of geohabnet or even maps that consider the influence of climate or weather.
+
+The main improvements and extensions of geohabnet are
+* The geohabnet package allows R users to easily calculate the connectivity of locations in a landscape using a single function.
+* Because the geohabnet package allows R users to use as input maps of cropland density (as originally in [Xing et al
+(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255)), host landscape density (either crops or wild species), or habitat distribution (such as host landscape density adjusted by climate suitability), we propose the term habitat connectivity.
+* The geohabnet package allows R users to customize parameter values in the analysis, facilitating context-specific analyses.
+* The geohabnet package allows users to automatically visualize maps of the habitat connectivity of locations.
+
 The goal of `geohabnet` is to enable users to visualize cropland
 connectivity risk index using their own selected parameter values. The risk
 analysis outcomes include 3 maps:
