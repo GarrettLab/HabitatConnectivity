@@ -14,7 +14,6 @@ height="25" alt="CRAN status" />](https://CRAN.R-project.org/package=geohabnet)
 
 geohabnet is an R package that evaluates habitat connectivity from a network analysis perspective. An explanation of the main theoretical assumptions for the functions in geohabnet is provided by [Xing et al
 (2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255).
-In addition to maps of cropland distribution, users can now input maps of host (wild or cropland) species in the functions of geohabnet or even maps that consider the influence of climate or weather.
 
 The main improvements and extensions of geohabnet are
 * The geohabnet package allows R users to easily calculate the connectivity of locations in a landscape using a single function.
