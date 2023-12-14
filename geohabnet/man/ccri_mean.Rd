@@ -13,8 +13,6 @@ ccri_mean(
 )
 }
 \arguments{
-\item{indexes}{list of rasters. See details.}
-
 \item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 

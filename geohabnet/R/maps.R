@@ -3,7 +3,7 @@
 #' Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 #' Currently, the settings for plot cannot be customized.
 #' Default value is `TRUE` for all logical arguments
-#' @param indexes list of rasters. See details.
+#' @param grast GeoRasters. Collection of risk indices.
 #' @param global logical. `TRUE` if global analysis is required, `FALSE` otherwise.
 #' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
 #' @param geoscale Vector. geographical scale. Default is `NULL`.
@@ -26,7 +26,7 @@
 #'
 #' @inherit sensitivity_analysis references
 #' @export
-connectivity <- function(indexes,
+connectivity <- function(grast,
                          global = TRUE,
                          geoscale = NULL,
                          res = reso(),
@@ -35,10 +35,11 @@ connectivity <- function(indexes,
                          pdiff = TRUE,
                          outdir = tempdir()) {
 
-  mobj <- ccri_mean(indexes, global, geoscale, pmean, outdir)
+  ri_ind <- risk_indices(grast)
+  mobj <- ccri_mean(ri_ind, global, geoscale, pmean, outdir)
 
   vobj <- if (pvar == TRUE) {
-    ccri_variance(indexes,
+    ccri_variance(ri_ind,
                   mobj@riid,
                   global,
                   geoscale,

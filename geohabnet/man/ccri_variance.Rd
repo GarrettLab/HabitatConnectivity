@@ -14,8 +14,6 @@ ccri_variance(
 )
 }
 \arguments{
-\item{indexes}{list of rasters. See details.}
-
 \item{rast}{A raster object. It will be used in calculating variance.}
 
 \item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.

@@ -31,7 +31,15 @@ library(yaml)
   return(temp_matrix)
 }
 
-.flatten_ri <- function(isglobal, ri) {
+#' Get risk indices
+#'
+#' @description Get risk indices from GeoRasters object.
+#' @param ri GeoRasters object
+#' @return List of risk indices. If the `ri` is global, the list will contain two elements,
+#' one for each hemisphere.
+#' @export
+risk_indices <- function(ri) {
+  stopifnot("Object is not of type GeoRasters" = class(ri) == "GeoRasters")
   .ew_split <- function() {
     ew_indices <- list(list(), list())
     names(ew_indices) <- c(STR_EAST, STR_WEST)
@@ -47,7 +55,7 @@ library(yaml)
     return(ew_indices)
   }
 
-  if (isglobal) {
+  if (ri$global) {
     #east-west split
     .ew_split()
   } else {

@@ -5,7 +5,7 @@
 \title{Calculate and plot maps}
 \usage{
 connectivity(
-  indexes,
+  grast,
   global = TRUE,
   geoscale = NULL,
   res = reso(),
@@ -16,7 +16,7 @@ connectivity(
 )
 }
 \arguments{
-\item{indexes}{list of rasters. See details.}
+\item{grast}{GeoRasters. Collection of risk indices.}
 
 \item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}

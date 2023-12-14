@@ -39,7 +39,7 @@ Install benchmark
 
 ```{r echo=TRUE, eval=FALSE}
 if (!require(microbenchmark)) {
- install.packages("microbenchmark")
+  install.packages("microbenchmark")
   library(microbenchmark)
 }
 ```
@@ -59,7 +59,7 @@ Comparison of methods
 
 ```{r echo=TRUE, eval=FALSE}
 bres <- microbenchmark(sa(avo_rast[[1]], dmets[1]),
-               sa(avo_rast[[1]], dmets[2]),
-               times = 1)
+                       sa(avo_rast[[1]], dmets[2]),
+                       times = 1)
 bres
 ```

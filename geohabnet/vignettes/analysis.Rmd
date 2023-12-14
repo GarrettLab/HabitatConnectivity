@@ -80,6 +80,15 @@ if (!require("geohabnet")) {
 }
 ```
 
+Alternatively, install from github source.
+
+```{r cran}
+
+if (!require("geohabnet")) {
+  utils::install.packages("geohabnet")
+}
+```
+
 ```{r message=FALSE}
 library(geohabnet)
 ```
@@ -121,7 +130,7 @@ terra::plot(avocado)
 Now that we have a raster object, it can be fed directly to the workflow. We will only set the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
 
 ```{r message=FALSE}
-risk_indexes <- sean(avocado)
+geo_net <- msean(avocado)
 ```
 
 The results should be interpreted in accordance to the values of other parameters that have factored as arguments to `sean`. Run ?sean to see all the supported parameters. We will later see the usage of other parameters as well.
@@ -143,6 +152,17 @@ The results should be interpreted in accordance to the values of other parameter
         ```{r}
         #set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
         ```
+
+4.  thresholds *- Numeric.* 2 types of thresholds: *host_density_threshold* and *link_threshold.* The former threshold filters from the aggregation of input data-set/raster and latter will filter the cells from the adjacency matrix which is used to calculate the network connectivity.
+
+5.  resolution - Numeric. This is a resolution value. In the context of *SpatRaster*, it's the number of pixels that are aggregated to produce a new finer/coarser version raster data. Default is
+
+    ```{r reso}
+    reso()
+    set_reso()
+    ```
+
+6.  Side effect - Calculates, produces and plots the maps which is same as `sensitivity_analysis()` [sensitivity_analysis()]. An alternative is `sean()` which can be called to obtain the results from the function call and has no side effects.
 
 ### Using configuration
 
@@ -308,17 +328,17 @@ By default, 3 maps are produced for each analysis. `sean()` also returns list of
 In a code below, after obtaining results, the maps are produced. In order to produce calculate variance, cells of `SpatRaster` is extended to coarser value using `res` parameter. Setting `maps = FALSE` will suppress the calculation of outputs.
 
 ```{r message=FALSE}
-risk_indexes <- sean(avocado)
-connectivity(risk_indexes)
+georast <- sean(avocado)
+connectivity(georast)
 ```
 
-is equivalent to `sensitivity_analysis()` .
+is equivalent to `sensitivity_analysis()` or `msean()` which produces maps as side effect.
 
 The final operations are performed risk indices and on the 3 results that are produced -
 
 1.  Mean
 
-    Simply a mean of all the `SpatRasters` resulting from combination of parameter values. The values in cells are added across all the indices and divided by number of indices.
+    A mean of all the `SpatRasters` resulting from combination of parameter values. The values in cells are added across all the indices and divided by number of indices. It represents the connectivity based on host density in the given area
 
 2.  Variance
 

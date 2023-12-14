@@ -361,7 +361,7 @@ msean <- function(rast,
                    host_density_threshold,
                    res)
 
-  gmap <- connectivity(.flatten_ri(grasters$global, grasters),
+  gmap <- connectivity(grasters,
                        global,
                        geoscale,
                        res,
@@ -515,9 +515,9 @@ msean_onrast <- function(rast,
                         dist_method,
                         res)
 
-  risk_indices <- .flatten_ri(grast$global, grast)
+  #risk_indices <- risk_indices(grast)
 
-  gmap <- connectivity(risk_indices,
+  gmap <- connectivity(grast,
                        global,
                        geoscale,
                        res,
@@ -614,10 +614,10 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
-  risk_indices <- .flatten_ri(newrast$global, newrast)
+  #risk_indices <- risk_indices(newrast)
 
   gmap <- if (maps == TRUE) {
-    connectivity(risk_indices,
+    connectivity(newrast,
                  isglobal,
                  geoscale,
                  resolution,
