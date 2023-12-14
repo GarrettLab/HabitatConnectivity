@@ -35,7 +35,7 @@ library(yaml)
   .ew_split <- function() {
     ew_indices <- list(list(), list())
     names(ew_indices) <- c(STR_EAST, STR_WEST)
-    
+
     for (grast in ri$global_rast) {
       for (mod in grast$east) {
         ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], mod$index)
@@ -132,10 +132,9 @@ library(yaml)
 
 .get_helper_filepath <- function(file_type) {
   file_path <- if (file_type == "parameters") {
-     system.file("parameters.yaml",
-      package = "geohabnet",
-      mustWork = TRUE
-    )
+    system.file("parameters.yaml",
+                package = "geohabnet",
+                mustWork = TRUE)
   } else {
     .utilrast(file_type)
   }

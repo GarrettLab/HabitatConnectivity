@@ -15,8 +15,7 @@
 get_rasters <- function(hosts) {
   t_file <- hosts[["file"]]
   rasters <- list()
-  if (!is.null(t_file) &&
-    !is.na(t_file)) {
+  if (!is.null(t_file) && !is.na(t_file)) {
     rasters <- c(rasters, tiff_torast(t_file))
   }
   rasters <- c(rasters, crops_rast(hosts))

@@ -30,8 +30,10 @@ sp_rast <- function(crp) {
     stop("crop not in mapspam; see spamCrops()")
   }
   i <- which(crp == crops)[1]
-  if (i > nrow(crops))
-  i <- i - nrow(crops)
+  if (i > nrow(crops)) {
+    i <- i - nrow(crops)
+  }
+
   crp <- toupper(crops[i, 2])
   uri <- paste("https://geohabnet.s3.us-east-2.amazonaws.com/spamcrops/spam2010V2r0_global_H",
                crp,

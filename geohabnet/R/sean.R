@@ -34,7 +34,7 @@ the$cropharvest_aggtm <- NULL
 the$cropharvest_agglm_crop <- NULL
 the$cropharvest_aggtm_crop <- NULL
 the$gan <- list(sum = list("east" = NULL, "west" = NULL),
-                  mean = list("east" = NULL, "west" = NULL))
+                mean = list("east" = NULL, "west" = NULL))
 
 .resetgan <- function() {
   the$cropharvest_aggtm <- NULL
@@ -85,9 +85,8 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                           cropharvest_agg,
                           resolution,
                           geo_scale)
-  density_data <- .extract_cropland_density(
-    temp_rast,
-    host_density_threshold)
+  density_data <- .extract_cropland_density(temp_rast,
+                                            host_density_threshold)
 
   if (is.null(density_data) || (!is.list(density_data))) {
     stop("unable to extract density data, longitude/latitude")
@@ -112,11 +111,11 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 # Aggregate -----------------------------------------------------
 
 .ccri_powerlaw <- function(betas,
-                          link_threshold = 0,
-                          metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
-                          rast,
-                          crop_cells_above_threshold = NULL,
-                          thresholded_crop_values = NULL) {
+                           link_threshold = 0,
+                           metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                           rast,
+                           crop_cells_above_threshold = NULL,
+                           thresholded_crop_values = NULL) {
 
   if (!.validate_index_cal(betas)) {
     return(0)
@@ -125,24 +124,23 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
   .loadparam_ifnull()
 
   pl_models <- lapply(betas, model_powerlaw,
-                       link_threshold = link_threshold,
-                       the$distance_matrix,
-                       thresholded_crop_values,
-                       adj_mat = NULL,
-                       rast,
-                       crop_cells_above_threshold,
-                       metrics = metrics
-                       )
+                      link_threshold = link_threshold,
+                      the$distance_matrix,
+                      thresholded_crop_values,
+                      adj_mat = NULL,
+                      rast,
+                      crop_cells_above_threshold,
+                      metrics = metrics)
 
   return(pl_models)
 }
 
 .ccri_negative_exp <- function(gammas,
-                              link_threshold = 0,
-                              metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
-                              rast,
-                              crop_cells_above_threshold = NULL,
-                              thresholded_crop_values = NULL) {
+                               link_threshold = 0,
+                               metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                               rast,
+                               crop_cells_above_threshold = NULL,
+                               thresholded_crop_values = NULL) {
 
   if (!.validate_index_cal(gammas)) {
     return(0)
@@ -151,14 +149,14 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
   .loadparam_ifnull()
 
   ne_models <- lapply(gammas,
-                       model_neg_exp,
-                       link_threshold = link_threshold,
-                       the$distance_matrix,
-                       thresholded_crop_values,
-                       adj_mat = NULL,
-                       rast,
-                       crop_cells_above_threshold,
-                       metrics = metrics
+    model_neg_exp,
+    link_threshold = link_threshold,
+    the$distance_matrix,
+    thresholded_crop_values,
+    adj_mat = NULL,
+    rast,
+    crop_cells_above_threshold,
+    metrics = metrics
   )
 
   return(ne_models)
@@ -191,7 +189,6 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
     thresholded_crop_values) {
 
   .loadparam_ifnull()
-  risk_indexes <- list()
 
   # TODO: parallelize them
   betas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta)
@@ -203,8 +200,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                              metrics = power_law_metrics,
                              rast,
                              crop_cells_above_threshold = crop_cells_above_threshold,
-                             thresholded_crop_values = thresholded_crop_values
-                             )
+                             thresholded_crop_values = thresholded_crop_values)
   }
 
   gammas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma)
@@ -215,9 +211,8 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                                  metrics = negative_exponential_metrics,
                                  rast,
                                  crop_cells_above_threshold = crop_cells_above_threshold,
-                                 thresholded_crop_values = thresholded_crop_values
-                                 )
-    }
+                                 thresholded_crop_values = thresholded_crop_values)
+  }
 
   return(c(pl_ret, ne_ret))
 }
@@ -249,17 +244,17 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' @examples
 #' \donttest{
 #' avocado <- cropharvest_rast("avocado", "monfreda")
-#' 
+#'
 #' # global
 #' ri <- sean(avocado) # returns a list of GeoRasters
 #' mri <- msean(avocado) # returns GeoNetwork object
 #'
 #' # non-global
 #' # geoscale is a vector of xmin, xmax, ymin, ymax
-#' 
+#'
 #' # returns GeoRasters object
 #' ri <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
-#' 
+#'
 #' # returns GeoNetwork object
 #' mri <- msean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
 #' }
@@ -275,9 +270,9 @@ sean <- function(rast,
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
   .resetgan()
   .loadparam_ifnull()
-  
+
   mets <- get_param_metrics(the$parameters_config)
-  
+
   sean_geo <- function(geoext) {
     .showmsg(
       paste(
@@ -292,9 +287,9 @@ sean <- function(rast,
         "\n"
       )
     )
-    
+
     model_ret <- list()
-    
+
     for (agg_method in agg_methods) {
       density_data <- .init_cd(rast,
                                res,
@@ -302,72 +297,69 @@ sean <- function(rast,
                                host_density_threshold = host_density_threshold,
                                agg_method,
                                dist_method)
-      
+
       model_ret <- c(model_ret,
                      .ccri(link_threshold,
                            power_law_metrics = mets$pl,
                            negative_exponential_metrics = mets$ne,
                            rast = density_data$agg_crop,
-                           crop_cells_above_threshold =
-                             density_data$crop_values_at,
-                           thresholded_crop_values =
-                             density_data$crop_value
-                     ))
+                           crop_cells_above_threshold = density_data$crop_values_at,
+                           thresholded_crop_values = density_data$crop_value))
     }
     return(model_ret)
   }
-  
+
   .addto_tab <- function(hemi) {
     .gan_table("sum", hemi, the$cropharvest_aggtm_crop)
     .gan_table("mean", hemi, the$cropharvest_agglm_crop)
     invisible()
   }
-  
+
   rasters <- .rast_ro(global = global)
-  
+
   if (global) {
-    
+
     global_exts <- global_scales()
-    
+
     graster <- .grast_ro()
-    
+
     graster$east <- sean_geo(global_exts[[STR_EAST]])
     .addto_tab(STR_EAST)
-    
+
     graster$west <- sean_geo(global_exts[[STR_WEST]])
     .addto_tab(STR_WEST)
-    
+
     rasters$add_gr(graster)
-    
+
   } else {
-    rasters$rasters = sean_geo(geoscale)
-    rasters$global = FALSE
+    rasters$rasters <- sean_geo(geoscale)
+    rasters$global <- FALSE
   }
   the$is_initialized <- FALSE
-  
+
   return(rasters)
 }
 
 #' @rdname sean
 #' @return GeoNetwork.
 msean <- function(rast,
-                 global = TRUE,
-                 geoscale,
-                 agg_methods = c("sum", "mean"),
-                 dist_method = "geodesic",
-                 link_threshold = 0,
-                 host_density_threshold = 0,
-                 res = reso(),
-                 outdir = tempdir()) {
+                  global = TRUE,
+                  geoscale,
+                  agg_methods = c("sum", "mean"),
+                  dist_method = "geodesic",
+                  link_threshold = 0,
+                  host_density_threshold = 0,
+                  res = reso(),
+                  outdir = tempdir()) {
 
   grasters <- sean(rast,
-                  global,
-                  geoscale,
-                  agg_methods,
-                  dist_method,
-                  link_threshold,
-                  host_density_threshold,
-                  res)
+                   global,
+                   geoscale,
+                   agg_methods,
+                   dist_method,
+                   link_threshold,
+                   host_density_threshold,
+                   res)
 
   gmap <- connectivity(.flatten_ri(grasters$global, grasters),
                        global,
@@ -396,25 +388,22 @@ msean <- function(rast,
                               agg_methods,
                               rast,
                               res,
-                              dist_method = "geodesic"
-                              ) {
+                              dist_method = "geodesic") {
 
   rasters <- lapply(host_density_thresholds,
-                                function(threshold) {
-                                  sean(link_threshold = link_threshold,
-                                       host_density_threshold = threshold,
-                                       global = global,
-                                       geoscale = geoscale,
-                                       agg_methods = agg_methods,
-                                       dist_method = dist_method,
-                                       rast = rast,
-                                       res = res
-                                       )})
+                    function(threshold) {
+                      sean(link_threshold = link_threshold,
+                           host_density_threshold = threshold,
+                           global = global,
+                           geoscale = geoscale,
+                           agg_methods = agg_methods,
+                           dist_method = dist_method,
+                           rast = rast,
+                           res = res)
+                    })
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
-
-  risk_indexes <- .flatten_ri(newrast$global, newrast)
 
   return(newrast)
 }
@@ -422,12 +411,12 @@ msean <- function(rast,
 #' Run sensitivity analysis
 #'
 #'
-#' @description 
+#' @description
 #' Same as [sensitivity_analysis()] but it takes raster object and other parameters as an input.
 #' - `sa_onrasters()` is a wrapper around [sean()] function. Takes raster object and other parameters as an input.
 #' - `msean_onrast()` same as [sa_onrasters()].
 #' It produces and plots the maps for the outcomes and results are returned as an object.
-#' 
+#'
 #' @param rast Raster object which will be used in analysis.
 #' @seealso Use [get_rasters()] to obtain raster object.
 #' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise.
@@ -496,7 +485,8 @@ sa_onrasters <- function(rast,
                         dist_method = dist_method,
                         rast = rast,
                         res = res
-                        )})
+                      )
+                    })
 
 
   newrast <- .rast_ro()
@@ -525,8 +515,8 @@ msean_onrast <- function(rast,
                         dist_method,
                         res)
 
-  risk_indices <- .flatten_ri(newrast$global, newrast)
-  
+  risk_indices <- .flatten_ri(grast$global, grast)
+
   gmap <- connectivity(risk_indices,
                        global,
                        geoscale,
@@ -536,14 +526,14 @@ msean_onrast <- function(rast,
                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
                        outdir)
 
- return(new("GeoNetwork",
-            rasters = grast,
-            me_rast = gmap@me_rast,
-            me_out = gmap@me_out,
-            var_rast = gmap@var_rast,
-            var_out = gmap@var_out,
-            diff_rast = gmap@diff_rast,
-            diff_out = gmap@diff_out))
+  return(new("GeoNetwork",
+             rasters = grast,
+             me_rast = gmap@me_rast,
+             me_out = gmap@me_out,
+             var_rast = gmap@var_rast,
+             var_out = gmap@var_out,
+             diff_rast = gmap@diff_rast,
+             diff_out = gmap@diff_out))
 }
 
 #' @title Calculate sensitivity analysis on parameters
@@ -611,17 +601,16 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   geoscale <- geoscale_param()
 
   rasters <- lapply(crop_rasters,
-                         function(rast) {
-                           sa_onrasters(
-                             rast = rast,
-                             global = isglobal,
-                             geoscale = geoscale,
-                             link_thresholds = the$parameters_config$`CCRI parameters`$LinkThreshold,
-                             host_density_thresholds = cropland_thresholds,
-                             agg_methods = agg_methods,
-                             dist_method = the$parameters_config$`CCRI parameters`$DistanceStrategy,
-                             res = resolution
-                             )})
+                    function(rast) {
+                      sa_onrasters(rast = rast,
+                                   global = isglobal,
+                                   geoscale = geoscale,
+                                   link_thresholds = the$parameters_config$`CCRI parameters`$LinkThreshold,
+                                   host_density_thresholds = cropland_thresholds,
+                                   agg_methods = agg_methods,
+                                   dist_method = the$parameters_config$`CCRI parameters`$DistanceStrategy,
+                                   res = resolution)
+                    })
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
@@ -635,8 +624,8 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
-                 the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir
-                 )}
+                 the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir)
+  }
 
   .showmsg("sensitivity analysis completed. Refer to maps for results.")
   if (alert == TRUE) {

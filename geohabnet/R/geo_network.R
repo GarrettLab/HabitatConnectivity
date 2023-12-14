@@ -24,22 +24,22 @@ setGeneric("setmaps", function(x, me, vari, dif) {
 
 
 setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
-  
+
   if (!is.null(me)) {
     x@me_rast <- me@spr
-    x@me_out <- me@fp 
+    x@me_out <- me@fp
   }
-  
+
   if (!is.null(vari)) {
     x@var_rast <- vari@spr
     x@var_out <- vari@fp
   }
-  
+
   if (!is.null(dif)) {
     x@diff_rast <- dif@spr
     x@diff_out <- dif@fp
   }
-  
+
   validObject(x)
   return(x)
 })

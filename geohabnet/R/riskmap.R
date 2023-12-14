@@ -8,15 +8,18 @@
 #' @field spr SpatRaster. A spatial raster representing the risk index.
 #' @field fp Character. A file path to the risk index raster.
 #' @export
-setClass("RiskMap",
-         slots = list(
-           map = "character",
-           riid = "ANY",
-           spr = "ANY",
-           fp = "character"),
-         prototype = list(
-           map = NA_character_,
-           riid = NA,
-           spr = NA,
-           fp = NA_character_
-         ))
+setClass(
+  "RiskMap",
+  slots = list(
+    map = "character",
+    riid = "ANY",
+    spr = "ANY",
+    fp = "character"
+  ),
+  prototype = list(
+    map = NA_character_,
+    riid = NA,
+    spr = NA,
+    fp = NA_character_
+  )
+)

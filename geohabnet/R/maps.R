@@ -38,28 +38,26 @@ connectivity <- function(indexes,
   mobj <- ccri_mean(indexes, global, geoscale, pmean, outdir)
 
   vobj <- if (pvar == TRUE) {
-    ccri_variance(
-      indexes,
-      mobj@riid,
-      global,
-      geoscale,
-      res,
-      outdir)
-    }
+    ccri_variance(indexes,
+                  mobj@riid,
+                  global,
+                  geoscale,
+                  res,
+                  outdir)
+  }
 
   dobj <- if (pdiff == TRUE) {
     if (global) {
       geoscale <- .global_ext()
     }
 
-    ccri_diff(
-      mobj@riid,
-      the$cropharvest_aggtm_crop,
-      the$cropharvest_agglm_crop,
-      global,
-      geoscale,
-      res,
-      outdir)
+    ccri_diff(mobj@riid,
+              the$cropharvest_aggtm_crop,
+              the$cropharvest_agglm_crop,
+              global,
+              geoscale,
+              res,
+              outdir)
   }
 
   return(.merge_mapobs(mobj, vobj, dobj))
@@ -74,7 +72,7 @@ connectivity <- function(indexes,
 #' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise.
 #' @return RiskMap. [?RiskMap]. It contains result in the form of `SpatRaster` object
 #' and filenames of the saved maps.
-#' 
+#'
 #' @export
 ccri_mean <- function(indexes,
                       global = TRUE,
@@ -218,7 +216,7 @@ ccri_diff <- function(rast,
     zr2 <- max(zr2, range(-maxrank_w, maxrank_w))
 
     diagg_rast <- terra::disagg(scaled_rast,
-                              fact = c(res, res))
+                                fact = c(res, res))
     diagg_rast + .cal_zerorast(diagg_rast, res)
   }
 
@@ -265,7 +263,7 @@ ccri_diff <- function(rast,
 # private functions -------------------------------------------------------
 
 .merge_mapobs <- function(m, v, d) {
-  return(setmaps(gmap <- new("Gmap"), m, v, d))
+  return(setmaps(new("Gmap"), m, v, d))
 }
 
 .plot <- function(rast,
@@ -284,11 +282,11 @@ ccri_diff <- function(rast,
     .plotmap(rast, geoscale, isglobal, label, colorss, zlim)
   } else {
     plotf(rast = rast,
-      geoscale = geoscale,
-      isglobal = isglobal,
-      label = label,
-      col_pal = colorss,
-      zlim = zlim)
+          geoscale = geoscale,
+          isglobal = isglobal,
+          label = label,
+          col_pal = colorss,
+          zlim = zlim)
   }
 
   return(info)
@@ -310,10 +308,10 @@ ccri_diff <- function(rast,
                                 stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
                                 ".tif", sep = ""))
   spr <- terra::writeRaster(rast, overwrite = TRUE,
-                     filename = fp,
-                     gdal = c("COMPRESS=NONE"))
+                            filename = fp,
+                            gdal = c("COMPRESS=NONE"))
   .showmsg(paste("raster created", fp, sep = ": "), "\n")
-  
+
   return(list(spr, toString(fp)))
 }
 
@@ -346,8 +344,7 @@ ccri_diff <- function(rast,
                   legend = TRUE,
                   plg = list(loc = "bottom",
                              ext = c(gs[1] + 30, gs[2] - 30, gs[3] - 30, gs[3] - 20),
-                             horizontal = TRUE)
-      )
+                             horizontal = TRUE))
     } else {
       terra::plot(rast,
                   col = col_pal,
@@ -356,8 +353,7 @@ ccri_diff <- function(rast,
                   zlim = zlim,
                   add = TRUE,
                   lwd = 0.7,
-                  legend = TRUE
-      )
+                  legend = TRUE)
     }
 
     # Plot the country boundaries

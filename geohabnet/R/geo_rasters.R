@@ -9,8 +9,8 @@
 #' @field west A list of raster for western hemisphere.
 #' @export
 .grast_ro <- setRefClass("GlobalRast",
-            fields = list(east = "ANY",
-                          west = "ANY"))
+                         fields = list(east = "ANY",
+                                       west = "ANY"))
 
 #' @name GeoRasters
 #' @title GeoRasters. Class to represent rasters from geohabnet
@@ -22,26 +22,24 @@
 #' @field global Boolean. True if contains `GlobalRast` object, False otherwise.
 #' @export
 .rast_ro <- setRefClass("GeoRasters",
-            fields = list(rasters = "list",
-                          global = "logical",
-                          global_rast = "list"
-                          ),
-            methods = list(
-              com = function(x) {
-                if (x$global) {
-                  global_rast <<- c(global_rast, x$global_rast)
-                } else {
-                  global <<- FALSE
-                  rasters <<- c(rasters, x$rasters)
-                }
-                return(.self)
-              },
-              initialize = function(...) {
-                global <<- TRUE
-              },
-              add_gr = function(x) {
-                stopifnot("Object is not of type GlobaRast" = class(x) == "GlobalRast")
-                global_rast <<- c(global_rast, x)
-              }
-            ))
-
+                        fields = list(rasters = "list",
+                                      global = "logical",
+                                      global_rast = "list"),
+                        methods = list(
+                          com = function(x) {
+                            if (x$global) {
+                              global_rast <<- c(global_rast, x$global_rast)
+                            } else {
+                              global <<- FALSE
+                              rasters <<- c(rasters, x$rasters)
+                            }
+                            return(.self)
+                          },
+                          initialize = function(...) {
+                            global <<- TRUE
+                          },
+                          add_gr = function(x) {
+                            stopifnot("Object is not of type GlobaRast" = class(x) == "GlobalRast")
+                            global_rast <<- c(global_rast, x)
+                          }
+                        ))

@@ -5,10 +5,8 @@
 #' A class to represent results of dispersal models.
 #' @field matrix An adjacency matrix to represent network.
 .model_ob <- setRefClass("GeoModel",
-                         fields = list(
-                           amatrix = "matrix",
-                           index = "ANY"
-                           ))
+                         fields = list(amatrix = "matrix",
+                                       index = "ANY"))
 
 .risk_indices <- function(model_list) {
   risk_indices <- sapply(model_list, function(x) x@index)
@@ -121,8 +119,7 @@ model_neg_exp <- function(gamma_val,
   # create graph object from adjacency matrix
   cropdistancematrix <- igraph::graph.adjacency(stan,
                                                 mode = c("undirected"),
-                                                diag = FALSE, weighted = TRUE
-                                                )
+                                                diag = FALSE, weighted = TRUE)
 
   indexpre <- crop_raster
   indexpre[] <- 0
