@@ -23,6 +23,14 @@ setGeneric("setmaps", function(x, me, vari, dif) {
 })
 
 
+#' @title setmaps
+#' @export
+#' @method setmaps Gmap
+#' @param x A Gmap object.
+#' @param me A GeoRaster object representing mean risk index.
+#' @param vari A GeoRaster object representing variance.
+#' @param dif A GeoRaster object representing difference.
+#' @return A Gmap object.
 setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
 
   if (!is.null(me)) {

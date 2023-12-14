@@ -24,7 +24,7 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-RiskMap. \link{?RiskMap}. It contains result in the form of \code{SpatRaster} object
+RiskMap. \link{RiskMap}. It contains result in the form of \code{SpatRaster} object
 and filenames of the saved maps.
 }
 \description{

@@ -10,6 +10,9 @@ library(yaml)
 # Meta-programming approach with eval_tidy
 .cal_dist <- function(latilongimatr, method) {
 
+  #---- use Geosphere package, fun distVincentyEllipsoid() is used to calculate the distance, default distance is meter
+  # reference of standard distance in meter for one degree
+
   method <- tolower(method)
   supported <- dist_methods()
   stopifnot("Distance strategy not supported. See dist_methods()\n" = method %in% supported)

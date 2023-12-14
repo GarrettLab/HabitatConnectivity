@@ -70,8 +70,10 @@ connectivity <- function(grast,
 #'
 #'   Wrapper for [terra::mean()]. Calculates mean of list of rasters.
 #' @inheritParams connectivity
+#' @param indexes List of SpatRasters.
+#' This input represents the spatial raster collection for which mean is to be calculated.
 #' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise.
-#' @return RiskMap. [?RiskMap]. It contains result in the form of `SpatRaster` object
+#' @return RiskMap. [RiskMap]. It contains result in the form of `SpatRaster` object
 #' and filenames of the saved maps.
 #'
 #' @export
@@ -118,6 +120,7 @@ ccri_mean <- function(indexes,
 #'
 #'    This function produces a map of variance of CCRI based on input parameters
 #' @inheritParams connectivity
+#' @inheritParams ccri_mean
 #' @inherit ccri_mean return
 #' @param rast A raster object. It will be used in calculating variance.
 #' @export
@@ -178,6 +181,7 @@ ccri_variance <- function(indexes,
 #' @param x A raster object for cropland harvest
 #' @param y A raster object for cropland harvest
 #' @inheritParams connectivity
+#' @inheritParams ccri_mean
 #' @inherit ccri_mean return
 #' @export
 ccri_diff <- function(rast,
@@ -279,16 +283,12 @@ ccri_diff <- function(rast,
 
   info <- .saverast(typ, rast, outdir)
 
-  if (is.null(plotf)) {
-    .plotmap(rast, geoscale, isglobal, label, colorss, zlim)
-  } else {
-    plotf(rast = rast,
-          geoscale = geoscale,
-          isglobal = isglobal,
-          label = label,
-          col_pal = colorss,
-          zlim = zlim)
-  }
+  plotf(rast = rast,
+        geoscale = geoscale,
+        isglobal = isglobal,
+        label = label,
+        col_pal = colorss,
+        zlim = zlim)
 
   return(info)
 }
@@ -314,61 +314,6 @@ ccri_diff <- function(rast,
   .showmsg(paste("raster created", fp, sep = ": "), "\n")
 
   return(list(spr, toString(fp)))
-}
-
-.plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {
-  if (interactive() || pkgdown::in_pkgdown()) {
-
-    # Set the plot parameters
-    oldpar <- graphics::par(no.readonly = TRUE)
-    on.exit(graphics::par(oldpar))
-    graphics::par(bg = "aliceblue")
-
-    # Plot the base map
-    terra::plot(.cal_mgb(geoscale, isglobal),
-                col = "grey85",
-                xaxt = "n",
-                yaxt = "n",
-                legend = FALSE,
-                main = label,
-                cex.main = 0.9)
-    # Plot the raster
-    if (isglobal == TRUE) {
-      gs <- terra::ext(rast)
-      terra::plot(rast,
-                  col = col_pal,
-                  xaxt = "n",
-                  yaxt = "n",
-                  zlim = zlim,
-                  add = TRUE,
-                  lwd = 0.7,
-                  legend = TRUE,
-                  plg = list(loc = "bottom",
-                             ext = c(gs[1] + 30, gs[2] - 30, gs[3] - 30, gs[3] - 20),
-                             horizontal = TRUE))
-    } else {
-      terra::plot(rast,
-                  col = col_pal,
-                  xaxt = "n",
-                  yaxt = "n",
-                  zlim = zlim,
-                  add = TRUE,
-                  lwd = 0.7,
-                  legend = TRUE)
-    }
-
-    # Plot the country boundaries
-    world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
-    world <- world[which(world$continent != "Antarctica"), ]["geometry"]
-    world <- terra::vect(world)
-
-    if (isglobal == FALSE) {
-      world <- terra::crop(world, terra::ext(rast))
-    }
-
-    terra::plot(world, col = NA, border = "black", add = TRUE)
-  }
-  invisible()
 }
 
 .gan_paramok <- function(indices) {

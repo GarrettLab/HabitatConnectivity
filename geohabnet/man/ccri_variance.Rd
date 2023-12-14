@@ -14,6 +14,9 @@ ccri_variance(
 )
 }
 \arguments{
+\item{indexes}{List of SpatRasters.
+This input represents the spatial raster collection for which mean is to be calculated.}
+
 \item{rast}{A raster object. It will be used in calculating variance.}
 
 \item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
@@ -27,7 +30,7 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-RiskMap. \link{?RiskMap}. It contains result in the form of \code{SpatRaster} object
+RiskMap. \link{RiskMap}. It contains result in the form of \code{SpatRaster} object
 and filenames of the saved maps.
 }
 \description{

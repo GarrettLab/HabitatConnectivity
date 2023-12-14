@@ -49,7 +49,6 @@ Imports:
     beepr (>= 1.3),
     rnaturalearth (>= 0.3.3),
     tools,
-    magrittr,
     methods
 Suggests: 
     devtools,

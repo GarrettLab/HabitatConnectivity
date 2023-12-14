@@ -96,9 +96,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 
   # save the latitude and longitude as new matrix
   latilongimatr <- terra::xyFromCell(density_data$agg_crop, cell = density_data$crop_values_at)
-  #---- use Geosphere package, fun distVincentyEllipsoid() is used to calculate the distance, default distance is meter
-  # reference of standard distance in meter for one degree
-  #dvse <- geosphere::distVincentyEllipsoid(c(0, 0), cbind(1, 0))
+
   latilongimatr <- as.matrix(latilongimatr)
   temp_matrix <- .cal_dist(latilongimatr, dist_method)
 
@@ -227,8 +225,8 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' [sensitivity_analysis()] is a wrapper around [sean()] function.
 #' - `msean()` is a wrapper around [sean()] function. It has additional argument to specify maps which are calculated
 #' using [connectivity()] function. The maps are essentially the risk network.
-#' @param link_threshold numeric. A threshold value for link
-#' @param host_density_threshold A host density threshold value
+#' @param link_threshold Numeric. A threshold value for link
+#' @param host_density_threshold Numeric. A host density threshold value
 #' @inheritParams sa_onrasters
 #' @return GeoRasters.
 #' @export
@@ -254,9 +252,11 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #'
 #' # returns GeoRasters object
 #' ri <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+#' ri
 #'
 #' # returns GeoNetwork object
 #' mri <- msean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+#' mri
 #' }
 sean <- function(rast,
                  global = TRUE,
@@ -421,13 +421,13 @@ msean <- function(rast,
 #' @seealso Use [get_rasters()] to obtain raster object.
 #' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise.
 #' Default is `TRUE`
-#' @param geoscale Vector. Geographical coordinates
+#' @param geoscale Numeric vector. Geographical coordinates
 #' in the form of c(Xmin, Xmax, Ymin, Ymax)
-#' @param link_thresholds vector. link threshold values
-#' @param host_density_thresholds vector. host density threshold values
+#' @param link_thresholds Numeric vector. link threshold values
+#' @param host_density_thresholds Numeric vector. host density threshold values
 #' @param agg_methods vector. Aggregation methods
-#' @param dist_method character. One of the values from [dist_methods()]
-#' @param res numeric.
+#' @param dist_method Character. One of the values from [dist_methods()]
+#' @param res Numeric.
 #' resolution at which operations will run.
 #' Default is [reso()]
 #' @param outdir Character. Output directory for saving raster in TIFF format.
@@ -559,8 +559,8 @@ msean_onrast <- function(rast,
 #' \donttest{
 #' # Run analysis on specified parameters.yaml
 #' ss1 <- sensitivity_analysis()
-#' ss1 <- sensitivity_analysis(FALSE, FALSE)
-#' ss1 <- sensitivity_analysis(TRUE, FALSE)
+#' ss2 <- sensitivity_analysis(FALSE, FALSE)
+#' ss3 <- sensitivity_analysis(TRUE, FALSE)
 #' }
 #' @seealso
 #' [sa_onrasters()]

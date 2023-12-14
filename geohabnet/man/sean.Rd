@@ -34,18 +34,18 @@ msean(
 \item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
 Default is \code{TRUE}}
 
-\item{geoscale}{Vector. Geographical coordinates
+\item{geoscale}{Numeric vector. Geographical coordinates
 in the form of c(Xmin, Xmax, Ymin, Ymax)}
 
 \item{agg_methods}{vector. Aggregation methods}
 
-\item{dist_method}{character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
+\item{dist_method}{Character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
 
-\item{link_threshold}{numeric. A threshold value for link}
+\item{link_threshold}{Numeric. A threshold value for link}
 
-\item{host_density_threshold}{A host density threshold value}
+\item{host_density_threshold}{Numeric. A host density threshold value}
 
-\item{res}{numeric.
+\item{res}{Numeric.
 resolution at which operations will run.
 Default is \code{\link[=reso]{reso()}}}
 
@@ -84,9 +84,11 @@ mri <- msean(avocado) # returns GeoNetwork object
 
 # returns GeoRasters object
 ri <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+ri
 
 # returns GeoNetwork object
 mri <- msean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+mri
 }
 }
 \references{

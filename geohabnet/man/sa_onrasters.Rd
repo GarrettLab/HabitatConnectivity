@@ -34,18 +34,18 @@ msean_onrast(
 \item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
 Default is \code{TRUE}}
 
-\item{geoscale}{Vector. Geographical coordinates
+\item{geoscale}{Numeric vector. Geographical coordinates
 in the form of c(Xmin, Xmax, Ymin, Ymax)}
 
-\item{link_thresholds}{vector. link threshold values}
+\item{link_thresholds}{Numeric vector. link threshold values}
 
-\item{host_density_thresholds}{vector. host density threshold values}
+\item{host_density_thresholds}{Numeric vector. host density threshold values}
 
 \item{agg_methods}{vector. Aggregation methods}
 
-\item{dist_method}{character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
+\item{dist_method}{Character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
 
-\item{res}{numeric.
+\item{res}{Numeric.
 resolution at which operations will run.
 Default is \code{\link[=reso]{reso()}}}
 

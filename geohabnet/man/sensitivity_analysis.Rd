@@ -31,8 +31,8 @@ It contains risk indices with corresponding adjacency matrices along with final 
 \donttest{
 # Run analysis on specified parameters.yaml
 ss1 <- sensitivity_analysis()
-ss1 <- sensitivity_analysis(FALSE, FALSE)
-ss1 <- sensitivity_analysis(TRUE, FALSE)
+ss2 <- sensitivity_analysis(FALSE, FALSE)
+ss3 <- sensitivity_analysis(TRUE, FALSE)
 }
 }
 \references{
