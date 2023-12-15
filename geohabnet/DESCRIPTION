@@ -1,5 +1,5 @@
 Package: geohabnet
-Title: Analysis of Habitat Connectivity
+Title: Geographical Risk Analysis Based on Habitat Connectivity
 Version: 1.0.1
 Date: 2023-10-29
 Authors@R: c(
@@ -14,7 +14,7 @@ Authors@R: c(
            comment = "https://www.ufl.edu")
   )
 Description: 
-    Geographical spatial analysis of cropland connectivity.
+    The geohabnet package is designed to perform a geographical or spatially explicit risk analysis of habitat connectivity.
     This package allows users to visualize risk index plots for a given set of crops.
     The functions are developed as an extension to analysis from Xing et al (2021) <doi:10.1093/biosci/biaa067>.
     The primary function is sean() and is indicative of how sensitive the risk analysis is to parameters using kernel models.
