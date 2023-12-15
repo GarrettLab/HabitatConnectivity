@@ -73,8 +73,8 @@ connectivity <- function(grast,
 #' @param indexes List of SpatRasters.
 #' This input represents the spatial raster collection for which mean is to be calculated.
 #' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise.
-#' @return RiskMap. [RiskMap]. It contains result in the form of `SpatRaster` object
-#' and filenames of the saved maps.
+#' @return RiskMap. It contains result in the form of `SpatRaster` objects
+#' and file path of the saved maps.
 #'
 #' @export
 ccri_mean <- function(indexes,

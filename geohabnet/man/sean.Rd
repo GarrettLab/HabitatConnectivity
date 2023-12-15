@@ -8,7 +8,7 @@
 sean(
   rast,
   global = TRUE,
-  geoscale,
+  geoscale = NULL,
   agg_methods = c("sum", "mean"),
   dist_method = "geodesic",
   link_threshold = 0,
@@ -16,17 +16,7 @@ sean(
   res = reso()
 )
 
-msean(
-  rast,
-  global = TRUE,
-  geoscale,
-  agg_methods = c("sum", "mean"),
-  dist_method = "geodesic",
-  link_threshold = 0,
-  host_density_threshold = 0,
-  res = reso(),
-  outdir = tempdir()
-)
+msean(..., global = TRUE, geoscale = NULL, res = reso(), outdir = tempdir())
 }
 \arguments{
 \item{rast}{Raster object which will be used in analysis.}
@@ -48,6 +38,8 @@ in the form of c(Xmin, Xmax, Ymin, Ymax)}
 \item{res}{Numeric.
 resolution at which operations will run.
 Default is \code{\link[=reso]{reso()}}}
+
+\item{...}{arguments passed to \code{\link[=sean]{sean()}}}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
@@ -77,7 +69,7 @@ avocado <- cropharvest_rast("avocado", "monfreda")
 
 # global
 ri <- sean(avocado) # returns a list of GeoRasters
-mri <- msean(avocado) # returns GeoNetwork object
+mri <- msean(rast = avocado) # returns GeoNetwork object
 
 # non-global
 # geoscale is a vector of xmin, xmax, ymin, ymax
@@ -87,7 +79,7 @@ ri <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
 ri
 
 # returns GeoNetwork object
-mri <- msean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+mri <- msean(rast = avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
 mri
 }
 }

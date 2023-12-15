@@ -41,7 +41,7 @@ Primary objective of this vignette is to help user in getting started, list capa
 
 -   TIFF - [https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html/](https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html){.uri}
 
-## Datasets
+## Data sets
 
 We use publicly available sources to obtain crop information -
 
@@ -73,19 +73,18 @@ if (!require("devtools")) {
 
 ```{r setup, eval=FALSE}
 
-library("devtools")
-
 if (!require("geohabnet")) {
-  install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+  utils::install.packages("geohabnet")
 }
 ```
 
 Alternatively, install from github source.
 
 ```{r cran}
+library("devtools")
 
 if (!require("geohabnet")) {
-  utils::install.packages("geohabnet")
+  install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
 }
 ```
 
@@ -109,7 +108,7 @@ This is to run the analysis on default set of values for the supported parameter
 sensitivity_analysis()
 ```
 
-The results are based on the values set for each of the parameters which we will see in details in the next section.
+The results are the side effects and the similar information is captured in the object returned from it. Its based on the values set for each of the parameters which we will see in details in the next section.
 
 ## Running new analysis
 
@@ -124,7 +123,7 @@ avocado <- cropharvest_rast("avocado", "monfreda")
 
 # verify the raster object
 avocado
-geohabnet::plot(avocado)
+gplot(avocado)
 ```
 
 Now that we have a raster object, it can be fed directly to the workflow. We will only set the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
@@ -159,7 +158,9 @@ The results should be interpreted in accordance to the values of other parameter
 
     ```{r reso}
     reso()
-    set_reso()
+
+    # setting resolutin via here will not persist the value but instead will assign it to current environment until next load_parameters() or set_parameters()
+    set_reso(12)
     ```
 
 6.  Side effect - Calculates, produces and plots the maps which is same as `sensitivity_analysis()` [sensitivity_analysis()]. An alternative is `sean()` which can be called to obtain the results from the function call and has no side effects.

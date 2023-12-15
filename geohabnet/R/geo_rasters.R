@@ -1,7 +1,5 @@
-
-#' @name GlobalRast
-#' @title GlobalRast class
-#' @docType class
+#' GlobalRast class
+#'
 #' @description
 #' A class to represent raster for global scales. Global scales are accessible using [global_scales()].
 #' However, this class encapsulates the results of apply dispersal models and metrics.
@@ -12,9 +10,8 @@
                          fields = list(east = "ANY",
                                        west = "ANY"))
 
-#' @name GeoRasters
-#' @title GeoRasters. Class to represent rasters from geohabnet
-#' @docType class
+#' GeoRaster class
+#'
 #' @description
 #' A class to represent raster vis-a-vis risk indices.
 #' This class encapsulates the results of apply dispersal models and metrics.

@@ -1,9 +1,9 @@
 #' Plot a Raster* object
-#' 
-#' 
-#' This is a wrapper for terra::plot
+#'
+#'
+#' This is a wrapper for [terra::plot()]
 #' @param x a Raster* object
-#' @param ... additional arguments passed to terra::plot
+#' @param ... additional arguments passed to [terra::plot()]
 #' @return a plot
 #' @export
 #' @examples
@@ -19,7 +19,7 @@ gplot <- function(x, ...) {
 
 .plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {
   if (interactive() || pkgdown::in_pkgdown()) {
-    
+
     # Set the plot parameters
     oldpar <- graphics::par(no.readonly = TRUE)
     on.exit(graphics::par(oldpar))
@@ -57,16 +57,16 @@ gplot <- function(x, ...) {
             lwd = 0.7,
             legend = TRUE)
     }
-    
+
     # Plot the country boundaries
     world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
     world <- world[which(world$continent != "Antarctica"), ]["geometry"]
     world <- terra::vect(world)
-    
+
     if (isglobal == FALSE) {
       world <- terra::crop(world, terra::ext(rast))
     }
-    
+
     terra::plot(world, col = NA, border = "black", add = TRUE)
   }
   invisible(NULL)

@@ -27,8 +27,8 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-RiskMap. \link{RiskMap}. It contains result in the form of \code{SpatRaster} object
-and filenames of the saved maps.
+RiskMap. It contains result in the form of \code{SpatRaster} objects
+and file path of the saved maps.
 }
 \description{
 Wrapper for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.

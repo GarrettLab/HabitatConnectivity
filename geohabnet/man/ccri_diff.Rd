@@ -24,8 +24,8 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-RiskMap. \link{RiskMap}. It contains result in the form of \code{SpatRaster} object
-and filenames of the saved maps.
+RiskMap. It contains result in the form of \code{SpatRaster} objects
+and file path of the saved maps.
 }
 \description{
 This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.

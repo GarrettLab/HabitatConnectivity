@@ -32,11 +32,13 @@ setMethod("show", "GeoNetwork",
             cat("class            : ", "GeoNetwork", "\n")
             if (!is.null(object@me_rast)) {
               cat("mean             : ", object@me_out, "\n")
-              cat("mean raster      : ", terra::nrow(object@me_rast), terra::ncol(object@me_rast), "(nrow, ncol)\n")
+              cat("mean raster      : ", terra::nrow(object@me_rast), ", ",
+                  terra::ncol(object@me_rast), "(nrow, ncol)\n")
             }
             if (!is.null(object@var_rast)) {
               cat("variance          : ", object@var_out, "\n")
-              cat("variance raster   : ", terra::nrow(object@var_rast), terra::ncol(object@var_rast), "(nrow, ncol)\n")
+              cat("variance raster   : ", terra::nrow(object@var_rast), ", ",
+                  terra::ncol(object@var_rast), "(nrow, ncol)\n")
             }
             if (!is.null(object@diff_rast)) {
               cat("difference        : ", object@diff_out, "\n")

@@ -225,6 +225,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' [sensitivity_analysis()] is a wrapper around [sean()] function.
 #' - `msean()` is a wrapper around [sean()] function. It has additional argument to specify maps which are calculated
 #' using [connectivity()] function. The maps are essentially the risk network.
+#' @param ... arguments passed to [sean()]
 #' @param link_threshold Numeric. A threshold value for link
 #' @param host_density_threshold Numeric. A host density threshold value
 #' @inheritParams sa_onrasters
@@ -245,7 +246,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #'
 #' # global
 #' ri <- sean(avocado) # returns a list of GeoRasters
-#' mri <- msean(avocado) # returns GeoNetwork object
+#' mri <- msean(rast = avocado) # returns GeoNetwork object
 #'
 #' # non-global
 #' # geoscale is a vector of xmin, xmax, ymin, ymax
@@ -255,12 +256,12 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 #' ri
 #'
 #' # returns GeoNetwork object
-#' mri <- msean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+#' mri <- msean(rast = avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
 #' mri
 #' }
 sean <- function(rast,
                  global = TRUE,
-                 geoscale,
+                 geoscale = NULL,
                  agg_methods = c("sum", "mean"),
                  dist_method = "geodesic",
                  link_threshold = 0,
@@ -268,6 +269,12 @@ sean <- function(rast,
                  res = reso()) {
 
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
+  stopifnot("rast must be of type SpatRaster" = class(rast) == "SpatRaster")
+
+  if (!global) {
+    stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
+  }
+
   .resetgan()
   .loadparam_ifnull()
 
@@ -342,24 +349,13 @@ sean <- function(rast,
 
 #' @rdname sean
 #' @return GeoNetwork.
-msean <- function(rast,
+msean <- function(...,
                   global = TRUE,
-                  geoscale,
-                  agg_methods = c("sum", "mean"),
-                  dist_method = "geodesic",
-                  link_threshold = 0,
-                  host_density_threshold = 0,
+                  geoscale = NULL,
                   res = reso(),
                   outdir = tempdir()) {
 
-  grasters <- sean(rast,
-                   global,
-                   geoscale,
-                   agg_methods,
-                   dist_method,
-                   link_threshold,
-                   host_density_threshold,
-                   res)
+  grasters <- sean(global = global, geoscale = geoscale, res = res, ...)
 
   gmap <- connectivity(grasters,
                        global,
@@ -414,7 +410,8 @@ msean <- function(rast,
 #' @description
 #' Same as [sensitivity_analysis()] but it takes raster object and other parameters as an input.
 #' - `sa_onrasters()` is a wrapper around [sean()] function. Takes raster object and other parameters as an input.
-#' - `msean_onrast()` same as [sa_onrasters()].
+#' - `msean_onrast()` same as [sa_onrasters()]. Use this for side effects + results.
+#' Produces and plots the maps for the outcomes and results are returned as an object.
 #' It produces and plots the maps for the outcomes and results are returned as an object.
 #'
 #' @param rast Raster object which will be used in analysis.
@@ -430,6 +427,7 @@ msean <- function(rast,
 #' @param res Numeric.
 #' resolution at which operations will run.
 #' Default is [reso()]
+#' @param ... arguments passed to [sa_onrasters()]
 #' @param outdir Character. Output directory for saving raster in TIFF format.
 #' Default is [tempdir()].
 #' @return A list of calculated CCRI indices after operations.
@@ -456,7 +454,9 @@ msean <- function(rast,
 #'             host_density_thresholds = c(0.00015),
 #'             agg_methods = c("sum"),
 #'             res = 24)
-#' res3 <- msean_onrast(rr[[1]])
+#' res3 <- msean_onrast(rast = rr[[1]],
+#'           link_thresholds = c(0.000001),
+#'           host_density_thresholds = c(0.00015))
 #'}
 #' @inherit sensitivity_analysis seealso references
 #' @seealso [msean_onrast()]
@@ -496,26 +496,16 @@ sa_onrasters <- function(rast,
 }
 
 #' @rdname sa_onrasters
-msean_onrast <- function(rast,
-                         global = TRUE,
-                         geoscale,
-                         link_thresholds,
-                         host_density_thresholds,
-                         agg_methods = c("sum", "mean"),
-                         dist_method = "geodesic",
+msean_onrast <- function(global = TRUE,
+                         geoscale = NULL,
                          res = reso(),
-                         outdir = tempdir()) {
+                         outdir = tempdir(),
+                         ...) {
 
-  grast <- sa_onrasters(rast,
-                        global,
-                        geoscale,
-                        link_thresholds,
-                        host_density_thresholds,
-                        agg_methods,
-                        dist_method,
-                        res)
-
-  #risk_indices <- risk_indices(grast)
+  grast <- sa_onrasters(...,
+                        global = global,
+                        geoscale = geoscale,
+                        res = res)
 
   gmap <- connectivity(grast,
                        global,
@@ -631,13 +621,18 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   if (alert == TRUE) {
     beepr::beep(2)
   }
-
-  return(new("GeoNetwork",
-             rasters = newrast,
-             me_rast = gmap@me_rast,
-             me_out = gmap@me_out,
-             var_rast = gmap@var_rast,
-             var_out = gmap@var_out,
-             diff_rast = gmap@diff_rast,
-             diff_out = gmap@diff_out))
+  ret <- if (maps == TRUE) {
+    new("GeoNetwork",
+        rasters = newrast,
+        me_rast = gmap@me_rast,
+        me_out = gmap@me_out,
+        var_rast = gmap@var_rast,
+        var_out = gmap@var_out,
+        diff_rast = gmap@diff_rast,
+        diff_out = gmap@diff_out)
+  } else {
+    new("GeoNetwork",
+        rasters = newrast)
+  }
+  return(ret)
 }

@@ -17,15 +17,11 @@ sa_onrasters(
 )
 
 msean_onrast(
-  rast,
   global = TRUE,
-  geoscale,
-  link_thresholds,
-  host_density_thresholds,
-  agg_methods = c("sum", "mean"),
-  dist_method = "geodesic",
+  geoscale = NULL,
   res = reso(),
-  outdir = tempdir()
+  outdir = tempdir(),
+  ...
 )
 }
 \arguments{
@@ -51,6 +47,8 @@ Default is \code{\link[=reso]{reso()}}}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
+
+\item{...}{arguments passed to \code{\link[=sa_onrasters]{sa_onrasters()}}}
 }
 \value{
 A list of calculated CCRI indices after operations.
@@ -61,7 +59,8 @@ One combination is equivalent to \code{\link[=sean]{sean()}} function.
 Same as \code{\link[=sensitivity_analysis]{sensitivity_analysis()}} but it takes raster object and other parameters as an input.
 \itemize{
 \item \code{sa_onrasters()} is a wrapper around \code{\link[=sean]{sean()}} function. Takes raster object and other parameters as an input.
-\item \code{msean_onrast()} same as \code{\link[=sa_onrasters]{sa_onrasters()}}.
+\item \code{msean_onrast()} same as \code{\link[=sa_onrasters]{sa_onrasters()}}. Use this for side effects + results.
+Produces and plots the maps for the outcomes and results are returned as an object.
 It produces and plots the maps for the outcomes and results are returned as an object.
 }
 }
@@ -85,7 +84,9 @@ res2 <- sa_onrasters(rr[[1]],
             host_density_thresholds = c(0.00015),
             agg_methods = c("sum"),
             res = 24)
-res3 <- msean_onrast(rr[[1]])
+res3 <- msean_onrast(rast = rr[[1]],
+          link_thresholds = c(0.000001),
+          host_density_thresholds = c(0.00015))
 }
 }
 \references{

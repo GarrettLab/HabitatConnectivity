@@ -1,14 +1,13 @@
-#' @title Maps
-#' @name Gmap
-#' @docType class
+#' Gmap class
+#'
 #' @description
-#' A class to represent various maps.
-#' @field me_rast SpatRaster A raster representing mean risk index.
-#' @field me_out Character. A file path to the mean risk index raster.
-#' @field diff_rast SpatRaster A raster representing difference.
-#' @field diff_out Character. A file path to the difference raster.
-#' @field var_rast Numeric. A raster representing variance.
-#' @field var_out SpatRaster A file path to the variance raster.
+#' An S4 class to represent various maps.
+#' @slot me_rast SpatRaster A raster representing mean risk index.
+#' @slot me_out Character. A file path to the mean risk index raster.
+#' @slot diff_rast SpatRaster A raster representing difference.
+#' @slot diff_out Character. A file path to the difference raster.
+#' @slot var_rast Numeric. A raster representing variance.
+#' @slot var_out SpatRaster A file path to the variance raster.
 #' @export
 setClass("Gmap",
          slots = list(me_rast = "ANY",
@@ -18,12 +17,19 @@ setClass("Gmap",
                       var_rast = "ANY",
                       var_out = "character"))
 
+#' @rdname Gmap-class
+#'
+#'
+#' @export
 setGeneric("setmaps", function(x, me, vari, dif) {
   standardGeneric("setmaps")
 })
 
 
-#' @title setmaps
+#' @rdname Gmap-class
+#'
+#' @description
+#' Set the slots in the Gmap object.
 #' @export
 #' @method setmaps Gmap
 #' @param x A Gmap object.
@@ -52,14 +58,13 @@ setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
   return(x)
 })
 
-#' @name GeoNetwork
-#' @title Class GeoNetwork.
-#' @docType class
+#' GeoNetwork
+#'
 #' @description
-#' A class representing a network of geographical data.
+#' An S4 class representing a network of geographical data.
 #' This will wrap all the results from the risk analysis using [sean()] or [sensitivity_analysis()].
 #' This class contains the field from `Gmap` class which has results in the form of `SpatRaster` and TIFF file.
-#' @field rasters A list of \code{\link{GeoRasters}} objects.
+#' @slot rasters A list of `GeoRasters` objects.
 #' @export
 setClass("GeoNetwork", contains = "Gmap",
          slots = list(rasters = "ANY"),

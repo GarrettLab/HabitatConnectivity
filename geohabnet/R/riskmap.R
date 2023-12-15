@@ -1,8 +1,7 @@
-#' @name RiskMap
-#' @title RiskMap class
-#' @docType class
+#' RiskMap class
+#'
 #' @description
-#' A class representing resulting maps from the specific operation type.
+#' An S4 class representing resulting maps from the specific operation type.
 #' @field map Character. A file path to the map.
 #' @field riid SpatRaster. This is one of the risk maps.
 #' @field spr SpatRaster. A spatial raster representing the risk index.

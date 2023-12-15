@@ -9,13 +9,13 @@ gplot(x, ...)
 \arguments{
 \item{x}{a Raster* object}
 
-\item{...}{additional arguments passed to terra::plot}
+\item{...}{additional arguments passed to \code{\link[terra:plot]{terra::plot()}}}
 }
 \value{
 a plot
 }
 \description{
-This is a wrapper for terra::plot
+This is a wrapper for \code{\link[terra:plot]{terra::plot()}}
 }
 \examples{
 r <- terra::rast(nrows=108, ncols=21, xmin=0, xmax=10)
