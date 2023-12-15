@@ -7,7 +7,7 @@ default:
     HostDensityThreshold: [0.00015, 0.000025]
     AggregationStrategy: [sum, mean]
     DistanceStrategy: "geodesic"
-    Resolution: 12
+    Resolution: 1
     GeoExtent: 
       global: TRUE
       customExt: [-115, -75, 5, 32] # ignored, when global = TRUE

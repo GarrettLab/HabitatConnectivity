@@ -16,7 +16,7 @@ ccri_diff(rast, x, y, global, geoscale, res = reso(), outdir = tempdir())
 \item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{geoscale}{vector. geographical scale}
+\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
 
 \item{res}{numeric. map resolution.}
 
@@ -24,7 +24,8 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-Invisible NULL.
+RiskMap. It contains result in the form of \code{SpatRaster} objects
+and file path of the saved maps.
 }
 \description{
 This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.

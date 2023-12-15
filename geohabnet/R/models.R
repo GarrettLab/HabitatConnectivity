@@ -1,8 +1,22 @@
+#' GeoModel class
+#'
+#' @description
+#' A ref class to represent results of dispersal models.
+#' @field matrix An adjacency matrix to represent network.
+.model_ob <- setRefClass("GeoModel",
+                         fields = list(amatrix = "matrix",
+                                       index = "ANY"))
+
+.risk_indices <- function(model_list) {
+  risk_indices <- sapply(model_list, function(x) x@index)
+  return(risk_indices)
+}
+
 #' Calculate risk index using inbuilt models.
 #'
 #' @description
-#' - [`model_powerlaw()`] calculates risk index using power law.
-#' - [`model_neg_exp()`] calculates risk index using negative exponential.
+#' - [`model_powerlaw()`]: calculates risk index using power law.
+#' - [`model_neg_exp()`]: calculates risk index using negative exponential.
 #' @param beta A list of beta values. `DispersalParameterBeta` in `parameters.yaml`.
 #' @param gamma_val A list of beta values. `DispersalParameterGamma` in `parameters.yaml`.
 #' @param link_threshold A threshold value for link.
@@ -31,8 +45,8 @@ model_powerlaw <- function(beta,
                            metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
 
   metrics <- .refined_mets(metrics)
-  #### create adjacency matrix
 
+  #### create adjacency matrix
   stan <- if (is.null(adj_mat)) {
     distancematr <- distance_matrix # pairwise distance matrix
     #---- end of code
@@ -64,7 +78,7 @@ model_powerlaw <- function(beta,
   indexpre[] <- 0
   indexpre[crop_cells_above_threshold] <- .apply_met(metrics, cropdistancematrix)
   indexv <- indexpre
-  return(indexv)
+  return(.model_ob(index = indexv, amatrix = adjmat))
 }
 
 #' @rdname model_powerlaw
@@ -104,14 +118,13 @@ model_neg_exp <- function(gamma_val,
   # create graph object from adjacency matrix
   cropdistancematrix <- igraph::graph.adjacency(stan,
                                                 mode = c("undirected"),
-                                                diag = FALSE, weighted = TRUE
-  )
+                                                diag = FALSE, weighted = TRUE)
 
   indexpre <- crop_raster
   indexpre[] <- 0
   indexpre[crop_cells_above_threshold] <- .apply_met(metrics, cropdistancematrix)
   indexv <- indexpre
-  return(indexv)
+  return(.model_ob(index = indexv, amatrix = adjmat))
 }
 
 # private methods ---------------------------------------------------------

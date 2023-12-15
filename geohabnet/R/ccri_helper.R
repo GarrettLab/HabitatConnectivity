@@ -10,6 +10,9 @@ library(yaml)
 # Meta-programming approach with eval_tidy
 .cal_dist <- function(latilongimatr, method) {
 
+  #---- use Geosphere package, fun distVincentyEllipsoid() is used to calculate the distance, default distance is meter
+  # reference of standard distance in meter for one degree
+
   method <- tolower(method)
   supported <- dist_methods()
   stopifnot("Distance strategy not supported. See dist_methods()\n" = method %in% supported)
@@ -31,27 +34,46 @@ library(yaml)
   return(temp_matrix)
 }
 
-.flatten_ri <- function(isglobal, ri) {
+#' Get risk indices
+#'
+#' @description Get risk indices from GeoRasters object.
+#' @param ri GeoRasters object
+#' @return List of risk indices. If the `ri` is global, the list will contain two elements,
+#' one for each hemisphere.
+#' @export
+risk_indices <- function(ri) {
+  stopifnot("Object is not of type GeoRasters" = class(ri) == "GeoRasters")
   .ew_split <- function() {
     ew_indices <- list(list(), list())
     names(ew_indices) <- c(STR_EAST, STR_WEST)
-    for (indices in ri) {
-      ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], indices[[STR_EAST]])
-      ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], indices[[STR_WEST]])
+
+    for (grast in ri$global_rast) {
+      for (mod in grast$east) {
+        ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], mod$index)
+      }
+      for (mod in grast$west) {
+        ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], mod$index)
+      }
     }
     return(ew_indices)
   }
 
-  if (isglobal) {
+  if (ri$global) {
     #east-west split
     .ew_split()
   } else {
-    unlist(ri, recursive = FALSE)
+    unlist(lapply(ri$rasters, FUN = "[[", "index"), recursive = FALSE)
   }
 }
 
 .to_ext <- function(geoscale) {
   return(terra::ext(geoscale))
+}
+
+.showmsg <- function(...) {
+  if (getOption("verbose")) {
+    message(...)
+  }
 }
 
 .valid_vector_input <- function(vector_to_check) {
@@ -85,7 +107,11 @@ library(yaml)
 
 .download <- function(uri) {
   f <- paste(tempfile(), ".tif", sep = "")
-  stopifnot("dowload failed " = utils::download.file(uri, destfile = f, method = "auto", mode = "wb") == 0)
+  stopifnot("dowload failed " = utils::download.file(uri,
+                                                     destfile = f,
+                                                     method = "auto",
+                                                     mode = "wb",
+                                                     quiet = !getOption("verbose")) == 0)
   return(f)
 }
 
@@ -100,6 +126,7 @@ library(yaml)
   return(terra::aggregate(rast,
                           fact = reso,
                           fun = method,
+                          na.rm = TRUE,
                           na.action = stats::na.omit))
 }
 
@@ -111,15 +138,14 @@ library(yaml)
 
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
-  .apply_agg <<- memoise::memoise(.apply_agg)
+  #.apply_agg <<- memoise::memoise(.apply_agg)
 }
 
 .get_helper_filepath <- function(file_type) {
   file_path <- if (file_type == "parameters") {
-     system.file("parameters.yaml",
-      package = "geohabnet",
-      mustWork = TRUE
-    )
+    system.file("parameters.yaml",
+                package = "geohabnet",
+                mustWork = TRUE)
   } else {
     .utilrast(file_type)
   }
@@ -251,7 +277,7 @@ library(yaml)
     }
   )
 
-  message("YAML object successfully written to file:", file_path)
+  .showmsg("YAML object successfully written to file: ", file_path)
 }
 
 .get_cropharvest_raster_helper <- function(crop_name, data_source) {
