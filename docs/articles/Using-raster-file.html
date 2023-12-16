@@ -49,9 +49,9 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using cropland connectivity</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
   </div>
 </li>
 <li class="nav-item">
@@ -139,8 +139,8 @@ names      : spam2017V2r1_SSA_H_BEAN_A</code></pre>
 <p>To ensure we have the correct raster,</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rr</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="raster_plot.png" width="408" alt=""><p class="caption">Raster plot for Beans</p>
+<div class="float">
+<img src="raster_plot.png" width="408" alt="Raster plot for Beans"><div class="figcaption">Raster plot for Beans</div>
 </div>
 <p>Next, once you have all the values ready, run risk analysis with
 <code><a href="../reference/sa_onrasters.html">geohabnet::sa_onrasters()</a></code></p>
@@ -152,8 +152,8 @@ names      : spam2017V2r1_SSA_H_BEAN_A</code></pre>
 <span>                        res <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span></code></pre></div>
 <p>On successful analysis, function will produce output maps. See
 example below.</p>
-<div class="figure">
-<img src="diff_map.png" width="351" alt=""><p class="caption">Difference map</p>
+<div class="float">
+<img src="diff_map.png" width="351" alt="Difference map"><div class="figcaption">Difference map</div>
 </div>
 <p>If the extent is incorrect and no valid cells can be discovered based
 threshold, then analysis will be interrupted and error will be thrown -
@@ -172,7 +172,7 @@ threshold, then analysis will be interrupted and error will be thrown -
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>
