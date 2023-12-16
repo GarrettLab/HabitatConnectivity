@@ -1,12 +1,12 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7.9000
-pkgdown_sha: 170015984ae234da3028b2b083df757227fdd241
+pandoc: 3.1.1
+pkgdown: 2.0.7
+pkgdown_sha: ~
 articles:
   analysis: analysis.html
+  Using-raster-file: Using-raster-file.html
   distance_strategy: distance_strategy.html
   global_analysis: global_analysis.html
-  Using-raster-file: Using-raster-file.html
-last_built: 2023-11-02T21:38Z
+last_built: 2023-12-15T23:48Z
 urls:
   reference: https://garrettlab.github.io/CroplandConnectivity/reference
   article: https://garrettlab.github.io/CroplandConnectivity/articles
