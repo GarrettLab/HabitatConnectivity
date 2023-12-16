@@ -3,63 +3,65 @@
 #' Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 #' Currently, the settings for plot cannot be customized.
 #' Default value is `TRUE` for all logical arguments
-#' @param indexes list of rasters. See details.
+#' @param grast GeoRasters. Collection of risk indices.
 #' @param global logical. `TRUE` if global analysis is required, `FALSE` otherwise.
 #' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
-#' @param geoscale vector. geographical scale
+#' @param geoscale Vector. geographical scale. Default is `NULL`.
 #' @param res numeric. map resolution.
 #' @param pmean `TRUE` if map of mean should be plotted, `FALSE` otherwise.
 #' @param pvar `TRUE` if variance map should be plotted, `FALSE` otherwise.
 #' @param pdiff `TRUE` if difference map should be plotted, `FALSE` otherwise.
 #' @param outdir Character. Output directory for saving raster in TIFF format.
 #' Default is [tempdir()].
-#' @return Invisible NULL.
+#' @return Gmap. See details.
 #' @details
-#' `indexes` are actually risk resulting from operations on crop's raster and
+#' `indexes` are actually risk indices representing in the form of `spatRaster`
+#' resulting from operations on crop's raster and
 #' parameters provided in either `parameters.yaml` or [sean()].
 #'
 #' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
 #' File will be saved in provided value of `outdir` or  [tempdir()].If [interactive()] is `TRUE`,
-#' then plots can be seen in active plot window. E.g. Rstudio
+#' then plots can be seen in active plot window. E.g. Rstudio. The maps are plotted using `SpatRaster` object.
+#' These objects are available as a return value of this function.
 #'
 #' @inherit sensitivity_analysis references
 #' @export
-connectivity <- function(indexes,
+connectivity <- function(grast,
                          global = TRUE,
-                         geoscale,
+                         geoscale = NULL,
                          res = reso(),
                          pmean = TRUE,
                          pvar = TRUE,
                          pdiff = TRUE,
                          outdir = tempdir()) {
 
-  mean_rast <- ccri_mean(indexes, global, geoscale, pmean, outdir)
+  ri_ind <- risk_indices(grast)
+  mobj <- ccri_mean(ri_ind, global, geoscale, pmean, outdir)
 
-  if (pvar == TRUE) {
-    ccri_variance(
-      indexes,
-      mean_rast,
-      global,
-      geoscale,
-      res,
-      outdir)
+  vobj <- if (pvar == TRUE) {
+    ccri_variance(ri_ind,
+                  mobj@riid,
+                  global,
+                  geoscale,
+                  res,
+                  outdir)
   }
 
-  if (pdiff == TRUE) {
+  dobj <- if (pdiff == TRUE) {
     if (global) {
       geoscale <- .global_ext()
     }
 
-    ccri_diff(
-      mean_rast,
-      the$cropharvest_aggtm_crop,
-      the$cropharvest_agglm_crop,
-      global,
-      geoscale,
-      res,
-      outdir)
+    ccri_diff(mobj@riid,
+              the$cropharvest_aggtm_crop,
+              the$cropharvest_agglm_crop,
+              global,
+              geoscale,
+              res,
+              outdir)
   }
-  invisible()
+
+  return(.merge_mapobs(mobj, vobj, dobj))
 }
 
 # maps --------------------------------------------------------------------
@@ -68,8 +70,12 @@ connectivity <- function(indexes,
 #'
 #'   Wrapper for [terra::mean()]. Calculates mean of list of rasters.
 #' @inheritParams connectivity
-#' @inherit connectivity return
-#' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise and `geoscale`.
+#' @param indexes List of SpatRasters.
+#' This input represents the spatial raster collection for which mean is to be calculated.
+#' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise.
+#' @return RiskMap. It contains result in the form of `SpatRaster` objects
+#' and file path of the saved maps.
+#'
 #' @export
 ccri_mean <- function(indexes,
                       global = TRUE,
@@ -98,23 +104,24 @@ ccri_mean <- function(indexes,
   }
 
   if (plt == TRUE) {
-    .plot(mean_index,
-          paste("Mean cropland connectivity risk index\n"),
-          global,
-          geoscale,
-          zlim = c(0, 1),
-          typ = "mean",
-          outdir = outdir)
+    plt_ret <- .plot(mean_index,
+                     paste("Mean cropland connectivity risk index\n"),
+                     global,
+                     geoscale,
+                     zlim = c(0, 1),
+                     typ = "mean",
+                     outdir = outdir)
   }
 
-  return(mean_index)
+  return(new("RiskMap", map = "mean", riid = mean_index, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
 
 #' Calculate variance of CCRI
 #'
 #'    This function produces a map of variance of CCRI based on input parameters
 #' @inheritParams connectivity
-#' @inherit connectivity return
+#' @inheritParams ccri_mean
+#' @inherit ccri_mean return
 #' @param rast A raster object. It will be used in calculating variance.
 #' @export
 ccri_variance <- function(indexes,
@@ -156,15 +163,15 @@ ccri_variance <- function(indexes,
   }
 
   z_var_w <- range(var_out[which(var_out[] > 0)])
-  .plot(var_out,
-        "Variance in cropland connectivity",
-        global,
-        geoscale,
-        zlim = z_var_w,
-        typ = "variance",
-        outdir = outdir)
+  plt_ret <- .plot(var_out,
+                   "Variance in cropland connectivity",
+                   global,
+                   geoscale,
+                   zlim = z_var_w,
+                   typ = "variance",
+                   outdir = outdir)
 
-  invisible(1)
+  return(new("RiskMap", map = "variance", riid = var_out, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
 
 #' Calculate difference map
@@ -174,7 +181,8 @@ ccri_variance <- function(indexes,
 #' @param x A raster object for cropland harvest
 #' @param y A raster object for cropland harvest
 #' @inheritParams connectivity
-#' @inherit connectivity return
+#' @inheritParams ccri_mean
+#' @inherit ccri_mean return
 #' @export
 ccri_diff <- function(rast,
                       x,
@@ -213,7 +221,7 @@ ccri_diff <- function(rast,
     zr2 <- max(zr2, range(-maxrank_w, maxrank_w))
 
     diagg_rast <- terra::disagg(scaled_rast,
-                              fact = c(res, res))
+                                fact = c(res, res))
     diagg_rast + .cal_zerorast(diagg_rast, res)
   }
 
@@ -223,7 +231,7 @@ ccri_diff <- function(rast,
                     the$gan[["mean"]][[STR_EAST]],
                     the$gan[["sum"]][[STR_WEST]],
                     the$gan[["mean"]][[STR_WEST]])) {
-      message("Either sum or mean aggregate is missing. Aborting difference calculation")
+      .showmsg("Either sum or mean aggregate is missing. Aborting difference calculation")
       return(NULL)
     }
 
@@ -238,25 +246,30 @@ ccri_diff <- function(rast,
     terra::merge(east_var, west_var)
   } else {
     if (!.params_ok(x, y)) {
-      message("Either sum or mean aggregate is missing. Aborting difference calculation")
+      .showmsg("Either sum or mean aggregate is missing. Aborting difference calculation")
       return(NULL)
     }
     .cal_diff(x, y, geoscale)
   }
 
-  .plot(diff_out,
-        "Difference in rank of host connectivity and host density",
-        global,
-        geoscale,
-        .get_palette_for_diffmap(),
-        zr2,
-        typ = "difference",
-        outdir)
+  plt_ret <- .plot(diff_out,
+                   "Difference in rank of host connectivity and host density",
+                   global,
+                   geoscale,
+                   .get_palette_for_diffmap(),
+                   zr2,
+                   typ = "difference",
+                   outdir)
 
-  invisible()
+
+  return(new("RiskMap", map = "difference", riid = diff_out, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
 
 # private functions -------------------------------------------------------
+
+.merge_mapobs <- function(m, v, d) {
+  return(setmaps(new("Gmap"), m, v, d))
+}
 
 .plot <- function(rast,
                   label,
@@ -268,20 +281,16 @@ ccri_diff <- function(rast,
                   outdir,
                   plotf = .plotmap) {
 
-  .saverast(typ, rast, outdir)
+  info <- .saverast(typ, rast, outdir)
 
-  if (is.null(plotf)) {
-    .plotmap(rast, geoscale, isglobal, label, colorss, zlim)
-  } else {
-    plotf(rast = rast,
-      geoscale = geoscale,
-      isglobal = isglobal,
-      label = label,
-      col_pal = colorss,
-      zlim = zlim)
-  }
+  plotf(rast = rast,
+        geoscale = geoscale,
+        isglobal = isglobal,
+        label = label,
+        col_pal = colorss,
+        zlim = zlim)
 
-  invisible()
+  return(info)
 }
 
 .saverast <- function(typ, rast, outdir) {
@@ -299,67 +308,12 @@ ccri_diff <- function(rast,
   fp <- file.path(newdir, paste(typ, "_",
                                 stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
                                 ".tif", sep = ""))
-  terra::writeRaster(rast, overwrite = TRUE,
-                     filename = fp,
-                     gdal = c("COMPRESS=NONE"))
-  message(paste("raster created", fp, sep = ": "), "\n")
-}
+  spr <- terra::writeRaster(rast, overwrite = TRUE,
+                            filename = fp,
+                            gdal = c("COMPRESS=NONE"))
+  .showmsg(paste("raster created", fp, sep = ": "), "\n")
 
-.plotmap <- function(rast, geoscale, isglobal, label, col_pal, zlim) {
-  if (interactive() || pkgdown::in_pkgdown()) {
-
-    # Set the plot parameters
-    oldpar <- graphics::par(no.readonly = TRUE)
-    on.exit(graphics::par(oldpar))
-    graphics::par(bg = "aliceblue")
-
-    # Plot the base map
-    terra::plot(.cal_mgb(geoscale, isglobal),
-                col = "grey85",
-                xaxt = "n",
-                yaxt = "n",
-                legend = FALSE,
-                main = label,
-                cex.main = 0.9)
-    # Plot the raster
-    if (isglobal == TRUE) {
-      gs <- terra::ext(rast)
-      terra::plot(rast,
-                  col = col_pal,
-                  xaxt = "n",
-                  yaxt = "n",
-                  zlim = zlim,
-                  add = TRUE,
-                  lwd = 0.7,
-                  legend = TRUE,
-                  plg = list(loc = "bottom",
-                             ext = c(gs[1] + 30, gs[2] - 30, gs[3] - 30, gs[3] - 20),
-                             horizontal = TRUE)
-      )
-    } else {
-      terra::plot(rast,
-                  col = col_pal,
-                  xaxt = "n",
-                  yaxt = "n",
-                  zlim = zlim,
-                  add = TRUE,
-                  lwd = 0.7,
-                  legend = TRUE
-      )
-    }
-
-    # Plot the country boundaries
-    world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
-    world <- world[which(world$continent != "Antarctica"), ]["geometry"]
-    world <- terra::vect(world)
-
-    if (isglobal == FALSE) {
-      world <- terra::crop(world, terra::ext(rast))
-    }
-
-    terra::plot(world, col = NA, border = "black", add = TRUE)
-  }
-  invisible()
+  return(list(spr, toString(fp)))
 }
 
 .gan_paramok <- function(indices) {

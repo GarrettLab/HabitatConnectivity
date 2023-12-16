@@ -15,8 +15,7 @@
 get_rasters <- function(hosts) {
   t_file <- hosts[["file"]]
   rasters <- list()
-  if (!is.null(t_file) &&
-    !is.na(t_file)) {
+  if (!is.null(t_file) && !is.na(t_file)) {
     rasters <- c(rasters, tiff_torast(t_file))
   }
   rasters <- c(rasters, crops_rast(hosts))
@@ -118,8 +117,9 @@ tiff_torast <- function(path_to_tif) {
 }
 
 .validate_tif <- function(path_to_tif) {
+  file_extension <- stringr::str_sub(path_to_tif, start = -4)
   stopifnot(
     file.exists(path_to_tif),
-    stringr::str_sub(path_to_tif, start = -4) == ".tif"
+    file_extension %in% c(".tif", ".TIF")
   )
 }

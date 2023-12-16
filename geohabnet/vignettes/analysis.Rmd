@@ -41,7 +41,7 @@ Primary objective of this vignette is to help user in getting started, list capa
 
 -   TIFF - [https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html/](https://www.adobe.com/creativecloud/file-types/image/raster/tiff-file.html){.uri}
 
-## Datasets
+## Data sets
 
 We use publicly available sources to obtain crop information -
 
@@ -73,6 +73,14 @@ if (!require("devtools")) {
 
 ```{r setup, eval=FALSE}
 
+if (!require("geohabnet")) {
+  utils::install.packages("geohabnet")
+}
+```
+
+Alternatively, install from github source.
+
+```{r cran}
 library("devtools")
 
 if (!require("geohabnet")) {
@@ -100,7 +108,7 @@ This is to run the analysis on default set of values for the supported parameter
 sensitivity_analysis()
 ```
 
-The results are based on the values set for each of the parameters which we will see in details in the next section.
+The results are the side effects and the similar information is captured in the object returned from it. Its based on the values set for each of the parameters which we will see in details in the next section.
 
 ## Running new analysis
 
@@ -115,13 +123,13 @@ avocado <- cropharvest_rast("avocado", "monfreda")
 
 # verify the raster object
 avocado
-terra::plot(avocado)
+gplot(avocado)
 ```
 
 Now that we have a raster object, it can be fed directly to the workflow. We will only set the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
 
 ```{r message=FALSE}
-risk_indexes <- sean(avocado)
+geo_net <- msean(avocado)
 ```
 
 The results should be interpreted in accordance to the values of other parameters that have factored as arguments to `sean`. Run ?sean to see all the supported parameters. We will later see the usage of other parameters as well.
@@ -143,6 +151,19 @@ The results should be interpreted in accordance to the values of other parameter
         ```{r}
         #set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
         ```
+
+4.  thresholds *- Numeric.* 2 types of thresholds: *host_density_threshold* and *link_threshold.* The former threshold filters from the aggregation of input data-set/raster and latter will filter the cells from the adjacency matrix which is used to calculate the network connectivity.
+
+5.  resolution - Numeric. This is a resolution value. In the context of *SpatRaster*, it's the number of pixels that are aggregated to produce a new finer/coarser version raster data. Default is
+
+    ```{r reso}
+    reso()
+
+    # setting resolutin via here will not persist the value but instead will assign it to current environment until next load_parameters() or set_parameters()
+    set_reso(12)
+    ```
+
+6.  Side effect - Calculates, produces and plots the maps which is same as `sensitivity_analysis()` [sensitivity_analysis()]. An alternative is `sean()` which can be called to obtain the results from the function call and has no side effects.
 
 ### Using configuration
 
@@ -224,7 +245,7 @@ results <- sensitivity_analysis()
 Thresholds are used to select subset of values from the `SpatRaster` on which the operations are applied. It directly effects the connectivity and gives a sense of sensitivity in the network. The intermediate goal is to produce a adjacency graph which essentially determines the connectivity. Cells which doesn't meet the threshold are removed from the consideration by dispersal models.
 
 ```{r message=FALSE}
-risk_indexes <- sean(avocado, host_density_threshold = 0.00001, link_threshold = 0.00001)
+risk_indexes <- msean(avocado, host_density_threshold = 0.00001, link_threshold = 0.00001)
 ```
 
 #### Density Thresholds
@@ -292,41 +313,94 @@ Geographical extent is a subset of world map defined by coordinate reference sys
 1.  Using function
 
     ```{r non-global, message=FALSE}
-    results <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+    results <- msean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
     ```
 
 2.  Using config
 
     Set `Global = FALSE` and `CustomExt = [-115, -75, 5, 32]` . The initial `parameters.yaml` already contains this value which would run in combination with other parameters.
 
-When provided with `geoscale`, program will take the subset of provided raster (dataset of crop). The workflow will apply graph operations and network connectivity only to the subset.
+When provided with `geoscale`, program will take the subset of provided raster (data-set of a crop). The workflow will apply graph operations and network connectivity only to the subset.
 
 ## Outputs
 
-By default, 3 maps are produced for each analysis. `sean()` also returns list of risk indexes which are then fed to `connectivity()` . This flexibility is supposed to allow users to use the risk indexes for their purposes or use our function to produce maps with further different parameters.
+By default, 3 maps are produced for each analysis. `sean()` also returns risk indices without maps which can, then be fed to `connectivity()` . This flexibility is supposed to allow users to use the risk indices for their purposes or use our function to produce maps with further different parameters.
 
-In a code below, after obtaining results, the maps are produced. In order to produce calculate variance, cells of `SpatRaster` is extended to coarser value using `res` parameter. Setting `maps = FALSE` will suppress the calculation of outputs.
+In a code below, after obtaining results, the maps are produced. In order to calculate variance, cells of `SpatRaster` are extended to coarser value using `res` parameter. Setting `maps = FALSE` will suppress the calculation of outputs.
 
 ```{r message=FALSE}
-risk_indexes <- sean(avocado)
-connectivity(risk_indexes)
+georast <- sean(avocado)
+connectivity(georast)
 ```
 
-is equivalent to `sensitivity_analysis()` .
+is equivalent to `sensitivity_analysis()` or `msean()` which produces maps as side effect.
+
+```{r final}
+final <- msean(avocado, link_threshold = 0.000001, host_density_threshold = 0.000025)
+
+# checkout the type of object
+class(final)
+```
+
+Based on the result obtained from last cell, let's navigate the object final object. You would have noticed the maps as a side effect and that's really the whole point. See the result summary by simply calling the `final` object and navigate using the standard S4 classes approach.
+
+```{r see}
+final
+```
 
 The final operations are performed risk indices and on the 3 results that are produced -
 
 1.  Mean
 
-    Simply a mean of all the `SpatRasters` resulting from combination of parameter values. The values in cells are added across all the indices and divided by number of indices.
+    A mean of all the `SpatRasters` resulting from combination of parameter values. The values in cells are added across all the indices and divided by number of indices. It represents the connectivity based on host density in the given area.
+
+    Navigating the resulting object -
+
+    ```{r mean}
+    gplot(final@me_rast)
+    ```
 
 2.  Variance
 
     Uses `stats::var` on risk indices, subset is extracted for provided scale and finally pixels are dis-aggregated using *factor = resolution value in original parameter* to from previous step.
 
+    ```{r var}
+    gplot(final@var_rast)
+    ```
+
 3.  Difference
 
     If both the aggregation methods (*sum and mean*) is selected, then difference is calculated between the rank of matrices which are essentially numeric cells of risk indices of type *SpatRaster*. The result is dis-aggregated in the same way as previous step.
+
+    ```{r diff}
+    gplot(final@diff_rast)
+    ```
+
+The path to saved raster can be accessed using the '@type_out' slot. Additionally, access the risk indices and it's corresponding adjacency are further accessible within slots in the `GeoNetwork` class.
+
+```{r geonet}
+
+# checkout the results
+final@rasters
+
+# global is TRUE because we original set the global analysis
+# thus, we will have set of 2 risk indices, eastern and wetern hemisphere
+final@rasters$global_rast
+
+# Number of elements from above determines the the number of parameter values provided
+
+# To access the adjacency matrix,
+final@rasters$global_rast[[1]]$east[[1]] # this is also s4 class 'GeoModel'
+```
+
+Checkout the adjacency matrices by running the code below -
+
+```{r adm}
+
+# replace the indexing with any arbitary index
+
+ss@rasters$global_rast[[1]]$east[[1]]$amatrix
+```
 
 Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under the specified path in `OutDir` with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created. If the `outdir` is empty, the value is defaulted to `tempdir()` . This applies to corresponding parameter `outdir` in all the functions.
 

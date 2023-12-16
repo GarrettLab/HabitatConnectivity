@@ -25,7 +25,7 @@ get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
 
   params_file_path <- .param_fp()
   .copy_file(params_file_path, out_path)
-  message("parameters fetched successfully")
+  .showmsg("parameters fetched successfully")
   return(file.path(paste(out_path, basename(params_file_path), sep = "/")))
 }
 

@@ -45,15 +45,15 @@ get_param_metrics <- function(params = load_parameters()) {
 #' @description
 #' These are basically an abstraction of functions under the [igraph] package.
 #' The functions included in this abstraction are:
-#' - `nn_sum()`: Calculates the sum of nearest neighbors [igraph::graph.knn()].
-#' - `node_strength()`: Calculates the sum of edge weights of adjacent nodes [igraph::graph.strength()].
-#' - `betweeness()`: Calculates the vertex and edge betweenness based on the number of geodesics
+#' - `[nn_sum()]`: Calculates the sum of nearest neighbors [igraph::graph.knn()].
+#' - `[node_strength()]`: Calculates the sum of edge weights of adjacent nodes [igraph::graph.strength()].
+#' - `[betweeness()]`: Calculates the vertex and edge betweenness based on the number of geodesics
 #' [igraph::betweenness()].
-#' - `ev()`: Calculates the eigenvector centrality of positions within the network [igraph::evcent()].
-#' - `closeness()`: measures how many steps is required to access every other vertex from a given vertex
+#' - `[ev()]`: Calculates the eigenvector centrality of positions within the network [igraph::evcent()].
+#' - `[closeness()]`: measures how many steps is required to access every other vertex from a given vertex
 #' [igraph::closeness()].
-#' - `degree()`: number of adjacent edges [igraph::degree()].
-#' - `pagerank()`: page rank score for vertices [igraph::page_rank()].
+#' - `[degree()]`: number of adjacent edges [igraph::degree()].
+#' - `[pagerank()]`: page rank score for vertices [igraph::page_rank()].
 #' @param crop_dm Distance matrix.
 #'  In the internal workflow,
 #'  the distance matrix comes is a result of operations within [sean()] and risk functions.
