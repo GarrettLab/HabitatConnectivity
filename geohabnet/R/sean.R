@@ -217,24 +217,42 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 
 # Sensitivity analysis ----------------------------------------------------
 
-#' Calculate sensitivity analysis on cropland harvested area fraction
+#' Sensitivity analysis across maps of habitat connectivity
 #'
 #' @description
-#' This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
+#' This function performs a sensitivity analysis across different values of habitat connectivity for each location in a map.
+#' For each combination of selected parameters, an index of habitat connectivity is calculated.
 #' Some parameters are only accessible from `parameters.yaml` and uses value from here.
 #' [sensitivity_analysis()] is a wrapper around [sean()] function.
 #' - `msean()` is a wrapper around [sean()] function. It has additional argument to specify maps which are calculated
 #' using [connectivity()] function. The maps are essentially the risk network.
 #' @param ... arguments passed to [sean()]
-#' @param link_threshold Numeric. A threshold value for link
-#' @param host_density_threshold Numeric. A host density threshold value
+#' @param link_threshold Numeric. A threshold value for link weight. 
+#' All link weights that are below this threshold will be replaced with zero for the connectivity analysis.
+#' Link weights represent the relative likelihood of pathogen, pest, or invasive species movement between a pair of host locations, 
+#' which is calculated using gravity models based on host density (or availability) and dispersal kernels.
+#' @param host_density_threshold Numeric. A threshold value for host density. 
+#' All locations with a host density below the selected threshold will be excluded from the connectivity analysis, 
+#' which focuses the analysis on the most important locations.
+#' The values for the host density threshold can range between 0 and 1;
+#' if 1 all locations will be excluded from the analysis and 0 will include all locations in the analysis.
+#' Selecting a threshold for host density requires at least knowing what is the maximum value in the host density map to avoid excluding all locations in the analysis.
+
 #' @inheritParams sa_onrasters
 #' @return GeoRasters.
 #' @export
 #' @details
-#' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used. What makes [sean()]
-#' different from [msean()] is thier return value. The return value of [msean()] is `GeoNetwork`
-#' contains the result from applying [connectivity()] function on the risk indexes. Essentially, the risk maps.
+#' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used by default. 
+#' The functions [sean()] and [msean()] perform the same sensitivity analysis, but they differ in their return value. 
+#' The return value of [msean()] is `GeoNetwork`, which contains the result from applying the [connectivity()] function on the habitat connectivity indexes. 
+#' Essentially, the risk maps.
+#'
+#' @value
+#' Three spatRasters are produced with the following values. 
+#' For each location in the area of interest, the mean in habitat connectivity across selected parameters is calculated.
+#' For each location in the area of interest, the variance in habitat connectivity across selected parameters is calculated.
+#' For each location in the area of interest, the difference between the rank of habitat connectivity and the rank of host density is calculated.
+#' By default, each of these spatRasters is plotted for visualization.
 #'
 #' @seealso Uses [connectivity()]
 #' @seealso Uses [msean()]
@@ -526,21 +544,29 @@ msean_onrast <- function(global = TRUE,
              diff_out = gmap@diff_out))
 }
 
-#' @title Calculate sensitivity analysis on parameters
+#' @title Sensitivity analysis for habitat connectivity
 #'
 #' @description
-#' This function runs sensitivity analysis on parameters based on
-#' parameters provided through [set_parameters()]. If no parameters are provided,
-#' then it will run analysis on default parameters which is accessible through [get_parameters()].
-#' It can be used as an entry point for Cropland connectivity risk index vis-a-vis CCRI.
-#' By default, it runs analysis on global scales[global_scales()].
-#' After analysis is complete,
-#' it will suppress maps for outcomes if `maps = FALSE` or
-#' [interactive()] is `FALSE`. Thier are 2 results. The side effects are the plotted maps.
-#' The returned object is of class `GeoNetwork`.
-#' It contains risk indices with corresponding adjacency matrices along with final maps from the outcome.
+#' This function runs sensitivity analysis on habitat connectivity calculated based on every combination of selected parameters.
+#' Parameter values in [sensitivity_analysis()] should be provided using the function [set_parameters()]. 
+#' If no parameters are provided, then the [sensitivity_analysis()] function will run the sensitivity analysis using a default set of parameter values, 
+#' which is accessible through the function [get_parameters()].
+#' To customize parameter values, open the Parameters.yaml that was automatically downloaded when geohabnet was installed, 
+#' change, remove, or add parameter values directly in the Parameters.yaml and save it. 
+#' Once the values have been changed manually, run geohabnet::set_parameters() to set the new parameter values, which will return TRUE if the parameters were set successfully.
+#'
+#' @details
+#' For each location in a region, sensitivity_analysis() calculates the cropland connectivity risk index (CCRI) proposed by Xing et al. (2021).
+#' By default, sensitivity_analysis() runs a sensitivity analysis on a global extent, see [global_scales()] for details.
+#' This function also plots maps of the outcomes automatically, but it will suppress maps for outcomes if `maps = FALSE` or
+#' [interactive()] is `FALSE`. 
+#' The returned object is of class `GeoNetwork`, which contains two types of outcomes.
+#' One outcome type corresponds to spatRasters representing the habitat connectivity. 
+#' The second type corresponds to adjacency matrices used to calculate the habitat connectivity,
+#' where columns and rows represent locations in the maps and 
+#' entries are the relative likelihood of pathogen or pest movement between each pair of nodes.
 #' @param maps logical. `TRUE` if maps are to be plotted, `FALSE` otherwise
-#' @param alert logical. `TRUE` if beep sound is to be played, `FALSE` otherwise
+#' @param alert logical. `TRUE` if a beep sound is to be played once the analysis is completed, `FALSE` otherwise
 #' @return GeoNetwork.
 #' Errors are not handled.
 #' @export
