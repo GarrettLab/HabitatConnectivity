@@ -2,30 +2,38 @@
 % Please edit documentation in R/sean.R
 \name{sensitivity_analysis}
 \alias{sensitivity_analysis}
-\title{Calculate sensitivity analysis on parameters}
+\title{Sensitivity analysis for habitat connectivity}
 \usage{
 sensitivity_analysis(maps = TRUE, alert = TRUE)
 }
 \arguments{
 \item{maps}{logical. \code{TRUE} if maps are to be plotted, \code{FALSE} otherwise}
 
-\item{alert}{logical. \code{TRUE} if beep sound is to be played, \code{FALSE} otherwise}
+\item{alert}{logical. \code{TRUE} if a beep sound is to be played once the analysis is completed, \code{FALSE} otherwise}
 }
 \value{
 GeoNetwork.
 Errors are not handled.
 }
 \description{
-This function runs sensitivity analysis on parameters based on
-parameters provided through \code{\link[=set_parameters]{set_parameters()}}. If no parameters are provided,
-then it will run analysis on default parameters which is accessible through \code{\link[=get_parameters]{get_parameters()}}.
-It can be used as an entry point for Cropland connectivity risk index vis-a-vis CCRI.
-By default, it runs analysis on global scales\code{\link[=global_scales]{global_scales()}}.
-After analysis is complete,
-it will suppress maps for outcomes if \code{maps = FALSE} or
-\code{\link[=interactive]{interactive()}} is \code{FALSE}. Thier are 2 results. The side effects are the plotted maps.
-The returned object is of class \code{GeoNetwork}.
-It contains risk indices with corresponding adjacency matrices along with final maps from the outcome.
+This function runs sensitivity analysis on habitat connectivity calculated based on every combination of selected parameters.
+Parameter values in \code{\link[=sensitivity_analysis]{sensitivity_analysis()}} should be provided using the function \code{\link[=set_parameters]{set_parameters()}}.
+If no parameters are provided, then the \code{\link[=sensitivity_analysis]{sensitivity_analysis()}} function will run the sensitivity analysis using a default set of parameter values,
+which is accessible through the function \code{\link[=get_parameters]{get_parameters()}}.
+To customize parameter values, open the Parameters.yaml that was automatically downloaded when geohabnet was installed,
+change, remove, or add parameter values directly in the Parameters.yaml and save it.
+Once the values have been changed manually, run geohabnet::set_parameters() to set the new parameter values, which will return TRUE if the parameters were set successfully.
+}
+\details{
+For each location in a region, sensitivity_analysis() calculates the cropland connectivity risk index (CCRI) proposed by Xing et al. (2021).
+By default, sensitivity_analysis() runs a sensitivity analysis on a global extent, see \code{\link[=global_scales]{global_scales()}} for details.
+This function also plots maps of the outcomes automatically, but it will suppress maps for outcomes if \code{maps = FALSE} or
+\code{\link[=interactive]{interactive()}} is \code{FALSE}.
+The returned object is of class \code{GeoNetwork}, which contains two types of outcomes.
+One outcome type corresponds to spatRasters representing the habitat connectivity.
+The second type corresponds to adjacency matrices used to calculate the habitat connectivity,
+where columns and rows represent locations in the maps and
+entries are the relative likelihood of pathogen or pest movement between each pair of nodes.
 }
 \examples{
 \donttest{

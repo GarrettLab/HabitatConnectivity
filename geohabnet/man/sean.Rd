@@ -3,7 +3,7 @@
 \name{sean}
 \alias{sean}
 \alias{msean}
-\title{Calculate sensitivity analysis on cropland harvested area fraction}
+\title{Sensitivity analysis across maps of habitat connectivity}
 \usage{
 sean(
   rast,
@@ -31,9 +31,17 @@ in the form of c(Xmin, Xmax, Ymin, Ymax)}
 
 \item{dist_method}{Character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
 
-\item{link_threshold}{Numeric. A threshold value for link}
+\item{link_threshold}{Numeric. A threshold value for link weight.
+All link weights that are below this threshold will be replaced with zero for the connectivity analysis.
+Link weights represent the relative likelihood of pathogen, pest, or invasive species movement between a pair of host locations,
+which is calculated using gravity models based on host density (or availability) and dispersal kernels.}
 
-\item{host_density_threshold}{Numeric. A host density threshold value}
+\item{host_density_threshold}{Numeric. A threshold value for host density.
+All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
+which focuses the analysis on the most important locations.
+The values for the host density threshold can range between 0 and 1;
+if 1 all locations will be excluded from the analysis and 0 will include all locations in the analysis.
+Selecting a threshold for host density requires at least knowing what is the maximum value in the host density map to avoid excluding all locations in the analysis.}
 
 \item{res}{Numeric.
 resolution at which operations will run.
@@ -50,7 +58,8 @@ GeoRasters.
 GeoNetwork.
 }
 \description{
-This function calculates sensitivity analysis on cropland harvested area fraction based on provided parameters.
+This function performs a sensitivity analysis across different values of habitat connectivity for each location in a map.
+For each combination of selected parameters, an index of habitat connectivity is calculated.
 Some parameters are only accessible from \code{parameters.yaml} and uses value from here.
 \code{\link[=sensitivity_analysis]{sensitivity_analysis()}} is a wrapper around \code{\link[=sean]{sean()}} function.
 \itemize{
@@ -59,9 +68,10 @@ using \code{\link[=connectivity]{connectivity()}} function. The maps are essenti
 }
 }
 \details{
-When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used. What makes \code{\link[=sean]{sean()}}
-different from \code{\link[=msean]{msean()}} is thier return value. The return value of \code{\link[=msean]{msean()}} is \code{GeoNetwork}
-contains the result from applying \code{\link[=connectivity]{connectivity()}} function on the risk indexes. Essentially, the risk maps.
+When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used by default.
+The functions \code{\link[=sean]{sean()}} and \code{\link[=msean]{msean()}} perform the same sensitivity analysis, but they differ in their return value.
+The return value of \code{\link[=msean]{msean()}} is \code{GeoNetwork}, which contains the result from applying the \code{\link[=connectivity]{connectivity()}} function on the habitat connectivity indexes.
+Essentially, the risk maps.
 }
 \examples{
 \donttest{
