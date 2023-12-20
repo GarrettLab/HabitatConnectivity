@@ -38,12 +38,12 @@ ccri_mean <- function(indices,
     west <- .cal_mean(west)
     geoext <- .global_ext()
 
-    terra::merge(east, west)
+    terra::merge(east, west, na.rm = TRUE)
 
   } else {
     stopifnot("Require geoscale parameter for non-global analysis" = !is.null(geoscale))
 
-    .cal_mean(indexes)
+    .cal_mean(indices)
   }
 
 
@@ -91,7 +91,7 @@ ccri_variance <- function(indices,
 
     var_disag_rast + .cal_zerorast(var_disag_rast, res)
   }
-  
+
   geoext <- geoscale
 
   var_out <- if (global == TRUE) {
@@ -109,7 +109,7 @@ ccri_variance <- function(indices,
 
     .scaleok(geoscale)
 
-    .cal_var(indexes, geoscale)
+    .cal_var(indices, geoscale)
   }
 
   z_var_w <- range(var_out[which(var_out[] > 0)])
@@ -134,6 +134,10 @@ ccri_variance <- function(indices,
 #' @inheritParams connectivity
 #' @inheritParams ccri_mean
 #' @inherit ccri_mean return
+#' @details
+#' Ideally, the function is tested to yield desired results when
+#' `length(which(y[] > 0)) > length(which(x[] > 0))`.
+#'
 #' @export
 ccri_diff <- function(x,
                       y,
@@ -144,9 +148,15 @@ ccri_diff <- function(x,
   # difference map
   # Function to check for missing or null values
   # Check if all arguments are SpatRaster objects
-  lapply(list(x, y), .stopifnot_spatRaster)
+  lapply(list(x, y), .stopifnot_sprast)
 
   .scaleok(geoscale)
+  geoext <- if (global) {
+    .global_ext()
+  } else {
+    geoscale
+  }
+
   zr2 <- c(0, 0)
 
   .cal_diff <- function(r1, r2, scale) {
@@ -163,7 +173,7 @@ ccri_diff <- function(x,
     # positive value means importance increase,
     # zero means the importance of cropland doesn't change.
     rankdifferent_w <-
-      rank(meantotallandcell_w * (-1)) - rank(meanindexcell_w * (-1))
+      rank(meanindexcell_w * (-1)) - rank(meantotallandcell_w * (-1))
     scaled_rast[] <- NaN
     scaled_rast[][ccri_id] <- rankdifferent_w
 
@@ -175,12 +185,12 @@ ccri_diff <- function(x,
     diagg_rast + .cal_zerorast(diagg_rast, res)
   }
 
-  diff_out <- .cal_diff(x, y, geoscale)
+  diff_out <- .cal_diff(x, y, geoext)
 
   plt_ret <- .plot(diff_out,
                    "Difference in rank of host connectivity and host density",
                    global,
-                   geoscale,
+                   geoext,
                    .get_palette_for_diffmap(),
                    zr2,
                    typ = "difference",

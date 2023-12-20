@@ -7,9 +7,9 @@ default:
     HostDensityThreshold: [0.00015, 0.000025]
     AggregationStrategy: [sum, mean]
     DistanceStrategy: "geodesic"
-    Resolution: 1
+    Resolution: 12
     GeoExtent: 
-      global: TRUE
+      global: FALSE
       customExt: [-115, -75, 5, 32] # ignored, when global = TRUE
     LinkThreshold: [0.000001]
     DispersalKernelModels:

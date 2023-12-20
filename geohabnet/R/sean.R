@@ -269,7 +269,7 @@ sean <- function(rast,
                  res = reso()) {
 
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
-  stopifnot("rast must be of type SpatRaster" = class(rast) == "SpatRaster")
+  .stopifnot_sprast(rast)
 
   if (!global) {
     stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
@@ -358,13 +358,13 @@ msean <- function(...,
   grasters <- sean(global = global, geoscale = geoscale, res = res, ...)
 
   gmap <- .connectivity(grasters,
-                       global,
-                       geoscale,
-                       res,
-                       as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
-                       as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                       as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
-                       outdir = outdir)
+                        global,
+                        geoscale,
+                        res,
+                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
+                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
+                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
+                        outdir = outdir)
 
   return(new("GeoNetwork",
              rasters = grasters,
@@ -508,13 +508,13 @@ msean_onrast <- function(global = TRUE,
                         res = res)
 
   gmap <- .connectivity(grast,
-                       global,
-                       geoscale,
-                       res,
-                       as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
-                       as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                       as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
-                       outdir)
+                        global,
+                        geoscale,
+                        res,
+                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
+                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
+                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
+                        outdir)
 
   return(new("GeoNetwork",
              rasters = grast,
@@ -608,13 +608,13 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   gmap <- if (maps == TRUE) {
     .connectivity(newrast,
-                 isglobal,
-                 geoscale,
-                 resolution,
-                 as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
-                 as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                 as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
-                 the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir)
+                  isglobal,
+                  geoscale,
+                  resolution,
+                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
+                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
+                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
+                  the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir)
   }
 
   .showmsg("sensitivity analysis completed. Refer to maps for results.")

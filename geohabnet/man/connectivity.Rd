@@ -33,7 +33,8 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
 
-\item{res}{Numeric. map resolution.}
+\item{res}{Numeric. Map resolution. This value is used in aggregtion and dis-aggregation operation.
+Default is \code{\link[=reso]{reso()}}.}
 
 \item{pmean}{Logical. \code{TRUE} if map of mean should be plotted, \code{FALSE} otherwise.}
 

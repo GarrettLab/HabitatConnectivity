@@ -30,7 +30,8 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
 
-\item{res}{Numeric. map resolution.}
+\item{res}{Numeric. Map resolution. This value is used in aggregtion and dis-aggregation operation.
+Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}

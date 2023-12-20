@@ -44,7 +44,7 @@ connectivity <- function(host,
                          outdir = tempdir()) {
 
   stopifnot("Require host parameter" = !is.null(host))
-  .stopifnot_spatRaster(host)
+  .stopifnot_sprast(host)
 
   if (global) {
     stopifnot("Need east and west indices for global analysis" = !is.null(east), !is.null(west))
@@ -54,7 +54,7 @@ connectivity <- function(host,
   mobj <- ccri_mean(indices, global, east, west, geoscale, pmean, outdir)
 
   vobj <- if (pvar == TRUE) {
-    ccri_variance(ri_ind,
+    ccri_variance(indices,
                   mobj@riid,
                   global,
                   east,
@@ -63,20 +63,20 @@ connectivity <- function(host,
                   res,
                   outdir)
   }
-  
+
   dobj <- if (pdiff == TRUE) {
     if (global) {
       geoscale <- .global_ext()
     }
 
-    ccri_diff(host,
-              mobj@riid,
+    ccri_diff(mobj@riid,
+              host,
               global,
               geoscale,
               res,
               outdir)
   }
-  
+
   return(.merge_mapobs(mobj, vobj, dobj))
 }
 

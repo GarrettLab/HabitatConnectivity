@@ -23,7 +23,13 @@ global_scales <- function() {
 }
 
 .global_ext <- function(scales = global_scales()) {
-  return(scales[[STR_EAST]] + scales[[STR_WEST]])
+  # xmin, xmax, ymin, ymax
+  xmin <- min(scales[[STR_EAST]][1], scales[[STR_WEST]][1])
+  xmax <- max(scales[[STR_EAST]][2], scales[[STR_WEST]][2])
+  ymin <- min(scales[[STR_EAST]][3], scales[[STR_WEST]][3])
+  ymax <- max(scales[[STR_EAST]][4], scales[[STR_WEST]][4])
+
+  return(c(xmin, xmax, ymin, ymax))
 }
 
 #' Set global geographical extent
