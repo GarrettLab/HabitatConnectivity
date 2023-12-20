@@ -7,6 +7,39 @@ library(yaml)
 .kmapgreybackground_file_type <- "map_grey"
 
 # utility functions for CCRI ----------------------------------------------
+
+.stopifnot_spatRaster <- function(x) {
+  stopifnot("Require argument of type SpatRaster" = methods::isClass(x, "SpatRaster"))
+}
+
+.host_map <- function(global, x, y) {
+
+  ..host_map <- function(a, b) {
+    y <- if (!is.null(a) &&
+             is.null(b)) {
+      
+      terra::sum(a, b, na.rm = TRUE) / 2
+      
+    } else if(!is.null(a)) {
+      a
+    } else if(b) {
+      b
+    } else {
+
+      stop("No crop harvest data found")
+
+    }
+  }
+
+  if (global == TRUE) {
+    sumx <- terra::merge(the$gan$sum$east, the$gan$sum$west, na.rm = TRUE)
+    meanx <- terra::merge(the$gan$mean$east, the$gan$mean$west, na.rm = TRUE)
+    ..host_map(sumx, meanx)
+  } else {
+    ..host_map(x, y)
+  }
+}
+
 # Meta-programming approach with eval_tidy
 .cal_dist <- function(latilongimatr, method) {
 

@@ -4,27 +4,24 @@
 \alias{ccri_diff}
 \title{Calculate difference map}
 \usage{
-ccri_diff(rast, x, y, global, geoscale, res = reso(), outdir = tempdir())
+ccri_diff(x, y, geoscale, res = reso(), outdir = tempdir())
 }
 \arguments{
-\item{rast}{A raster object for mean index raster difference}
+\item{x}{SpatRaster.}
 
-\item{x}{A raster object for cropland harvest}
+\item{y}{SpatRaster.}
 
-\item{y}{A raster object for cropland harvest}
+\item{geoscale}{Numeric vector. \code{x} will be cropped to this extent.}
 
-\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
-When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
-
-\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
-
-\item{res}{numeric. map resolution.}
+\item{res}{Numeric. map resolution.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
+
+\item{rast}{SpatRaster. A template raster to hold the cell-wise difference}
 }
 \value{
-RiskMap. It contains result in the form of \code{SpatRaster} objects
+RiskMap. Contains result in the form of \code{SpatRaster} objects
 and file path of the saved maps.
 }
 \description{

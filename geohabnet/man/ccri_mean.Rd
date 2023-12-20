@@ -5,18 +5,25 @@
 \title{Calculate mean of raster objects}
 \usage{
 ccri_mean(
-  indexes,
-  global = TRUE,
+  indices,
+  global = FALSE,
+  east = NULL,
+  west = NULL,
   geoscale = NULL,
   plt = TRUE,
   outdir = tempdir()
 )
 }
 \arguments{
-\item{indexes}{List of SpatRasters.
+\item{indices}{List of SpatRasters.
 This input represents the spatial raster collection for which mean is to be calculated.}
 
-\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+\item{global}{Logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+\code{east} and \code{west} are required when \code{TRUE}.}
+
+\item{east}{SpatRaster. Collection of risk indices on eastern extent.}
+
+\item{west}{SpatRaster. Collection of risk indices on western extent.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
@@ -27,7 +34,7 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-RiskMap. It contains result in the form of \code{SpatRaster} objects
+RiskMap. Contains result in the form of \code{SpatRaster} objects
 and file path of the saved maps.
 }
 \description{

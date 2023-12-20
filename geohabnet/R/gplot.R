@@ -71,3 +71,48 @@ gplot <- function(x, ...) {
   }
   invisible(NULL)
 }
+
+.plot <- function(rast,
+                  label,
+                  isglobal,
+                  geoscale,
+                  colorss = .get_palette(),
+                  zlim,
+                  typ = "plot",
+                  outdir,
+                  plotf = .plotmap) {
+  
+  info <- .saverast(typ, rast, outdir)
+  
+  plotf(rast = rast,
+        geoscale = geoscale,
+        isglobal = isglobal,
+        label = label,
+        col_pal = colorss,
+        zlim = zlim)
+  
+  return(info)
+}
+
+.saverast <- function(typ, rast, outdir) {
+  
+  newdir <- outdir
+  if (is.null(outdir) || length(outdir) == 0) {
+    newdir <- tempdir()
+  }
+  
+  newdir <- file.path(newdir, "plots")
+  if (!dir.exists(newdir)) {
+    dir.create(newdir, recursive = TRUE)
+  }
+  
+  fp <- file.path(newdir, paste(typ, "_",
+                                stringr::str_replace_all(Sys.time(), "[^a-zA-Z0-9]", ""),
+                                ".tif", sep = ""))
+  spr <- terra::writeRaster(rast, overwrite = TRUE,
+                            filename = fp,
+                            gdal = c("COMPRESS=NONE"))
+  .showmsg(paste("raster created", fp, sep = ": "), "\n")
+  
+  return(list(spr, toString(fp)))
+}

@@ -5,32 +5,38 @@
 \title{Calculate variance of CCRI}
 \usage{
 ccri_variance(
-  indexes,
+  indices,
   rast,
   global,
+  east = NULL,
+  west = NULL,
   geoscale,
   res = reso(),
   outdir = tempdir()
 )
 }
 \arguments{
-\item{indexes}{List of SpatRasters.
-This input represents the spatial raster collection for which mean is to be calculated.}
+\item{indices}{SpatRaster. Collection of risk indices.}
 
-\item{rast}{A raster object. It will be used in calculating variance.}
+\item{rast}{SpatRaster. Template for variance output}
 
-\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+\item{global}{Logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+\code{east} and \code{west} are required when \code{TRUE}.}
+
+\item{east}{SpatRaster. Collection of risk indices on eastern extent.}
+
+\item{west}{SpatRaster. Collection of risk indices on western extent.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
 
-\item{res}{numeric. map resolution.}
+\item{res}{Numeric. map resolution.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
 }
 \value{
-RiskMap. It contains result in the form of \code{SpatRaster} objects
+RiskMap. Contains result in the form of \code{SpatRaster} objects
 and file path of the saved maps.
 }
 \description{

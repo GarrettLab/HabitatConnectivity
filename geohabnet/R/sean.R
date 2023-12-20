@@ -357,7 +357,7 @@ msean <- function(...,
 
   grasters <- sean(global = global, geoscale = geoscale, res = res, ...)
 
-  gmap <- connectivity(grasters,
+  gmap <- .connectivity(grasters,
                        global,
                        geoscale,
                        res,
@@ -507,7 +507,7 @@ msean_onrast <- function(global = TRUE,
                         geoscale = geoscale,
                         res = res)
 
-  gmap <- connectivity(grast,
+  gmap <- .connectivity(grast,
                        global,
                        geoscale,
                        res,
@@ -532,7 +532,7 @@ msean_onrast <- function(global = TRUE,
 #' This function runs sensitivity analysis on parameters based on
 #' parameters provided through [set_parameters()]. If no parameters are provided,
 #' then it will run analysis on default parameters which is accessible through [get_parameters()].
-#' It can be used as an entry point for Cropland connectivity risk index vis-a-vis CCRI.
+#' It can be used as an entry point for Cropland .connectivity risk index vis-a-vis CCRI.
 #' By default, it runs analysis on global scales[global_scales()].
 #' After analysis is complete,
 #' it will suppress maps for outcomes if `maps = FALSE` or
@@ -564,7 +564,7 @@ msean_onrast <- function(global = TRUE,
 #' Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,
 #' Jan F Kreuze, Jürgen Kroschel, P Lava Kumar, James P Legg, Monica Parker, Elmar Schulte-Geldermann,
 #' Kalpana Sharma, Karen A Garrett,
-#' _Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests_,
+#' _Global Cropland .connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests_,
 #' BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
 #' \doi{10.1093/biosci/biaa067}
 #' @references Hijmans R (2023). _terra: Spatial Data Analysis_.
@@ -607,7 +607,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   #risk_indices <- risk_indices(newrast)
 
   gmap <- if (maps == TRUE) {
-    connectivity(newrast,
+    .connectivity(newrast,
                  isglobal,
                  geoscale,
                  resolution,
