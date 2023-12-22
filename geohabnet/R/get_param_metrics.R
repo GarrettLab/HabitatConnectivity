@@ -136,7 +136,8 @@ degree <- function(crop_dm, we) {
 
 #' @rdname nn_sum
 closeness <- function(crop_dm, we) {
-  cvv <- igraph::closeness(crop_dm)
+  cvv <- igraph::closeness(crop_dm,
+                           weights = 1 - 1 / exp(.get_weight_vector(crop_dm)))
   cvv[is.na(cvv)] <- 0
   cns <- if (max(cvv) == 0) {
     0
