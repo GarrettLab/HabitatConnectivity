@@ -2,12 +2,6 @@
 
 # Utility functions -------------------------------------------------------
 
-.loadparam_ifnull <- function() {
-  if (is.null(the$parameters_config)) {
-    the$parameters_config <- load_parameters()
-  }
-}
-
 #----------- Extract cropland density data -----------------------
 .extract_cropland_density <- function(cropharvest_agg_crop, host_density_threshold) {
   crop_values <- terra::values(cropharvest_agg_crop)
@@ -27,17 +21,13 @@
 #' Only meant to global variables
 #' @keywords internal
 the <- new.env(parent = emptyenv())
-the$is_initialized <- FALSE
-the$parameters_config <- NULL
-the$distance_matrix <- NULL
-the$cropharvest_aggtm <- NULL
+
 the$cropharvest_agglm_crop <- NULL
 the$cropharvest_aggtm_crop <- NULL
 the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                 mean = list("east" = NULL, "west" = NULL))
 
 .resetgan <- function() {
-  the$cropharvest_aggtm <- NULL
   the$cropharvest_agglm_crop <- NULL
   the$cropharvest_aggtm_crop <- NULL
   the$gan <- list(sum = list("east" = NULL, "west" = NULL),
@@ -53,15 +43,15 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 .crop_rast <- function(agg_method, cropharvest_agg, resolution, geo_scale) {
   postagg_rast <- if (agg_method == "sum") {
 
-    the$cropharvest_aggtm <- cropharvest_agg / resolution / resolution # TOTAL MEAN
+    cropharvest_aggtm <- cropharvest_agg / resolution / resolution # TOTAL MEAN
     # crop cropland area for the given extent
-    the$cropharvest_aggtm_crop <- terra::crop(the$cropharvest_aggtm, .to_ext(geo_scale))
+    the$cropharvest_aggtm_crop <- terra::crop(cropharvest_aggtm, .to_ext(geo_scale))
     the$cropharvest_aggtm_crop
   } else if (agg_method == "mean") {
 
-    the$cropharvest_agglm <- cropharvest_agg
+    cropharvest_agglm <- cropharvest_agg
     # crop cropland area for the given extent
-    the$cropharvest_agglm_crop <- terra::crop(the$cropharvest_agglm, .to_ext(geo_scale))
+    the$cropharvest_agglm_crop <- terra::crop(cropharvest_agglm, .to_ext(geo_scale))
     the$cropharvest_agglm_crop
   } else {
     stop("aggregation strategy is not supported")
@@ -100,9 +90,8 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
   latilongimatr <- as.matrix(latilongimatr)
   temp_matrix <- .cal_dist(latilongimatr, dist_method)
 
-  the$distance_matrix <- temp_matrix
+  density_data[[STR_DISTANCE_MATRIX]] <- temp_matrix
 
-  the$is_initialized <- TRUE
   return(density_data)
 }
 
@@ -110,20 +99,19 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 
 .ccri_powerlaw <- function(betas,
                            link_threshold = 0,
-                           metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                           metrics = NULL,
                            rast,
                            crop_cells_above_threshold = NULL,
-                           thresholded_crop_values = NULL) {
+                           thresholded_crop_values = NULL,
+                           distance_matrix = NULL) {
 
   if (!.validate_index_cal(betas)) {
     return(0)
   }
 
-  .loadparam_ifnull()
-
   pl_models <- lapply(betas, model_powerlaw,
                       link_threshold = link_threshold,
-                      the$distance_matrix,
+                      distance_matrix,
                       thresholded_crop_values,
                       adj_mat = NULL,
                       rast,
@@ -135,21 +123,20 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 
 .ccri_negative_exp <- function(gammas,
                                link_threshold = 0,
-                               metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
+                               metrics = NULL,
                                rast,
                                crop_cells_above_threshold = NULL,
-                               thresholded_crop_values = NULL) {
+                               thresholded_crop_values = NULL,
+                               distance_matrix = NULL) {
 
   if (!.validate_index_cal(gammas)) {
     return(0)
   }
 
-  .loadparam_ifnull()
-
   ne_models <- lapply(gammas,
     model_neg_exp,
     link_threshold = link_threshold,
-    the$distance_matrix,
+    distance_matrix,
     thresholded_crop_values,
     adj_mat = NULL,
     rast,
@@ -165,9 +152,7 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 
 .validate_index_cal <- function(vals) {
   ready <- TRUE
-  if (!the$is_initialized) {
-    stop("Not initialized. Call initializeCroplandData()")
-  }
+
   stopifnot("dispersal values missing" = length(vals) > 0)
   if (!is.vector(vals)) {
     warning("argument is not a vector")
@@ -180,16 +165,17 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
 
 .ccri <- function(
     link_threshold = 0,
-    power_law_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw,
-    negative_exponential_metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$NegativeExponential,
+    power_law_metrics = NULL,
+    negative_exponential_metrics = NULL,
     rast,
     crop_cells_above_threshold,
-    thresholded_crop_values) {
+    thresholded_crop_values,
+    distance_matrix = NULL) {
 
-  .loadparam_ifnull()
+  cparams <- load_parameters()
 
   # TODO: parallelize them
-  betas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta)
+  betas <- as.numeric(cparams$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta)
 
   if (length(betas) > 0) {
     stopifnot("beta values are not valid" = is.numeric(betas) == TRUE, is.vector(betas) == TRUE)
@@ -198,10 +184,11 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                              metrics = power_law_metrics,
                              rast,
                              crop_cells_above_threshold = crop_cells_above_threshold,
-                             thresholded_crop_values = thresholded_crop_values)
+                             thresholded_crop_values = thresholded_crop_values,
+                             distance_matrix)
   }
 
-  gammas <- as.numeric(the$parameters_config$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma)
+  gammas <- as.numeric(cparams$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma)
   if (length(gammas) > 0) {
     stopifnot("gamma values are not valid" = is.numeric(gammas) == TRUE, is.vector(gammas) == TRUE)
     ne_ret <- .ccri_negative_exp(gammas,
@@ -209,7 +196,8 @@ the$gan <- list(sum = list("east" = NULL, "west" = NULL),
                                  metrics = negative_exponential_metrics,
                                  rast,
                                  crop_cells_above_threshold = crop_cells_above_threshold,
-                                 thresholded_crop_values = thresholded_crop_values)
+                                 thresholded_crop_values = thresholded_crop_values,
+                                 distance_matrix)
   }
 
   return(c(pl_ret, ne_ret))
@@ -276,9 +264,8 @@ sean <- function(rast,
   }
 
   .resetgan()
-  .loadparam_ifnull()
 
-  mets <- get_param_metrics(the$parameters_config)
+  mets <- get_param_metrics()
 
   sean_geo <- function(geoext) {
     .showmsg(
@@ -311,7 +298,8 @@ sean <- function(rast,
                            negative_exponential_metrics = mets$ne,
                            rast = density_data$agg_crop,
                            crop_cells_above_threshold = density_data$crop_values_at,
-                           thresholded_crop_values = density_data$crop_value))
+                           thresholded_crop_values = density_data$crop_value,
+                           distance_matrix = density_data[[STR_DISTANCE_MATRIX]]))
     }
     return(model_ret)
   }
@@ -342,7 +330,6 @@ sean <- function(rast,
     rasters$rasters <- sean_geo(geoscale)
     rasters$global <- FALSE
   }
-  the$is_initialized <- FALSE
 
   return(rasters)
 }
@@ -357,13 +344,14 @@ msean <- function(...,
 
   grasters <- sean(global = global, geoscale = geoscale, res = res, ...)
 
+  cparams <- load_parameters()
   gmap <- .connectivity(grasters,
                         global,
                         geoscale,
                         res,
-                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
-                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
+                        as.logical(cparams$`CCRI parameters`$PriorityMaps$MeanCC),
+                        as.logical(cparams$`CCRI parameters`$PriorityMaps$Variance),
+                        as.logical(cparams$`CCRI parameters`$PriorityMaps$Difference),
                         outdir = outdir)
 
   return(new("GeoNetwork",
@@ -472,8 +460,6 @@ sa_onrasters <- function(rast,
 
   .showmsg("New analysis started for given raster")
 
-  .loadparam_ifnull()
-
   rasters <- lapply(link_thresholds,
                     function(lthreshold) {
                       .sean_linkweights(
@@ -507,13 +493,14 @@ msean_onrast <- function(global = TRUE,
                         geoscale = geoscale,
                         res = res)
 
+  cparams <- load_parameters()
   gmap <- .connectivity(grast,
                         global,
                         geoscale,
                         res,
-                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
-                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                        as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
+                        as.logical(cparams$`CCRI parameters`$PriorityMaps$MeanCC),
+                        as.logical(cparams$`CCRI parameters`$PriorityMaps$Variance),
+                        as.logical(cparams$`CCRI parameters`$PriorityMaps$Difference),
                         outdir)
 
   return(new("GeoNetwork",
@@ -573,21 +560,20 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   #.resetglobals()
   .resetgan()
-  the$is_initialized <- FALSE
-  the$parameters_config <- load_parameters()
+  cparams <- load_parameters()
 
   # cutoff adjacency matrix
-  cropland_thresholds <- the$parameters_config$`CCRI parameters`$HostDensityThreshold
+  cropland_thresholds <- cparams$`CCRI parameters`$HostDensityThreshold
 
   # crop data
-  crop_rasters <- get_rasters(the$parameters_config$`CCRI parameters`$Hosts)
-  agg_methods <- the$parameters_config$`CCRI parameters`$AggregationStrategy # list
+  crop_rasters <- get_rasters(cparams$`CCRI parameters`$Hosts)
+  agg_methods <- cparams$`CCRI parameters`$AggregationStrategy # list
 
   # resolution
-  resolution <- the$parameters_config$`CCRI parameters`$Resolution
+  resolution <- cparams$`CCRI parameters`$Resolution
 
   # global analysis
-  isglobal <- the$parameters_config$`CCRI parameters`$GeoExtent$global
+  isglobal <- cparams$`CCRI parameters`$GeoExtent$global
   geoscale <- geoscale_param()
 
   rasters <- lapply(crop_rasters,
@@ -595,10 +581,10 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                       sa_onrasters(rast = rast,
                                    global = isglobal,
                                    geoscale = geoscale,
-                                   link_thresholds = the$parameters_config$`CCRI parameters`$LinkThreshold,
+                                   link_thresholds = cparams$`CCRI parameters`$LinkThreshold,
                                    host_density_thresholds = cropland_thresholds,
                                    agg_methods = agg_methods,
-                                   dist_method = the$parameters_config$`CCRI parameters`$DistanceStrategy,
+                                   dist_method = cparams$`CCRI parameters`$DistanceStrategy,
                                    res = resolution)
                     })
 
@@ -611,10 +597,10 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
                   isglobal,
                   geoscale,
                   resolution,
-                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$MeanCC),
-                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Variance),
-                  as.logical(the$parameters_config$`CCRI parameters`$PriorityMaps$Difference),
-                  the$parameters_config$`CCRI parameters`$PriorityMaps$OutDir)
+                  as.logical(cparams$`CCRI parameters`$PriorityMaps$MeanCC),
+                  as.logical(cparams$`CCRI parameters`$PriorityMaps$Variance),
+                  as.logical(cparams$`CCRI parameters`$PriorityMaps$Difference),
+                  cparams$`CCRI parameters`$PriorityMaps$OutDir)
   }
 
   .showmsg("sensitivity analysis completed. Refer to maps for results.")
