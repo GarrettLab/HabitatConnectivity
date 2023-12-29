@@ -93,9 +93,7 @@ connectivity <- function(host,
 
   ri_ind <- risk_indices(grast)
 
-  return(connectivity(.host_map(global,
-                                the$cropharvest_aggtm_crop,
-                                the$cropharvest_agglm_crop),
+  return(connectivity(grast$host_density,
                       ri_ind,
                       global,
                       east = ri_ind[[STR_EAST]],

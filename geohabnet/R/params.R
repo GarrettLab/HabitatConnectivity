@@ -86,7 +86,7 @@ load_parameters <- function(filepath = .param_fp()) {
 #' @export
 #' @seealso [set_reso()]
 reso <- function() {
-  reso <- the$parameters_config$`CCRI parameters`$Resolution
+  reso <- load_parameters()$Resolution
   reso <- if (is.null(reso) || is.na(reso)) {
     24
   } else {
@@ -107,26 +107,6 @@ reso <- function() {
 reset_params <- function() {
   .copy_file(.default_param(), .param_fp())
   return(TRUE)
-}
-
-#' Set resolution value
-#'
-#' Set `resolution` to be used in analysis.
-#' It doesn't modify the `parameters.yaml`
-#' but instead a currently loaded instance of it.
-#' Must be greater than 0 and less than or equal to 48.
-#'
-#' @param value numeric. Resolution value.
-#' @return Invisible TRUE
-#' @export
-#' @examples
-#' set_reso(24)
-#'
-set_reso <- function(value) {
-  stopifnot("Invalid resolution" = is.numeric(value), value >= 0, value <= 48)
-  .loadparam_ifnull()
-  the$parameters_config$`CCRI parameters`$Resolution <- value
-  invisible(TRUE)
 }
 
 .param_fp <- function() {

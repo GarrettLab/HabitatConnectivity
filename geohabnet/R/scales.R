@@ -64,11 +64,12 @@ set_global_scales <- function(value) {
 #' @return Vector. A set of geographical scales
 #' @export
 geoscale_param <- function() {
-  .loadparam_ifnull()
-  xf <- the$parameters_config$`CCRI parameters`$GeoExtent$global
+
+  cparams <- load_parameters()
+  xf <- cparams$`CCRI parameters`$GeoExtent$global
   if (as.logical(xf) == FALSE) {
     stopifnot("Geographical missing in parameters " =
-                length(the$parameters_config$`CCRI parameters`$GeoExtent$customExt) == 4)
+                length(cparams$`CCRI parameters`$GeoExtent$customExt) == 4)
   }
-  return(as.vector(the$parameters_config$`CCRI parameters`$GeoExtent$customExt))
+  return(as.vector(cparams$`CCRI parameters`$GeoExtent$customExt))
 }

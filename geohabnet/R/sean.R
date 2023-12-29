@@ -18,41 +18,21 @@
 }
 
 # Initialize --------------------------------------------------
-#' Only meant to global variables
-#' @keywords internal
-the <- new.env(parent = emptyenv())
-
-the$cropharvest_agglm_crop <- NULL
-the$cropharvest_aggtm_crop <- NULL
-the$gan <- list(sum = list("east" = NULL, "west" = NULL),
-                mean = list("east" = NULL, "west" = NULL))
-
-.resetgan <- function() {
-  the$cropharvest_agglm_crop <- NULL
-  the$cropharvest_aggtm_crop <- NULL
-  the$gan <- list(sum = list("east" = NULL, "west" = NULL),
-                  mean = list("east" = NULL, "west" = NULL))
-  invisible()
-}
-
-.gan_table <- function(row, col, val) {
-  the$gan[[row]][[col]] <- val
-  invisible()
-}
 
 .crop_rast <- function(agg_method, cropharvest_agg, resolution, geo_scale) {
   postagg_rast <- if (agg_method == "sum") {
 
     cropharvest_aggtm <- cropharvest_agg / resolution / resolution # TOTAL MEAN
     # crop cropland area for the given extent
-    the$cropharvest_aggtm_crop <- terra::crop(cropharvest_aggtm, .to_ext(geo_scale))
-    the$cropharvest_aggtm_crop
+    # TODO: redundant call to terra::crop... remove it
+    cropharvest_aggtm_crop <- terra::crop(cropharvest_aggtm, .to_ext(geo_scale))
+    cropharvest_aggtm_crop
   } else if (agg_method == "mean") {
 
     cropharvest_agglm <- cropharvest_agg
     # crop cropland area for the given extent
-    the$cropharvest_agglm_crop <- terra::crop(cropharvest_agglm, .to_ext(geo_scale))
-    the$cropharvest_agglm_crop
+    cropharvest_agglm_crop <- terra::crop(cropharvest_agglm, .to_ext(geo_scale))
+    cropharvest_agglm_crop
   } else {
     stop("aggregation strategy is not supported")
   }
@@ -263,7 +243,7 @@ sean <- function(rast,
     stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
   }
 
-  .resetgan()
+  #.resetgan()
 
   mets <- get_param_metrics()
 
@@ -283,7 +263,7 @@ sean <- function(rast,
     )
 
     model_ret <- list()
-
+    host_densityrasts <- list()
     for (agg_method in agg_methods) {
       density_data <- .init_cd(rast,
                                res,
@@ -300,14 +280,11 @@ sean <- function(rast,
                            crop_cells_above_threshold = density_data$crop_values_at,
                            thresholded_crop_values = density_data$crop_value,
                            distance_matrix = density_data[[STR_DISTANCE_MATRIX]]))
-    }
-    return(model_ret)
-  }
 
-  .addto_tab <- function(hemi) {
-    .gan_table("sum", hemi, the$cropharvest_aggtm_crop)
-    .gan_table("mean", hemi, the$cropharvest_agglm_crop)
-    invisible()
+      host_densityrasts <- c(host_densityrasts, density_data$agg_crop)
+    }
+
+    return(list(model_res = model_ret, host_density = .host_map(host_densityrasts)))
   }
 
   rasters <- .rast_ro(global = global)
@@ -318,16 +295,21 @@ sean <- function(rast,
 
     graster <- .grast_ro()
 
-    graster$east <- sean_geo(global_exts[[STR_EAST]])
-    .addto_tab(STR_EAST)
+    ret <- sean_geo(global_exts[[STR_EAST]])
+    graster$east <- ret$model_res
+    east_density <- ret$host_density
 
-    graster$west <- sean_geo(global_exts[[STR_WEST]])
-    .addto_tab(STR_WEST)
+    ret <- sean_geo(global_exts[[STR_WEST]])
+    graster$west <- ret$model_res
+    west_density <- ret$host_density
 
     rasters$add_gr(graster)
+    rasters$set_hd(terra::merge(east_density, west_density))
 
   } else {
-    rasters$rasters <- sean_geo(geoscale)
+    ret <- sean_geo(geoscale)
+    rasters$rasters <- ret$model_res
+    rasters$set_hd(ret$host_density)
     rasters$global <- FALSE
   }
 
@@ -355,6 +337,7 @@ msean <- function(...,
                         outdir = outdir)
 
   return(new("GeoNetwork",
+             host_density = grasters$host_density,
              rasters = grasters,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,
@@ -388,6 +371,11 @@ msean <- function(...,
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
+  # host density is common for all the param combinations,
+  # it will be memory extensive to store it for each param combination
+  # thus, we will store it only once assuming it is same
+  # this was verified at time of implementation using terra::CompareGeom
+  newrast$set_hd(rasters[[1]]$host_density)
 
   return(newrast)
 }
@@ -477,6 +465,7 @@ sa_onrasters <- function(rast,
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
+  newrast$set_hd(rasters[[1]]$host_density)
 
   return(newrast)
 }
@@ -504,6 +493,7 @@ msean_onrast <- function(global = TRUE,
                         outdir)
 
   return(new("GeoNetwork",
+             host_density = grast@host_density,
              rasters = grast,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,
@@ -559,7 +549,7 @@ msean_onrast <- function(global = TRUE,
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   #.resetglobals()
-  .resetgan()
+  #.resetgan()
   cparams <- load_parameters()
 
   # cutoff adjacency matrix
@@ -590,6 +580,8 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
+  newrast$set_hd(rasters[[1]]$host_density)
+
   #risk_indices <- risk_indices(newrast)
 
   gmap <- if (maps == TRUE) {
@@ -607,8 +599,10 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   if (alert == TRUE) {
     beepr::beep(2)
   }
+
   ret <- if (maps == TRUE) {
     new("GeoNetwork",
+        host_density = newrast$host_density,
         rasters = newrast,
         me_rast = gmap@me_rast,
         me_out = gmap@me_out,
@@ -620,5 +614,6 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
     new("GeoNetwork",
         rasters = newrast)
   }
+
   return(ret)
 }

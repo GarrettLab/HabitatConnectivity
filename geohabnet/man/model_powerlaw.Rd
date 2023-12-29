@@ -8,23 +8,23 @@
 model_powerlaw(
   beta,
   link_threshold,
-  distance_matrix = the$distance_matrix,
+  distance_matrix = NULL,
   thresholded_crop_values,
   adj_mat = NULL,
   crop_raster,
   crop_cells_above_threshold,
-  metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw
+  metrics = NULL
 )
 
 model_neg_exp(
   gamma_val,
   link_threshold,
-  distance_matrix = the$distance_matrix,
+  distance_matrix = NULL,
   thresholded_crop_values,
   adj_mat = NULL,
   crop_raster,
   crop_cells_above_threshold,
-  metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw
+  metrics = NULL
 )
 }
 \arguments{

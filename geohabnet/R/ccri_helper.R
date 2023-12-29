@@ -12,32 +12,13 @@ library(yaml)
   stopifnot("Require argument of type SpatRaster" = methods::isClass(x, "SpatRaster"))
 }
 
-.host_map <- function(global, x, y) {
-
-  .cal <- function(a, b) {
-    if (!is.null(a) &&
-        is.null(b)) {
-
-      terra::sum(a, b, na.rm = TRUE) / 2
-
-    } else if (!is.null(a)) {
-      a
-    } else if (b) {
-      b
-    } else {
-
-      stop("No crop harvest data found")
-
-    }
+.host_map <- function(...) {
+  if (length(...) == 1) {
+    return(...[[1]])
   }
-
-  if (global == TRUE) {
-    sumx <- terra::merge(the$gan$sum$east, the$gan$sum$west, na.rm = TRUE)
-    meanx <- terra::merge(the$gan$mean$east, the$gan$mean$west, na.rm = TRUE)
-    .cal(sumx, meanx)
-  } else {
-    .cal(x, y)
-  }
+  # assumes only 2 elements, since only 2 agg methods are supported,
+  # i.e. sum and mean. Take mean if both are present, else take whatever.
+  sum(...[[1]], ...[[2]], na.rm = TRUE) / 2
 }
 
 # Meta-programming approach with eval_tidy

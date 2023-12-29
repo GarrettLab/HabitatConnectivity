@@ -158,9 +158,6 @@ The results should be interpreted in accordance to the values of other parameter
 
     ```{r reso}
     reso()
-
-    # setting resolutin via here will not persist the value but instead will assign it to current environment until next load_parameters() or set_parameters()
-    set_reso(12)
     ```
 
 6.  Side effect - Calculates, produces and plots the maps which is same as `sensitivity_analysis()` [sensitivity_analysis()]. An alternative is `sean()` which can be called to obtain the results from the function call and has no side effects.

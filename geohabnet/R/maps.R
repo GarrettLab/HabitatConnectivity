@@ -24,7 +24,8 @@ ccri_mean <- function(indices,
     mean_idx <- terra::app(terra::rast(ext_indices), sum, na.rm = TRUE) / length(ext_indices)
     mean_index_vals <- terra::values(mean_idx)
     zeroid <- which(mean_index_vals == 0)
-    mean_idx[zeroid] <- NaN
+    mean_idx[zeroid] <- NA
+
     mean_idx
   }
 
