@@ -4,35 +4,32 @@ Version: 1.0.1
 Date: 2023-10-29
 Authors@R: c(
     person("Krishna", "Keshav", , "kkeshav@ufl.edu", role = c("aut", "cre")),
+    person("Aaron", "Plex", , "plexaaron@ufl.edu", role = "aut",
+           comment = c(ORCID = "0000-0001-7317-3090")),
     person("Garrett", "Lab", , "karengarrett@ufl.edu", role = "ctb",
            comment = "https://garrettlab.com"),
     person("Karen", "Garrett", , "karengarrett@ufl.edu", role = "aut",
            comment = c(ORCID = "0000-0002-6578-1616")),
-    person("Aaron", "Plex", , "plexaaron@ufl.edu", role = "aut",
-           comment = c(ORCID = "0000-0001-7317-3090")),
     person("University of Florida", role = c("cph", "fnd"),
            comment = "https://www.ufl.edu")
   )
 Description: 
-    The geohabnet package is designed to perform a geographical or spatially explicit risk analysis of habitat connectivity. Xing et al (2021) <doi:10.1093/biosci/biaa067> proposed the concept of cropland connectivity as a risk factor for plant pathogen or pest invasions. Since the functions in geohabnet were initially developed thinking on cropland connectivity, users are recommended to first be familiar with the concept by looking at the Xing et al paper. In a nutshell, a cropland connectivity analysis combines information from maps of cropland density, estimates the likelihood of pathogen movement between cropland locations in the area of interest, and applies network analysis to calculate the connectivity of cropland locations.
-    The functions of geohabnet are designed to conduct a cropland connectivity analysis relying on geographic parameters (spatial resolution and spatial extent), dispersal parameters (in two commonly used dispersal kernels: inverse power law and negative exponential models), and network parameters (link weight thresholds and network metrics).
+    The geohabnet package is designed to perform a geographically or spatially explicit risk analysis of habitat connectivity. Xing et al (2021) <doi:10.1093/biosci/biaa067> proposed the concept of cropland connectivity as a risk factor for plant pathogen or pest invasions. As the functions in geohabnet were initially developed thinking on cropland connectivity, users are recommended to first be familiar with the concept by looking at the Xing et al paper. In a nutshell, a cropland connectivity analysis combines information from maps of cropland density, estimates the relative likelihood of pathogen movement between cropland locations in the area of interest, and applies network analysis to calculate the connectivity of cropland locations.
+    The functions of geohabnet are built to conduct a cropland connectivity analysis relying on geographic parameters (spatial resolution and spatial extent), dispersal parameters (in two commonly used dispersal kernels: inverse power law and negative exponential models), and network parameters (link weight thresholds and network metrics).
     The functionality and main extensions provided by the functions in geohabnet to cropland connectivity analysis are 
-    The geohabnet package allows R users to easily calculate the connectivity of locations in a landscape using a single function, such as sensitivity_analysis() or msean().
-    As backbone datasets, the geohabnet package supports the use of two publicly available global datasets to calculate cropland density. The backbone datasets in the geohabnet package include crop distribution maps from Monfreda, C., N. Ramankutty, and J. A. Foley (2008) <doi:10.1029/2007gb002947> "Farming the planet: 2. Geographic distribution of crop areas, yields, physiological types, and net primary production in the year 2000, Global Biogeochem. Cycles, 22, GB1022" and International Food Policy Research Institute (2019) <doi:10.7910/DVN/PRFF8V> "Global Spatially-Disaggregated Crop Production Statistics Data for 2010 Version 2.0, Harvard Dataverse, V4". Users can also provide any other geographic dataset that represents host density.
-    Because the geohabnet package allows R users to provide maps of cropland density (as originally in Xing et al (2021)), host landscape density (representing the geographic distribution of either crops or wild species), or habitat distribution (such as host landscape density adjusted by climate suitability) as inputs, we propose the term habitat connectivity.
-    The geohabnet package allows R users to customize parameter values in the habitat connectivity analysis, facilitating context-specific (pathogen- or pest-specific) analyses.
-    The geohabnet package allows users to automatically visualize maps of the habitat connectivity of locations resulting from a sensitivity analysis across all customized parameter combinations.
+    a) The geohabnet package allows R users to easily calculate the connectivity of locations in a landscape using a single function, such as sensitivity_analysis() or msean().
+    b) As backbone datasets, the geohabnet package supports the use of two publicly available global datasets to calculate cropland density. The backbone datasets in the geohabnet package include crop distribution maps from Monfreda, C., N. Ramankutty, and J. A. Foley (2008) <doi:10.1029/2007gb002947> "Farming the planet: 2. Geographic distribution of crop areas, yields, physiological types, and net primary production in the year 2000, Global Biogeochem. Cycles, 22, GB1022" and International Food Policy Research Institute (2019) <doi:10.7910/DVN/PRFF8V> "Global Spatially-Disaggregated Crop Production Statistics Data for 2010 Version 2.0, Harvard Dataverse, V4". Users can also provide any other geographic dataset that represents host density.
+    c) Because the geohabnet package allows R users to provide maps of cropland density (as originally in Xing et al (2021)), host landscape density (representing the geographic distribution of either crops or wild species), or habitat distribution (such as host landscape density adjusted by climate suitability) as inputs, we propose the term habitat connectivity.
+    d) The geohabnet package allows R users to customize parameter values in the habitat connectivity analysis, facilitating context-specific (pathogen- or pest-specific) analyses.
+    e) The geohabnet package allows users to automatically visualize maps of the habitat connectivity of locations resulting from a sensitivity analysis across all customized parameter combinations.
     333 Plex left here
     The primary function is sean() and is indicative of how sensitive the risk analysis is to parameters using kernel models.
-    The Package currently supports crops sourced from Monfreda, C., N. Ramankutty, and J. A. Foley (2008) <doi:10.1029/2007gb002947> "Farming the planet: 2. Geographic distribution of crop areas, yields, physiological types, and net primary production in the year 2000, Global Biogeochem. Cycles, 22, GB1022" and
-    International Food Policy Research Institute (2019) <doi:10.7910/DVN/PRFF8V> "Global Spatially-Disaggregated Crop Production Statistics Data for 2010 Version 2.0, Harvard Dataverse, V4".
     This analysis produces 3 maps - mean, variance, and difference for the crop risk index. It applies distance functions and graph operations on a network to calculate risk index.
     There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
     Refer to vignettes.
     sean() will set some global variables which can be accessed using $ prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
     parameters.yaml stores the parameters and values and can be accessed using get_parameters(). Refer it's usage.
-    The objective of this package is to support risk analysis using cropland connectivity on 10 parameters -
-    host crops, density threshold, aggregation and distance method, resolution, geographic extent, link threshold, kernel models, network metrics and maps.
+    The objective of this package is to support risk analysis using cropland connectivity on 10 parameters.
     These parameters serves as an input and are used different phases of analysis workflow.
 License: GPL-3
 Encoding: UTF-8
