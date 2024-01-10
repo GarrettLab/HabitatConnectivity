@@ -547,12 +547,12 @@ msean_onrast <- function(global = TRUE,
 #' @title Sensitivity analysis for habitat connectivity
 #'
 #' @description
-#' This function runs sensitivity analysis on habitat connectivity calculated based on every combination of selected parameters.
+#' This function runs a sensitivity analysis on habitat connectivity calculated based on every combination of selected parameters.
 #' Parameter values in [sensitivity_analysis()] should be provided using the function [set_parameters()]. 
 #' If no parameters are provided, then the [sensitivity_analysis()] function will run the sensitivity analysis using a default set of parameter values, 
 #' which is accessible through the function [get_parameters()].
-#' To customize parameter values, open the Parameters.yaml that was automatically downloaded when geohabnet was installed, 
-#' change, remove, or add parameter values directly in the Parameters.yaml and save it. 
+#' To customize parameter values, open the parameters.yaml that was automatically downloaded when geohabnet was installed, 
+#' change, remove, or add parameter values directly in the parameters.yaml and save it. 
 #' Once the values have been changed manually, run geohabnet::set_parameters() to set the new parameter values, which will return TRUE if the parameters were set successfully.
 #'
 #' @details
@@ -561,11 +561,11 @@ msean_onrast <- function(global = TRUE,
 #' This function also plots maps of the outcomes automatically, but it will suppress maps for outcomes if `maps = FALSE` or
 #' [interactive()] is `FALSE`. 
 #' The returned object is of class `GeoNetwork`, which contains two types of outcomes.
-#' One outcome type corresponds to spatRasters representing the habitat connectivity. 
+#' One outcome type corresponds to spatRasters representing the maps of habitat connectivity. 
 #' The second type corresponds to adjacency matrices used to calculate the habitat connectivity,
 #' where columns and rows represent locations in the maps and 
 #' entries are the relative likelihood of pathogen or pest movement between each pair of nodes.
-#' @param maps logical. `TRUE` if maps are to be plotted, `FALSE` otherwise
+#' @param maps logical. `TRUE` if maps of outcomes are to be plotted, `FALSE` otherwise. If `TRUE`, three maps are possible: a map of mean habitat connectivity, a map of variance of habitat connectivity, and a map of the difference between the ranks in habitat connectivity and habitat density.
 #' @param alert logical. `TRUE` if a beep sound is to be played once the analysis is completed, `FALSE` otherwise
 #' @return GeoNetwork.
 #' Errors are not handled.
