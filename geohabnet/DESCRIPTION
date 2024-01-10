@@ -22,15 +22,15 @@ Description:
     c) Because the geohabnet package allows R users to provide maps of cropland density (as originally in Xing et al (2021)), host landscape density (representing the geographic distribution of either crops or wild species), or habitat distribution (such as host landscape density adjusted by climate suitability) as inputs, we propose the term habitat connectivity.
     d) The geohabnet package allows R users to customize parameter values in the habitat connectivity analysis, facilitating context-specific (pathogen- or pest-specific) analyses.
     e) The geohabnet package allows users to automatically visualize maps of the habitat connectivity of locations resulting from a sensitivity analysis across all customized parameter combinations.
-    333 Plex left here
-    The primary function is sean() and is indicative of how sensitive the risk analysis is to parameters using kernel models.
-    This analysis produces 3 maps - mean, variance, and difference for the crop risk index. It applies distance functions and graph operations on a network to calculate risk index.
-    There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases.
-    Refer to vignettes.
-    sean() will set some global variables which can be accessed using $ prefix. These values are propagated to other functions for performing operations such as distance matrix calculation.
-    parameters.yaml stores the parameters and values and can be accessed using get_parameters(). Refer it's usage.
-    The objective of this package is to support risk analysis using cropland connectivity on 10 parameters.
-    These parameters serves as an input and are used different phases of analysis workflow.
+    The primary function is sean() and sensitivity analysis().
+    Most functions in geohabnet provide as three main outcomes: i) A map of mean habitat connectivity across parameters selected by the user, ii) a map of variance of habitat connectivity across the selected parameters, and iii) a map of the difference between the ranks of habitat connectivity and habitat density.
+    Each function can be used to generate these maps as 'final' outcomes. 
+    Each function can also provide intermediate outcomes, such as the adjacency matrices built to perform the analysis, which can be used in other network analysis.
+    Refer to vignettes at https://cran.r-project.org/web/packages/geohabnet/vignettes/analysis.html to see examples of each function and how to access each of these outcome types.
+    For instance, sean() will set some global variables which can be accessed using $ prefix. 
+    These values are propagated to other functions for performing operations, such as distance matrix calculation.
+    To change parameter values, the file called parameters.yaml stores the parameters and their values, can be accessed using get_parameters() and set new parameter values with set_parameters().
+    Users can modify up to ten parameters.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
