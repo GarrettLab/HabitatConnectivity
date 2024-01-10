@@ -30,7 +30,7 @@ By default, sensitivity_analysis() runs a sensitivity analysis on a global exten
 This function also plots maps of the outcomes automatically, but it will suppress maps for outcomes if \code{maps = FALSE} or
 \code{\link[=interactive]{interactive()}} is \code{FALSE}.
 The returned object is of class \code{GeoNetwork}, which contains two types of outcomes.
-One outcome type corresponds to spatRasters representing the habitat connectivity.
+One outcome type corresponds to spatRasters representing the maps of habitat connectivity.
 The second type corresponds to adjacency matrices used to calculate the habitat connectivity,
 where columns and rows represent locations in the maps and
 entries are the relative likelihood of pathogen or pest movement between each pair of nodes.
