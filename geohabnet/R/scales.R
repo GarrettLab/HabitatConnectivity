@@ -23,7 +23,13 @@ global_scales <- function() {
 }
 
 .global_ext <- function(scales = global_scales()) {
-  return(scales[[STR_EAST]] + scales[[STR_WEST]])
+  # xmin, xmax, ymin, ymax
+  xmin <- min(scales[[STR_EAST]][1], scales[[STR_WEST]][1])
+  xmax <- max(scales[[STR_EAST]][2], scales[[STR_WEST]][2])
+  ymin <- min(scales[[STR_EAST]][3], scales[[STR_WEST]][3])
+  ymax <- max(scales[[STR_EAST]][4], scales[[STR_WEST]][4])
+
+  return(c(xmin, xmax, ymin, ymax))
 }
 
 #' Set global geographical extent
@@ -58,11 +64,12 @@ set_global_scales <- function(value) {
 #' @return Vector. A set of geographical scales
 #' @export
 geoscale_param <- function() {
-  .loadparam_ifnull()
-  xf <- the$parameters_config$`CCRI parameters`$GeoExtent$global
+
+  cparams <- load_parameters()
+  xf <- cparams$`CCRI parameters`$GeoExtent$global
   if (as.logical(xf) == FALSE) {
     stopifnot("Geographical missing in parameters " =
-                length(the$parameters_config$`CCRI parameters`$GeoExtent$customExt) == 4)
+                length(cparams$`CCRI parameters`$GeoExtent$customExt) == 4)
   }
-  return(as.vector(the$parameters_config$`CCRI parameters`$GeoExtent$customExt))
+  return(as.vector(cparams$`CCRI parameters`$GeoExtent$customExt))
 }

@@ -49,7 +49,9 @@ Imports:
     beepr (>= 1.3),
     rnaturalearth (>= 0.3.3),
     tools,
-    methods
+    methods,
+    future.apply (>= 1.11.0),
+    future (>= 1.33.0)
 Suggests: 
     devtools,
     knitr,

@@ -29,9 +29,9 @@ Default value is TRUE for all logical arguments"><meta property="og:image" conte
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using cropland connectivity</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
   </div>
 </li>
 <li class="nav-item">
@@ -67,9 +67,9 @@ Default value is <code>TRUE</code> for all logical arguments</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">connectivity</span><span class="op">(</span></span>
-<span>  <span class="va">indexes</span>,</span>
+<span>  <span class="va">grast</span>,</span>
 <span>  global <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  <span class="va">geoscale</span>,</span>
+<span>  geoscale <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  res <span class="op">=</span> <span class="fu"><a href="reso.html">reso</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  pmean <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  pvar <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -80,8 +80,8 @@ Default value is <code>TRUE</code> for all logical arguments</p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>indexes</dt>
-<dd><p>list of rasters. See details.</p></dd>
+    <dl><dt>grast</dt>
+<dd><p>GeoRasters. Collection of risk indices.</p></dd>
 
 
 <dt>global</dt>
@@ -90,7 +90,7 @@ When <code>TRUE</code>, <code>geoscale</code> is ignored. Default is <code>TRUE<
 
 
 <dt>geoscale</dt>
-<dd><p>vector. geographical scale</p></dd>
+<dd><p>Vector. geographical scale. Default is <code>NULL</code>.</p></dd>
 
 
 <dt>res</dt>
@@ -118,15 +118,17 @@ Default is <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Invisible NULL.</p>
+<p>Gmap. See details.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>indexes</code> are actually risk resulting from operations on crop's raster and
+    <p><code>indexes</code> are actually risk indices representing in the form of <code>spatRaster</code>
+resulting from operations on crop's raster and
 parameters provided in either <code>parameters.yaml</code> or <code><a href="sean.html">sean()</a></code>.</p>
 <p>It will save all the opted plots using - <code>pmean</code>, <code>pvar</code> and <code>pdiff</code>.
 File will be saved in provided value of <code>outdir</code> or  <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>.If <code><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive()</a></code> is <code>TRUE</code>,
-then plots can be seen in active plot window. E.g. Rstudio</p>
+then plots can be seen in active plot window. E.g. Rstudio. The maps are plotted using <code>SpatRaster</code> object.
+These objects are available as a return value of this function.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -150,7 +152,7 @@ R package version 1.7-46, <a href="https://CRAN.R-project.org/package=terra" cla
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer></div>

@@ -24,6 +24,7 @@ setClass("Gmap",
 setGeneric("setmaps", function(x, me, vari, dif) {
   standardGeneric("setmaps")
 })
+setGeneric("host_density<-", function(x, value) standardGeneric("host_density<-"))
 
 
 #' @rdname Gmap-class
@@ -67,14 +68,26 @@ setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
 #' @slot rasters A list of `GeoRasters` objects.
 #' @export
 setClass("GeoNetwork", contains = "Gmap",
-         slots = list(rasters = "ANY"),
-         prototype = list(me_rast = NA,
+         slots = list(host_density = "ANY", rasters = "ANY"),
+         prototype = list(host_density = NA,
+                          me_rast = NA,
                           me_out = NA_character_,
                           diff_rast = NA,
                           diff_out = NA_character_,
                           var_rast = NA,
                           var_out = NA_character_,
                           rasters = NA))
+
+#' @rdname GeoNetwork-class
+#' @param x GeoNetwork.
+#' @param value SpatRaster.
+#' @returns GeoNetwork.
+#' @export
+setMethod("host_density<-", "GeoNetwork", function(x, value) {
+  stopifnot("value must be of type SpatRaster" = class(value) == "SpatRaster")
+  x@host_density <- value
+  x
+})
 
 .indices <- function(crop_rasters) {
   risk_indices <- sapply(crop_rasters, function(x) x@indices)

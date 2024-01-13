@@ -40,6 +40,24 @@
     <loc>https://garrettlab.github.io/CroplandConnectivity/news/index.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/GeoModel-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/GeoNetwork-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/GeoRasters-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/GlobalRast-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/Gmap-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/RiskMap-class.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/CroplandConnectivity/reference/STR_BETWEENNESS.html</loc>
   </url>
   <url>
@@ -109,6 +127,9 @@
     <loc>https://garrettlab.github.io/CroplandConnectivity/reference/global_scales.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/gplot.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/CroplandConnectivity/reference/index.html</loc>
   </url>
   <url>
@@ -128,6 +149,9 @@
   </url>
   <url>
     <loc>https://garrettlab.github.io/CroplandConnectivity/reference/reso.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/CroplandConnectivity/reference/risk_indices.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/CroplandConnectivity/reference/sa_onrasters.html</loc>

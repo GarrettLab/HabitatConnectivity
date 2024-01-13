@@ -40,4 +40,8 @@ STR_EAST <- "east"
 #' @keywords internal
 STR_WEST <- "west"
 
+#' global variable containing string. Not intended to modify.
+#' @keywords internal
+STR_DISTANCE_MATRIX <- "distance_matrix"
+
 # nolint end

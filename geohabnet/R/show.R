@@ -29,20 +29,26 @@ setMethod("show", "GeoModel",
 
 setMethod("show", "GeoNetwork",
           function(object) {
+            pstr <-  " (nrow, ncol)"
+
             cat("class            : ", "GeoNetwork", "\n")
+            if (!is.null(object@host_density)) {
+              cat("host density     : ", terra::nrow(object@host_density), ", ",
+                  terra::ncol(object@host_density), pstr, "\n")
+            }
             if (!is.null(object@me_rast)) {
               cat("mean             : ", object@me_out, "\n")
               cat("mean raster      : ", terra::nrow(object@me_rast), ", ",
-                  terra::ncol(object@me_rast), "(nrow, ncol)\n")
+                  terra::ncol(object@me_rast), pstr, "\n")
             }
             if (!is.null(object@var_rast)) {
               cat("variance          : ", object@var_out, "\n")
               cat("variance raster   : ", terra::nrow(object@var_rast), ", ",
-                  terra::ncol(object@var_rast), "(nrow, ncol)\n")
+                  terra::ncol(object@var_rast), pstr, "\n")
             }
             if (!is.null(object@diff_rast)) {
               cat("difference        : ", object@diff_out, "\n")
               cat("difference raster : ", terra::nrow(object@diff_rast),
-                  terra::ncol(object@diff_rast), "(nrow, ncol)\n")
+                  terra::ncol(object@diff_rast), pstr, "\n")
             }
           })

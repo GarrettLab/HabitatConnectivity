@@ -86,7 +86,7 @@ load_parameters <- function(filepath = .param_fp()) {
 #' @export
 #' @seealso [set_reso()]
 reso <- function() {
-  reso <- the$parameters_config$`CCRI parameters`$Resolution
+  reso <- load_parameters()$Resolution
   reso <- if (is.null(reso) || is.na(reso)) {
     24
   } else {
@@ -109,24 +109,27 @@ reset_params <- function() {
   return(TRUE)
 }
 
-#' Set resolution value
+#' Dispersal kernels
 #'
-#' Set `resolution` to be used in analysis.
-#' It doesn't modify the `parameters.yaml`
-#' but instead a currently loaded instance of it.
-#' Must be greater than 0 and less than or equal to 48.
 #'
-#' @param value numeric. Resolution value.
-#' @return Invisible TRUE
+#' -`[inv_powerlaw()]` Get parameters and values pertaining to the inverse power law model.
+#' -`[neg_exp()]` Get parameters and values pertaining to the negative exponential model.
+#'
+#' @param params Object.[load_parameters()] by default.
+#' @return List with parameters and values.
 #' @export
-#' @examples
-#' set_reso(24)
-#'
-set_reso <- function(value) {
-  stopifnot("Invalid resolution" = is.numeric(value), value >= 0, value <= 48)
-  .loadparam_ifnull()
-  the$parameters_config$`CCRI parameters`$Resolution <- value
-  invisible(TRUE)
+#' @rdname Dispersal-kernels
+inv_powerlaw <- function(params = load_parameters()) {
+  return(list(beta = params$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta,
+              metrics = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$metrics,
+              weights = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$weights))
+}
+
+#' @rdname Dispersal-kernels
+neg_exp <- function(params = load_parameters()) {
+  return(list(gamma = params$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma,
+              metrics = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$metrics,
+              weights = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$weights))
 }
 
 .param_fp <- function() {

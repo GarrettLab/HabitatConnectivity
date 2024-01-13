@@ -4,29 +4,34 @@
 \alias{ccri_diff}
 \title{Calculate difference map}
 \usage{
-ccri_diff(rast, x, y, global, geoscale, res = reso(), outdir = tempdir())
+ccri_diff(x, y, global, geoscale, res = reso(), outdir = tempdir())
 }
 \arguments{
-\item{rast}{A raster object for mean index raster difference}
+\item{x}{SpatRaster.}
 
-\item{x}{A raster object for cropland harvest}
+\item{y}{SpatRaster.}
 
-\item{y}{A raster object for cropland harvest}
+\item{global}{Logical. \code{TRUE} if global analysis is desired, \code{FALSE} otherwise.
+\code{east} and \code{west} are required when \code{TRUE}.}
 
-\item{global}{logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
-When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
+\item{geoscale}{Numeric vector. \code{x} will be cropped to this extent.}
 
-\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
-
-\item{res}{numeric. map resolution.}
+\item{res}{Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
+Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
+
+\item{rast}{SpatRaster. A template raster to hold the cell-wise difference}
 }
 \value{
-RiskMap. It contains result in the form of \code{SpatRaster} objects
+RiskMap. Contains result in the form of \code{SpatRaster} objects
 and file path of the saved maps.
 }
 \description{
 This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
+}
+\details{
+Ideally, the function is tested to yield desired results when
+\code{length(which(y[] > 0)) > length(which(x[] > 0))}.
 }
