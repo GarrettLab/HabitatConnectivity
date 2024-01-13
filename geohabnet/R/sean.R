@@ -340,7 +340,6 @@ sean <- function(rast,
     rasters$global <- FALSE
   }
 
-  cat("sean done\n")
   return(rasters)
 }
 
