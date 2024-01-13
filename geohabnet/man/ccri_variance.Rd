@@ -20,7 +20,7 @@ ccri_variance(
 
 \item{rast}{SpatRaster. Template for variance output}
 
-\item{global}{Logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+\item{global}{Logical. \code{TRUE} if global analysis is desired, \code{FALSE} otherwise.
 \code{east} and \code{west} are required when \code{TRUE}.}
 
 \item{east}{SpatRaster. Collection of risk indices on eastern extent.}
@@ -30,7 +30,7 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
 
-\item{res}{Numeric. Map resolution. This value is used in aggregtion and dis-aggregation operation.
+\item{res}{Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
 Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.

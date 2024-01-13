@@ -109,6 +109,29 @@ reset_params <- function() {
   return(TRUE)
 }
 
+#' Dispersal kernels
+#'
+#'
+#' -`[inv_powerlaw()]` Get parameters and values pertaining to the inverse power law model.
+#' -`[neg_exp()]` Get parameters and values pertaining to the negative exponential model.
+#'
+#' @param params Object.[load_parameters()] by default.
+#' @return List with parameters and values.
+#' @export
+#' @rdname Dispersal-kernels
+inv_powerlaw <- function(params = load_parameters()) {
+  return(list(beta = params$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta,
+              metrics = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$metrics,
+              weights = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$weights))
+}
+
+#' @rdname Dispersal-kernels
+neg_exp <- function(params = load_parameters()) {
+  return(list(gamma = params$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma,
+              metrics = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$metrics,
+              weights = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$weights))
+}
+
 .param_fp <- function() {
 
   cfp <-  tools::R_user_dir("geohabnet", which = "config")

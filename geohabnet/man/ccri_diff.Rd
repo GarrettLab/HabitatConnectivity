@@ -11,12 +11,12 @@ ccri_diff(x, y, global, geoscale, res = reso(), outdir = tempdir())
 
 \item{y}{SpatRaster.}
 
-\item{global}{Logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+\item{global}{Logical. \code{TRUE} if global analysis is desired, \code{FALSE} otherwise.
 \code{east} and \code{west} are required when \code{TRUE}.}
 
 \item{geoscale}{Numeric vector. \code{x} will be cropped to this extent.}
 
-\item{res}{Numeric. Map resolution. This value is used in aggregtion and dis-aggregation operation.
+\item{res}{Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
 Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.

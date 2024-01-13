@@ -17,6 +17,7 @@ ccri_mean <- function(indices,
                       east = NULL,
                       west = NULL,
                       geoscale = NULL,
+                      res = reso(),
                       plt = TRUE,
                       outdir = tempdir()) {
 
@@ -26,7 +27,7 @@ ccri_mean <- function(indices,
     zeroid <- which(mean_index_vals == 0)
     mean_idx[zeroid] <- NA
 
-    mean_idx
+    return(mean_idx)
   }
 
   geoext <- geoscale
@@ -47,9 +48,11 @@ ccri_mean <- function(indices,
     .cal_mean(indices)
   }
 
+  dis_mean_id <- terra::disagg(mean_index, fact = c(res, res))
+  toplot <- dis_mean_id + .cal_zerorast(dis_mean_id, res)
 
   plt_ret <- if (plt == TRUE) {
-    .plot(mean_index,
+    .plot(toplot,
           paste("Mean cropland connectivity risk index\n"),
           global,
           geoext,
@@ -175,7 +178,7 @@ ccri_diff <- function(x,
     # zero means the importance of cropland doesn't change.
     rankdifferent_w <-
       rank(meanindexcell_w * (-1)) - rank(meantotallandcell_w * (-1))
-    scaled_rast[] <- NaN
+    scaled_rast[] <- NA
     scaled_rast[][ccri_id] <- rankdifferent_w
 
     maxrank_w <- max(abs(rankdifferent_w))

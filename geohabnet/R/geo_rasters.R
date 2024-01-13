@@ -50,7 +50,8 @@
                             global_rast <<- c(global_rast, x)
                           },
                           set_hd = function(x) {
-                            stopifnot("Host density must be of type SpatRaster" = class(x) == "SpatRaster")
+                            stopifnot("Host density must be of type SpatRaster" = class(x) == "SpatRaster" |
+                                      class(x) == "PackedSpatRaster")
                             host_density <<- x
                           }
                         ))

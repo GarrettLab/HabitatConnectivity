@@ -12,11 +12,15 @@ sean(
   agg_methods = c("sum", "mean"),
   dist_method = "geodesic",
   link_threshold = 0,
-  host_density_threshold = 0,
-  res = reso()
+  hd_threshold = 0,
+  res = reso(),
+  inv_pl = list(beta = c(0.5, 1, 1.5), metrics = c("betweeness", "NODE_STRENGTH",
+    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20)),
+  neg_exp = list(beta = c(0.05, 1, 0.2, 0.3), metrics = c("betweeness", "NODE_STRENGTH",
+    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20))
 )
 
-msean(..., global = TRUE, geoscale = NULL, res = reso(), outdir = tempdir())
+msean(..., outdir = tempdir())
 }
 \arguments{
 \item{rast}{Raster object which will be used in analysis.}
@@ -27,22 +31,18 @@ Default is \code{TRUE}}
 \item{geoscale}{Numeric vector. Geographical coordinates
 in the form of c(Xmin, Xmax, Ymin, Ymax)}
 
-\item{agg_methods}{vector. Aggregation methods}
-
-\item{dist_method}{Character. One of the values from \code{\link[=dist_methods]{dist_methods()}}}
-
 \item{link_threshold}{Numeric. A threshold value for link}
 
-\item{host_density_threshold}{Numeric. A host density threshold value}
+\item{hd_threshold}{Numeric. A host density threshold value}
 
-\item{res}{Numeric.
-resolution at which operations will run.
-Default is \code{\link[=reso]{reso()}}}
+\item{inv_pl}{List. A named list of parameters for inverse power law. See \code{\link[=inv_powerlaw]{inv_powerlaw()}} for details.}
 
 \item{...}{arguments passed to \code{\link[=sean]{sean()}}}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
+
+\item{inv_ne}{List. A named list of parameters for inverse negative exponential. See \code{\link[=neg_exp]{neg_exp()}} for details.}
 }
 \value{
 GeoRasters.

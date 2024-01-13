@@ -20,26 +20,6 @@ supported_metrics <- function() {
            STR_PAGE_RANK))
 }
 
-#' Get metrics from parameters
-#'
-#' Get metrics and parameters stored in `parameters.yaml`.
-#'
-#' @param params R object of [load_parameters()]. Default is `load_parameters()`.
-#'
-#' @return List. List of metrics - parameters and values. See usage.
-#'
-#' @examples
-#' # Get metrics from parameters
-#' get_param_metrics()
-#' get_param_metrics(load_parameters())
-#'
-#' @export
-get_param_metrics <- function(params = load_parameters()) {
-
-  return(list(pl = .refined_mets(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw),
-              ne = .refined_mets(params$`CCRI parameters`$NetworkMetrics$NegativeExponential)))
-}
-
 #' Calculation on network matrix.
 #'
 #' @description
@@ -188,15 +168,17 @@ pagerank <- function(crop_dm, we) {
   stopifnot("Weights or metrics missing. Each metric should have a weight" = length(me) == length(we))
 }
 
-.validate_metrics <- function(metrics) {
-  # check if weights are valid
-  .validate_weights(metrics[[1]], metrics[[2]])
+.validate_metrics <- function(me, we) {
 
-  not_sup <- metrics[[1]][!metrics[[1]] %in% supported_metrics()]
+  lower_me <- tolower(me)
+  # check if weights are valid
+  .validate_weights(lower_me, we)
+
+  not_sup <- lower_me[!lower_me %in% supported_metrics()]
   if (length(not_sup) > 0) {
     stop(paste("Following metrics are not supported: ", paste(not_sup, collapse = ", ")))
   }
-  invisible()
+  return(lower_me)
 }
 
 .per_to_real <- function(we) {
@@ -214,11 +196,3 @@ pagerank <- function(crop_dm, we) {
   return(weight_vec)
 }
 
-.refined_mets <- function(mets) {
-  mets <- lapply(mets, tolower)
-  mets[["weights"]] <- as.numeric(mets[["weights"]])
-  if (!is.null(mets)) {
-    .validate_metrics(mets)
-  }
-  return(mets)
-}

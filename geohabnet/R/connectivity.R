@@ -3,15 +3,15 @@
 #' Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
 #' Currently, the settings for plot cannot be customized.
 #' Default value is `TRUE` for all logical arguments
-#' @param host SpatRaster. Host density map or raster.
+#' @param host SpatRaster. Host density map aka `SpatRaster` object
 #' @param indices SpatRaster. Collection of risk indices.
-#' @param global Logical. `TRUE` if global analysis is required, `FALSE` otherwise.
+#' @param global Logical. `TRUE` if global analysis is desired, `FALSE` otherwise.
 #' `east` and `west` are required when `TRUE`.
 #' @param east SpatRaster. Collection of risk indices on eastern extent.
 #' @param west SpatRaster. Collection of risk indices on western extent.
 #' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
 #' @param geoscale Vector. geographical scale. Default is `NULL`.
-#' @param res Numeric. Map resolution. This value is used in aggregtion and dis-aggregation operation.
+#' @param res Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
 #' Default is [reso()].
 #' @param pmean Logical. `TRUE` if map of mean should be plotted, `FALSE` otherwise.
 #' @param pvar Logical. `TRUE` if variance map should be plotted, `FALSE` otherwise.
@@ -51,7 +51,7 @@ connectivity <- function(host,
     stopifnot("East and west indices should be of same length" = length(east) == length(west))
   }
 
-  mobj <- ccri_mean(indices, global, east, west, geoscale, pmean, outdir)
+  mobj <- ccri_mean(indices, global, east, west, geoscale, res, pmean, outdir)
 
   vobj <- if (pvar == TRUE) {
     ccri_variance(indices,
@@ -93,7 +93,7 @@ connectivity <- function(host,
 
   ri_ind <- risk_indices(grast)
 
-  return(connectivity(grast$host_density,
+  return(connectivity(terra::rast(grast$host_density),
                       ri_ind,
                       global,
                       east = ri_ind[[STR_EAST]],

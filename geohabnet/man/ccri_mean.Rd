@@ -10,6 +10,7 @@ ccri_mean(
   east = NULL,
   west = NULL,
   geoscale = NULL,
+  res = reso(),
   plt = TRUE,
   outdir = tempdir()
 )
@@ -18,7 +19,7 @@ ccri_mean(
 \item{indices}{List of SpatRasters.
 This input represents the spatial raster collection for which mean is to be calculated.}
 
-\item{global}{Logical. \code{TRUE} if global analysis is required, \code{FALSE} otherwise.
+\item{global}{Logical. \code{TRUE} if global analysis is desired, \code{FALSE} otherwise.
 \code{east} and \code{west} are required when \code{TRUE}.}
 
 \item{east}{SpatRaster. Collection of risk indices on eastern extent.}
@@ -27,6 +28,9 @@ This input represents the spatial raster collection for which mean is to be calc
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
 \item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
+
+\item{res}{Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
+Default is \code{\link[=reso]{reso()}}.}
 
 \item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise.}
 

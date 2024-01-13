@@ -56,21 +56,24 @@ crops_rast <- function(crop_names) {
   # iterate named lists
   # crop names
   nams <- names(crops)
-  cropharvests <- list()
-  for (i in seq_along(crops)) {
-    single_crop_rasters <- list()
-    for (j in crops[[i]]) {
+  cropharvests <- future.apply::future_lapply(seq_along(crops), function(i) {
+    single_crop_rasters <- lapply(crops[[i]], function(j) {
       cr <- cropharvest_rast(nams[i], j)
-      single_crop_rasters <- c(single_crop_rasters, cr)
-    }
-    len_scr <- length(single_crop_rasters)
-    if (len_scr > 1) {
-      cropharvests <- c(cropharvests, terra::app(terra::rast(single_crop_rasters), fun = sum, na.rm = TRUE) / len_scr)
-    } else {
-      cropharvests <- c(cropharvests, single_crop_rasters)
-    }
-  }
+      return(cr)
+    })
 
+    len_scr <- length(single_crop_rasters)
+    ret <- if (len_scr > 1) {
+      terra::app(terra::rast(single_crop_rasters),
+                 fun = sum,
+                 na.rm = TRUE) / len_scr
+    } else {
+      single_crop_rasters[[1]]  # Extract the single element
+    }
+    return(terra::wrap(ret))
+  }, future.seed = TRUE)
+
+  cropharvests <- lapply(cropharvests, FUN = terra::rast)
   return(Reduce("+", cropharvests))
 }
 
