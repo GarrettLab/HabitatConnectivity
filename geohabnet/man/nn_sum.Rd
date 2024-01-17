@@ -8,7 +8,7 @@
 \alias{degree}
 \alias{closeness}
 \alias{pagerank}
-\title{Calculation on network matrix.}
+\title{Calculation on network metrics or centralities.}
 \usage{
 nn_sum(crop_dm, we)
 
@@ -25,26 +25,26 @@ closeness(crop_dm, we)
 pagerank(crop_dm, we)
 }
 \arguments{
-\item{crop_dm}{Distance matrix.
+\item{crop_dm}{A square adjacency matrix, in which rows and columns names represent nodes (or locations) and each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
 In the internal workflow,
-the distance matrix comes is a result of operations within \code{\link[=sean]{sean()}} and risk functions.}
+the adjacency matrix comes as a result of operations within \code{\link[=sean]{sean()}} function.}
 
-\item{we}{Weight in percentage.}
+\item{we}{Weight in percentage. This weight represents the importance of the network metric in the habitat connectivity analysis.}
 }
 \value{
-Matrix with the mean value based on the assigned weight.
+A spatRaster object with the connectivity of each node or location.
 }
 \description{
-These are basically an abstraction of functions under the \link{igraph} package.
-The functions included in this abstraction are:
+These are functions under the \link{igraph} package adapted to calculate habitat connectivity.
+In the context of habitat connectivity, the functions can be interpreted as follows:
 \itemize{
 \item \verb{[nn_sum()]}: Calculates the sum of nearest neighbors \code{\link[igraph:knn]{igraph::graph.knn()}}.
 \item \verb{[node_strength()]}: Calculates the sum of edge weights of adjacent nodes \code{\link[igraph:strength]{igraph::graph.strength()}}.
-\item \verb{[betweeness()]}: Calculates the vertex and edge betweenness based on the number of geodesics
-\code{\link[igraph:betweenness]{igraph::betweenness()}}.
+\item \verb{[betweeness()]}: Calculates the node betweenness based on the number of shortest paths.
+\code{\link[igraph:betweenness]{igraph::betweenness()}}. Because the \code{\link[igraph:betweenness]{igraph::betweenness()}} function in \link{igraph} interprets link weights as distances to calculate the shortest paths, the \code{\link[=betweenness]{betweenness()}} function in \link{geohabnet} transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
 \item \verb{[ev()]}: Calculates the eigenvector centrality of positions within the network \code{\link[igraph:eigen_centrality]{igraph::evcent()}}.
 \item \verb{[closeness()]}: measures how many steps is required to access every other vertex from a given vertex
-\code{\link[igraph:closeness]{igraph::closeness()}}.
+\code{\link[igraph:closeness]{igraph::closeness()}}. Because the \code{\link[igraph:closeness]{igraph::closeness()}} function in \link{igraph} interprets link weights as distances to calculate the shortest paths, the \code{\link[=closeness]{closeness()}} function in \link{geohabnet} transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
 \item \verb{[degree()]}: number of adjacent edges \code{\link[igraph:degree]{igraph::degree()}}.
 \item \verb{[pagerank()]}: page rank score for vertices \code{\link[igraph:page_rank]{igraph::page_rank()}}.
 }
