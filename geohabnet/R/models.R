@@ -12,6 +12,8 @@
   return(risk_indices)
 }
 
+# private methods ---------------------------------------------------------
+
 .model_powerlaw <- function(beta,
                            link_threshold,
                            distance_matrix = NULL,
@@ -24,7 +26,6 @@
 
   mets <- .validate_metrics(metrics, me_weights)
 
-  cat("beta ", beta, "\n")
   #### create adjacency matrix
   stan <- if (is.null(adj_mat)) {
     distancematr <- distance_matrix # pairwise distance matrix
@@ -72,7 +73,6 @@
 
   mets <- .validate_metrics(metrics, me_weights)
 
-  cat("gamma ", gamma_val, "\n")
   #### create adjacency matrix
   ####
   stan <- if (is.null(adj_mat)) {
@@ -108,8 +108,6 @@
   return(.model_ob(index = indexv, amatrix = adjmat))
 }
 
-# private methods ---------------------------------------------------------
-
 .apply_met <- function(mets, we, adj_graph) {
 
   mets <- Map(c, mets, we)
@@ -121,7 +119,7 @@
     if (mname %in% names(mfuns)) {
       val <- mets[[mname]][[2]]
       mfun <- mfuns[[mname]]
-      index <- index + mfun(adj_graph, val)
+      index <- index + (mfun(adj_graph) * .per_to_real(val))
     } else {
       warning(mname, " is not a valid metric for network connectivity")
     }
