@@ -32,7 +32,8 @@ the adjacency matrix comes as a result of operations within \code{\link[=sean]{s
 \item{we}{Weight in percentage. This weight represents the importance of the network metric in the habitat connectivity analysis.}
 }
 \value{
-A spatRaster object with the connectivity of each node or location.
+SpatRaster. Representing connectivity of each node or location.
+}
 \description{
 These are functions under the \link{igraph} package adapted to calculate habitat connectivity.
 In the context of habitat connectivity, the functions can be interpreted as follows:

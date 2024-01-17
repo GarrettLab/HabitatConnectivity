@@ -20,6 +20,7 @@ supported_metrics <- function() {
            STR_PAGE_RANK))
 }
 
+#' Calculation on network metrics a.k.a centralities.
 #'
 #' @description
 #' These are functions under the [igraph] package adapted to calculate habitat connectivity.
