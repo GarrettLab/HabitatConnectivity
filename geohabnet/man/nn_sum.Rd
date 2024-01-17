@@ -8,21 +8,21 @@
 \alias{degree}
 \alias{closeness}
 \alias{pagerank}
-\title{Calculation on network metrics or centralities.}
+\title{Calculation on network metrics a.k.a centralities.}
 \usage{
-nn_sum(crop_dm, we)
+nn_sum(crop_dm)
 
-node_strength(crop_dm, we)
+node_strength(crop_dm)
 
-betweeness(crop_dm, we)
+betweeness(crop_dm)
 
-ev(crop_dm, we)
+ev(crop_dm)
 
-degree(crop_dm, we)
+degree(crop_dm)
 
-closeness(crop_dm, we)
+closeness(crop_dm)
 
-pagerank(crop_dm, we)
+pagerank(crop_dm)
 }
 \arguments{
 \item{crop_dm}{A square adjacency matrix, in which rows and columns names represent nodes (or locations) and each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
@@ -33,7 +33,6 @@ the adjacency matrix comes as a result of operations within \code{\link[=sean]{s
 }
 \value{
 A spatRaster object with the connectivity of each node or location.
-}
 \description{
 These are functions under the \link{igraph} package adapted to calculate habitat connectivity.
 In the context of habitat connectivity, the functions can be interpreted as follows:

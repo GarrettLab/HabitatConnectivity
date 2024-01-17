@@ -36,21 +36,17 @@ All link weights that are below this threshold will be replaced with zero for th
 Link weights represent the relative likelihood of pathogen, pest, or invasive species movement between a pair of host locations,
 which is calculated using gravity models based on host density (or availability) and dispersal kernels.}
 
-\item{hd_threshold}{Numeric. A threshold value for host density.
-All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
-which focuses the analysis on the most important locations.
-The values for the host density threshold can range between 0 and 1;
-if 1 all locations will be excluded from the analysis and 0 will include all locations in the analysis.
-Selecting a threshold for host density requires at least knowing what is the maximum value in the host density map to avoid excluding all locations in the analysis.}
-
-\item{inv_pl}{List. A named list of parameters for inverse power law. See \code{\link[=inv_powerlaw]{inv_powerlaw()}} for details.}
-
 \item{...}{arguments passed to \code{\link[=sean]{sean()}}}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
 
-\item{inv_ne}{List. A named list of parameters for inverse negative exponential. See \code{\link[=neg_exp]{neg_exp()}} for details.}
+\item{host_density_threshold}{Numeric. A threshold value for host density.
+All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
+which focuses the analysis on the most important locations.
+The values for the host density threshold can range between 0 and 1;
+if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
+Selecting a threshold for host density requires at least knowing what is the maximum value in the host density map to avoid excluding all locations in the analysis.}
 }
 \value{
 GeoRasters.
@@ -71,7 +67,7 @@ When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_sc
 The functions \code{\link[=sean]{sean()}} and \code{\link[=msean]{msean()}} perform the same sensitivity analysis, but they differ in their return value.
 The return value of \code{\link[=msean]{msean()}} is \code{GeoNetwork}, which contains the result from applying the \code{\link[=connectivity]{connectivity()}} function on the habitat connectivity indexes.
 Essentially, the risk maps.
-In \code{\link[=msean]{msean()}}, three spatRasters are produced with the following values.
+When using \code{\link[=msean]{msean()}}, three spatRasters are produced with the following values.
 For each location in the area of interest, the mean in habitat connectivity across selected parameters is calculated.
 For each location in the area of interest, the variance in habitat connectivity across selected parameters is calculated.
 For each location in the area of interest, the difference between the rank of habitat connectivity and the rank of host density is calculated.

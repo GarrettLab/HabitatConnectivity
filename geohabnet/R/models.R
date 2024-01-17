@@ -14,6 +14,8 @@
   return(risk_indices)
 }
 
+# private methods ---------------------------------------------------------
+
 .model_powerlaw <- function(beta,
                            link_threshold,
                            distance_matrix = NULL,

@@ -207,10 +207,15 @@
 #' All locations with a host density below the selected threshold will be excluded from the connectivity analysis, 
 #' which focuses the analysis on the most important locations.
 #' The values for the host density threshold can range between 0 and 1;
-#' if 1 all locations will be excluded from the analysis and 0 will include all locations in the analysis.
+#' if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
+#' Selecting a threshold for host density requires at least knowing what is the maximum value in the host density map to avoid excluding all locations in the analysis.
+#' if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
 #' Selecting a threshold for host density requires at least knowing what is the maximum value in the host density map to avoid excluding all locations in the analysis.
 #' @param inv_pl List. A named list of parameters for inverse power law. See [inv_powerlaw()] for details.
 #' @param inv_ne List. A named list of parameters for inverse negative exponential. See [neg_exp()] for details.
+#' All locations with a host density below the selected threshold will be excluded from the connectivity analysis, 
+#' which focuses the analysis on the most important locations.
+#' The values for the host density threshold can range between 0 and 1;
 #' @inheritParams sa_onrasters
 #' @return GeoRasters.
 #' @export
@@ -219,7 +224,7 @@
 #' The functions [sean()] and [msean()] perform the same sensitivity analysis, but they differ in their return value. 
 #' The return value of [msean()] is `GeoNetwork`, which contains the result from applying the [connectivity()] function on the habitat connectivity indexes. 
 #' Essentially, the risk maps.
-#' In [msean()], three spatRasters are produced with the following values. 
+#' In [msean()], three spatRasters are produced with the following values.
 #' For each location in the area of interest, the mean in habitat connectivity across selected parameters is calculated.
 #' For each location in the area of interest, the variance in habitat connectivity across selected parameters is calculated.
 #' For each location in the area of interest, the difference between the rank of habitat connectivity and the rank of host density is calculated.
@@ -523,6 +528,7 @@ msean_onrast <- function(global = TRUE,
 #' To customize parameter values, open the parameters.yaml that was automatically downloaded when geohabnet was installed, 
 #' change, remove, or add parameter values directly in the parameters.yaml and save it. 
 #' Once the values have been changed manually, run [set_parameters()] to set the new parameter values, which will return TRUE if the parameters were set successfully.
+
 #'
 #' @details
 #' For each location in a region, sensitivity_analysis() calculates the cropland connectivity risk index (CCRI) proposed by Xing et al. (2021).
@@ -535,7 +541,7 @@ msean_onrast <- function(global = TRUE,
 #' where columns and rows represent locations in the maps and 
 #' entries are the relative likelihood of pathogen or pest movement between each pair of nodes.
 #' @param maps logical. `TRUE` if maps of outcomes are to be plotted, `FALSE` otherwise. If `TRUE`, three maps are possible: a map of mean habitat connectivity, a map of variance of habitat connectivity, and a map of the difference between the ranks in habitat connectivity and habitat density.
-#' @param alert logical. `TRUE` if a beep sound is to be played once the analysis is completed, `FALSE` otherwise.
+#' @param alert logical. `TRUE` if a beep sound is to be played once the analysis is completed, `FALSE` otherwise
 #' @return GeoNetwork.
 #' Errors are not handled.
 #' @export

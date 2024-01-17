@@ -20,27 +20,6 @@ supported_metrics <- function() {
            STR_PAGE_RANK))
 }
 
-#' Get metrics from parameters
-#'
-#' Get metrics and parameters stored in `parameters.yaml`.
-#'
-#' @param params R object of [load_parameters()]. Default is `load_parameters()`.
-#'
-#' @return List. List of metrics - parameters and values. See usage.
-#'
-#' @examples
-#' # Get metrics from parameters
-#' get_param_metrics()
-#' get_param_metrics(load_parameters())
-#'
-#' @export
-get_param_metrics <- function(params = load_parameters()) {
-
-  return(list(pl = .refined_mets(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw),
-              ne = .refined_mets(params$`CCRI parameters`$NetworkMetrics$NegativeExponential)))
-}
-
-#' Calculation on network metrics or centralities.
 #'
 #' @description
 #' These are functions under the [igraph] package adapted to calculate habitat connectivity.
@@ -58,11 +37,11 @@ get_param_metrics <- function(params = load_parameters()) {
 #'  In the internal workflow,
 #'  the adjacency matrix comes as a result of operations within [sean()] function.
 #' @param we Weight in percentage. This weight represents the importance of the network metric in the habitat connectivity analysis.
-#' @return A spatRaster object with the connectivity of each node or location.
+#' @return SpatRaster. Representing connectivity of each node or location.
 #'
 #' @family metrics
 #' @export
-nn_sum <- function(crop_dm, we) {
+nn_sum <- function(crop_dm) {
 
   knnpref0 <- igraph::graph.knn(crop_dm, weights = NA)$knn
   knnpref0[is.na(knnpref0)] <- 0
@@ -78,7 +57,7 @@ nn_sum <- function(crop_dm, we) {
 
 
 #' @rdname nn_sum
-node_strength <- function(crop_dm, we) {
+node_strength <- function(crop_dm) {
   nodestrength <- igraph::graph.strength(crop_dm)
   nodestrength[is.na(nodestrength)] <- 0
   nodestr <- if (max(nodestrength) == 0) {
@@ -91,7 +70,7 @@ node_strength <- function(crop_dm, we) {
 }
 
 #' @rdname nn_sum
-betweeness <- function(crop_dm, we) {
+betweeness <- function(crop_dm) {
 
   between <- igraph::betweenness(crop_dm,
                                  weights =
@@ -109,7 +88,7 @@ betweeness <- function(crop_dm, we) {
 }
 
 #' @rdname nn_sum
-ev <- function(crop_dm, we) {
+ev <- function(crop_dm) {
   eigenvectorvalues <- igraph::evcent(crop_dm)
   evv <- eigenvectorvalues$vector
   evv[is.na(evv)] <- 0
@@ -123,7 +102,7 @@ ev <- function(crop_dm, we) {
 }
 
 #' @rdname nn_sum
-degree <- function(crop_dm, we) {
+degree <- function(crop_dm) {
   dmat <- igraph::degree(crop_dm)
   dmat[is.na(dmat)] <- 0
   dmatr <- if (max(dmat) == 0) {
@@ -135,7 +114,7 @@ degree <- function(crop_dm, we) {
 }
 
 #' @rdname nn_sum
-closeness <- function(crop_dm, we) {
+closeness <- function(crop_dm) {
   cvv <- igraph::closeness(crop_dm,
                            weights = 1 - 1 / exp(.get_weight_vector(crop_dm)))
   cvv[is.na(cvv)] <- 0
@@ -148,7 +127,7 @@ closeness <- function(crop_dm, we) {
 }
 
 #' @rdname nn_sum
-pagerank <- function(crop_dm, we) {
+pagerank <- function(crop_dm) {
   pr_scores <- igraph::page_rank(crop_dm)
   prv <- pr_scores$vector
   prv[is.na(prv)] <- 0
@@ -170,6 +149,7 @@ pagerank <- function(crop_dm, we) {
   envmap <- new.env()
 
   # Define the metric functions
+
   envmap[[STR_NEAREST_NEIGHBORS_SUM]] <- function(graph) nn_sum(graph)
   envmap[[STR_NODE_STRENGTH]] <- function(graph) node_strength(graph)
   envmap[[STR_BETWEENNESS]] <- function(graph) betweeness(graph)
@@ -177,11 +157,10 @@ pagerank <- function(crop_dm, we) {
   envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph) closeness(graph)
   envmap[[STR_PAGE_RANK]] <- function(graph) pagerank(graph)
   envmap[[STR_DEGREE]] <- function(graph) degree(graph, param)
-
+ 
   # Return the environment
   return(envmap)
 }
-
 
 .validate_weights <- function(me, we) {
   stopifnot("Sum of metric weights should be 100" = sum(we) == 100)
