@@ -3,7 +3,19 @@
 \docType{class}
 \name{GeoNetwork-class}
 \alias{GeoNetwork-class}
+\alias{host_density<-,GeoNetwork-method}
 \title{GeoNetwork}
+\usage{
+\S4method{host_density}{GeoNetwork}(x) <- value
+}
+\arguments{
+\item{x}{GeoNetwork.}
+
+\item{value}{SpatRaster.}
+}
+\value{
+GeoNetwork.
+}
 \description{
 An S4 class representing a network of geographical data.
 This will wrap all the results from the risk analysis using \code{\link[=sean]{sean()}} or \code{\link[=sensitivity_analysis]{sensitivity_analysis()}}.

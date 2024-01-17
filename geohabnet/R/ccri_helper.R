@@ -7,6 +7,20 @@ library(yaml)
 .kmapgreybackground_file_type <- "map_grey"
 
 # utility functions for CCRI ----------------------------------------------
+
+.stopifnot_sprast <- function(x) {
+  stopifnot("Require argument of type SpatRaster" = methods::isClass(x, "SpatRaster"))
+}
+
+.host_map <- function(...) {
+  if (length(...) == 1) {
+    return(...[[1]])
+  }
+  # assumes only 2 elements, since only 2 agg methods are supported,
+  # i.e. sum and mean. Take mean if both are present, else take whatever.
+  sum(...[[1]], ...[[2]], na.rm = TRUE) / 2
+}
+
 # Meta-programming approach with eval_tidy
 .cal_dist <- function(latilongimatr, method) {
 
@@ -39,7 +53,11 @@ library(yaml)
 #' @description Get risk indices from GeoRasters object.
 #' @param ri GeoRasters object
 #' @return List of risk indices. If the `ri` is global, the list will contain two elements,
-#' one for each hemisphere.
+#' one for each hemisphere. e.g. `list(east = list(), west = list())`. If the `ri` is not global,
+#' the list will contain a single element, e.g. `list()`.
+#' @details
+#' This function will unpack SpatRasters from GeoMadel and thus is [future::future()] safe.
+#'
 #' @export
 risk_indices <- function(ri) {
   stopifnot("Object is not of type GeoRasters" = class(ri) == "GeoRasters")
@@ -49,10 +67,10 @@ risk_indices <- function(ri) {
 
     for (grast in ri$global_rast) {
       for (mod in grast$east) {
-        ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], mod$index)
+        ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], terra::rast(mod$index))
       }
       for (mod in grast$west) {
-        ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], mod$index)
+        ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], terra::rast(mod$index))
       }
     }
     return(ew_indices)
@@ -62,7 +80,7 @@ risk_indices <- function(ri) {
     #east-west split
     .ew_split()
   } else {
-    unlist(lapply(ri$rasters, FUN = "[[", "index"), recursive = FALSE)
+    unlist(lapply(ri$rasters, FUN = function(x) {terra::rast(x$index)}), recursive = FALSE)
   }
 }
 
@@ -107,7 +125,7 @@ risk_indices <- function(ri) {
 
 .download <- function(uri) {
   f <- paste(tempfile(), ".tif", sep = "")
-  stopifnot("dowload failed " = utils::download.file(uri,
+  stopifnot("download failed " = utils::download.file(uri,
                                                      destfile = f,
                                                      method = "auto",
                                                      mode = "wb",

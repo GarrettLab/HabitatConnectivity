@@ -12,6 +12,8 @@ This class encapsulates the results of apply dispersal models and metrics.
 \section{Fields}{
 
 \describe{
+\item{\code{host_density}}{SpatRaster. A spatial raster representing host density.}
+
 \item{\code{rasters}}{List. List of raster representing risk indices. These are of type \code{GeoModels}.}
 
 \item{\code{global}}{Boolean. True if contains \code{GlobalRast} object, False otherwise.}

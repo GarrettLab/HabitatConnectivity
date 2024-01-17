@@ -49,9 +49,9 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using cropland connectivity</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
   </div>
 </li>
 <li class="nav-item">
@@ -85,7 +85,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:kkeshav@ufl.edu" class="email">kkeshav@ufl.edu</a>)</h4>
             
-            <h4 data-toc-skip class="date">02 November, 2023</h4>
+            <h4 data-toc-skip class="date">15 December, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/CroplandConnectivity/blob/HEAD/vignettes/analysis.Rmd" class="external-link"><code>vignettes/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -144,7 +144,7 @@ information.</p></li>
 </div>
 </div>
 <div class="section level3">
-<h3 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a>
+<h3 id="data-sets">Data sets<a class="anchor" aria-label="anchor" href="#data-sets"></a>
 </h3>
 <p>We use publicly available sources to obtain crop information -</p>
 <ul>
@@ -189,15 +189,22 @@ Please see the list of dependencies using
 <span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://garrettlab.github.io/CroplandConnectivity/">"geohabnet"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"geohabnet"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Alternatively, install from github source.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: usethis</span></span>
 <span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://garrettlab.github.io/CroplandConnectivity/">"geohabnet"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GarrettLab/CroplandConnectivity"</span>, subdir <span class="op">=</span> <span class="st">"geohabnet"</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<span><span class="op">}</span></span>
+<span><span class="co">#&gt; Loading required package: geohabnet</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://garrettlab.github.io/CroplandConnectivity/">geohabnet</a></span><span class="op">)</span></span></code></pre></div>
 <p>At any point, access the help page using following -</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="va">geohabnet</span></span>
 <span><span class="co"># and</span></span>
 <span><span class="op">?</span><span class="fu">geohabnet</span><span class="fu">::</span><span class="va"><a href="../reference/sean.html">sean</a></span> <span class="co"># any function</span></span></code></pre></div>
@@ -210,30 +217,38 @@ supported parameters. Initially, the values are set based on the Xing et
 al(2021) <span class="citation">(Xing et al. 2020)</span> and crop is
 <em>Avocado</em>. This would run the workflow on global geographical
 extent quickly since the crop presence is relatively low.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sensitivity_analysis.html">sensitivity_analysis</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+========
                                           
 
 |---------|---------|---------|---------|
-======
+==============
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+========
                                           
 
 |---------|---------|---------|---------|
-======
+==============
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-3.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; [1] TRUE</span></span></code></pre>
-<p>The results are based on the values set for each of the parameters
-which we will see in details in the next section.</p>
+<pre><code><span><span class="co">#&gt; class            :  GeoNetwork </span></span>
+<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/mean_20231215194817166621.tif </span></span>
+<span><span class="co">#&gt; mean raster      :  118 ,  320 (nrow, ncol)</span></span>
+<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/variance_20231215194820230987.tif </span></span>
+<span><span class="co">#&gt; variance raster   :  1416 ,  3840 (nrow, ncol)</span></span>
+<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/difference_20231215194821449631.tif </span></span>
+<span><span class="co">#&gt; difference raster :  1416 3840 (nrow, ncol)</span></span></code></pre>
+<p>The results are the side effects and the similar information is
+captured in the object returned from it. Its based on the values set for
+each of the parameters which we will see in details in the next
+section.</p>
 </div>
 </div>
 <div class="section level3">
@@ -251,7 +266,7 @@ of <code>terra</code> <span class="citation">(Hijmans 2023)</span> and
 2006)</span> . The primary object is of type <code>SpatRaster</code>
 from <code>terra</code> . To get started, we will use quick way to
 obtain raster and later we will understand the details.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">avocado</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cropharvest_rast.html">cropharvest_rast</a></span><span class="op">(</span><span class="st">"avocado"</span>, <span class="st">"monfreda"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># verify the raster object</span></span>
@@ -263,31 +278,31 @@ obtain raster and later we will understand the details.</p>
 <span><span class="co">#&gt; coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
 <span><span class="co">#&gt; source      : avocado_HarvestedAreaFraction.tif </span></span>
 <span><span class="co">#&gt; name        : avocado_HarvestedAreaFraction</span></span>
-<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/gplot.html">gplot</a></span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Now that we have a raster object, it can be fed directly to the
 workflow. We will only set the required parameter - <em>rast</em>. The
 value represents <em>Avocado</em> plantation in geographical area of
 North America.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risk_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">geo_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+======
                                           
 
 |---------|---------|---------|---------|
-======
+==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+======
                                           
 
 |---------|---------|---------|---------|
-======
+==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
 <p>The results should be interpreted in accordance to the values of
@@ -305,7 +320,7 @@ ignored.</p>
 <ul>
 <li>
 <p>Get geographical scales used in global analysis -</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/global_scales.html">global_scales</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $east</span></span>
 <span><span class="co">#&gt; [1] -24 180 -58  60</span></span>
@@ -317,11 +332,31 @@ ignored.</p>
 <p>Although recommended not to change the global scales since it has
 been finalized after several tries. Still, for advance use, set the
 global geographic scales using -</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))</span></span></code></pre></div>
 </li>
 </ul>
 </li>
+<li><p>thresholds <em>- Numeric.</em> 2 types of thresholds:
+<em>host_density_threshold</em> and <em>link_threshold.</em> The former
+threshold filters from the aggregation of input data-set/raster and
+latter will filter the cells from the adjacency matrix which is used to
+calculate the network connectivity.</p></li>
+<li>
+<p>resolution - Numeric. This is a resolution value. In the context
+of <em>SpatRaster</em>, it’s the number of pixels that are aggregated to
+produce a new finer/coarser version raster data. Default is</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/reso.html">reso</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 12</span></span>
+<span></span>
+<span><span class="co"># setting resolutin via here will not persist the value but instead will assign it to current environment until next load_parameters() or set_parameters()</span></span>
+<span><span class="fu"><a href="../reference/set_reso.html">set_reso</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+</li>
+<li><p>Side effect - Calculates, produces and plots the maps which is
+same as <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> [sensitivity_analysis()]. An
+alternative is <code><a href="../reference/sean.html">sean()</a></code> which can be called to obtain the
+results from the function call and has no side effects.</p></li>
 </ol>
 </div>
 <div class="section level4">
@@ -338,19 +373,18 @@ save the file in temporary directory <code><a href="https://rdrr.io/r/base/tempf
 recommend saving to path where program will have write permissions.
 Using <em>iwindow = TRUE</em> will prompt a selection window to save
 config file.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; parameters fetched successfully</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpbvRtYA/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
-<div class="figure">
-<img src="images/initconfig.png" width="700" alt=""><p class="caption">Initial parameters.yaml</p>
+<div class="float">
+<img src="images/initconfig.png" width="700" alt="Initial parameters.yaml"><div class="figcaption">Initial parameters.yaml</div>
 </div>
 <p>The values must be modified without modifying the structure. The
 order don’t matter for the program. The new values in the configuration
 must be fed to the workflow using -</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/set_parameters.html">set_parameters</a></span><span class="op">(</span>new_params <span class="op">=</span> <span class="va">config_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="co">#using iwindow = true will prompt a selction window to choose config file.</span></span></code></pre></div>
@@ -368,7 +402,7 @@ and feed it to workflow using <code><a href="../reference/set_parameters.html">s
 </h4>
 <p>We have some helper functions to make the analysis easier. Available
 sources can be seen using -</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">geohabnet</span><span class="fu">::</span><span class="fu"><a href="../reference/get_supported_sources.html">get_supported_sources</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "monfreda" "mapspam"</span></span></code></pre></div>
 <p>More specifically, we support 2 data set sources - <a href="http://www.earthstat.org/harvested-area-yield-175-crops/" class="external-link">Monfreda</a>
@@ -377,7 +411,7 @@ using the APIs provided by <a href="https://CRAN.R-project.org/package=geodata" 
 sources have crop presence in the geographical areas in the form of
 raster(tiff). To start with, we can check if a certain crop is available
 in the source -</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/search_crop.html">search_crop</a></span><span class="op">(</span><span class="st">"avocado"</span><span class="op">)</span> <span class="co">#1</span></span>
 <span><span class="co">#&gt; [1] "monfreda"</span></span>
 <span><span class="fu"><a href="../reference/search_crop.html">search_crop</a></span><span class="op">(</span><span class="st">"banana"</span><span class="op">)</span> <span class="co">#2</span></span>
@@ -386,7 +420,7 @@ in the source -</p>
 <code>monfreda</code> . Now, #2 suggests that <em>banana</em> is present
 in 2 sources. We will use the results from here to obtain its raster
 data from the one of the specified sources.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get avocado data</span></span>
 <span><span class="va">rast_avocado</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/crops_rast.html">crops_rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>monfreda <span class="op">=</span> <span class="st">"avocado"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -395,7 +429,7 @@ data from the one of the specified sources.</p>
 <p>The returned is actually if type <code>SpatRaster</code>. In above,
 we will have separate raster information for each of the crop. Crops can
 be combined and be returned as one raster.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rast_avo_ban</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/crops_rast.html">crops_rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>monfreda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"avocado"</span>, <span class="st">"banana"</span><span class="op">)</span>, mapspam <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"banana"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>In this case for <em>banana</em>, information from all the sources
 will be first combined using mean and then all the crop information
@@ -405,36 +439,36 @@ requested crops. We have one more method to obtain raster, using
 <em>tiff -</em> <code><a href="../reference/tiff_torast.html">tiff_torast()</a></code> . Finally, we have
 <code><a href="../reference/get_rasters.html">get_rasters()</a></code> method, which is an abstraction of . To see
 the difference in data that was generated in last 3 methods -</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">rast_avocado</span>, <span class="va">rast_ban</span>, <span class="va">rast_avo_ban</span><span class="op">)</span>, <span class="fu">terra</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">)</span></span></code></pre></div>
 <p>The result obtained from one of these methods can be used as an
 argument to <code><a href="../reference/sean.html">sean()</a></code> . Value of <code>results</code> is list
 of risk indices.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">rast_avocado</span>, <span class="va">rast_ban</span>, <span class="va">rast_avo_ban</span><span class="op">)</span>, <span class="va">sean</span><span class="op">)</span></span></code></pre></div>
 <p>So far, we have now run the sensitivity analysis workflow for avocado
 and banana on global scale and default set of parameter values.
 Alternatively, we can just specify the crops under
 <code>parameters.yaml</code> and run the workflow -</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sensitivity_analysis.html">sensitivity_analysis</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=====
                                           
 
 |---------|---------|---------|---------|
-=======
+==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-18-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=====
                                           
 
 |---------|---------|---------|---------|
-======
+==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-18-3.png" width="700"></p>
 </div>
@@ -447,25 +481,25 @@ effects the connectivity and gives a sense of sensitivity in the
 network. The intermediate goal is to produce a adjacency graph which
 essentially determines the connectivity. Cells which doesn’t meet the
 threshold are removed from the consideration by dispersal models.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risk_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span>, host_density_threshold <span class="op">=</span> <span class="fl">0.00001</span>, link_threshold <span class="op">=</span> <span class="fl">0.00001</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">risk_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado</span>, host_density_threshold <span class="op">=</span> <span class="fl">0.00001</span>, link_threshold <span class="op">=</span> <span class="fl">0.00001</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=====
                                           
 
 |---------|---------|---------|---------|
-======
+==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-19-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=====
                                           
 
 |---------|---------|---------|---------|
-======
+========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-19-3.png" width="700"></p>
 <div class="section level5">
@@ -540,7 +574,7 @@ the option above.</p>
 of these options should be used as input to run the analysis. Check for
 supported methods in analysis by running <code><a href="../reference/dist_methods.html">dist_methods()</a></code> in
 the console.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dist_methods.html">dist_methods</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "geodesic"          "vincentyellipsoid"</span></span></code></pre></div>
 </div>
@@ -561,7 +595,7 @@ for producing maps.</p>
 <h4 id="metrics">Metrics<a class="anchor" aria-label="anchor" href="#metrics"></a>
 </h4>
 <p>See available metrics using</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/supported_metrics.html">supported_metrics</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "betweeness"               "node_strength"           </span></span>
 <span><span class="co">#&gt; [3] "sum_of_nearest_neighbors" "eigenvector_centrality"  </span></span>
@@ -589,8 +623,8 @@ account using values from <code><a href="../reference/global_scales.html">global
 <ol style="list-style-type: decimal">
 <li>
 <p>Using function</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/non-global-1.png" width="700"><img src="analysis_files/figure-html/non-global-2.png" width="700"><img src="analysis_files/figure-html/non-global-3.png" width="700"></p>
 </li>
 <li>
@@ -602,7 +636,7 @@ in combination with other parameters.</p>
 </li>
 </ol>
 <p>When provided with <code>geoscale</code>, program will take the
-subset of provided raster (dataset of crop). The workflow will apply
+subset of provided raster (data-set of a crop). The workflow will apply
 graph operations and network connectivity only to the subset.</p>
 </div>
 </div>
@@ -610,72 +644,144 @@ graph operations and network connectivity only to the subset.</p>
 <h3 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
 </h3>
 <p>By default, 3 maps are produced for each analysis.
-<code><a href="../reference/sean.html">sean()</a></code> also returns list of risk indexes which are then fed
-to <code><a href="../reference/connectivity.html">connectivity()</a></code> . This flexibility is supposed to allow
-users to use the risk indexes for their purposes or use our function to
-produce maps with further different parameters.</p>
+<code><a href="../reference/sean.html">sean()</a></code> also returns risk indices without maps which can,
+then be fed to <code><a href="../reference/connectivity.html">connectivity()</a></code> . This flexibility is
+supposed to allow users to use the risk indices for their purposes or
+use our function to produce maps with further different parameters.</p>
 <p>In a code below, after obtaining results, the maps are produced. In
-order to produce calculate variance, cells of <code>SpatRaster</code> is
+order to calculate variance, cells of <code>SpatRaster</code> are
 extended to coarser value using <code>res</code> parameter. Setting
 <code>maps = FALSE</code> will suppress the calculation of outputs.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risk_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">georast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/connectivity.html">connectivity</a></span><span class="op">(</span><span class="va">georast</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=======
                                           
 
 |---------|---------|---------|---------|
-=======
+==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-22-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+======
                                           
 
 |---------|---------|---------|---------|
-======
+==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-22-3.png" width="700"></p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/connectivity.html">connectivity</a></span><span class="op">(</span><span class="va">risk_indexes</span><span class="op">)</span></span></code></pre></div>
-<p><img src="analysis_files/figure-html/unnamed-chunk-22-4.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; An object of class "Gmap"</span></span>
+<span><span class="co">#&gt; Slot "me_rast":</span></span>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 118, 320, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 1, 1  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : -140, 180, -58, 60  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
+<span><span class="co">#&gt; source      : mean_2023121519494012197.tif </span></span>
+<span><span class="co">#&gt; name        :          sum </span></span>
+<span><span class="co">#&gt; min value   : 4.882366e-19 </span></span>
+<span><span class="co">#&gt; max value   : 1.000000e+00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Slot "me_out":</span></span>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/mean_2023121519494012197.tif"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Slot "diff_rast":</span></span>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 1416, 3840, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 0.08333333, 0.08333333  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : -140, 180, -58, 60  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
+<span><span class="co">#&gt; source      : difference_20231215194942697289.tif </span></span>
+<span><span class="co">#&gt; name        :   sum </span></span>
+<span><span class="co">#&gt; min value   : -1390 </span></span>
+<span><span class="co">#&gt; max value   :  1374 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Slot "diff_out":</span></span>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/difference_20231215194942697289.tif"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Slot "var_rast":</span></span>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 1416, 3840, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 0.08333333, 0.08333333  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : -140, 180, -58, 60  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
+<span><span class="co">#&gt; source      : variance_20231215194941504984.tif </span></span>
+<span><span class="co">#&gt; name        :          sum </span></span>
+<span><span class="co">#&gt; min value   : 4.956933e-37 </span></span>
+<span><span class="co">#&gt; max value   : 5.341538e-02 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Slot "var_out":</span></span>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/variance_20231215194941504984.tif"</span></span></code></pre>
+<p>is equivalent to <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> or
+<code><a href="../reference/sean.html">msean()</a></code> which produces maps as side effect.</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">final</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado</span>, link_threshold <span class="op">=</span> <span class="fl">0.000001</span>, host_density_threshold <span class="op">=</span> <span class="fl">0.000025</span><span class="op">)</span></span></code></pre></div>
+<p><img src="analysis_files/figure-html/final-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=====
                                           
 
 |---------|---------|---------|---------|
-======
+==========
                                           </code></pre>
-<p><img src="analysis_files/figure-html/unnamed-chunk-22-5.png" width="700"></p>
+<p><img src="analysis_files/figure-html/final-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=====
                                           
 
 |---------|---------|---------|---------|
-======
+========
                                           </code></pre>
-<p><img src="analysis_files/figure-html/unnamed-chunk-22-6.png" width="700"></p>
-<p>is equivalent to <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> .</p>
+<p><img src="analysis_files/figure-html/final-3.png" width="700"></p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># checkout the type of object</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">final</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "GeoNetwork"</span></span>
+<span><span class="co">#&gt; attr(,"package")</span></span>
+<span><span class="co">#&gt; [1] "geohabnet"</span></span></code></pre></div>
+<p>Based on the result obtained from last cell, let’s navigate the
+object final object. You would have noticed the maps as a side effect
+and that’s really the whole point. See the result summary by simply
+calling the <code>final</code> object and navigate using the standard S4
+classes approach.</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">final</span></span>
+<span><span class="co">#&gt; class            :  GeoNetwork </span></span>
+<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/mean_20231215194948141926.tif </span></span>
+<span><span class="co">#&gt; mean raster      :  118 ,  320 (nrow, ncol)</span></span>
+<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/variance_20231215194949600508.tif </span></span>
+<span><span class="co">#&gt; variance raster   :  1416 ,  3840 (nrow, ncol)</span></span>
+<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpKObzkU/plots/difference_20231215194950814011.tif </span></span>
+<span><span class="co">#&gt; difference raster :  1416 3840 (nrow, ncol)</span></span></code></pre></div>
 <p>The final operations are performed risk indices and on the 3 results
 that are produced -</p>
 <ol style="list-style-type: decimal">
 <li>
 <p>Mean</p>
-<p>Simply a mean of all the <code>SpatRasters</code> resulting from
-combination of parameter values. The values in cells are added across
-all the indices and divided by number of indices.</p>
+<p>A mean of all the <code>SpatRasters</code> resulting from combination
+of parameter values. The values in cells are added across all the
+indices and divided by number of indices. It represents the connectivity
+based on host density in the given area.</p>
+<p>Navigating the resulting object -</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gplot.html">gplot</a></span><span class="op">(</span><span class="va">final</span><span class="op">@</span><span class="va">me_rast</span><span class="op">)</span></span></code></pre></div>
+<p><img src="analysis_files/figure-html/mean-1.png" width="700"></p>
 </li>
 <li>
 <p>Variance</p>
 <p>Uses <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::var</a></code> on risk indices, subset is extracted for
 provided scale and finally pixels are dis-aggregated using <em>factor =
-resolution value in original parameter</em> to from previous
-step.</p>
+resolution value in original parameter</em> to from previous step.</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gplot.html">gplot</a></span><span class="op">(</span><span class="va">final</span><span class="op">@</span><span class="va">var_rast</span><span class="op">)</span></span></code></pre></div>
+<p><img src="analysis_files/figure-html/var-1.png" width="700"></p>
 </li>
 <li>
 <p>Difference</p>
@@ -683,8 +789,45 @@ step.</p>
 then difference is calculated between the rank of matrices which are
 essentially numeric cells of risk indices of type <em>SpatRaster</em>.
 The result is dis-aggregated in the same way as previous step.</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gplot.html">gplot</a></span><span class="op">(</span><span class="va">final</span><span class="op">@</span><span class="va">diff_rast</span><span class="op">)</span></span></code></pre></div>
+<p><img src="analysis_files/figure-html/diff-1.png" width="700"></p>
 </li>
 </ol>
+<p>The path to saved raster can be accessed using the ‘<span class="citation">(<strong>type_out?</strong>)</span>’ slot.
+Additionally, access the risk indices and it’s corresponding adjacency
+are further accessible within slots in the <code>GeoNetwork</code>
+class.</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># checkout the results</span></span>
+<span><span class="va">final</span><span class="op">@</span><span class="va">rasters</span></span>
+<span><span class="co">#&gt; class   :  GeoRasters </span></span>
+<span><span class="co">#&gt; global  :  TRUE </span></span>
+<span><span class="co">#&gt; globals :  1</span></span>
+<span></span>
+<span><span class="co"># global is TRUE because we original set the global analysis</span></span>
+<span><span class="co"># thus, we will have set of 2 risk indices, eastern and wetern hemisphere</span></span>
+<span><span class="va">final</span><span class="op">@</span><span class="va">rasters</span><span class="op">$</span><span class="va">global_rast</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; class :  GlobalRast </span></span>
+<span><span class="co">#&gt; east  :  14 </span></span>
+<span><span class="co">#&gt; west  :  14</span></span>
+<span></span>
+<span><span class="co"># Number of elements from above determines the the number of parameter values provided</span></span>
+<span></span>
+<span><span class="co"># To access the adjacency matrix,</span></span>
+<span><span class="va">final</span><span class="op">@</span><span class="va">rasters</span><span class="op">$</span><span class="va">global_rast</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">east</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># this is also s4 class 'GeoModel'</span></span>
+<span><span class="co">#&gt; class            :  Model </span></span>
+<span><span class="co">#&gt; adjacency matrix :  839 ,  839  (nrow, ncol) </span></span>
+<span><span class="co">#&gt; risk index       :  118 ,  204  (nrow, ncol)</span></span></code></pre></div>
+<p>Checkout the adjacency matrices by running the code below -</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># replace the indexing with any arbitary index,</span></span>
+<span><span class="co"># uncomment line below to see the results.</span></span>
+<span></span>
+<span><span class="co">#final@rasters$global_rast[[1]]$east[[1]]$amatrix</span></span></code></pre></div>
 <p>Set <em>pmean, pvar, pdiff</em> to <em>FALSE</em> to skip the any of
 the calculation in <code><a href="../reference/connectivity.html">connectivity()</a></code> to skip this calculation.
 In <code><a href="../reference/sean.html">sean()</a></code> or <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>, set
@@ -760,7 +903,7 @@ and Saturation by Emerging Pathogens and Pests.”</span>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>

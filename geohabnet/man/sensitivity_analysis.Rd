@@ -9,7 +9,7 @@ sensitivity_analysis(maps = TRUE, alert = TRUE)
 \arguments{
 \item{maps}{logical. \code{TRUE} if maps of outcomes are to be plotted, \code{FALSE} otherwise. If \code{TRUE}, three maps are possible: a map of mean habitat connectivity, a map of variance of habitat connectivity, and a map of the difference between the ranks in habitat connectivity and habitat density.}
 
-\item{alert}{logical. \code{TRUE} if a beep sound is to be played once the analysis is completed, \code{FALSE} otherwise}
+\item{alert}{logical. \code{TRUE} if a beep sound is to be played once the analysis is completed, \code{FALSE} otherwise.}
 }
 \value{
 GeoNetwork.
@@ -22,7 +22,7 @@ If no parameters are provided, then the \code{\link[=sensitivity_analysis]{sensi
 which is accessible through the function \code{\link[=get_parameters]{get_parameters()}}.
 To customize parameter values, open the parameters.yaml that was automatically downloaded when geohabnet was installed,
 change, remove, or add parameter values directly in the parameters.yaml and save it.
-Once the values have been changed manually, run geohabnet::set_parameters() to set the new parameter values, which will return TRUE if the parameters were set successfully.
+Once the values have been changed manually, run \code{\link[=set_parameters]{set_parameters()}} to set the new parameter values, which will return TRUE if the parameters were set successfully.
 }
 \details{
 For each location in a region, sensitivity_analysis() calculates the cropland connectivity risk index (CCRI) proposed by Xing et al. (2021).
@@ -48,7 +48,7 @@ Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, F
 Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,
 Jan F Kreuze, Jürgen Kroschel, P Lava Kumar, James P Legg, Monica Parker, Elmar Schulte-Geldermann,
 Kalpana Sharma, Karen A Garrett,
-\emph{Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests},
+\emph{Global Cropland .connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests},
 BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
 \doi{10.1093/biosci/biaa067}
 

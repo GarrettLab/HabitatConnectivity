@@ -71,7 +71,7 @@ if (!require("devtools")) {
 }
 ```
 
-```{r setup, eval=FALSE}
+```{r cran, eval=FALSE}
 
 if (!require("geohabnet")) {
   utils::install.packages("geohabnet")
@@ -80,7 +80,7 @@ if (!require("geohabnet")) {
 
 Alternatively, install from github source.
 
-```{r cran}
+```{r github}
 library("devtools")
 
 if (!require("geohabnet")) {
@@ -158,9 +158,6 @@ The results should be interpreted in accordance to the values of other parameter
 
     ```{r reso}
     reso()
-
-    # setting resolutin via here will not persist the value but instead will assign it to current environment until next load_parameters() or set_parameters()
-    set_reso(12)
     ```
 
 6.  Side effect - Calculates, produces and plots the maps which is same as `sensitivity_analysis()` [sensitivity_analysis()]. An alternative is `sean()` which can be called to obtain the results from the function call and has no side effects.
@@ -397,9 +394,10 @@ Checkout the adjacency matrices by running the code below -
 
 ```{r adm}
 
-# replace the indexing with any arbitary index
+# replace the indexing with any arbitary index,
+# uncomment line below to see the results.
 
-ss@rasters$global_rast[[1]]$east[[1]]$amatrix
+#final@rasters$global_rast[[1]]$east[[1]]$amatrix
 ```
 
 Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under the specified path in `OutDir` with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created. If the `outdir` is empty, the value is defaulted to `tempdir()` . This applies to corresponding parameter `outdir` in all the functions.

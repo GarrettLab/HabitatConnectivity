@@ -7,44 +7,24 @@
                          fields = list(amatrix = "matrix",
                                        index = "ANY"))
 
+# private methods ---------------------------------------------------------
+
 .risk_indices <- function(model_list) {
   risk_indices <- sapply(model_list, function(x) x@index)
   return(risk_indices)
 }
 
-#' Calculate risk index using inbuilt models.
-#'
-#' @description
-#' - [`model_powerlaw()`]: calculates risk index using power law.
-#' - [`model_neg_exp()`]: calculates risk index using negative exponential.
-#' @param beta A list of beta values. `DispersalParameterBeta` in `parameters.yaml`.
-#' @param gamma_val A list of beta values. `DispersalParameterGamma` in `parameters.yaml`.
-#' @param link_threshold A threshold value for link.
-#' @param distance_matrix distance matrix, generated during [sean()].
-#' @param thresholded_crop_values crop values above threshold.
-#' @param adj_mat Adjacency matrix(optional) representing un-directed graph network.
-#' If this is provided, then gamma_val, distance_matrix, link_threshold and thresholded_crop_values are ignored.
-#' These ignored parameters are used to generate adjacency matrix internally.
-#' This is the only way to use custom adjacency matrix.
-#' @param crop_raster A raster object for cropland harvest.
-#' @param crop_cells_above_threshold crop cells above threshold. Only contains cells and not the the values.
-#' @param metrics A list 2 vectors - metrics and weights.
-#' @return risk index
-#' @details
-#' Network metrics should be passed as a list of vectors e.g. `list(metrics = c("betweeness"), weights = c(100))`.
-#' Default values are fetched from `parameters.yaml` and arguments uses the same structure.
-#'
-#' @export
-model_powerlaw <- function(beta,
+.model_powerlaw <- function(beta,
                            link_threshold,
-                           distance_matrix = the$distance_matrix,
+                           distance_matrix = NULL,
                            thresholded_crop_values,
                            adj_mat = NULL,
                            crop_raster,
                            crop_cells_above_threshold,
-                           metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
+                           metrics = NULL,
+                           me_weights = NULL) {
 
-  metrics <- .refined_mets(metrics)
+  mets <- .validate_metrics(metrics, me_weights)
 
   #### create adjacency matrix
   stan <- if (is.null(adj_mat)) {
@@ -74,23 +54,24 @@ model_powerlaw <- function(beta,
                                                 mode = c("undirected"),
                                                 diag = FALSE, weighted = TRUE)
 
-  indexpre <- crop_raster
+  indexpre <- terra::rast(crop_raster)
   indexpre[] <- 0
-  indexpre[crop_cells_above_threshold] <- .apply_met(metrics, cropdistancematrix)
-  indexv <- indexpre
+  indexpre[crop_cells_above_threshold] <- .apply_met(mets, me_weights, cropdistancematrix)
+  indexv <- terra::wrap(indexpre)
   return(.model_ob(index = indexv, amatrix = adjmat))
 }
 
-#' @rdname model_powerlaw
-model_neg_exp <- function(gamma_val,
+.model_neg_exp <- function(gamma_val,
                           link_threshold,
-                          distance_matrix = the$distance_matrix,
+                          distance_matrix = NULL,
                           thresholded_crop_values,
                           adj_mat = NULL,
                           crop_raster,
                           crop_cells_above_threshold,
-                          metrics = the$parameters_config$`CCRI parameters`$NetworkMetrics$InversePowerLaw) {
-  metrics <- .refined_mets(metrics)
+                          metrics = NULL,
+                          me_weights = NULL) {
+
+  mets <- .validate_metrics(metrics, me_weights)
 
   #### create adjacency matrix
   ####
@@ -120,18 +101,16 @@ model_neg_exp <- function(gamma_val,
                                                 mode = c("undirected"),
                                                 diag = FALSE, weighted = TRUE)
 
-  indexpre <- crop_raster
+  indexpre <- terra::rast(crop_raster)
   indexpre[] <- 0
-  indexpre[crop_cells_above_threshold] <- .apply_met(metrics, cropdistancematrix)
-  indexv <- indexpre
+  indexpre[crop_cells_above_threshold] <- .apply_met(mets, me_weights, cropdistancematrix)
+  indexv <- terra::wrap(indexpre)
   return(.model_ob(index = indexv, amatrix = adjmat))
 }
 
-# private methods ---------------------------------------------------------
+.apply_met <- function(mets, we, adj_graph) {
 
-.apply_met <- function(mets, adj_graph) {
-
-  mets <- Map(c, mets[[1]], mets[[2]])
+  mets <- Map(c, mets, we)
   index <- 0
 
   mfuns <- .metric_funs()
@@ -140,7 +119,7 @@ model_neg_exp <- function(gamma_val,
     if (mname %in% names(mfuns)) {
       val <- mets[[mname]][[2]]
       mfun <- mfuns[[mname]]
-      index <- index + mfun(adj_graph, val)
+      index <- index + (mfun(adj_graph) * .per_to_real(val))
     } else {
       warning(mname, " is not a valid metric for network connectivity")
     }
