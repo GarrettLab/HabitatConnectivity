@@ -7,6 +7,8 @@
                          fields = list(amatrix = "matrix",
                                        index = "ANY"))
 
+# private methods ---------------------------------------------------------
+
 .risk_indices <- function(model_list) {
   risk_indices <- sapply(model_list, function(x) x@index)
   return(risk_indices)

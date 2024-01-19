@@ -4,12 +4,12 @@ Version: 1.0.1
 Date: 2023-10-29
 Authors@R: c(
     person("Krishna", "Keshav", , "kkeshav@ufl.edu", role = c("aut", "cre")),
+    person("Aaron", "Plex", , "plexaaron@ufl.edu", role = "aut",
+           comment = c(ORCID = "0000-0001-7317-3090")),
     person("Garrett", "Lab", , "karengarrett@ufl.edu", role = "ctb",
            comment = "https://garrettlab.com"),
     person("Karen", "Garrett", , "karengarrett@ufl.edu", role = "aut",
            comment = c(ORCID = "0000-0002-6578-1616")),
-    person("Aaron", "Plex", , "plexaaron@ufl.edu", role = "aut",
-           comment = c(ORCID = "0000-0001-7317-3090")),
     person("University of Florida", role = c("cph", "fnd"),
            comment = "https://www.ufl.edu")
   )

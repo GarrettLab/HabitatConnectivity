@@ -150,14 +150,15 @@ pagerank <- function(crop_dm) {
   envmap <- new.env()
 
   # Define the metric functions
-  envmap[[STR_NEAREST_NEIGHBORS_SUM]] <- function(graph, param) nn_sum(graph)
-  envmap[[STR_NODE_STRENGTH]] <- function(graph, param) node_strength(graph)
-  envmap[[STR_BETWEENNESS]] <- function(graph, param) betweeness(graph)
-  envmap[[STR_EIGEN_VECTOR_CENTRALITY]] <- function(graph, param) ev(graph)
-  envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph, param) closeness(graph)
-  envmap[[STR_PAGE_RANK]] <- function(graph, param) pagerank(graph)
-  envmap[[STR_DEGREE]] <- function(graph, param) degree(graph)
 
+  envmap[[STR_NEAREST_NEIGHBORS_SUM]] <- function(graph) nn_sum(graph)
+  envmap[[STR_NODE_STRENGTH]] <- function(graph) node_strength(graph)
+  envmap[[STR_BETWEENNESS]] <- function(graph) betweeness(graph)
+  envmap[[STR_EIGEN_VECTOR_CENTRALITY]] <- function(graph) ev(graph)
+  envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph) closeness(graph)
+  envmap[[STR_PAGE_RANK]] <- function(graph) pagerank(graph)
+  envmap[[STR_DEGREE]] <- function(graph) degree(graph, param)
+ 
   # Return the environment
   return(envmap)
 }

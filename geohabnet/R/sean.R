@@ -148,9 +148,6 @@
 
 # CCRI functions ----------------------------------------------------------
 
-#library(future)
-#plan(multisession)  # Or choose a different parallelization plan as needed
-
 .ccri <- function(
     link_threshold = 0,
     ipl = NULL,
@@ -198,7 +195,6 @@
 #' @description
 #' This function performs a sensitivity analysis across different values of habitat connectivity for each location in a map.
 #' For each combination of selected parameters, an index of habitat connectivity is calculated.
-#' Some parameters are only accessible from `parameters.yaml` and uses value from here.
 #' [sensitivity_analysis()] is a wrapper around [sean()] function.
 #' - `msean()` is a wrapper around [sean()] function. It has additional argument to specify maps which are calculated
 #' using [connectivity()] function. The maps are essentially the risk network.
@@ -207,13 +203,19 @@
 #' All link weights that are below this threshold will be replaced with zero for the connectivity analysis.
 #' Link weights represent the relative likelihood of pathogen, pest, or invasive species movement between a pair of host locations, 
 #' which is calculated using gravity models based on host density (or availability) and dispersal kernels.
-#' @param host_density_threshold Numeric. A threshold value for host density. 
+#' @param hd_threshold Numeric. A threshold value for host density. 
 #' All locations with a host density below the selected threshold will be excluded from the connectivity analysis, 
 #' which focuses the analysis on the most important locations.
 #' The values for the host density threshold can range between 0 and 1;
 #' if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
 #' Selecting a threshold for host density requires at least knowing what is the maximum value in the host density map to avoid excluding all locations in the analysis.
-
+#' if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
+#' Selecting a threshold for host density requires at least knowing what is the maximum value in the host density map to avoid excluding all locations in the analysis.
+#' @param inv_pl List. A named list of parameters for inverse power law. See [inv_powerlaw()] for details.
+#' @param inv_ne List. A named list of parameters for inverse negative exponential. See [neg_exp()] for details.
+#' All locations with a host density below the selected threshold will be excluded from the connectivity analysis, 
+#' which focuses the analysis on the most important locations.
+#' The values for the host density threshold can range between 0 and 1;
 #' @inheritParams sa_onrasters
 #' @return GeoRasters.
 #' @export
@@ -222,8 +224,7 @@
 #' The functions [sean()] and [msean()] perform the same sensitivity analysis, but they differ in their return value. 
 #' The return value of [msean()] is `GeoNetwork`, which contains the result from applying the [connectivity()] function on the habitat connectivity indexes. 
 #' Essentially, the risk maps.
-#'
-#' When using [msean()], three spatRasters are produced with the following values. 
+#' In [msean()], three spatRasters are produced with the following values.
 #' For each location in the area of interest, the mean in habitat connectivity across selected parameters is calculated.
 #' For each location in the area of interest, the variance in habitat connectivity across selected parameters is calculated.
 #' For each location in the area of interest, the difference between the rank of habitat connectivity and the rank of host density is calculated.
@@ -450,12 +451,12 @@ msean <- function(...,
 #' res2 <- sa_onrasters(rr[[1]],
 #'             global = TRUE,
 #'             link_thresholds = c(0.000001),
-#'             host_density_thresholds = c(0.00015),
+#'             hd_thresholds = c(0.00015),
 #'             agg_methods = c("sum"),
 #'             res = 24)
 #' res3 <- msean_onrast(rast = rr[[1]],
 #'           link_thresholds = c(0.000001),
-#'           host_density_thresholds = c(0.00015))
+#'           hd_thresholds = c(0.00015))
 #'}
 #' @inherit sensitivity_analysis seealso references
 #' @seealso [msean_onrast()]
@@ -526,7 +527,8 @@ msean_onrast <- function(global = TRUE,
 #' which is accessible through the function [get_parameters()].
 #' To customize parameter values, open the parameters.yaml that was automatically downloaded when geohabnet was installed, 
 #' change, remove, or add parameter values directly in the parameters.yaml and save it. 
-#' Once the values have been changed manually, run geohabnet::set_parameters() to set the new parameter values, which will return TRUE if the parameters were set successfully.
+#' Once the values have been changed manually, run [set_parameters()] to set the new parameter values, which will return TRUE if the parameters were set successfully.
+
 #'
 #' @details
 #' For each location in a region, sensitivity_analysis() calculates the cropland connectivity risk index (CCRI) proposed by Xing et al. (2021).
@@ -570,8 +572,6 @@ msean_onrast <- function(global = TRUE,
 #' R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
 sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
-  #.resetglobals()
-  #.resetgan()
   cparams <- load_parameters()
 
   # cutoff adjacency matrix

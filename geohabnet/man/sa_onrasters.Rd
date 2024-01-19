@@ -64,12 +64,12 @@ res1 <- sa_onrasters(rr[[1]],
 res2 <- sa_onrasters(rr[[1]],
             global = TRUE,
             link_thresholds = c(0.000001),
-            host_density_thresholds = c(0.00015),
+            hd_thresholds = c(0.00015),
             agg_methods = c("sum"),
             res = 24)
 res3 <- msean_onrast(rast = rr[[1]],
           link_thresholds = c(0.000001),
-          host_density_thresholds = c(0.00015))
+          hd_thresholds = c(0.00015))
 }
 }
 \references{
