@@ -1,4 +1,4 @@
-#' raster for mapspam crop.
+#' Raster for mapspam crop.
 #'
 #' get raster for crop in mapspam dataset
 #' @param crp character. name of a crop. Case-insensitive.
@@ -18,8 +18,16 @@
 #' Spatially-Disaggregated Crop Production Statistics Data in Africa South of the Sahara for 2017.
 #' <doi: 10.7910/DVN/FSSKBW>, Harvard Dataverse, V2
 #'
-sp_rast <- function(crp) {
-  return(terra::rast(.gen_url(crp)))
+sp_rast <- function(crp, Africa = FALSE) {
+
+  f <- paste(tempfile(), ".tif", sep = "")
+
+  return(geodata::crop_spam(crop = crp,
+                            var = "harv_area",
+                            Africa = Africa,
+                            path = f,
+                            mode = "wb",
+                            quiet = !getOption("verbose") == 0))
 }
 
 .gen_url <- function(crop) {

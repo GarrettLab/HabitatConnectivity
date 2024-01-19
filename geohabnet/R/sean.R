@@ -289,8 +289,11 @@ sean <- function(rast,
     stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
   }
 
-  unpacked_sp <- terra::rast(rast)
-  #mets <- get_param_metrics()
+  unpacked_sp <- if (tolower(class(rast)) == "packedspatraster") {
+    terra::rast(rast)
+  } else {
+    rast
+  }
 
   sean_geo <- function(geoext) {
     .showmsg(paste("\nRunning sensitivity analysis for the extent: [",

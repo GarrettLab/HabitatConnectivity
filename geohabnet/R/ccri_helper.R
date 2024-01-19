@@ -301,10 +301,16 @@ risk_indices <- function(ri) {
 .get_cropharvest_raster_helper <- function(crop_name, data_source) {
   if (data_source == "monfreda") {
     geodata::crop_monfreda(crop = crop_name, path = tempdir(), var = "area_f")
-  } else if (data_source == "mapspam") {
-    sp_rast(crp = crop_name) / 10000
+  } else if (data_source %in% c("mapspam2010", "mapspam2017Africa")) {
+    x <- if (data_source == "mapspam2010") {
+      sp_rast(crp = crop_name)
+    } else {
+      sp_rast(crp = crop_name, Africa = TRUE)
+    } %>%
+      magrittr::divide_by(10000)
+    x
   } else {
-    stop(paste("Encountered unsupported source: ", data_source))
+    stop(paste("unsupported source: ", data_source))
   }
 }
 
@@ -317,9 +323,9 @@ risk_indices <- function(ri) {
 #' @export
 #' @examples
 #' # Get currently supported sources
-#' get_supported_sources()
-get_supported_sources <- function() {
-  return(c("monfreda", "mapspam"))
+#' supported_sources()
+supported_sources <- function() {
+  return(c("monfreda", "mapspam2010", "mapspam2017Africa"))
 }
 
 #' Search for crop
