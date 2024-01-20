@@ -272,7 +272,7 @@ sean <- function(rast,
                    weights = c(50, 15, 15, 20)
                  ),
                  neg_exp = list(
-                   beta = c(0.05, 1, 0.2, 0.3),
+                   gamma = c(0.05, 1, 0.2, 0.3),
                    metrics = c(
                      "betweeness",
                      "NODE_STRENGTH",
@@ -285,14 +285,14 @@ sean <- function(rast,
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
   .stopifnot_sprast(rast)
 
-  if (!global) {
-    stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
+  actualscale <- if(is.null(geoscale)) {
+    as.vector(terra::ext(geoscale))
+  } else {
+    geoscale
   }
 
-  unpacked_sp <- if (tolower(class(rast)) == "packedspatraster") {
-    terra::rast(rast)
-  } else {
-    rast
+  if (!global) {
+    #stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
   }
 
   sean_geo <- function(geoext) {
@@ -309,7 +309,7 @@ sean <- function(rast,
     model_ret <- list()
     host_densityrasts <- list()
     for (agg_method in agg_methods) {
-      density_data <- .init_cd(unpacked_sp,
+      density_data <- .init_cd(.unpack_rast_ifnot(rast),
                                res,
                                geoext,
                                host_density_threshold = hd_threshold,
@@ -353,7 +353,12 @@ sean <- function(rast,
     rasters$set_hd(terra::wrap(terra::merge(east_density, west_density)))
 
   } else {
-    ret <- sean_geo(geoscale)
+    actualscale <- if(is.null(geoscale)) {
+      as.vector(terra::ext(rast))
+    } else {
+      geoscale
+    }
+    ret <- sean_geo(actualscale)
     rasters$rasters <- ret$model_res
     rasters$set_hd(terra::wrap(ret$host_density))
     rasters$global <- FALSE
@@ -364,17 +369,25 @@ sean <- function(rast,
 
 #' @rdname sean
 #' @return GeoNetwork.
-msean <- function(...,
+msean <- function(rast,
+                  global = TRUE,
+                  geoscale = NULL,
+                  res = reso(),
+                  ...,
                   outdir = tempdir()) {
 
 
-  grasters <- sean(...)
+  grasters <- sean(rast,
+                   global = global,
+                   geoscale = geoscale,
+                   res = res,
+                   ...)
 
-  args <- list(...)
+
   gmap <- .connectivity(grasters,
-                        args$global,
-                        args$geoscale,
-                        args$res,
+                        global,
+                        geoscale,
+                        res,
                         TRUE,
                         TRUE,
                         TRUE,

@@ -1,7 +1,7 @@
 default:
   CCRI parameters:
     Hosts:
-      monfreda: ["avocado"]
+      monfreda: 
       mapspam2010:
       mapspam2017Africa: ["tobacco"]
       file:
@@ -10,7 +10,7 @@ default:
     DistanceStrategy: "geodesic"
     Resolution: 12
     GeoExtent: 
-      global: TRUE
+      global: FALSE
       customExt: [-115, -75, 5, 32] # ignored, when global = TRUE
     LinkThreshold: [0.000001]
     DispersalKernelModels:

@@ -8,6 +8,21 @@ library(yaml)
 
 # utility functions for CCRI ----------------------------------------------
 
+.is_packed_rast <- function(x) {
+  if (tolower(class(x)) == "packedspatraster") {
+    TRUE
+  } else {
+    FALSE
+  }
+}
+.unpack_rast_ifnot <- function(x) {
+  if (.is_packed_rast(x)) {
+    terra::unwrap(x)
+  } else {
+    x
+  }
+}
+
 .stopifnot_sprast <- function(x) {
   stopifnot("Require argument of type SpatRaster" = methods::isClass(x, "SpatRaster"))
 }
@@ -305,10 +320,9 @@ risk_indices <- function(ri) {
     x <- if (data_source == "mapspam2010") {
       sp_rast(crp = crop_name)
     } else {
-      sp_rast(crp = crop_name, Africa = TRUE)
+      sp_rast(crp = crop_name, africa = TRUE)
     } %>%
       magrittr::divide_by(10000)
-    x
   } else {
     stop(paste("unsupported source: ", data_source))
   }

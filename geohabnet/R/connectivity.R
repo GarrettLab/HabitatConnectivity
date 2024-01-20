@@ -51,7 +51,13 @@ connectivity <- function(host,
     stopifnot("East and west indices should be of same length" = length(east) == length(west))
   }
 
-  mobj <- ccri_mean(indices, global, east, west, geoscale, res, pmean, outdir)
+  actualscale <- if(is.null(geoscale)) {
+    as.vector(terra::ext(host))
+  } else {
+    geoscale
+  }
+
+  mobj <- ccri_mean(indices, global, east, west, actualscale, res, pmean, outdir)
 
   vobj <- if (pvar == TRUE) {
     ccri_variance(indices,
@@ -59,7 +65,7 @@ connectivity <- function(host,
                   global,
                   east,
                   west,
-                  geoscale,
+                  actualscale,
                   res,
                   outdir)
   }
@@ -72,7 +78,7 @@ connectivity <- function(host,
     ccri_diff(mobj@riid,
               host,
               global,
-              geoscale,
+              actualscale,
               res,
               outdir)
   }
@@ -93,7 +99,7 @@ connectivity <- function(host,
 
   ri_ind <- risk_indices(grast)
 
-  return(connectivity(terra::rast(grast$host_density),
+  return(connectivity(.unpack_rast_ifnot(grast$host_density),
                       ri_ind,
                       global,
                       east = ri_ind[[STR_EAST]],
