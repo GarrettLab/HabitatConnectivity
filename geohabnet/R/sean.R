@@ -285,15 +285,15 @@ sean <- function(rast,
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
   .stopifnot_sprast(rast)
 
-  actualscale <- if(is.null(geoscale)) {
-    as.vector(terra::ext(geoscale))
-  } else {
-    geoscale
-  }
+  # actualscale <- if(is.null(geoscale)) {
+  #   as.vector(terra::ext(rast))
+  # } else {
+  #   geoscale
+  # }
 
-  if (!global) {
-    #stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
-  }
+  # if (!global) {
+  #   #stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
+  # }
 
   sean_geo <- function(geoext) {
     .showmsg(paste("\nRunning sensitivity analysis for the extent: [",
@@ -354,7 +354,7 @@ sean <- function(rast,
 
   } else {
     actualscale <- if(is.null(geoscale)) {
-      as.vector(terra::ext(rast))
+      as.vector(terra::ext(.unpack_rast_ifnot(rast)))
     } else {
       geoscale
     }
@@ -440,7 +440,8 @@ msean <- function(rast,
 #' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise.
 #' Default is `TRUE`
 #' @param geoscale Numeric vector. Geographical coordinates
-#' in the form of c(Xmin, Xmax, Ymin, Ymax)
+#' in the form of c(Xmin, Xmax, Ymin, Ymax). When `geoscale` is NuLL,
+#'  the extent is extracted from `rast`(SpatRaster) using [terra::ext()].
 #' @param link_thresholds Numeric vector. link threshold values
 #' @param hd_thresholds Numeric vector. host density threshold values
 #' @inheritParams sean
@@ -602,7 +603,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   # global analysis
   isglobal <- cparams$`CCRI parameters`$GeoExtent$global
-  geoscale <- geoscale_param()
+  geoscale <- geoscale_param(cparams)
 
   # dispersal models
   pl <- inv_powerlaw(cparams)
@@ -645,7 +646,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   ret <- if (maps == TRUE) {
     new("GeoNetwork",
-        host_density = newrast$host_density,
+        host_density = .unpack_rast_ifnot(newrast$host_density),
         rasters = newrast,
         me_rast = gmap@me_rast,
         me_out = gmap@me_out,

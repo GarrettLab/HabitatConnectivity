@@ -1,9 +1,9 @@
 default:
   CCRI parameters:
     Hosts:
-      monfreda: 
-      mapspam2010:
-      mapspam2017Africa: ["tobacco"]
+      monfreda: ["avocado"]
+      mapspam2010: ["sorghum"]
+      mapspam2017Africa:
       file:
     HostDensityThreshold: [0.00015, 0.000025]
     AggregationStrategy: [sum, mean]
@@ -11,7 +11,7 @@ default:
     Resolution: 12
     GeoExtent: 
       global: FALSE
-      customExt: [-115, -75, 5, 32] # ignored, when global = TRUE
+      customExt:
     LinkThreshold: [0.000001]
     DispersalKernelModels:
       InversePowerLaw:
@@ -26,7 +26,7 @@ default:
         metrics: ["NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
         weights: [30, 30, 40]
     PriorityMaps:
-      OutDir: 
+      OutDir: "C:/Users/kkeshav/Desktop/test"
       MeanCC: TRUE
       Difference: TRUE
       Variance: TRUE

@@ -28,7 +28,8 @@ msean_onrast(
 Default is \code{TRUE}}
 
 \item{geoscale}{Numeric vector. Geographical coordinates
-in the form of c(Xmin, Xmax, Ymin, Ymax)}
+in the form of c(Xmin, Xmax, Ymin, Ymax). When \code{geoscale} is NuLL,
+the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}

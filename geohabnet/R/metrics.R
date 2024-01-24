@@ -44,7 +44,7 @@ supported_metrics <- function() {
 #' @export
 nn_sum <- function(crop_dm) {
 
-  knnpref0 <- igraph::graph.knn(crop_dm, weights = NA)$knn
+  knnpref0 <- igraph::graph.knn(crop_dm, mode = "all", weights = NA)$knn
   knnpref0[is.na(knnpref0)] <- 0
   degreematr <- igraph::degree(crop_dm)
   knnpref <- knnpref0 * degreematr
@@ -74,6 +74,7 @@ node_strength <- function(crop_dm) {
 betweeness <- function(crop_dm) {
 
   between <- igraph::betweenness(crop_dm,
+                                 directed = FALSE,
                                  weights =
                                    (1 - 1 / exp(.get_weight_vector(
                                      crop_dm
@@ -157,7 +158,7 @@ pagerank <- function(crop_dm) {
   envmap[[STR_EIGEN_VECTOR_CENTRALITY]] <- function(graph) ev(graph)
   envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph) closeness(graph)
   envmap[[STR_PAGE_RANK]] <- function(graph) pagerank(graph)
-  envmap[[STR_DEGREE]] <- function(graph) degree(graph, param)
+  envmap[[STR_DEGREE]] <- function(graph) degree(graph)
  
   # Return the environment
   return(envmap)

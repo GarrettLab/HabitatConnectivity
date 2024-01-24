@@ -339,7 +339,15 @@ risk_indices <- function(ri) {
 #' # Get currently supported sources
 #' supported_sources()
 supported_sources <- function() {
-  return(c("monfreda", "mapspam2010", "mapspam2017Africa"))
+  return(c(monfreda(), mapspam()))
+}
+
+monfreda <- function() {
+  return(c("monfreda"))
+}
+
+mapspam <- function() {
+  return(c("mapspam2010", "mapspam2017Africa"))
 }
 
 #' Search for crop

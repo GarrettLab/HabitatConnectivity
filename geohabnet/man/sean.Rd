@@ -20,7 +20,14 @@ sean(
     "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20))
 )
 
-msean(global = TRUE, geoscale = NULL, res = reso, ..., outdir = tempdir())
+msean(
+  rast,
+  global = TRUE,
+  geoscale = NULL,
+  res = reso(),
+  ...,
+  outdir = tempdir()
+)
 }
 \arguments{
 \item{rast}{Raster object which will be used in analysis.}
@@ -29,7 +36,8 @@ msean(global = TRUE, geoscale = NULL, res = reso, ..., outdir = tempdir())
 Default is \code{TRUE}}
 
 \item{geoscale}{Numeric vector. Geographical coordinates
-in the form of c(Xmin, Xmax, Ymin, Ymax)}
+in the form of c(Xmin, Xmax, Ymin, Ymax). When \code{geoscale} is NuLL,
+the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
 \item{link_threshold}{Numeric. A threshold value for link weight.
 All link weights that are below this threshold will be replaced with zero for the connectivity analysis.

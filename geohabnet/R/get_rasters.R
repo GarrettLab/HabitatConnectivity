@@ -42,6 +42,8 @@ crops_rast <- function(crop_names) {
     stop("Input 'crop_names' must be a non-empty list of crop names.")
   }
 
+  #stopifnot("Cannot merge both 2010 and 2017 Africa" = !all(mapspam() %in% names(crop_names)))
+
   # output: list("wheat" = c("monfreda", "mapspam2010"), "barley" = c("monfreda"), "potato" = c("mapspam2010"))
   crops <- list()
 
@@ -57,6 +59,7 @@ crops_rast <- function(crop_names) {
   # crop names
   nams <- names(crops)
   cropharvests <- future.apply::future_lapply(seq_along(crops), function(i) {
+    stopifnot("Cannot merge mapspam data for both 2010 and 2017 Africa" = !all(mapspam() %in% crops[[i]]))
     single_crop_rasters <- lapply(crops[[i]], function(j) {
       cr <- cropharvest_rast(nams[i], j)
       return(cr)
