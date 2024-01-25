@@ -20,7 +20,7 @@
 #' Default is [tempdir()].
 #' @return Gmap. See details.
 #' @details
-#' `indexes` are actually risk indices representing in the form of `spatRaster`
+#' `indexes` are actually risk indices i.e. lis of `spatRaster` objects
 #' resulting from operations on crop's raster and
 #' parameters provided in either `parameters.yaml` or [sean()].
 #'
@@ -30,6 +30,7 @@
 #' These objects are available as a return value of this function.
 #'
 #' @inherit sensitivity_analysis references
+#' @seealso [ccri_mean()], [ccri_variance()], [ccri_diff()]
 #' @export
 connectivity <- function(host,
                          indices,
@@ -44,6 +45,8 @@ connectivity <- function(host,
                          outdir = tempdir()) {
 
   stopifnot("Require host parameter" = !is.null(host))
+  stopifnot("Require indices" = !is.null(indices))
+
   .stopifnot_sprast(host)
 
   if (global) {
