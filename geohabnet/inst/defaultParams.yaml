@@ -22,9 +22,11 @@ default:
       InversePowerLaw:
         metrics: ["node_strength"]
         weights: [100]
+        cutoff: -1
       NegativeExponential:
         metrics: ["node_strength"]
         weights: [100]
+        cutoff: -1
     PriorityMaps:
       OutDir: 
       MeanCC: TRUE

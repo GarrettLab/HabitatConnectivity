@@ -75,64 +75,6 @@
   return(density_data)
 }
 
-# Aggregate -----------------------------------------------------
-
-.ccri_powerlaw <- function(betas,
-                           link_threshold = 0,
-                           metrics = NULL,
-                           me_weights = NULL,
-                           rast,
-                           crop_cells_above_threshold = NULL,
-                           thresholded_crop_values = NULL,
-                           distance_matrix = NULL) {
-
-  if (!.validate_index_cal(betas)) {
-    return(0)
-  }
-
-  pl_models <- future.apply::future_lapply(betas, .model_powerlaw,
-                      link_threshold = link_threshold,
-                      distance_matrix,
-                      thresholded_crop_values,
-                      adj_mat = NULL,
-                      rast,
-                      crop_cells_above_threshold,
-                      metrics = metrics,
-                      me_weights = me_weights,
-                      future.seed = TRUE)
-
-  return(pl_models)
-}
-
-.ccri_negative_exp <- function(gammas,
-                               link_threshold = 0,
-                               metrics = NULL,
-                               me_weights = NULL,
-                               rast,
-                               crop_cells_above_threshold = NULL,
-                               thresholded_crop_values = NULL,
-                               distance_matrix = NULL) {
-
-  if (!.validate_index_cal(gammas)) {
-    return(0)
-  }
-
-  ne_models <- future.apply::future_lapply(gammas,
-                                           .model_neg_exp,
-                                           link_threshold = link_threshold,
-                                           distance_matrix,
-                                           thresholded_crop_values,
-                                           adj_mat = NULL,
-                                           rast,
-                                           crop_cells_above_threshold,
-                                           metrics = metrics,
-                                           me_weights = me_weights,
-                                           future.seed = TRUE)
-
-  return(ne_models)
-}
-
-
 # Utility functions -------------------------------------------------------
 
 .validate_index_cal <- function(vals) {
@@ -147,6 +89,64 @@
 }
 
 # CCRI functions ----------------------------------------------------------
+.ccri_powerlaw <- function(betas,
+                           link_threshold = 0,
+                           metrics = NULL,
+                           me_weights = NULL,
+                           cutoff = -1,
+                           rast,
+                           crop_cells_above_threshold = NULL,
+                           thresholded_crop_values = NULL,
+                           distance_matrix = NULL) {
+  
+  if (!.validate_index_cal(betas)) {
+    return(0)
+  }
+  
+  pl_models <- future.apply::future_lapply(betas, .model_powerlaw,
+                                           link_threshold = link_threshold,
+                                           distance_matrix,
+                                           thresholded_crop_values,
+                                           adj_mat = NULL,
+                                           rast,
+                                           crop_cells_above_threshold,
+                                           metrics = metrics,
+                                           me_weights = me_weights,
+                                           cutoff = cutoff,
+                                           future.seed = TRUE)
+  
+  return(pl_models)
+}
+
+.ccri_negative_exp <- function(gammas,
+                               link_threshold = 0,
+                               metrics = NULL,
+                               me_weights = NULL,
+                               cutoff = -1,
+                               rast,
+                               crop_cells_above_threshold = NULL,
+                               thresholded_crop_values = NULL,
+                               distance_matrix = NULL) {
+  
+  if (!.validate_index_cal(gammas)) {
+    return(0)
+  }
+  
+  ne_models <- future.apply::future_lapply(gammas,
+                                           .model_neg_exp,
+                                           link_threshold = link_threshold,
+                                           distance_matrix,
+                                           thresholded_crop_values,
+                                           adj_mat = NULL,
+                                           rast,
+                                           crop_cells_above_threshold,
+                                           metrics = metrics,
+                                           me_weights = me_weights,
+                                           cutoff = cutoff,
+                                           future.seed = TRUE)
+  
+  return(ne_models)
+}
 
 .ccri <- function(
     link_threshold = 0,
@@ -164,6 +164,7 @@
                    link_threshold,
                    metrics = ipl$metrics,
                    me_weights = ipl$weights,
+                   cutoff = ipl$cutoff,
                    packed_sp,
                    crop_cells_above_threshold = crop_cells_above_threshold,
                    thresholded_crop_values = thresholded_crop_values,
@@ -175,6 +176,7 @@
                        link_threshold,
                        metrics = ne_exp$metrics,
                        me_weights = ne_exp$weights,
+                       cutoff = ne_exp$cutoff,
                        packed_sp,
                        crop_cells_above_threshold = crop_cells_above_threshold,
                        thresholded_crop_values = thresholded_crop_values,
@@ -269,7 +271,8 @@ sean <- function(rast,
                      "Sum_of_nearest_neighbors",
                      "eigenVector_centrAlitY"
                    ),
-                   weights = c(50, 15, 15, 20)
+                   weights = c(50, 15, 15, 20),
+                   cutoff = -1
                  ),
                  neg_exp = list(
                    gamma = c(0.05, 1, 0.2, 0.3),
@@ -279,7 +282,8 @@ sean <- function(rast,
                      "Sum_of_nearest_neighbors",
                      "eigenVector_centrAlitY"
                    ),
-                   weights = c(50, 15, 15, 20)
+                   weights = c(50, 15, 15, 20),
+                   cutoff = -1
                  )) {
 
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)

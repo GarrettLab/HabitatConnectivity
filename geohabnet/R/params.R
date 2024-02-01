@@ -122,14 +122,16 @@ reset_params <- function() {
 inv_powerlaw <- function(params = load_parameters()) {
   return(list(beta = params$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta,
               metrics = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$metrics,
-              weights = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$weights))
+              weights = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$weights,
+              cutoff = as.numeric(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$cutoff)))
 }
 
 #' @rdname Dispersal-kernels
 neg_exp <- function(params = load_parameters()) {
   return(list(gamma = params$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma,
               metrics = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$metrics,
-              weights = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$weights))
+              weights = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$weights,
+              cutoff = as.numeric(params$`CCRI parameters`$NetworkMetrics$NegativeExponential$cutoff)))
 }
 
 .param_fp <- function() {
