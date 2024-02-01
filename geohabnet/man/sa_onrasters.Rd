@@ -28,7 +28,7 @@ msean_onrast(
 Default is \code{TRUE}}
 
 \item{geoscale}{Numeric vector. Geographical coordinates
-in the form of c(Xmin, Xmax, Ymin, Ymax). When \code{geoscale} is NuLL,
+in the form of c(Xmin, Xmax, Ymin, Ymax). If \code{geoscale} is NuLL,
 the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
@@ -49,8 +49,7 @@ It produces and plots the maps for the outcomes and results are returned as an o
 }
 }
 \details{
-When \code{global = TRUE}, \code{geo_scale} is ignored.
-Instead uses scales from \code{\link[=global_scales]{global_scales()}}.
+Error not handled for non-overlapping extents.
 }
 \examples{
 \donttest{

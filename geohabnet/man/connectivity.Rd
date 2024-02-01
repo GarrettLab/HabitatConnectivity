@@ -54,7 +54,7 @@ Currently, the settings for plot cannot be customized.
 Default value is \code{TRUE} for all logical arguments
 }
 \details{
-\code{indexes} are actually risk indices representing in the form of \code{spatRaster}
+\code{indexes} are actually risk indices i.e. lis of \code{spatRaster} objects
 resulting from operations on crop's raster and
 parameters provided in either \code{parameters.yaml} or \code{\link[=sean]{sean()}}.
 
@@ -74,4 +74,7 @@ BioScience, Volume 70, Issue 9, September 2020, Pages 744–758,
 
 Hijmans R (2023). \emph{terra: Spatial Data Analysis}.
 R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
+}
+\seealso{
+\code{\link[=ccri_mean]{ccri_mean()}}, \code{\link[=ccri_variance]{ccri_variance()}}, \code{\link[=ccri_diff]{ccri_diff()}}
 }

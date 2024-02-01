@@ -36,7 +36,7 @@ msean(
 Default is \code{TRUE}}
 
 \item{geoscale}{Numeric vector. Geographical coordinates
-in the form of c(Xmin, Xmax, Ymin, Ymax). When \code{geoscale} is NuLL,
+in the form of c(Xmin, Xmax, Ymin, Ymax). If \code{geoscale} is NuLL,
 the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
 \item{link_threshold}{Numeric. A threshold value for link weight.

@@ -353,6 +353,8 @@ sean <- function(rast,
     rasters$set_hd(terra::wrap(terra::merge(east_density, west_density)))
 
   } else {
+
+    # Here, use extent of input spatRaster if not provided in argument
     actualscale <- if(is.null(geoscale)) {
       as.vector(terra::ext(.unpack_rast_ifnot(rast)))
     } else {
@@ -440,7 +442,7 @@ msean <- function(rast,
 #' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise.
 #' Default is `TRUE`
 #' @param geoscale Numeric vector. Geographical coordinates
-#' in the form of c(Xmin, Xmax, Ymin, Ymax). When `geoscale` is NuLL,
+#' in the form of c(Xmin, Xmax, Ymin, Ymax). If `geoscale` is NuLL,
 #'  the extent is extracted from `rast`(SpatRaster) using [terra::ext()].
 #' @param link_thresholds Numeric vector. link threshold values
 #' @param hd_thresholds Numeric vector. host density threshold values
@@ -452,8 +454,7 @@ msean <- function(rast,
 #' One combination is equivalent to [sean()] function.
 #' @export
 #' @details
-#' When `global = TRUE`, `geo_scale` is ignored.
-#' Instead uses scales from [global_scales()].
+#' Error not handled for non-overlapping extents.
 #'
 #' @examples
 #' \donttest{
