@@ -76,9 +76,7 @@ betweeness <- function(crop_dm) {
   between <- igraph::betweenness(crop_dm,
                                  directed = FALSE,
                                  weights =
-                                   (1 - 1 / exp(.get_weight_vector(
-                                     crop_dm
-                                   ))))
+                                   log(1 / get_weight_vector(crop_dm)))
 
   between[is.na(between)] <- 0
   betweenp <- if (max(between) == 0) {
@@ -118,7 +116,7 @@ degree <- function(crop_dm) {
 #' @rdname nn_sum
 closeness <- function(crop_dm) {
   cvv <- igraph::closeness(crop_dm,
-                           weights = 1 - 1 / exp(.get_weight_vector(crop_dm)))
+                           weights = log(1/ (.get_weight_vector(crop_dm))))
   cvv[is.na(cvv)] <- 0
   cns <- if (max(cvv) == 0) {
     0

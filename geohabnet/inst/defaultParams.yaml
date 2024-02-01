@@ -20,11 +20,11 @@ default:
         gamma: [0.05, 1, 0.2, 0.3]
     NetworkMetrics:
       InversePowerLaw:
-        metrics: ["NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
-        weights: [30, 30, 40]
+        metrics: ["node_strength"]
+        weights: [100]
       NegativeExponential:
-        metrics: ["NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
-        weights: [30, 30, 40]
+        metrics: ["node_strength"]
+        weights: [100]
     PriorityMaps:
       OutDir: 
       MeanCC: TRUE
