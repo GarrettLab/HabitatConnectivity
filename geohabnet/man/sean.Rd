@@ -15,9 +15,11 @@ sean(
   hd_threshold = 0,
   res = reso(),
   inv_pl = list(beta = c(0.5, 1, 1.5), metrics = c("betweeness", "NODE_STRENGTH",
-    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20)),
+    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20),
+    cutoff = -1),
   neg_exp = list(gamma = c(0.05, 1, 0.2, 0.3), metrics = c("betweeness", "NODE_STRENGTH",
-    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20))
+    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20),
+    cutoff = -1)
 )
 
 msean(

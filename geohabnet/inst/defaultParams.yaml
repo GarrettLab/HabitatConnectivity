@@ -2,7 +2,7 @@ default:
   CCRI parameters:
     Hosts:
       monfreda: ["avocado"]
-      mapspam2010:
+      mapspam2010: 
       mapspam2017Africa:
       file:
     HostDensityThreshold: [0.00015, 0.000025]
@@ -20,15 +20,15 @@ default:
         gamma: [0.05, 1, 0.2, 0.3]
     NetworkMetrics:
       InversePowerLaw:
-        metrics: ["node_strength"]
-        weights: [100]
+        metrics: ["betweeness", "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
+        weights: [50, 15, 15, 20]
         cutoff: -1
       NegativeExponential:
-        metrics: ["node_strength"]
-        weights: [100]
+        metrics: ["betweeness", "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
+        weights: [50, 15, 15, 20]
         cutoff: -1
     PriorityMaps:
-      OutDir: 
+      OutDir:
       MeanCC: TRUE
       Difference: TRUE
       Variance: TRUE

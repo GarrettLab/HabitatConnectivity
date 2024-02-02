@@ -2,7 +2,7 @@ default:
   CCRI parameters:
     Hosts:
       monfreda: ["avocado"]
-      mapspam2010: ["sorghum"]
+      mapspam2010: 
       mapspam2017Africa:
       file:
     HostDensityThreshold: [0.00015, 0.000025]
@@ -10,8 +10,8 @@ default:
     DistanceStrategy: "geodesic"
     Resolution: 12
     GeoExtent: 
-      global: FALSE
-      customExt:
+      global: TRUE
+      customExt: [-115, -75, 5, 32] # ignored, when global = TRUE
     LinkThreshold: [0.000001]
     DispersalKernelModels:
       InversePowerLaw:
@@ -20,15 +20,15 @@ default:
         gamma: [0.05, 1, 0.2, 0.3]
     NetworkMetrics:
       InversePowerLaw:
-        metrics: ["betweeness"]
-        weights: [100]
+        metrics: ["betweeness", "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
+        weights: [50, 15, 15, 20]
         cutoff: -1
       NegativeExponential:
-        metrics: ["betweeness"]
-        weights: [100]
+        metrics: ["betweeness", "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"]
+        weights: [50, 15, 15, 20]
         cutoff: -1
     PriorityMaps:
-      OutDir: "C:/Users/kkeshav/Desktop/test"
+      OutDir:
       MeanCC: TRUE
       Difference: TRUE
       Variance: TRUE

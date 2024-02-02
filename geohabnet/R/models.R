@@ -131,7 +131,7 @@
       mfun <- mfuns[[mname]]
 
       met_result <- if (mname == STR_BETWEENNESS) {
-        mfun(adj_graph, cutoff)
+        mfun(adj_graph, cutoff = cutoff)
       } else {
         mfun(adj_graph)
       }

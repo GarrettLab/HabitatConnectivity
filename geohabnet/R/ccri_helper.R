@@ -321,8 +321,8 @@ risk_indices <- function(ri) {
       sp_rast(crp = crop_name)
     } else {
       sp_rast(crp = crop_name, africa = TRUE)
-    } %>%
-      magrittr::divide_by(10000)
+    }
+    x * 0.0001
   } else {
     stop(paste("unsupported source: ", data_source))
   }

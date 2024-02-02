@@ -35,7 +35,7 @@ gplot <- function(x, ...) {
           cex.main = 0.9)
     # Plot the raster
     if (isglobal == TRUE) {
-      gs <- terra::ext(rast)
+      gs <- .global_ext()
       gplot(rast,
             col = col_pal,
             xaxt = "n",
@@ -67,7 +67,7 @@ gplot <- function(x, ...) {
       world <- terra::crop(world, terra::ext(rast))
     }
 
-    terra::plot(world, col = NA, border = "black", add = TRUE)
+    terra::plot(world, col = NA, border = "grey50", add = TRUE)
   }
   invisible(NULL)
 }
