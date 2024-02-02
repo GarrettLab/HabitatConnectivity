@@ -4,7 +4,10 @@
 \alias{geoscale_param}
 \title{Get geographical scales from the parameters}
 \usage{
-geoscale_param()
+geoscale_param(gparams = load_parameters())
+}
+\arguments{
+\item{gparams}{Optional. \code{\link[=load_parameters]{load_parameters()}} or null}
 }
 \value{
 Vector. A set of geographical scales

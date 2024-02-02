@@ -9,7 +9,7 @@
 #' @examples
 #' # Get default rasters
 #' \dontrun{
-#' get_rasters(list(mapspam = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
+#' get_rasters(list(mapspam2010 = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
 #' }
 #' @seealso [load_parameters()], [get_parameters()], [tiff_torast()], [cropharvest_rast()]
 get_rasters <- function(hosts) {
@@ -35,17 +35,19 @@ get_rasters <- function(hosts) {
 #' @export
 #' @examples
 #' \donttest{
-#' crops_rast(list(monfreda = c("wheat", "barley"), mapspam = c("wheat", "potato")))
+#' crops_rast(list(monfreda = c("wheat", "barley"), mapspam2010 = c("wheat", "potato")))
 #' }
 crops_rast <- function(crop_names) {
   if (!is.list(crop_names) || length(crop_names) == 0) {
     stop("Input 'crop_names' must be a non-empty list of crop names.")
   }
 
-  # output: list("wheat" = c("monfreda", "mapspam"), "barley" = c("monfreda"), "potato" = c("mapspam"))
+  #stopifnot("Cannot merge both 2010 and 2017 Africa" = !all(mapspam() %in% names(crop_names)))
+
+  # output: list("wheat" = c("monfreda", "mapspam2010"), "barley" = c("monfreda"), "potato" = c("mapspam2010"))
   crops <- list()
 
-  for (src in get_supported_sources()) {
+  for (src in supported_sources()) {
     for (crop_name in crop_names[[src]]) {
       crops[[crop_name]] <- c(crops[[crop_name]], src)
     }
@@ -57,6 +59,7 @@ crops_rast <- function(crop_names) {
   # crop names
   nams <- names(crops)
   cropharvests <- future.apply::future_lapply(seq_along(crops), function(i) {
+    stopifnot("Cannot merge mapspam data for both 2010 and 2017 Africa" = !all(mapspam() %in% crops[[i]]))
     single_crop_rasters <- lapply(crops[[i]], function(j) {
       cr <- cropharvest_rast(nams[i], j)
       return(cr)
@@ -64,7 +67,7 @@ crops_rast <- function(crop_names) {
 
     len_scr <- length(single_crop_rasters)
     ret <- if (len_scr > 1) {
-      terra::app(terra::rast(single_crop_rasters),
+      terra::app(single_crop_rasters,
                  fun = sum,
                  na.rm = TRUE) / len_scr
     } else {
@@ -90,7 +93,7 @@ crops_rast <- function(crop_names) {
 #'
 cropharvest_rast <- function(crop_name, data_source) {
   # supported sources
-  sources <- get_supported_sources()
+  sources <- supported_sources()
   if (!(data_source %in% sources)) {
     stop(paste("data source: ", data_source, " is not supported"))
   }

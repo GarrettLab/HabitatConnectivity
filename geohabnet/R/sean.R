@@ -75,64 +75,6 @@
   return(density_data)
 }
 
-# Aggregate -----------------------------------------------------
-
-.ccri_powerlaw <- function(betas,
-                           link_threshold = 0,
-                           metrics = NULL,
-                           me_weights = NULL,
-                           rast,
-                           crop_cells_above_threshold = NULL,
-                           thresholded_crop_values = NULL,
-                           distance_matrix = NULL) {
-
-  if (!.validate_index_cal(betas)) {
-    return(0)
-  }
-
-  pl_models <- future.apply::future_lapply(betas, .model_powerlaw,
-                      link_threshold = link_threshold,
-                      distance_matrix,
-                      thresholded_crop_values,
-                      adj_mat = NULL,
-                      rast,
-                      crop_cells_above_threshold,
-                      metrics = metrics,
-                      me_weights = me_weights,
-                      future.seed = TRUE)
-
-  return(pl_models)
-}
-
-.ccri_negative_exp <- function(gammas,
-                               link_threshold = 0,
-                               metrics = NULL,
-                               me_weights = NULL,
-                               rast,
-                               crop_cells_above_threshold = NULL,
-                               thresholded_crop_values = NULL,
-                               distance_matrix = NULL) {
-
-  if (!.validate_index_cal(gammas)) {
-    return(0)
-  }
-
-  ne_models <- future.apply::future_lapply(gammas,
-                                           .model_neg_exp,
-                                           link_threshold = link_threshold,
-                                           distance_matrix,
-                                           thresholded_crop_values,
-                                           adj_mat = NULL,
-                                           rast,
-                                           crop_cells_above_threshold,
-                                           metrics = metrics,
-                                           me_weights = me_weights,
-                                           future.seed = TRUE)
-
-  return(ne_models)
-}
-
-
 # Utility functions -------------------------------------------------------
 
 .validate_index_cal <- function(vals) {
@@ -147,6 +89,64 @@
 }
 
 # CCRI functions ----------------------------------------------------------
+.ccri_powerlaw <- function(betas,
+                           link_threshold = 0,
+                           metrics = NULL,
+                           me_weights = NULL,
+                           cutoff = -1,
+                           rast,
+                           crop_cells_above_threshold = NULL,
+                           thresholded_crop_values = NULL,
+                           distance_matrix = NULL) {
+  
+  if (!.validate_index_cal(betas)) {
+    return(0)
+  }
+  
+  pl_models <- future.apply::future_lapply(betas, .model_powerlaw,
+                                           link_threshold = link_threshold,
+                                           distance_matrix,
+                                           thresholded_crop_values,
+                                           adj_mat = NULL,
+                                           rast,
+                                           crop_cells_above_threshold,
+                                           metrics = metrics,
+                                           me_weights = me_weights,
+                                           cutoff = cutoff,
+                                           future.seed = TRUE)
+  
+  return(pl_models)
+}
+
+.ccri_negative_exp <- function(gammas,
+                               link_threshold = 0,
+                               metrics = NULL,
+                               me_weights = NULL,
+                               cutoff = -1,
+                               rast,
+                               crop_cells_above_threshold = NULL,
+                               thresholded_crop_values = NULL,
+                               distance_matrix = NULL) {
+  
+  if (!.validate_index_cal(gammas)) {
+    return(0)
+  }
+  
+  ne_models <- future.apply::future_lapply(gammas,
+                                           .model_neg_exp,
+                                           link_threshold = link_threshold,
+                                           distance_matrix,
+                                           thresholded_crop_values,
+                                           adj_mat = NULL,
+                                           rast,
+                                           crop_cells_above_threshold,
+                                           metrics = metrics,
+                                           me_weights = me_weights,
+                                           cutoff = cutoff,
+                                           future.seed = TRUE)
+  
+  return(ne_models)
+}
 
 .ccri <- function(
     link_threshold = 0,
@@ -164,6 +164,7 @@
                    link_threshold,
                    metrics = ipl$metrics,
                    me_weights = ipl$weights,
+                   cutoff = ipl$cutoff,
                    packed_sp,
                    crop_cells_above_threshold = crop_cells_above_threshold,
                    thresholded_crop_values = thresholded_crop_values,
@@ -175,6 +176,7 @@
                        link_threshold,
                        metrics = ne_exp$metrics,
                        me_weights = ne_exp$weights,
+                       cutoff = ne_exp$cutoff,
                        packed_sp,
                        crop_cells_above_threshold = crop_cells_above_threshold,
                        thresholded_crop_values = thresholded_crop_values,
@@ -269,28 +271,33 @@ sean <- function(rast,
                      "Sum_of_nearest_neighbors",
                      "eigenVector_centrAlitY"
                    ),
-                   weights = c(50, 15, 15, 20)
+                   weights = c(50, 15, 15, 20),
+                   cutoff = -1
                  ),
                  neg_exp = list(
-                   beta = c(0.05, 1, 0.2, 0.3),
+                   gamma = c(0.05, 1, 0.2, 0.3),
                    metrics = c(
                      "betweeness",
                      "NODE_STRENGTH",
                      "Sum_of_nearest_neighbors",
                      "eigenVector_centrAlitY"
                    ),
-                   weights = c(50, 15, 15, 20)
+                   weights = c(50, 15, 15, 20),
+                   cutoff = -1
                  )) {
 
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
   .stopifnot_sprast(rast)
 
-  if (!global) {
-    stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
-  }
+  # actualscale <- if(is.null(geoscale)) {
+  #   as.vector(terra::ext(rast))
+  # } else {
+  #   geoscale
+  # }
 
-  unpacked_sp <- terra::rast(rast)
-  #mets <- get_param_metrics()
+  # if (!global) {
+  #   #stopifnot("Non-global analysis requires both geoscale argument and global = FALSE" = !is.null(geoscale))
+  # }
 
   sean_geo <- function(geoext) {
     .showmsg(paste("\nRunning sensitivity analysis for the extent: [",
@@ -306,7 +313,7 @@ sean <- function(rast,
     model_ret <- list()
     host_densityrasts <- list()
     for (agg_method in agg_methods) {
-      density_data <- .init_cd(unpacked_sp,
+      density_data <- .init_cd(.unpack_rast_ifnot(rast),
                                res,
                                geoext,
                                host_density_threshold = hd_threshold,
@@ -350,7 +357,14 @@ sean <- function(rast,
     rasters$set_hd(terra::wrap(terra::merge(east_density, west_density)))
 
   } else {
-    ret <- sean_geo(geoscale)
+
+    # Here, use extent of input spatRaster if not provided in argument
+    actualscale <- if(is.null(geoscale)) {
+      as.vector(terra::ext(.unpack_rast_ifnot(rast)))
+    } else {
+      geoscale
+    }
+    ret <- sean_geo(actualscale)
     rasters$rasters <- ret$model_res
     rasters$set_hd(terra::wrap(ret$host_density))
     rasters$global <- FALSE
@@ -361,17 +375,25 @@ sean <- function(rast,
 
 #' @rdname sean
 #' @return GeoNetwork.
-msean <- function(...,
+msean <- function(rast,
+                  global = TRUE,
+                  geoscale = NULL,
+                  res = reso(),
+                  ...,
                   outdir = tempdir()) {
 
 
-  grasters <- sean(...)
+  grasters <- sean(rast,
+                   global = global,
+                   geoscale = geoscale,
+                   res = res,
+                   ...)
 
-  args <- list(...)
+
   gmap <- .connectivity(grasters,
-                        args$global,
-                        args$geoscale,
-                        args$res,
+                        global,
+                        geoscale,
+                        res,
                         TRUE,
                         TRUE,
                         TRUE,
@@ -424,7 +446,8 @@ msean <- function(...,
 #' @param global Logical. `TRUE` if global analysis, `FALSE` otherwise.
 #' Default is `TRUE`
 #' @param geoscale Numeric vector. Geographical coordinates
-#' in the form of c(Xmin, Xmax, Ymin, Ymax)
+#' in the form of c(Xmin, Xmax, Ymin, Ymax). If `geoscale` is NuLL,
+#'  the extent is extracted from `rast`(SpatRaster) using [terra::ext()].
 #' @param link_thresholds Numeric vector. link threshold values
 #' @param hd_thresholds Numeric vector. host density threshold values
 #' @inheritParams sean
@@ -435,8 +458,7 @@ msean <- function(...,
 #' One combination is equivalent to [sean()] function.
 #' @export
 #' @details
-#' When `global = TRUE`, `geo_scale` is ignored.
-#' Instead uses scales from [global_scales()].
+#' Error not handled for non-overlapping extents.
 #'
 #' @examples
 #' \donttest{
@@ -586,7 +608,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   # global analysis
   isglobal <- cparams$`CCRI parameters`$GeoExtent$global
-  geoscale <- geoscale_param()
+  geoscale <- geoscale_param(cparams)
 
   # dispersal models
   pl <- inv_powerlaw(cparams)
@@ -629,7 +651,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   ret <- if (maps == TRUE) {
     new("GeoNetwork",
-        host_density = newrast$host_density,
+        host_density = .unpack_rast_ifnot(newrast$host_density),
         rasters = newrast,
         me_rast = gmap@me_rast,
         me_out = gmap@me_out,

@@ -24,7 +24,8 @@
                            crop_raster,
                            crop_cells_above_threshold,
                            metrics = NULL,
-                           me_weights = NULL) {
+                           me_weights = NULL,
+                           cutoff = -1) {
 
   mets <- .validate_metrics(metrics, me_weights)
 
@@ -58,7 +59,10 @@
 
   indexpre <- terra::rast(crop_raster)
   indexpre[] <- 0
-  indexpre[crop_cells_above_threshold] <- .apply_met(mets, me_weights, cropdistancematrix)
+  indexpre[crop_cells_above_threshold] <- .apply_met(mets,
+                                                     me_weights,
+                                                     cropdistancematrix,
+                                                     cutoff)
   indexv <- terra::wrap(indexpre)
   return(.model_ob(index = indexv, amatrix = adjmat))
 }
@@ -71,7 +75,8 @@
                           crop_raster,
                           crop_cells_above_threshold,
                           metrics = NULL,
-                          me_weights = NULL) {
+                          me_weights = NULL,
+                          cutoff = -1) {
 
   mets <- .validate_metrics(metrics, me_weights)
 
@@ -105,12 +110,15 @@
 
   indexpre <- terra::rast(crop_raster)
   indexpre[] <- 0
-  indexpre[crop_cells_above_threshold] <- .apply_met(mets, me_weights, cropdistancematrix)
+  indexpre[crop_cells_above_threshold] <- .apply_met(mets,
+                                                     me_weights,
+                                                     cropdistancematrix,
+                                                     cutoff)
   indexv <- terra::wrap(indexpre)
   return(.model_ob(index = indexv, amatrix = adjmat))
 }
 
-.apply_met <- function(mets, we, adj_graph) {
+.apply_met <- function(mets, we, adj_graph, cutoff) {
 
   mets <- Map(c, mets, we)
   index <- 0
@@ -121,7 +129,14 @@
     if (mname %in% names(mfuns)) {
       val <- mets[[mname]][[2]]
       mfun <- mfuns[[mname]]
-      index <- index + (mfun(adj_graph) * .per_to_real(val))
+
+      met_result <- if (mname == STR_BETWEENNESS) {
+        mfun(adj_graph, cutoff = cutoff)
+      } else {
+        mfun(adj_graph)
+      }
+
+      index <- index + (met_result * .per_to_real(val))
     } else {
       warning(mname, " is not a valid metric for network connectivity")
     }

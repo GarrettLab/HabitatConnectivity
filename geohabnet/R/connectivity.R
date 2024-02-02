@@ -20,7 +20,7 @@
 #' Default is [tempdir()].
 #' @return Gmap. See details.
 #' @details
-#' `indexes` are actually risk indices representing in the form of `spatRaster`
+#' `indexes` are actually risk indices i.e. lis of `spatRaster` objects
 #' resulting from operations on crop's raster and
 #' parameters provided in either `parameters.yaml` or [sean()].
 #'
@@ -30,6 +30,7 @@
 #' These objects are available as a return value of this function.
 #'
 #' @inherit sensitivity_analysis references
+#' @seealso [ccri_mean()], [ccri_variance()], [ccri_diff()]
 #' @export
 connectivity <- function(host,
                          indices,
@@ -44,6 +45,8 @@ connectivity <- function(host,
                          outdir = tempdir()) {
 
   stopifnot("Require host parameter" = !is.null(host))
+  stopifnot("Require indices" = !is.null(indices))
+
   .stopifnot_sprast(host)
 
   if (global) {
@@ -51,7 +54,13 @@ connectivity <- function(host,
     stopifnot("East and west indices should be of same length" = length(east) == length(west))
   }
 
-  mobj <- ccri_mean(indices, global, east, west, geoscale, res, pmean, outdir)
+  actualscale <- if(is.null(geoscale)) {
+    as.vector(terra::ext(host))
+  } else {
+    geoscale
+  }
+
+  mobj <- ccri_mean(indices, global, east, west, actualscale, res, pmean, outdir)
 
   vobj <- if (pvar == TRUE) {
     ccri_variance(indices,
@@ -59,7 +68,7 @@ connectivity <- function(host,
                   global,
                   east,
                   west,
-                  geoscale,
+                  actualscale,
                   res,
                   outdir)
   }
@@ -72,7 +81,7 @@ connectivity <- function(host,
     ccri_diff(mobj@riid,
               host,
               global,
-              geoscale,
+              actualscale,
               res,
               outdir)
   }
@@ -93,7 +102,7 @@ connectivity <- function(host,
 
   ri_ind <- risk_indices(grast)
 
-  return(connectivity(terra::rast(grast$host_density),
+  return(connectivity(.unpack_rast_ifnot(grast$host_density),
                       ri_ind,
                       global,
                       east = ri_ind[[STR_EAST]],

@@ -42,9 +42,9 @@ supported_metrics <- function() {
 #'
 #' @family metrics
 #' @export
-nn_sum <- function(crop_dm) {
+nn_sum <- function(crop_dm, ...) {
 
-  knnpref0 <- igraph::graph.knn(crop_dm, weights = NA)$knn
+  knnpref0 <- igraph::graph.knn(crop_dm, mode = "all", weights = NA, ...)$knn
   knnpref0[is.na(knnpref0)] <- 0
   degreematr <- igraph::degree(crop_dm)
   knnpref <- knnpref0 * degreematr
@@ -58,8 +58,8 @@ nn_sum <- function(crop_dm) {
 
 
 #' @rdname nn_sum
-node_strength <- function(crop_dm) {
-  nodestrength <- igraph::graph.strength(crop_dm)
+node_strength <- function(crop_dm, ...) {
+  nodestrength <- igraph::graph.strength(crop_dm, ...)
   nodestrength[is.na(nodestrength)] <- 0
   nodestr <- if (max(nodestrength) == 0) {
     0
@@ -71,13 +71,13 @@ node_strength <- function(crop_dm) {
 }
 
 #' @rdname nn_sum
-betweeness <- function(crop_dm) {
+betweeness <- function(crop_dm, ...) {
 
   between <- igraph::betweenness(crop_dm,
+                                 directed = FALSE,
                                  weights =
-                                   (1 - 1 / exp(.get_weight_vector(
-                                     crop_dm
-                                   ))))
+                                   log(1 / .get_weight_vector(crop_dm)),
+                                 ...)
 
   between[is.na(between)] <- 0
   betweenp <- if (max(between) == 0) {
@@ -89,8 +89,8 @@ betweeness <- function(crop_dm) {
 }
 
 #' @rdname nn_sum
-ev <- function(crop_dm) {
-  eigenvectorvalues <- igraph::evcent(crop_dm)
+ev <- function(crop_dm, ...) {
+  eigenvectorvalues <- igraph::evcent(crop_dm, ...)
   evv <- eigenvectorvalues$vector
   evv[is.na(evv)] <- 0
   evp <- if (max(evv) == 0) {
@@ -103,8 +103,8 @@ ev <- function(crop_dm) {
 }
 
 #' @rdname nn_sum
-degree <- function(crop_dm) {
-  dmat <- igraph::degree(crop_dm)
+degree <- function(crop_dm, ...) {
+  dmat <- igraph::degree(crop_dm, ...)
   dmat[is.na(dmat)] <- 0
   dmatr <- if (max(dmat) == 0) {
     0
@@ -115,9 +115,10 @@ degree <- function(crop_dm) {
 }
 
 #' @rdname nn_sum
-closeness <- function(crop_dm) {
+closeness <- function(crop_dm, ...) {
   cvv <- igraph::closeness(crop_dm,
-                           weights = 1 - 1 / exp(.get_weight_vector(crop_dm)))
+                           weights = log(1/ (.get_weight_vector(crop_dm))),
+                           ...)
   cvv[is.na(cvv)] <- 0
   cns <- if (max(cvv) == 0) {
     0
@@ -128,8 +129,8 @@ closeness <- function(crop_dm) {
 }
 
 #' @rdname nn_sum
-pagerank <- function(crop_dm) {
-  pr_scores <- igraph::page_rank(crop_dm)
+pagerank <- function(crop_dm, ...) {
+  pr_scores <- igraph::page_rank(crop_dm, ...)
   prv <- pr_scores$vector
   prv[is.na(prv)] <- 0
   prv <- if (max(prv) == 0) {
@@ -151,13 +152,13 @@ pagerank <- function(crop_dm) {
 
   # Define the metric functions
 
-  envmap[[STR_NEAREST_NEIGHBORS_SUM]] <- function(graph) nn_sum(graph)
-  envmap[[STR_NODE_STRENGTH]] <- function(graph) node_strength(graph)
-  envmap[[STR_BETWEENNESS]] <- function(graph) betweeness(graph)
-  envmap[[STR_EIGEN_VECTOR_CENTRALITY]] <- function(graph) ev(graph)
-  envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph) closeness(graph)
-  envmap[[STR_PAGE_RANK]] <- function(graph) pagerank(graph)
-  envmap[[STR_DEGREE]] <- function(graph) degree(graph, param)
+  envmap[[STR_NEAREST_NEIGHBORS_SUM]] <- function(graph, ...) nn_sum(graph, ...)
+  envmap[[STR_NODE_STRENGTH]] <- function(graph, ...) node_strength(graph, ...)
+  envmap[[STR_BETWEENNESS]] <- function(graph, ...) betweeness(graph, ...)
+  envmap[[STR_EIGEN_VECTOR_CENTRALITY]] <- function(graph, ...) ev(graph, ...)
+  envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph, ...) closeness(graph, ...)
+  envmap[[STR_PAGE_RANK]] <- function(graph, ...) pagerank(graph, ...)
+  envmap[[STR_DEGREE]] <- function(graph, ...) degree(graph, ...)
  
   # Return the environment
   return(envmap)

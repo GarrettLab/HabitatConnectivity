@@ -15,12 +15,21 @@ sean(
   hd_threshold = 0,
   res = reso(),
   inv_pl = list(beta = c(0.5, 1, 1.5), metrics = c("betweeness", "NODE_STRENGTH",
-    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20)),
-  neg_exp = list(beta = c(0.05, 1, 0.2, 0.3), metrics = c("betweeness", "NODE_STRENGTH",
-    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20))
+    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20),
+    cutoff = -1),
+  neg_exp = list(gamma = c(0.05, 1, 0.2, 0.3), metrics = c("betweeness", "NODE_STRENGTH",
+    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20),
+    cutoff = -1)
 )
 
-msean(..., outdir = tempdir())
+msean(
+  rast,
+  global = TRUE,
+  geoscale = NULL,
+  res = reso(),
+  ...,
+  outdir = tempdir()
+)
 }
 \arguments{
 \item{rast}{Raster object which will be used in analysis.}
@@ -29,7 +38,8 @@ msean(..., outdir = tempdir())
 Default is \code{TRUE}}
 
 \item{geoscale}{Numeric vector. Geographical coordinates
-in the form of c(Xmin, Xmax, Ymin, Ymax)}
+in the form of c(Xmin, Xmax, Ymin, Ymax). If \code{geoscale} is NuLL,
+the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
 \item{link_threshold}{Numeric. A threshold value for link weight.
 All link weights that are below this threshold will be replaced with zero for the connectivity analysis.

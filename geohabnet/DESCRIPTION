@@ -52,7 +52,8 @@ Imports:
     tools,
     methods,
     future.apply (>= 1.11.0),
-    future (>= 1.33.0)
+    future (>= 1.33.0),
+    magrittr (>= 2.0.3)
 Suggests: 
     devtools,
     knitr,

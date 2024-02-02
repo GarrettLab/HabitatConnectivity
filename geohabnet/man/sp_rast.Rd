@@ -2,9 +2,9 @@
 % Please edit documentation in R/spam_crop.R
 \name{sp_rast}
 \alias{sp_rast}
-\title{raster for mapspam crop.}
+\title{Raster for mapspam crop.}
 \usage{
-sp_rast(crp)
+sp_rast(crp, africa = FALSE)
 }
 \arguments{
 \item{crp}{character. name of a crop. Case-insensitive.}
@@ -20,7 +20,8 @@ See \code{\link[geodata:crop_spam]{geodata::spamCrops()}} for supported crops.
 }
 \examples{
 \donttest{
-sp_rast("rice")
+sp_rast("potato")
+sp_rast("potato", TRUE)
 }
 }
 \references{

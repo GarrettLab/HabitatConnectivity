@@ -51,7 +51,7 @@
                           },
                           set_hd = function(x) {
                             stopifnot("Host density must be of type SpatRaster" = class(x) == "SpatRaster" |
-                                      class(x) == "PackedSpatRaster")
+                                        .is_packed_rast(x))
                             host_density <<- x
                           }
                         ))

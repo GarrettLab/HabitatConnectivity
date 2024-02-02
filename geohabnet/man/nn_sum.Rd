@@ -10,19 +10,19 @@
 \alias{pagerank}
 \title{Calculation on network metrics a.k.a centralities.}
 \usage{
-nn_sum(crop_dm)
+nn_sum(crop_dm, ...)
 
-node_strength(crop_dm)
+node_strength(crop_dm, ...)
 
-betweeness(crop_dm)
+betweeness(crop_dm, ...)
 
-ev(crop_dm)
+ev(crop_dm, ...)
 
-degree(crop_dm)
+degree(crop_dm, ...)
 
-closeness(crop_dm)
+closeness(crop_dm, ...)
 
-pagerank(crop_dm)
+pagerank(crop_dm, ...)
 }
 \arguments{
 \item{crop_dm}{A square adjacency matrix, in which rows and columns names represent nodes (or locations) and each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
