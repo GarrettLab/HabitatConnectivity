@@ -76,7 +76,7 @@ betweeness <- function(crop_dm, ...) {
   between <- igraph::betweenness(crop_dm,
                                  directed = FALSE,
                                  weights =
-                                   log(1 / .get_weight_vector(crop_dm)),
+                                   weights = .weight_transform(crop_dm),
                                  ...)
 
   between[is.na(between)] <- 0
@@ -117,7 +117,7 @@ degree <- function(crop_dm, ...) {
 #' @rdname nn_sum
 closeness <- function(crop_dm, ...) {
   cvv <- igraph::closeness(crop_dm,
-                           weights = log(1/ (.get_weight_vector(crop_dm))),
+                           weights = .weight_transform(crop_dm),
                            ...)
   cvv[is.na(cvv)] <- 0
   cns <- if (max(cvv) == 0) {
@@ -192,8 +192,15 @@ pagerank <- function(crop_dm, ...) {
 
 .get_weight_vector <- function(cropdistancematrix) {
   weight_vec <- igraph::E(cropdistancematrix)$weight
-  weight_vec[is.na(weight_vec)] <- 0
-  weight_vec <- weight_vec + 1e-10
+  #weight_vec[is.na(weight_vec)] <- 0
+  #weight_vec <- weight_vec + 1e-10
   return(weight_vec)
 }
 
+.weight_transform <- function(crop_dm) {
+
+  wv <- .get_weight_vector(crop_dm)
+  wv <- (max(wv) * 1.00001) - wv
+
+  return(wv)
+}
