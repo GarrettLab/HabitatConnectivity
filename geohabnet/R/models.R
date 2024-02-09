@@ -17,15 +17,15 @@
 # private methods ---------------------------------------------------------
 
 .model_powerlaw <- function(beta,
-                           link_threshold,
-                           distance_matrix = NULL,
-                           thresholded_crop_values,
-                           adj_mat = NULL,
-                           crop_raster,
-                           crop_cells_above_threshold,
-                           metrics = NULL,
-                           me_weights = NULL,
-                           cutoff = -1) {
+                            link_threshold,
+                            distance_matrix = NULL,
+                            thresholded_crop_values,
+                            adj_mat = NULL,
+                            crop_raster,
+                            crop_cells_above_threshold,
+                            metrics = NULL,
+                            me_weights = NULL,
+                            cutoff = -1) {
 
   mets <- .validate_metrics(metrics, me_weights)
 
@@ -68,15 +68,15 @@
 }
 
 .model_neg_exp <- function(gamma_val,
-                          link_threshold,
-                          distance_matrix = NULL,
-                          thresholded_crop_values,
-                          adj_mat = NULL,
-                          crop_raster,
-                          crop_cells_above_threshold,
-                          metrics = NULL,
-                          me_weights = NULL,
-                          cutoff = -1) {
+                           link_threshold,
+                           distance_matrix = NULL,
+                           thresholded_crop_values,
+                           adj_mat = NULL,
+                           crop_raster,
+                           crop_cells_above_threshold,
+                           metrics = NULL,
+                           me_weights = NULL,
+                           cutoff = -1) {
 
   mets <- .validate_metrics(metrics, me_weights)
 

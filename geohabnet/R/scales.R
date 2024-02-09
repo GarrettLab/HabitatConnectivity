@@ -68,7 +68,7 @@ geoscale_param <- function(gparams = load_parameters()) {
 
   cparams <- if (is.null(gparams)) {
     load_parameters()
-  } else{
+  } else {
     gparams
   }
   xf <- cparams$`CCRI parameters`$GeoExtent$global

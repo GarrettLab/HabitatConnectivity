@@ -111,12 +111,28 @@ reset_params <- function() {
 
 #' Dispersal kernels
 #'
-#'
 #' -`[inv_powerlaw()]` Get parameters and values pertaining to the inverse power law model.
 #' -`[neg_exp()]` Get parameters and values pertaining to the negative exponential model.
 #'
 #' @param params Object.[load_parameters()] by default.
-#' @return List with parameters and values.
+#' @return List with parameters and values. See details.
+#' @details
+#' The list object has following values used in running analysis
+#' -`beta` Parameter for calculating the inverse power law.
+#' -`gamma` Parameter for calculating the negative exponential.
+#' -`metrics` Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
+#' -`cutoff` Currently used as a parameter to calculate centrality in the network - [betweeness()] and [closeness()].
+#' As defined in [igraph::betweenness()], it's the maximum length to consider when calculating centrality.
+#' If zero or negative, then there is no such limit.
+#'
+#' @seealso [supported_metrics()]
+#' @references Csardi G, Nepusz T (2006).
+#' “The igraph software package for complex network research.” _InterJournal_, *Complex Systems*, 1695.
+#' <https://igraph.org>.
+#' @references Csárdi G, Nepusz T, Traag V, Horvát Sz, Zanini F, Noom D, Müller K (2024).
+#' _igraph: Network Analysis and Visualization in R_.
+#' doi:10.5281/zenodo.7682609 <https://doi.org/10.5281/zenodo.7682609>,
+#' R package version 1.5.1, <https://CRAN.R-project.org/package=igraph>.
 #' @export
 #' @rdname Dispersal-kernels
 inv_powerlaw <- function(params = load_parameters()) {

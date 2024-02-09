@@ -54,7 +54,7 @@ connectivity <- function(host,
     stopifnot("East and west indices should be of same length" = length(east) == length(west))
   }
 
-  actualscale <- if(is.null(geoscale)) {
+  actualscale <- if (is.null(geoscale)) {
     as.vector(terra::ext(host))
   } else {
     geoscale

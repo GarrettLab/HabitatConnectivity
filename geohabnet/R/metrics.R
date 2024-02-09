@@ -28,16 +28,25 @@ supported_metrics <- function() {
 #' - `[nn_sum()]`: Calculates the sum of nearest neighbors [igraph::graph.knn()].
 #' - `[node_strength()]`: Calculates the sum of edge weights of adjacent nodes [igraph::graph.strength()].
 #' - `[betweeness()]`: Calculates the node betweenness based on the number of shortest paths.
-#' [igraph::betweenness()]. Because the [igraph::betweenness()] function in [igraph] interprets link weights as distances to calculate the shortest paths, the [geohabnet::betweenness()] function in [geohabnet] transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement. 
+#' Because the [igraph::betweenness()] function in [igraph] interprets link weights
+#' as distances to calculate the shortest paths,
+#' the [geohabnet::betweenness()] function in [geohabnet]
+#' transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix
+#' so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
 #' - `[ev()]`: Calculates the eigenvector centrality of positions within the network [igraph::evcent()].
 #' - `[closeness()]`: measures how many steps is required to access every other vertex from a given vertex
-#' [igraph::closeness()]. Because the [igraph::closeness()] function in [igraph] interprets link weights as distances to calculate the shortest paths, the [geohabnet::closeness()] function in [geohabnet] transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
+#' [igraph::closeness()]. Because the [igraph::closeness()] function in [igraph] interprets link weights as distances
+#' to calculate the shortest paths, the [geohabnet::closeness()] function in [geohabnet]
+#' transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix
+#' so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
 #' - `[degree()]`: number of adjacent edges [igraph::degree()].
 #' - `[pagerank()]`: page rank score for vertices [igraph::page_rank()].
-#' @param crop_dm A square adjacency matrix, in which rows and columns names represent nodes (or locations) and each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
+#' @param crop_dm A square adjacency matrix, in which rows and columns names represent nodes (or locations) and
+#' each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
 #'  In the internal workflow,
 #'  the adjacency matrix comes as a result of operations within [sean()] function.
-#' @param we Weight in percentage. This weight represents the importance of the network metric in the habitat connectivity analysis.
+#' @param we Weight in percentage.
+#' This weight represents the importance of the network metric in the habitat connectivity analysis.
 #' @return SpatRaster. Representing connectivity of each node or location.
 #'
 #' @family metrics
@@ -75,8 +84,7 @@ betweeness <- function(crop_dm, ...) {
 
   between <- igraph::betweenness(crop_dm,
                                  directed = FALSE,
-                                 weights =
-                                   weights = .weight_transform(crop_dm),
+                                 weights = .weight_transform(crop_dm),
                                  ...)
 
   between[is.na(between)] <- 0
@@ -159,7 +167,7 @@ pagerank <- function(crop_dm, ...) {
   envmap[[STR_CLOSENESS_CENTRALITY]] <- function(graph, ...) closeness(graph, ...)
   envmap[[STR_PAGE_RANK]] <- function(graph, ...) pagerank(graph, ...)
   envmap[[STR_DEGREE]] <- function(graph, ...) degree(graph, ...)
- 
+
   # Return the environment
   return(envmap)
 }

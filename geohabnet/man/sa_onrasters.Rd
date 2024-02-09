@@ -28,7 +28,7 @@ msean_onrast(
 Default is \code{TRUE}}
 
 \item{geoscale}{Numeric vector. Geographical coordinates
-in the form of c(Xmin, Xmax, Ymin, Ymax). If \code{geoscale} is NuLL,
+in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If \code{geoscale} is NuLL,
 the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
@@ -87,5 +87,5 @@ R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
 \seealso{
 Use \code{\link[=get_rasters]{get_rasters()}} to obtain raster object.
 
-\code{\link[=msean_onrast]{msean_onrast()}}
+\code{\link[=msean_onrast]{msean_onrast()}} \code{\link[=supported_sources]{supported_sources()}}
 }
