@@ -2,7 +2,7 @@
 
 # Utility functions -------------------------------------------------------
 
-#----------- Extract cropland density data -----------------------
+#----------- Extract habitat density data -----------------------
 .extract_cropland_density <- function(cropharvest_agg_crop, host_density_threshold) {
   crop_values <- terra::values(cropharvest_agg_crop)
   max_val <- max(crop_values, na.rm = TRUE)
@@ -558,7 +558,7 @@ msean_onrast <- function(global = TRUE,
 #'
 #' @details
 #' For each location in a region, sensitivity_analysis()
-#' calculates the cropland connectivity risk index (CCRI) proposed by Xing et al. (2021).
+#' calculates the habitat connectivity risk index (CCRI) proposed by Xing et al. (2021).
 #' By default, sensitivity_analysis() runs a sensitivity analysis on a global extent,
 #' see [global_scales()] for details.
 #' This function also plots maps of the outcomes automatically,

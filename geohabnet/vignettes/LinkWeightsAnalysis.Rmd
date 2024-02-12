@@ -10,7 +10,7 @@ vignette: >
 bibliography: references.bib
 ---
 
-This article expands on "Analyzing risk index using cropland connectivity" from [@geohabnet] to demonstrate one example on how parameters can be customized to calculate centrality and it's implication in the results.
+This article expands on "Analyzing risk index using habitat connectivity" from [@geohabnet] to demonstrate one example on how parameters can be customized to calculate centrality and it's implication in the results.
 
 Package installation -
 

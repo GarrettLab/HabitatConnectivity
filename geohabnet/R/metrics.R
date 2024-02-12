@@ -208,7 +208,7 @@ pagerank <- function(crop_dm, ...) {
 .weight_transform <- function(crop_dm) {
 
   wv <- .get_weight_vector(crop_dm)
-  wv <- (max(wv) * 1.00001) - wv
+  wv <- (max(wv) * 1.0001) - wv
 
   return(wv)
 }

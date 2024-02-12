@@ -1,10 +1,10 @@
 ---
-title: "Analyzing risk index using cropland connectivity"
+title: "Analyzing risk index using habitat connectivity"
 author: "Krishna Keshav(kkeshav@ufl.edu)"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Analyzing risk index using cropland connectivity}
+  %\VignetteIndexEntry{Analyzing risk index using habitat connectivity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
@@ -84,7 +84,7 @@ Alternatively, install from github source.
 library("devtools")
 
 if (!require("geohabnet")) {
-  install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+  install_github("GarrettLab/HabitatConnectivity", subdir = "geohabnet")
 }
 ```
 
