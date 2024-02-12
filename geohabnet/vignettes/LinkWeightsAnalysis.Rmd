@@ -7,15 +7,20 @@ vignette: >
   %\VignetteIndexEntry{Network centralities in GeoHabnet}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: references.bib
 ---
 
-This article expands on "Analyzing risk index using cropland connectivity"
+This article expands on "Analyzing risk index using cropland connectivity" from [@geohabnet] to demonstrate one example on how parameters can be customized to calculate centrality and it's implication in the results.
+
+Package installation -
 
 ```{r}
-devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet", ref = "ms")
+if (!require("geohabnet")) {
+  utils::install.packages("geohabnet")
+}
 ```
 
-# Betweenness
+## Betweenness
 
 Getting the host density
 
@@ -30,3 +35,11 @@ avocado_result <- msean(avocado_mon, global = TRUE, link_threshold  = 0.000001, 
   neg_exp = list(gamma = c(0.1), metrics = c("betweeness"), weights = c(100), cutoff = -1)
 )
 ```
+
+It is important to note that Beetweenness centrality is a time intensive operation. Geohabnet uses a wrapper around `igraph::betweenness()`. Refer to [@igraph] for more details and further reading. The `cutoff` parameter can be used set the threshold which will include the link weights based on this threshold. Setting this parameter will also be reflected in closeness.
+
+The configuration based run for the above will be as follows -
+
+get_parameters() -\> modify values in parameters.yaml -\> set_parameters() -\> run sensitivity_analysis()
+
+## References

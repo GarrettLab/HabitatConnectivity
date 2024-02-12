@@ -130,7 +130,7 @@
       val <- mets[[mname]][[2]]
       mfun <- mfuns[[mname]]
 
-      met_result <- if (mname == STR_BETWEENNESS) {
+      met_result <- if (mname %in% c(STR_BETWEENNESS, STR_CLOSENESS_CENTRALITY)) {
         mfun(adj_graph, cutoff = cutoff)
       } else {
         mfun(adj_graph)
