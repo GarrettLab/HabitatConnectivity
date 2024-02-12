@@ -55,10 +55,10 @@ Geodata provides set of APIs to access these data-sets. For visualization and pl
 
 ### Meta information
 
--   Package information - <https://garrettlab.github.io/CroplandConnectivity/>
+-   Package information - <https://garrettlab.github.io/HabitatConnectivity/>
 -   CRAN site - <https://CRAN.R-project.org/package=geohabnet>
--   Source code - <https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/>
--   Report issues - <https://github.com/GarrettLab/CroplandConnectivity/issues/>
+-   Source code - [https://github.com/GarrettLab//HabitatConnectivity/tree/main/geohabnet/](https://github.com/GarrettLab/HabitatConnectivity/tree/main/geohabnet/){.uri}
+-   Report issues - [https://github.com/GarrettLab/CroplandConnectivity/issues/](https://github.com/GarrettLab/HabitatConnectivity/issues/){.uri}
 -   Lab website - <https://www.garrettlab.com/>
 
 ### Installation and loading
