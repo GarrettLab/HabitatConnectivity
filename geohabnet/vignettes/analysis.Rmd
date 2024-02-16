@@ -108,7 +108,7 @@ This is to run the analysis on default set of values for the supported parameter
 sensitivity_analysis()
 ```
 
-The results are the side effects and the similar information is captured in the object returned from it. Its based on the values set for each of the parameters which we will see in details in the next section.
+The results are the side effects and the similar information is captured in the object returned from it. Its based on the values set for each of the parameters which we will see in details in the further sections.
 
 ## Running new analysis
 
@@ -118,7 +118,10 @@ We provide 2 methods or entry points to run analysis by setting new values for t
 
 The goal of the this function is to provide simple invasive factors as parameters. The internal implementation and program deals with object of `terra` [@terra] and `igraph`[@igraph] . The primary object is of type `SpatRaster` from `terra` . To get started, we will use quick way to obtain raster and later we will understand the details.
 
+An effective way to look-up is search_crop(). It will return sources which contains the data-set for this crop.
+
 ```{r message=FALSE}
+
 avocado <- cropharvest_rast("avocado", "monfreda")
 
 # verify the raster object
