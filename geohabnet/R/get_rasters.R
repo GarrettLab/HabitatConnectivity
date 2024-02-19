@@ -67,7 +67,7 @@ crops_rast <- function(crop_names) {
 
     len_scr <- length(single_crop_rasters)
     ret <- if (len_scr > 1) {
-      terra::app(single_crop_rasters,
+      terra::app(terra::sds(single_crop_rasters),
                  fun = sum,
                  na.rm = TRUE) / len_scr
     } else {

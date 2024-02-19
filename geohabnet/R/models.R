@@ -57,7 +57,7 @@
                                                 mode = c("undirected"),
                                                 diag = FALSE, weighted = TRUE)
 
-  indexpre <- terra::rast(crop_raster)
+  indexpre <- .unpack_rast_ifnot(crop_raster)
   indexpre[] <- 0
   indexpre[crop_cells_above_threshold] <- .apply_met(mets,
                                                      me_weights,

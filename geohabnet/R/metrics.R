@@ -45,8 +45,8 @@ supported_metrics <- function() {
 #' each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
 #'  In the internal workflow,
 #'  the adjacency matrix comes as a result of operations within [sean()] function.
-#' @param we Weight in percentage.
 #' This weight represents the importance of the network metric in the habitat connectivity analysis.
+#' @param ... arguments to corresponding `igraph` fun
 #' @return SpatRaster. Representing connectivity of each node or location.
 #'
 #' @family metrics
@@ -208,7 +208,7 @@ pagerank <- function(crop_dm, ...) {
 .weight_transform <- function(crop_dm) {
 
   wv <- .get_weight_vector(crop_dm)
-  wv <- (max(wv) * 1.0001) - wv
+  wv <- (max(wv, na.rm = TRUE) * 1.0001) - wv
 
   return(wv)
 }

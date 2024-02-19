@@ -32,7 +32,7 @@ In the link provided above, the user download the data specifying the following 
 library(terra)
 
 # Read your GeoTIFF file and plot the map
-citrus<-rast("clipped.tif")
+citrus <- rast("clipped.tif")
 plot(citrus, col = "grey25")
 
 citrus
@@ -44,8 +44,8 @@ We now replace the code for citrus (i.e., 72) with 1 to define where the crop is
 
 ```{r}
 # Replacing crop code with 1 in each cell that citrus is reported present
-v<-72
-citrus<-citrus/v
+v <- 72
+citrus <- citrus/v
 plot(citrus, col = "grey25")
 ```
 
@@ -53,11 +53,11 @@ plot(citrus, col = "grey25")
 Finally, let's transform our presence-only map into a host density map.
 ```{r}
 # Assigning a different crs or geographic projection.
-citrus<-project(citrus, "+proj=longlat +datum=WGS84")
+citrus <- project(citrus, "+proj=longlat +datum=WGS84")
 
 # Aggregating small cells into larger cells to calculate host density
-aggregation.factor<-40
-aggregated.citrus<-aggregate(citrus, fact = aggregation.factor, 
+aggregation.factor <- 40
+aggregated.citrus <- aggregate(citrus, fact = aggregation.factor, 
                              fun = "sum", 
                              na.rm = TRUE) / (aggregation.factor*aggregation.factor)
 

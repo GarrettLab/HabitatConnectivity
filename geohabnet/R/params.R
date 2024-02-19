@@ -84,11 +84,10 @@ load_parameters <- function(filepath = .param_fp()) {
 #' If not present it will result default value.
 #' @return Numeric. Resolution from `parameters.yaml`. Default is 24.
 #' @export
-#' @seealso [set_reso()]
 reso <- function() {
   reso <- load_parameters()$Resolution
   reso <- if (is.null(reso) || is.na(reso)) {
-    24
+    12
   } else {
     reso
   }

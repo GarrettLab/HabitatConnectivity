@@ -369,7 +369,7 @@ mapspam <- function() {
 #' search_crop("jackfruit")
 #' }
 #'
-#' @seealso [get_supported_sources()]
+#' @seealso [supported_sources()]
 search_crop <- function(name) {
   crp <- tolower(trimws(name))
 

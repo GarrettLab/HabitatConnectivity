@@ -312,8 +312,10 @@ sean <- function(rast,
 
     model_ret <- list()
     host_densityrasts <- list()
+    up_rast <- .unpack_rast_ifnot(rast)
+
     for (agg_method in agg_methods) {
-      density_data <- .init_cd(.unpack_rast_ifnot(rast),
+      density_data <- .init_cd(up_rast,
                                res,
                                geoext,
                                host_density_threshold = hd_threshold,
