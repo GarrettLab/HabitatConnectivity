@@ -4,43 +4,38 @@
 \name{Gmap-class}
 \alias{Gmap-class}
 \alias{setmaps}
-\alias{setmaps,Gmap-method}
 \title{Gmap class}
 \usage{
 setmaps(x, me, vari, dif)
-
-\S4method{setmaps}{Gmap}(x, me, vari, dif)
 }
 \arguments{
-\item{x}{A Gmap object.}
+\item{x}{Gmap object.}
 
-\item{me}{A GeoRaster object representing mean risk index.}
+\item{me}{SpatRaster. A raster representing mean risk index.}
 
-\item{vari}{A GeoRaster object representing variance.}
+\item{vari}{SpatRaster. A raster representing variance.}
 
-\item{dif}{A GeoRaster object representing difference.}
+\item{dif}{SpatRaster. A raster representing difference.}
 }
 \value{
-A Gmap object.
+Gmap object.
 }
 \description{
-An S4 class to represent various maps.
-
-Set the slots in the Gmap object.
+An S4 class to represent various maps in the form of \code{SpatRaster}.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{me_rast}}{SpatRaster A raster representing mean risk index.}
+\item{\code{me_rast}}{A raster representing mean risk index.}
 
 \item{\code{me_out}}{Character. A file path to the mean risk index raster.}
 
-\item{\code{diff_rast}}{SpatRaster A raster representing difference.}
+\item{\code{diff_rast}}{A raster representing difference.}
 
 \item{\code{diff_out}}{Character. A file path to the difference raster.}
 
-\item{\code{var_rast}}{Numeric. A raster representing variance.}
+\item{\code{var_rast}}{A raster representing variance.}
 
-\item{\code{var_out}}{SpatRaster A file path to the variance raster.}
+\item{\code{var_out}}{Character. A file path to the variance raster.}
 }}
 

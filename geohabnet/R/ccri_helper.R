@@ -95,7 +95,12 @@ risk_indices <- function(ri) {
     #east-west split
     .ew_split()
   } else {
-    unlist(lapply(ri$rasters, FUN = function(x) {terra::rast(x$index)}), recursive = FALSE)
+    unlist(lapply(
+      ri$rasters,
+      FUN = function(x) {
+        terra::rast(x$index)
+      }
+    ), recursive = FALSE)
   }
 }
 
@@ -141,10 +146,10 @@ risk_indices <- function(ri) {
 .download <- function(uri) {
   f <- paste(tempfile(), ".tif", sep = "")
   stopifnot("download failed " = utils::download.file(uri,
-                                                     destfile = f,
-                                                     method = "auto",
-                                                     mode = "wb",
-                                                     quiet = !getOption("verbose")) == 0)
+                                                      destfile = f,
+                                                      method = "auto",
+                                                      mode = "wb",
+                                                      quiet = getOption("verbose")) == 0)
   return(f)
 }
 
@@ -342,10 +347,16 @@ supported_sources <- function() {
   return(c(monfreda(), mapspam()))
 }
 
+#' Supported sources for monfreda
+#' 
+#' @export
 monfreda <- function() {
   return(c("monfreda"))
 }
 
+#' Supported sources for Mapspam
+#' 
+#' @export
 mapspam <- function() {
   return(c("mapspam2010", "mapspam2017Africa"))
 }
@@ -364,7 +375,7 @@ mapspam <- function() {
 #' search_crop("jackfruit")
 #' }
 #'
-#' @seealso [get_supported_sources()]
+#' @seealso [supported_sources()]
 search_crop <- function(name) {
   crp <- tolower(trimws(name))
 

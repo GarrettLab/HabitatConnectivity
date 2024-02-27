@@ -131,7 +131,6 @@ ccri_variance <- function(indices,
 #' Calculate difference map
 #'
 #' This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
-#' @param rast SpatRaster. A template raster to hold the cell-wise difference
 #' @param x SpatRaster.
 #' @param y SpatRaster.
 #' @param geoscale Numeric vector. `x` will be cropped to this extent.

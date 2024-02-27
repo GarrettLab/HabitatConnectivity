@@ -2,6 +2,7 @@
 #'
 #' get raster for crop in mapspam dataset
 #' @param crp character. name of a crop. Case-insensitive.
+#' @param africa Fetch the 2017 Mpaspam crop data of Africa. Default is FALSE.
 #' @return SpatRaster
 #' @details
 #' See [geodata::spamCrops()] for supported crops.

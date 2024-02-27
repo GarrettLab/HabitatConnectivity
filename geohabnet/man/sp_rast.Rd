@@ -8,6 +8,8 @@ sp_rast(crp, africa = FALSE)
 }
 \arguments{
 \item{crp}{character. name of a crop. Case-insensitive.}
+
+\item{africa}{Fetch the 2017 Mpaspam crop data of Africa. Default is FALSE.}
 }
 \value{
 SpatRaster

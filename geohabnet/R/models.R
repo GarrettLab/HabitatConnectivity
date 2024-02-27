@@ -17,15 +17,15 @@
 # private methods ---------------------------------------------------------
 
 .model_powerlaw <- function(beta,
-                           link_threshold,
-                           distance_matrix = NULL,
-                           thresholded_crop_values,
-                           adj_mat = NULL,
-                           crop_raster,
-                           crop_cells_above_threshold,
-                           metrics = NULL,
-                           me_weights = NULL,
-                           cutoff = -1) {
+                            link_threshold,
+                            distance_matrix = NULL,
+                            thresholded_crop_values,
+                            adj_mat = NULL,
+                            crop_raster,
+                            crop_cells_above_threshold,
+                            metrics = NULL,
+                            me_weights = NULL,
+                            cutoff = -1) {
 
   mets <- .validate_metrics(metrics, me_weights)
 
@@ -57,7 +57,7 @@
                                                 mode = c("undirected"),
                                                 diag = FALSE, weighted = TRUE)
 
-  indexpre <- terra::rast(crop_raster)
+  indexpre <- .unpack_rast_ifnot(crop_raster)
   indexpre[] <- 0
   indexpre[crop_cells_above_threshold] <- .apply_met(mets,
                                                      me_weights,
@@ -68,15 +68,15 @@
 }
 
 .model_neg_exp <- function(gamma_val,
-                          link_threshold,
-                          distance_matrix = NULL,
-                          thresholded_crop_values,
-                          adj_mat = NULL,
-                          crop_raster,
-                          crop_cells_above_threshold,
-                          metrics = NULL,
-                          me_weights = NULL,
-                          cutoff = -1) {
+                           link_threshold,
+                           distance_matrix = NULL,
+                           thresholded_crop_values,
+                           adj_mat = NULL,
+                           crop_raster,
+                           crop_cells_above_threshold,
+                           metrics = NULL,
+                           me_weights = NULL,
+                           cutoff = -1) {
 
   mets <- .validate_metrics(metrics, me_weights)
 
@@ -130,7 +130,7 @@
       val <- mets[[mname]][[2]]
       mfun <- mfuns[[mname]]
 
-      met_result <- if (mname == STR_BETWEENNESS) {
+      met_result <- if (mname %in% c(STR_BETWEENNESS, STR_CLOSENESS_CENTRALITY)) {
         mfun(adj_graph, cutoff = cutoff)
       } else {
         mfun(adj_graph)

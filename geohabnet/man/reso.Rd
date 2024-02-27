@@ -13,6 +13,3 @@ Numeric. Resolution from \code{parameters.yaml}. Default is 24.
 Resolution stored in \code{parameter.yaml}.
 If not present it will result default value.
 }
-\seealso{
-\code{\link[=set_reso]{set_reso()}}
-}

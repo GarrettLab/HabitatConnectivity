@@ -23,3 +23,6 @@ If crop is present in multiple sources, then their mean is calculated.
 crops_rast(list(monfreda = c("wheat", "barley"), mapspam2010 = c("wheat", "potato")))
 }
 }
+\seealso{
+\code{\link[=cropharvest_rast]{cropharvest_rast()}}
+}

@@ -13,9 +13,31 @@ neg_exp(params = load_parameters())
 \item{params}{Object.\code{\link[=load_parameters]{load_parameters()}} by default.}
 }
 \value{
-List with parameters and values.
+List with parameters and values. See details.
 }
 \description{
 -\verb{[inv_powerlaw()]} Get parameters and values pertaining to the inverse power law model.
 -\verb{[neg_exp()]} Get parameters and values pertaining to the negative exponential model.
+}
+\details{
+The list object has following values used in running analysis
+-\code{beta} Parameter for calculating the inverse power law.
+-\code{gamma} Parameter for calculating the negative exponential.
+-\code{metrics} Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
+-\code{cutoff} Currently used as a parameter to calculate centrality in the network - \code{\link[=betweeness]{betweeness()}} and \code{\link[=closeness]{closeness()}}.
+As defined in \code{\link[igraph:betweenness]{igraph::betweenness()}}, it's the maximum length to consider when calculating centrality.
+If zero or negative, then there is no such limit.
+}
+\references{
+Csardi G, Nepusz T (2006).
+“The igraph software package for complex network research.” \emph{InterJournal}, \emph{Complex Systems}, 1695.
+\url{https://igraph.org}.
+
+Csárdi G, Nepusz T, Traag V, Horvát Sz, Zanini F, Noom D, Müller K (2024).
+\emph{igraph: Network Analysis and Visualization in R}.
+\doi{10.5281/zenodo.7682609},
+R package version 1.5.1, \url{https://CRAN.R-project.org/package=igraph}.
+}
+\seealso{
+\code{\link[=supported_metrics]{supported_metrics()}}
 }
