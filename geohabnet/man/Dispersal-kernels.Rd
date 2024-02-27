@@ -35,7 +35,7 @@ Csardi G, Nepusz T (2006).
 
 Csárdi G, Nepusz T, Traag V, Horvát Sz, Zanini F, Noom D, Müller K (2024).
 \emph{igraph: Network Analysis and Visualization in R}.
-doi:10.5281/zenodo.7682609 \url{https://doi.org/10.5281/zenodo.7682609},
+\doi{10.5281/zenodo.7682609},
 R package version 1.5.1, \url{https://CRAN.R-project.org/package=igraph}.
 }
 \seealso{
