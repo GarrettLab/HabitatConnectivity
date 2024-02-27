@@ -28,10 +28,10 @@ pagerank(crop_dm, ...)
 \item{crop_dm}{A square adjacency matrix, in which rows and columns names represent nodes (or locations) and
 each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
 In the internal workflow,
-the adjacency matrix comes as a result of operations within \code{\link[=sean]{sean()}} function.}
-
-\item{we}{Weight in percentage.
+the adjacency matrix comes as a result of operations within \code{\link[=sean]{sean()}} function.
 This weight represents the importance of the network metric in the habitat connectivity analysis.}
+
+\item{...}{arguments to corresponding \code{igraph} fun}
 }
 \value{
 SpatRaster. Representing connectivity of each node or location.

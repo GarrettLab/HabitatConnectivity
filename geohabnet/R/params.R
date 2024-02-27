@@ -130,7 +130,7 @@ reset_params <- function() {
 #' <https://igraph.org>.
 #' @references Csárdi G, Nepusz T, Traag V, Horvát Sz, Zanini F, Noom D, Müller K (2024).
 #' _igraph: Network Analysis and Visualization in R_.
-#' doi:10.5281/zenodo.7682609 <https://doi.org/10.5281/zenodo.7682609>,
+#' \doi{10.5281/zenodo.7682609},
 #' R package version 1.5.1, <https://CRAN.R-project.org/package=igraph>.
 #' @export
 #' @rdname Dispersal-kernels

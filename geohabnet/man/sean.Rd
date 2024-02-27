@@ -41,6 +41,11 @@ Default is \code{TRUE}}
 in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If \code{geoscale} is NuLL,
 the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
+\item{agg_methods}{Character. One or both the values - SUM, MEAN.
+Aggregation strategy for scaling the input raster to the desired resolution.}
+
+\item{dist_method}{Character. The method to calculate the distance matrix.}
+
 \item{link_threshold}{Numeric. A threshold value for link weight.
 All link weights that are below this threshold will be replaced with zero for the connectivity analysis.
 Link weights represent the relative likelihood of pathogen, pest,
@@ -58,17 +63,19 @@ if value is 1, all locations will be excluded from the analysis and 0 will inclu
 Selecting a threshold for host density requires at least knowing what is the maximum value
 in the host density map to avoid excluding all locations in the analysis.}
 
+\item{res}{Numeric. Resolution of the raster. Default is \code{\link[=reso]{reso()}}.}
+
 \item{inv_pl}{List. A named list of parameters for inverse power law. See details.}
+
+\item{neg_exp}{List. A named list of parameters for inverse negative exponential. See details.
+All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
+which focuses the analysis on the most important locations.
+The values for the host density threshold can range between 0 and 1;}
 
 \item{...}{arguments passed to \code{\link[=sean]{sean()}}}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
-
-\item{inv_ne}{List. A named list of parameters for inverse negative exponential. See details.
-All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
-which focuses the analysis on the most important locations.
-The values for the host density threshold can range between 0 and 1;}
 }
 \value{
 GeoRasters.
@@ -81,7 +88,8 @@ for each location in a map.
 For each combination of selected parameters, an index of habitat connectivity is calculated.
 \code{\link[=sensitivity_analysis]{sensitivity_analysis()}} is a wrapper around \code{\link[=sean]{sean()}} function.
 \itemize{
-\item \code{msean()} is a wrapper around \code{\link[=sean]{sean()}} function. It has additional argument to specify maps which are calculated
+\item \code{msean()} is a wrapper around \code{\link[=sean]{sean()}} function.
+It has additional argument to specify maps which are calculated
 using \code{\link[=connectivity]{connectivity()}} function. The maps are essentially the risk network.
 }
 }

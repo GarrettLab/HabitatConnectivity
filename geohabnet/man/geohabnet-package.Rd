@@ -13,11 +13,11 @@ The geohabnet package is designed to perform a geographically or spatially expli
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://garrettlab.github.io/CroplandConnectivity/}
+  \item \url{https://garrettlab.github.io/HabitatConnectivity/}
   \item \url{https://CRAN.R-project.org/package=geohabnet/}
-  \item \url{https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/}
+  \item \url{https://github.com/GarrettLab/HabitatConnectivity/tree/main/geohabnet/}
   \item \url{https://www.garrettlab.com/}
-  \item Report bugs at \url{https://github.com/GarrettLab/CroplandConnectivity/issues}
+  \item Report bugs at \url{https://github.com/GarrettLab/HabitatConnectivity/issues}
 }
 
 }

@@ -1,7 +1,7 @@
 Package: geohabnet
-Title: Geographical Risk Analysis based on Habitat Connectivity
+Title: Geographical Risk Analysis Based on Habitat Connectivity
 Version: 1.0.1
-Date: 2023-10-29
+Date: 2024-02-27
 Authors@R: c(
     person("Krishna", "Keshav", , "kkeshav@ufl.edu", role = c("aut", "cre")),
     person("Aaron", "Plex", , "plexaaron@ufl.edu", role = "aut",
@@ -26,7 +26,7 @@ Description:
     Most functions in geohabnet provide as three main outcomes: i) A map of mean habitat connectivity across parameters selected by the user, ii) a map of variance of habitat connectivity across the selected parameters, and iii) a map of the difference between the ranks of habitat connectivity and habitat density.
     Each function can be used to generate these maps as 'final' outcomes. 
     Each function can also provide intermediate outcomes, such as the adjacency matrices built to perform the analysis, which can be used in other network analysis.
-    Refer to vignettes at https://cran.r-project.org/web/packages/geohabnet/vignettes/analysis.html to see examples of each function and how to access each of these outcome types.
+    Refer to vignettes at <https://cran.r-project.org/web/packages/geohabnet/vignettes/analysis.html> to see examples of each function and how to access each of these outcome types.
     To change parameter values, the file called parameters.yaml stores the parameters and their values, can be accessed using get_parameters() and set new parameter values with set_parameters().
     Users can modify up to ten parameters.
 License: GPL-3
@@ -63,9 +63,9 @@ Suggests:
     rmarkdown,
     testthat (>= 3.1.7)
 URL:
-  https://garrettlab.github.io/CroplandConnectivity/,
+  https://garrettlab.github.io/HabitatConnectivity/,
   https://CRAN.R-project.org/package=geohabnet/,
-  https://github.com/GarrettLab/CroplandConnectivity/tree/main/geohabnet/,
+  https://github.com/GarrettLab/HabitatConnectivity/tree/main/geohabnet/,
   https://www.garrettlab.com/
-BugReports: https://github.com/GarrettLab/CroplandConnectivity/issues
+BugReports: https://github.com/GarrettLab/HabitatConnectivity/issues
 VignetteBuilder: knitr

@@ -21,8 +21,6 @@ Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
-
-\item{rast}{SpatRaster. A template raster to hold the cell-wise difference}
 }
 \value{
 RiskMap. Contains result in the form of \code{SpatRaster} objects

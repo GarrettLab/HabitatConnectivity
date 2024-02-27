@@ -347,10 +347,16 @@ supported_sources <- function() {
   return(c(monfreda(), mapspam()))
 }
 
+#' Supported sources for monfreda
+#' 
+#' @export
 monfreda <- function() {
   return(c("monfreda"))
 }
 
+#' Supported sources for Mapspam
+#' 
+#' @export
 mapspam <- function() {
   return(c("mapspam2010", "mapspam2017Africa"))
 }

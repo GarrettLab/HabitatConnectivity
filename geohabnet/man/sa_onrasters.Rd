@@ -22,7 +22,7 @@ msean_onrast(
 
 \item{hd_thresholds}{Numeric vector. host density threshold values}
 
-\item{...}{arguments passed to \code{\link[=sean]{sean()}}}
+\item{...}{Additional parameters to be passed to \code{\link[=sean]{sean()}}.}
 
 \item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
 Default is \code{TRUE}}
@@ -30,6 +30,8 @@ Default is \code{TRUE}}
 \item{geoscale}{Numeric vector. Geographical coordinates
 in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If \code{geoscale} is NuLL,
 the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
+
+\item{res}{Numeric. Resolution of the raster. Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
@@ -60,13 +62,13 @@ res1 <- sa_onrasters(rr[[1]],
             c(0.0001, 0.00004),
             c(0.0001, 0.00005),
             c("sum", "mean"),
-            res = 24)
+            res = 12)
 res2 <- sa_onrasters(rr[[1]],
             global = TRUE,
             link_thresholds = c(0.000001),
             hd_thresholds = c(0.00015),
             agg_methods = c("sum"),
-            res = 24)
+            res = 12)
 res3 <- msean_onrast(rast = rr[[1]],
           link_thresholds = c(0.000001),
           hd_thresholds = c(0.00015))

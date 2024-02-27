@@ -1,3 +1,22 @@
+# geohabnet 2.0.0
+- Adoption of habitat connectivity
+- Corrected difference map
+- Added support for mapspam 2010 and 2017 Africa data
+- Corrected weight transformation for closeness and betweenness
+- Removed global variables
+- Fixed bugs
+- New functions - msean()
+- New parameters
+- Returning objects S4 classes
+- sensitivity_analysis() to include Adjacency matrix
+- Supports parallel processing with future package
+- functions to support all the risk parameters
+- New/updated vignette
+- New/updated examples
+- New tests
+- New/updated documentation
+
+
 # geohabnet 1.0.1
 
 # geohabnet 1.0.0

@@ -32,6 +32,7 @@ get_rasters <- function(hosts) {
 #' If crop is present in multiple sources, then their mean is calculated.
 #' @param crop_names A named list of source along with crop names
 #' @return SpatRaster. Raster object which is sum of all the individual crop raster
+#' @seealso [cropharvest_rast()]
 #' @export
 #' @examples
 #' \donttest{
@@ -93,8 +94,8 @@ crops_rast <- function(crop_names) {
 #'
 cropharvest_rast <- function(crop_name, data_source) {
   # supported sources
-  sources <- supported_sources()
-  if (!(data_source %in% sources)) {
+  srcs <- supported_sources()
+  if (!(data_source %in% srcs)) {
     stop(paste("data source: ", data_source, " is not supported"))
   }
   cropharvest_r <- .get_cropharvest_raster_helper(crop_name = crop_name, data_source = data_source)

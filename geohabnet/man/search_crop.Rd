@@ -25,5 +25,5 @@ search_crop("jackfruit")
 
 }
 \seealso{
-\code{\link[=get_supported_sources]{get_supported_sources()}}
+\code{\link[=supported_sources]{supported_sources()}}
 }

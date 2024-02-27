@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-[![Github Pages](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main){width="250" height="25"}](https://github.com/GarrettLab/CroplandConnectivity/actions/workflows/pages/pages-build-deployment) [![CRAN status](https://www.r-pkg.org/badges/version/geohabnet){width="100" height="25"}](https://CRAN.R-project.org/package=geohabnet)
+[![Github Pages](https://github.com/GarrettLab/HabitatConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main){width="250" height="25"}](https://github.com/GarrettLab/HabitatConnectivity/actions/workflows/pages/pages-build-deployment) [![CRAN status](https://www.r-pkg.org/badges/version/geohabnet){width="100" height="25"}](https://CRAN.R-project.org/package=geohabnet)
 
 <!-- badges: end -->
 

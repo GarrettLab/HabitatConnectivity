@@ -199,7 +199,8 @@
 #' for each location in a map.
 #' For each combination of selected parameters, an index of habitat connectivity is calculated.
 #' [sensitivity_analysis()] is a wrapper around [sean()] function.
-#' - `msean()` is a wrapper around [sean()] function. It has additional argument to specify maps which are calculated
+#' - `msean()` is a wrapper around [sean()] function.
+#' It has additional argument to specify maps which are calculated
 #' using [connectivity()] function. The maps are essentially the risk network.
 #' @param ... arguments passed to [sean()]
 #' @param link_threshold Numeric. A threshold value for link weight.
@@ -217,8 +218,12 @@
 #' if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
 #' Selecting a threshold for host density requires at least knowing what is the maximum value
 #' in the host density map to avoid excluding all locations in the analysis.
+#' @param agg_methods Character. One or both the values - SUM, MEAN.
+#' Aggregation strategy for scaling the input raster to the desired resolution.
+#' @param dist_method Character. The method to calculate the distance matrix.
+#' @param res Numeric. The resolution of the output raster. Default is [reso()] or 12.
 #' @param inv_pl List. A named list of parameters for inverse power law. See details.
-#' @param inv_ne List. A named list of parameters for inverse negative exponential. See details.
+#' @param neg_exp List. A named list of parameters for inverse negative exponential. See details.
 #' All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
 #' which focuses the analysis on the most important locations.
 #' The values for the host density threshold can range between 0 and 1;
@@ -376,6 +381,7 @@ sean <- function(rast,
 }
 
 #' @rdname sean
+#' @param res Numeric. Resolution of the raster. Default is [reso()].
 #' @return GeoNetwork.
 msean <- function(rast,
                   global = TRUE,
@@ -452,6 +458,7 @@ msean <- function(rast,
 #'  the extent is extracted from `rast`(SpatRaster) using [terra::ext()].
 #' @param link_thresholds Numeric vector. link threshold values
 #' @param hd_thresholds Numeric vector. host density threshold values
+#' @param ... Additional parameters to be passed to [sean()].
 #' @inheritParams sean
 #' @param outdir Character. Output directory for saving raster in TIFF format.
 #' Default is [tempdir()].
@@ -471,13 +478,13 @@ msean <- function(rast,
 #'             c(0.0001, 0.00004),
 #'             c(0.0001, 0.00005),
 #'             c("sum", "mean"),
-#'             res = 24)
+#'             res = 12)
 #' res2 <- sa_onrasters(rr[[1]],
 #'             global = TRUE,
 #'             link_thresholds = c(0.000001),
 #'             hd_thresholds = c(0.00015),
 #'             agg_methods = c("sum"),
-#'             res = 24)
+#'             res = 12)
 #' res3 <- msean_onrast(rast = rr[[1]],
 #'           link_thresholds = c(0.000001),
 #'           hd_thresholds = c(0.00015))
@@ -533,7 +540,7 @@ msean_onrast <- function(global = TRUE,
                         outdir)
 
   return(new("GeoNetwork",
-             host_density = grast@host_density,
+             host_density = grast$host_density,
              rasters = grast,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,

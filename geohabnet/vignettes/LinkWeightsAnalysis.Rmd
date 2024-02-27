@@ -14,30 +14,35 @@ This article expands on "Analyzing risk index using habitat connectivity" from [
 
 Package installation -
 
-```{r}
+```{r setup}
 if (!require("geohabnet")) {
   utils::install.packages("geohabnet")
 }
+library(geohabnet)
 ```
 
 ## Betweenness
 
 Getting the host density
 
-```{r}
-avocado_mon <- cropharvest_rast("potato", "monfreda")
+```{r fetch}
+avocado_mon <- geohabnet::cropharvest_rast("potato", "monfreda")
 ```
 
 Running Sensitivity Analysis
 
-```{r}
-avocado_result <- msean(avocado_mon, global = TRUE, link_threshold  = 0.000001, inv_pl = list(beta = c(0.5),
-                        metrics = c("betweeness"), weights = c(100), cutoff = -1), res = 24,
-  neg_exp = list(gamma = c(0.1), metrics = c("betweeness"), weights = c(100), cutoff = -1)
-)
+```{r run}
+avocado_result <- geohabnet::msean(avocado_mon, global = TRUE, link_threshold  = 0.000001,
+                                   inv_pl = list(beta = c(0.5),
+                                                 metrics = c("betweeness"),
+                                                 weights = c(100),
+                                                 cutoff = -1), res = 24,
+                                   neg_exp = list(gamma = c(0.1),
+                                                  metrics = c("betweeness"),
+                                                  weights = c(100), cutoff = -1))
 ```
 
-It is important to note that Beetweenness centrality is a time intensive operation. Geohabnet uses a wrapper around `igraph::betweenness()`. Refer to [@igraph] for more details and further reading. The `cutoff` parameter can be used set the threshold which will include the link weights based on this threshold. Setting this parameter will also be reflected in closeness.
+It is important to note that Betweenness centrality is a time intensive operation. Geohabnet uses a wrapper around `igraph::betweenness()`. Refer to [@igraph] for more details and further reading. The `cutoff` parameter can be used set the threshold which will include the link weights based on this threshold. Setting this parameter will also be reflected in closeness.
 
 The configuration based run for the above will be as follows -
 
