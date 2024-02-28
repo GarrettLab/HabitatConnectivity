@@ -1,12 +1,15 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
-[<img
-src="https://github.com/GarrettLab/HabitatConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main"
-width="250" height="25" alt="Github Pages" />](https://github.com/GarrettLab/HabitatConnectivity/actions/workflows/pages/pages-build-deployment)
-[<img src="https://www.r-pkg.org/badges/version/geohabnet" width="100"
-height="25" alt="CRAN status" />](https://CRAN.R-project.org/package=geohabnet)
+[<img src="https://github.com/GarrettLab/HabitatConnectivity/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main" alt="Github Pages" width="250" height="25"/>](https://github.com/GarrettLab/HabitatConnectivity/actions/workflows/pages/pages-build-deployment)
+[<img src="https://www.r-pkg.org/badges/version/geohabnet" alt="CRAN status" width="100" height="25"/>](https://CRAN.R-project.org/package=geohabnet)
 
 <!-- badges: end -->
 
