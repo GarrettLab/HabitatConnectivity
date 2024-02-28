@@ -17,7 +17,7 @@ editor_options:
 
 This package is expanded upon [Xing et al
 (2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255).
-It add capabilities to customize parameter values using functions and
+It adds capabilities to customize parameter values using functions and
 see results of habitat connectivity risk index in the form of plots. The
 goal of `geohabnet` is to enable users to visualize habitat connectivity
 risk index using their own parameter values. The risk analysis includes
