@@ -29,13 +29,13 @@ This package is expanded upon [Xing et al (2021)](https://academic.oup.com/biosc
 
 3.  Variance
 
-Package currently support crops sourced from `geodata::monfredaCrops()` and `geodata::spamCrops()`. This analysis produces 3 maps - mean, variance and difference for the crop risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. This values are propagated to other functions for performing operations such distance matrix calculation. The values are set in `parameters.yaml` using and it can be accessed using `get_parameters()`. See the usage below.
+Package currently support crops sourced from `geodata::monfredaCrops()` and `geodata::spamCrops()`. This analysis produces 3 maps - mean, variance and difference for the habitat risk index. There are multiple ways in which functions can be used - generate final outcome and then the intermediate outcomes for more sophisticated use cases. Refer to vignettes. This values are propagated to other functions for performing operations such distance matrix calculation. The values are set in `parameters.yaml` using and it can be accessed using `get_parameters()`. See the usage below.
 
 ## Installation
 
 Package can either be installed from CRAN:
 
-```{r cran, eval=FALSE}
+```{r cran}
 install.packages("geohabnet")
 ```
 
@@ -51,7 +51,7 @@ devtools::install_github("GarrettLab/HabitatConnectivity", subdir = "geohabnet")
 
 ## geohabnet Example
 
-```{r example}
+```{r example, eval=FALSE}
 library(geohabnet)
 
 param_file <- geohabnet::get_parameters()

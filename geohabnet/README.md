@@ -42,6 +42,11 @@ Package can either be installed from CRAN:
 
 ``` r
 install.packages("geohabnet")
+#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpVAU4Cz/temp_libpathfde9199513a3'
+#> (as 'lib' is unspecified)
+#> 
+#> The downloaded binary packages are in
+#>  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpI7xB49/downloaded_packages
 ```
 
 or the source version of package can be installed from
@@ -63,7 +68,6 @@ library(geohabnet)
 param_file <- geohabnet::get_parameters()
 # now edit the file
 geohabnet::set_parameters(new_params = param_file)
-#> [1] TRUE
 ```
 
 Run the analysis using -
