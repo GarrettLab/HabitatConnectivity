@@ -20,7 +20,7 @@ List with parameters and values. See details.
 -\verb{[neg_exp()]} Get parameters and values pertaining to the negative exponential model.
 }
 \details{
-The list object has following values used in running analysis
+This list object has following values used in running analysis
 -\code{beta} Parameter for calculating the inverse power law.
 -\code{gamma} Parameter for calculating the negative exponential.
 -\code{metrics} Each of these metrics is applied to the adjacency matrix produced in the intermediate step.

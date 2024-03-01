@@ -116,7 +116,7 @@ reset_params <- function() {
 #' @param params Object.[load_parameters()] by default.
 #' @return List with parameters and values. See details.
 #' @details
-#' The list object has following values used in running analysis
+#' This list object has following values used in running analysis
 #' -`beta` Parameter for calculating the inverse power law.
 #' -`gamma` Parameter for calculating the negative exponential.
 #' -`metrics` Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
