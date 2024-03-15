@@ -294,7 +294,7 @@
 #' @inherit Dispersal-kernels details
 #'
 #' @seealso Uses [connectivity()]
-#' @seealso Uses [msean()] [inv_powerlaw()] [neg_exp()]
+#' @seealso Uses [msean()] [inv_powerlaw()] [neg_expo()]
 #' @inherit sensitivity_analysis references
 #'
 #' @examples
