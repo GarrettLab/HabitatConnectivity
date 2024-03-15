@@ -114,12 +114,21 @@ reset_params <- function() {
 #' -`[neg_exp()]` Get parameters and values pertaining to the negative exponential model.
 #'
 #' @param params Object.[load_parameters()] by default.
+#' If not provided, the function will require all other parameters.
+#' It takes the precedence over other parameters.
+#' @param betas Numeric. Parameter for calculating the inverse power law.
+#' @param gammas Numeric. Parameter for calculating the negative exponential.
+#' @param mets Character.
+#' Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
+#' @param we Numeric The link weights to be used in the network analysis.
+#' @param linkcutoff Numeric. Currently used as a parameter to calculate centrality in the network.
 #' @return List with parameters and values. See details.
 #' @details
 #' The list object has following values used in running analysis
 #' -`beta` Parameter for calculating the inverse power law.
 #' -`gamma` Parameter for calculating the negative exponential.
 #' -`metrics` Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
+#' -`weights` The link weights to be used in the network analysis.
 #' -`cutoff` Currently used as a parameter to calculate centrality in the network - [betweeness()] and [closeness()].
 #' As defined in [igraph::betweenness()], it's the maximum length to consider when calculating centrality.
 #' If zero or negative, then there is no such limit.
@@ -134,19 +143,35 @@ reset_params <- function() {
 #' R package version 1.5.1, <https://CRAN.R-project.org/package=igraph>.
 #' @export
 #' @rdname Dispersal-kernels
-inv_powerlaw <- function(params = load_parameters()) {
-  return(list(beta = params$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta,
-              metrics = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$metrics,
-              weights = params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$weights,
-              cutoff = as.numeric(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$cutoff)))
+inv_powerlaw <- function(params = load_parameters(), betas = NULL, mets = NULL, we = NULL, linkcutoff = NULL) {
+
+  if (!is.null(params)) {
+    return(list(beta = as.numeric(params$`CCRI parameters`$DispersalKernelModels$InversePowerLaw$beta),
+                metrics = as.character(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$metrics),
+                weights = as.numeric(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$weights),
+                cutoff = as.numeric(params$`CCRI parameters`$NetworkMetrics$InversePowerLaw$cutoff)))
+  } else {
+    return(list(beta = as.vector(betas),
+                metrics = as.character(mets),
+                weights = as.numeric(we),
+                cutoff = as.numeric(linkcutoff)))
+  }
 }
 
 #' @rdname Dispersal-kernels
-neg_exp <- function(params = load_parameters()) {
-  return(list(gamma = params$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma,
-              metrics = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$metrics,
-              weights = params$`CCRI parameters`$NetworkMetrics$NegativeExponential$weights,
-              cutoff = as.numeric(params$`CCRI parameters`$NetworkMetrics$NegativeExponential$cutoff)))
+neg_expo <- function(params = load_parameters(), gammas = NULL, mets = NULL, we = NULL, linkcutoff = NULL) {
+
+  if (!is.null(params)) {
+    return(list(gamma = as.numeric(params$`CCRI parameters`$DispersalKernelModels$NegativeExponential$gamma),
+                metrics = as.character(params$`CCRI parameters`$NetworkMetrics$NegativeExponential$metrics),
+                weights = as.numeric(params$`CCRI parameters`$NetworkMetrics$NegativeExponential$weights),
+                cutoff = as.numeric(params$`CCRI parameters`$NetworkMetrics$NegativeExponential$cutoff)))
+  } else {
+    return(list(gamma = as.numeric(gammas),
+                metrics = as.character(mets),
+                weights = as.numeric(we),
+                cutoff = as.numeric(linkcutoff)))
+  }
 }
 
 .param_fp <- function() {

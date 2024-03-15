@@ -176,6 +176,7 @@ risk_indices <- function(ri) {
 
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
+  #.apply_agg <<- memoise::memoise(.apply_agg)
 }
 
 .get_helper_filepath <- function(file_type) {
@@ -347,14 +348,14 @@ supported_sources <- function() {
 }
 
 #' Supported sources for monfreda
-#'
+#' 
 #' @export
 monfreda <- function() {
   return(c("monfreda"))
 }
 
 #' Supported sources for Mapspam
-#'
+#' 
 #' @export
 mapspam <- function() {
   return(c("mapspam2010", "mapspam2017Africa"))

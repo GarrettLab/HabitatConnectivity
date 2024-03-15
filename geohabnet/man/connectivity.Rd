@@ -76,5 +76,5 @@ Hijmans R (2023). \emph{terra: Spatial Data Analysis}.
 R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
 }
 \seealso{
-\code{\link[=ccri_mean]{ccri_mean()}}, \code{\link[=ccri_variance]{ccri_variance()}}, \code{\link[=ccri_diff]{ccri_diff()}}
+\code{\link[=hci_mean]{hci_mean()}}, \code{\link[=hci_variance]{hci_variance()}}, \code{\link[=hci_diff]{hci_diff()}}
 }

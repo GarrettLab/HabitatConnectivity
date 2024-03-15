@@ -2,15 +2,40 @@
 % Please edit documentation in R/params.R
 \name{inv_powerlaw}
 \alias{inv_powerlaw}
-\alias{neg_exp}
+\alias{neg_expo}
 \title{Dispersal kernels}
 \usage{
-inv_powerlaw(params = load_parameters())
+inv_powerlaw(
+  params = load_parameters(),
+  betas = NULL,
+  mets = NULL,
+  we = NULL,
+  linkcutoff = NULL
+)
 
-neg_exp(params = load_parameters())
+neg_expo(
+  params = load_parameters(),
+  gammas = NULL,
+  mets = NULL,
+  we = NULL,
+  linkcutoff = NULL
+)
 }
 \arguments{
-\item{params}{Object.\code{\link[=load_parameters]{load_parameters()}} by default.}
+\item{params}{Object.\code{\link[=load_parameters]{load_parameters()}} by default.
+If not provided, the function will require all other parameters.
+It takes the precedence over other parameters.}
+
+\item{betas}{Numeric. Parameter for calculating the inverse power law.}
+
+\item{mets}{Character.
+Each of these metrics is applied to the adjacency matrix produced in the intermediate step.}
+
+\item{we}{Numeric The link weights to be used in the network analysis.}
+
+\item{linkcutoff}{Numeric. Currently used as a parameter to calculate centrality in the network.}
+
+\item{gammas}{Numeric. Parameter for calculating the negative exponential.}
 }
 \value{
 List with parameters and values. See details.
@@ -24,6 +49,7 @@ The list object has following values used in running analysis
 -\code{beta} Parameter for calculating the inverse power law.
 -\code{gamma} Parameter for calculating the negative exponential.
 -\code{metrics} Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
+-\code{weights} The link weights to be used in the network analysis.
 -\code{cutoff} Currently used as a parameter to calculate centrality in the network - \code{\link[=betweeness]{betweeness()}} and \code{\link[=closeness]{closeness()}}.
 As defined in \code{\link[igraph:betweenness]{igraph::betweenness()}}, it's the maximum length to consider when calculating centrality.
 If zero or negative, then there is no such limit.

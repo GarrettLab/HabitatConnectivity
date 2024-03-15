@@ -14,12 +14,12 @@ sean(
   link_threshold = 0,
   hd_threshold = 0,
   res = reso(),
-  inv_pl = list(beta = c(0.5, 1, 1.5), metrics = c("betweeness", "NODE_STRENGTH",
-    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20),
-    cutoff = -1),
-  neg_exp = list(gamma = c(0.05, 1, 0.2, 0.3), metrics = c("betweeness", "NODE_STRENGTH",
-    "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), weights = c(50, 15, 15, 20),
-    cutoff = -1)
+  inv_pl = inv_powerlaw(NULL, betas = c(0.5, 1, 1.5), mets = c("betweeness",
+    "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), we = c(50,
+    15, 15, 20), linkcutoff = -1),
+  neg_exp = neg_expo(NULL, gammas = c(0.05, 1, 0.2, 0.3), mets = c("betweeness",
+    "NODE_STRENGTH", "Sum_of_nearest_neighbors", "eigenVector_centrAlitY"), we = c(50,
+    15, 15, 20), linkcutoff = -1)
 )
 
 msean(
@@ -95,10 +95,15 @@ using \code{\link[=connectivity]{connectivity()}} function. The maps are essenti
 }
 \details{
 When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used by default.
+
 The functions \code{\link[=sean]{sean()}} and \code{\link[=msean]{msean()}} perform the same sensitivity analysis, but they differ in their return value.
 The return value of \code{\link[=msean]{msean()}} is \code{GeoNetwork},
 which contains the result from applying the \code{\link[=connectivity]{connectivity()}} function on the habitat connectivity indexes.
 Essentially, the risk maps.
+
+If neither the inverse power law nor the negative exponential dispersal kernel is specified,
+the function will return an error.
+
 In \code{\link[=msean]{msean()}}, three spatRasters are produced with the following values.
 For each location in the area of interest,
 the mean in habitat connectivity across selected parameters is calculated.
@@ -143,5 +148,5 @@ R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
 \seealso{
 Uses \code{\link[=connectivity]{connectivity()}}
 
-Uses \code{\link[=msean]{msean()}} \code{\link[=inv_powerlaw]{inv_powerlaw()}} \code{\link[=neg_exp]{neg_exp()}}
+Uses \code{\link[=msean]{msean()}} \code{\link[=inv_powerlaw]{inv_powerlaw()}} \code{\link[=neg_expo]{neg_expo()}}
 }

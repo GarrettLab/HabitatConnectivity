@@ -189,7 +189,7 @@ set_parameters(new_params = config_file)
 
 `get_parameters()` was only to fetch the initial parameters. While you can, it is not required to re-fetch if the parameters has not been modified in the configuration. Modify the value and feed it to workflow using `set_parameters()`.
 
-## Parameters
+# Parameters
 
 ### Hosts
 
@@ -339,7 +339,7 @@ Geographical extent is a subset of world map defined by coordinate reference sys
 
 When provided with `geoscale`, program will take the subset of provided raster (data-set of a crop). The workflow will apply graph operations and network connectivity only to the subset.
 
-## Outputs
+# Outputs
 
 By default, 3 maps are produced for each analysis. `sean()` also returns risk indices without maps which can, then be fed to `connectivity()` . This flexibility is supposed to allow users to use the risk indices for their purposes or use our function to produce maps with further different parameters.
 
@@ -434,7 +434,6 @@ msean(avocado)
 
 future::plan(future::multisession())
 msean(avocado)
-
 ```
 
 # References

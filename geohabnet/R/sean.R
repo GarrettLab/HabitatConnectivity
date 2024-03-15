@@ -3,7 +3,7 @@
 # Utility functions -------------------------------------------------------
 
 #----------- Extract habitat density data -----------------------
-.extract_cropland_density <- function(cropharvest_agg_crop, host_density_threshold) {
+.extract_habitat_density <- function(cropharvest_agg_crop, host_density_threshold) {
   crop_values <- terra::values(cropharvest_agg_crop)
   max_val <- max(crop_values, na.rm = TRUE)
   if (max_val <= host_density_threshold) {
@@ -23,14 +23,14 @@
   postagg_rast <- if (agg_method == "sum") {
 
     cropharvest_aggtm <- cropharvest_agg / resolution / resolution # TOTAL MEAN
-    # crop cropland area for the given extent
+    # crop host area for the given extent
     # TODO: redundant call to terra::crop... remove it
     cropharvest_aggtm_crop <- terra::crop(cropharvest_aggtm, .to_ext(geo_scale))
     cropharvest_aggtm_crop
   } else if (agg_method == "mean") {
 
     cropharvest_agglm <- cropharvest_agg
-    # crop cropland area for the given extent
+    # crop area for the given extent
     cropharvest_agglm_crop <- terra::crop(cropharvest_agglm, .to_ext(geo_scale))
     cropharvest_agglm_crop
   } else {
@@ -55,8 +55,8 @@
                           cropharvest_agg,
                           resolution,
                           geo_scale)
-  density_data <- .extract_cropland_density(temp_rast,
-                                            host_density_threshold)
+  density_data <- .extract_habitat_density(temp_rast,
+                                           host_density_threshold)
 
   if (is.null(density_data) || (!is.list(density_data))) {
     stop("unable to extract density data, longitude/latitude")
@@ -88,20 +88,27 @@
   return(ready)
 }
 
+.check_dk <- function(ipl, ne_exp) {
+  stopifnot("Need one dispersal parameter to continue analysis" = !is.null(ipl) || !is.null(ne_exp))
+  return(TRUE)
+}
+
 # CCRI functions ----------------------------------------------------------
-.ccri_powerlaw <- function(betas,
-                           link_threshold = 0,
-                           metrics = NULL,
-                           me_weights = NULL,
-                           cutoff = -1,
-                           rast,
-                           crop_cells_above_threshold = NULL,
-                           thresholded_crop_values = NULL,
-                           distance_matrix = NULL) {
+.hci_powerlaw <- function(betas,
+                          link_threshold = 0,
+                          metrics = NULL,
+                          me_weights = NULL,
+                          cutoff = -1,
+                          rast,
+                          crop_cells_above_threshold = NULL,
+                          thresholded_crop_values = NULL,
+                          distance_matrix = NULL) {
 
   if (!.validate_index_cal(betas)) {
     return(0)
   }
+
+  .showmsg("Calculating powerlaw models")
 
   pl_models <- future.apply::future_lapply(betas, .model_powerlaw,
                                            link_threshold = link_threshold,
@@ -118,19 +125,21 @@
   return(pl_models)
 }
 
-.ccri_negative_exp <- function(gammas,
-                               link_threshold = 0,
-                               metrics = NULL,
-                               me_weights = NULL,
-                               cutoff = -1,
-                               rast,
-                               crop_cells_above_threshold = NULL,
-                               thresholded_crop_values = NULL,
-                               distance_matrix = NULL) {
+.hci_negative_exp <- function(gammas,
+                              link_threshold = 0,
+                              metrics = NULL,
+                              me_weights = NULL,
+                              cutoff = -1,
+                              rast,
+                              crop_cells_above_threshold = NULL,
+                              thresholded_crop_values = NULL,
+                              distance_matrix = NULL) {
 
   if (!.validate_index_cal(gammas)) {
     return(0)
   }
+
+  .showmsg("Calculating powerlaw models")
 
   ne_models <- future.apply::future_lapply(gammas,
                                            .model_neg_exp,
@@ -148,7 +157,18 @@
   return(ne_models)
 }
 
-.ccri <- function(
+.valid_dkparams <- function(mod, param) {
+  # Substitute the field name into the expression
+  expr <-
+    !is.null(mod) &&
+    !is.null(mod[[param]]) &&
+    length(mod[[param]]) > 0
+
+  # Evaluate the expression and return the result
+  eval(expr)
+}
+
+.hci <- function(
     link_threshold = 0,
     ipl = NULL,
     ne_exp = NULL,
@@ -159,32 +179,53 @@
 
   packed_sp <- terra::wrap(rast)
 
-  future_pl_ret <- future::future({
-    .ccri_powerlaw(ipl$beta,
-                   link_threshold,
-                   metrics = ipl$metrics,
-                   me_weights = ipl$weights,
-                   cutoff = ipl$cutoff,
-                   packed_sp,
-                   crop_cells_above_threshold = crop_cells_above_threshold,
-                   thresholded_crop_values = thresholded_crop_values,
-                   distance_matrix)
-  }, seed = TRUE)
+  .check_dk(ipl, ne_exp)
 
-  future_ne_ret <- future::future({
-    .ccri_negative_exp(ne_exp$gamma,
-                       link_threshold,
-                       metrics = ne_exp$metrics,
-                       me_weights = ne_exp$weights,
-                       cutoff = ne_exp$cutoff,
-                       packed_sp,
-                       crop_cells_above_threshold = crop_cells_above_threshold,
-                       thresholded_crop_values = thresholded_crop_values,
-                       distance_matrix)
-  }, seed = TRUE)
+  future_pl_ret <- if (.valid_dkparams(ipl, "beta")) {
+    future::future({
+      .hci_powerlaw(
+        ipl$beta,
+        link_threshold,
+        metrics = ipl$metrics,
+        me_weights = ipl$weights,
+        cutoff = ipl$cutoff,
+        packed_sp,
+        crop_cells_above_threshold = crop_cells_above_threshold,
+        thresholded_crop_values = thresholded_crop_values,
+        distance_matrix
+      )
+    }, seed = TRUE)
+  }
+
+  future_ne_ret <- if (.valid_dkparams(ne_exp, "gamma")) {
+    future::future({
+      .hci_negative_exp(
+        ne_exp$gamma,
+        link_threshold,
+        metrics = ne_exp$metrics,
+        me_weights = ne_exp$weights,
+        cutoff = ne_exp$cutoff,
+        packed_sp,
+        crop_cells_above_threshold = crop_cells_above_threshold,
+        thresholded_crop_values = thresholded_crop_values,
+        distance_matrix
+      )
+    }, seed = TRUE)
+  }
+
+  stopifnot("Need one dispersal kernel parameter to continue analysis" =
+              !is.null(future_pl_ret) || !is.null(future_ne_ret))
 
   # Combine the results after both functions have finished
-  results <- c(future::value(future_pl_ret), future::value(future_ne_ret))
+  results <- if (!is.null(future_pl_ret) && !is.null(future_ne_ret)) {
+    c(future::value(future_pl_ret), future::value(future_ne_ret))
+  } else if (!is.null(future_pl_ret)) {
+    future::value(future_pl_ret)
+  } else if (!is.null(future_ne_ret)) {
+    future::value(future_ne_ret)
+  } else {
+    stop("No results returned from dispersal kernel calculations")
+  }
 
   return(results)
 }
@@ -232,10 +273,15 @@
 #' @export
 #' @details
 #' When `global = TRUE`, `geoscale` is ignored and [global_scales()] is used by default.
+#'
 #' The functions [sean()] and [msean()] perform the same sensitivity analysis, but they differ in their return value.
 #' The return value of [msean()] is `GeoNetwork`,
 #' which contains the result from applying the [connectivity()] function on the habitat connectivity indexes.
 #' Essentially, the risk maps.
+#'
+#' If neither the inverse power law nor the negative exponential dispersal kernel is specified,
+#' the function will return an error.
+#'
 #' In [msean()], three spatRasters are produced with the following values.
 #' For each location in the area of interest,
 #' the mean in habitat connectivity across selected parameters is calculated.
@@ -248,7 +294,7 @@
 #' @inherit Dispersal-kernels details
 #'
 #' @seealso Uses [connectivity()]
-#' @seealso Uses [msean()] [inv_powerlaw()] [neg_exp()]
+#' @seealso Uses [msean()] [inv_powerlaw()] [neg_expo()]
 #' @inherit sensitivity_analysis references
 #'
 #' @examples
@@ -278,27 +324,29 @@ sean <- function(rast,
                  link_threshold = 0,
                  hd_threshold = 0,
                  res = reso(),
-                 inv_pl = list(
-                   beta = c(0.5, 1, 1.5),
-                   metrics = c(
+                 inv_pl = inv_powerlaw(
+                   NULL,
+                   betas = c(0.5, 1, 1.5),
+                   mets = c(
                      "betweeness",
                      "NODE_STRENGTH",
                      "Sum_of_nearest_neighbors",
                      "eigenVector_centrAlitY"
                    ),
-                   weights = c(50, 15, 15, 20),
-                   cutoff = -1
+                   we = c(50, 15, 15, 20),
+                   linkcutoff = -1
                  ),
-                 neg_exp = list(
-                   gamma = c(0.05, 1, 0.2, 0.3),
-                   metrics = c(
+                 neg_exp = neg_expo(
+                   NULL,
+                   gammas = c(0.05, 1, 0.2, 0.3),
+                   mets = c(
                      "betweeness",
                      "NODE_STRENGTH",
                      "Sum_of_nearest_neighbors",
                      "eigenVector_centrAlitY"
                    ),
-                   weights = c(50, 15, 15, 20),
-                   cutoff = -1
+                   we = c(50, 15, 15, 20),
+                   linkcutoff = -1
                  )) {
 
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
@@ -328,13 +376,13 @@ sean <- function(rast,
                                dist_method)
 
       model_ret <- c(model_ret,
-                     .ccri(link_threshold,
-                           ipl = inv_pl,
-                           ne_exp = neg_exp,
-                           rast = density_data$agg_crop,
-                           crop_cells_above_threshold = density_data$crop_values_at,
-                           thresholded_crop_values = density_data$crop_value,
-                           distance_matrix = density_data[[STR_DISTANCE_MATRIX]]))
+                     .hci(link_threshold,
+                          ipl = inv_pl,
+                          ne_exp = neg_exp,
+                          rast = density_data$agg_crop,
+                          crop_cells_above_threshold = density_data$crop_values_at,
+                          thresholded_crop_values = density_data$crop_value,
+                          distance_matrix = density_data[[STR_DISTANCE_MATRIX]]))
 
       host_densityrasts <- c(host_densityrasts, density_data$agg_crop)
     }
@@ -631,7 +679,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   # dispersal models
   pl <- inv_powerlaw(cparams)
 
-  ne <- neg_exp(cparams)
+  ne <- neg_expo(cparams)
 
   rasters <- lapply(crop_rasters,
                     function(rast) {
