@@ -148,5 +148,5 @@ R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
 \seealso{
 Uses \code{\link[=connectivity]{connectivity()}}
 
-Uses \code{\link[=msean]{msean()}} \code{\link[=inv_powerlaw]{inv_powerlaw()}} \code{\link[=neg_exp]{neg_exp()}}
+Uses \code{\link[=msean]{msean()}} \code{\link[=inv_powerlaw]{inv_powerlaw()}} \code{\link[=neg_expo]{neg_expo()}}
 }
