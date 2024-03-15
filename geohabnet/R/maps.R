@@ -12,14 +12,14 @@
 #' and file path of the saved maps.
 #'
 #' @export
-ccri_mean <- function(indices,
-                      global = FALSE,
-                      east = NULL,
-                      west = NULL,
-                      geoscale = NULL,
-                      res = reso(),
-                      plt = TRUE,
-                      outdir = tempdir()) {
+hci_mean <- function(indices,
+                     global = FALSE,
+                     east = NULL,
+                     west = NULL,
+                     geoscale = NULL,
+                     res = reso(),
+                     plt = TRUE,
+                     outdir = tempdir()) {
 
   .cal_mean <- function(ext_indices) {
     mean_idx <- terra::app(terra::rast(ext_indices), sum, na.rm = TRUE) / length(ext_indices)
@@ -68,18 +68,18 @@ ccri_mean <- function(indices,
 #'
 #'    This function produces a map of variance of CCRI based on input parameters
 #' @inheritParams connectivity
-#' @inheritParams ccri_mean
-#' @inherit ccri_mean return
+#' @inheritParams hci_mean
+#' @inherit hci_mean return
 #' @param rast SpatRaster. Template for variance output
 #' @export
-ccri_variance <- function(indices,
-                          rast,
-                          global,
-                          east = NULL,
-                          west = NULL,
-                          geoscale,
-                          res = reso(),
-                          outdir = tempdir()) {
+hci_variance <- function(indices,
+                         rast,
+                         global,
+                         east = NULL,
+                         west = NULL,
+                         geoscale,
+                         res = reso(),
+                         outdir = tempdir()) {
 
   .cal_var <- function(ext_indices, scale) {
     var_rastvect <-
@@ -135,19 +135,19 @@ ccri_variance <- function(indices,
 #' @param y SpatRaster.
 #' @param geoscale Numeric vector. `x` will be cropped to this extent.
 #' @inheritParams connectivity
-#' @inheritParams ccri_mean
-#' @inherit ccri_mean return
+#' @inheritParams hci_mean
+#' @inherit hci_mean return
 #' @details
 #' Ideally, the function is tested to yield desired results when
 #' `length(which(y[] > 0)) > length(which(x[] > 0))`.
 #'
 #' @export
-ccri_diff <- function(x,
-                      y,
-                      global,
-                      geoscale,
-                      res = reso(),
-                      outdir = tempdir()) {
+hci_diff <- function(x,
+                     y,
+                     global,
+                     geoscale,
+                     res = reso(),
+                     outdir = tempdir()) {
   # difference map
   # Function to check for missing or null values
   # Check if all arguments are SpatRaster objects

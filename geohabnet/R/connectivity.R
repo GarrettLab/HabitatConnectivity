@@ -30,7 +30,7 @@
 #' These objects are available as a return value of this function.
 #'
 #' @inherit sensitivity_analysis references
-#' @seealso [ccri_mean()], [ccri_variance()], [ccri_diff()]
+#' @seealso [hci_mean()], [hci_variance()], [hci_diff()]
 #' @export
 connectivity <- function(host,
                          indices,
@@ -60,17 +60,17 @@ connectivity <- function(host,
     geoscale
   }
 
-  mobj <- ccri_mean(indices, global, east, west, actualscale, res, pmean, outdir)
+  mobj <- hci_mean(indices, global, east, west, actualscale, res, pmean, outdir)
 
   vobj <- if (pvar == TRUE) {
-    ccri_variance(indices,
-                  mobj@riid,
-                  global,
-                  east,
-                  west,
-                  actualscale,
-                  res,
-                  outdir)
+    hci_variance(indices,
+                 mobj@riid,
+                 global,
+                 east,
+                 west,
+                 actualscale,
+                 res,
+                 outdir)
   }
 
   dobj <- if (pdiff == TRUE) {
@@ -78,12 +78,12 @@ connectivity <- function(host,
       geoscale <- .global_ext()
     }
 
-    ccri_diff(mobj@riid,
-              host,
-              global,
-              actualscale,
-              res,
-              outdir)
+    hci_diff(mobj@riid,
+             host,
+             global,
+             actualscale,
+             res,
+             outdir)
   }
 
   return(.merge_mapobs(mobj, vobj, dobj))
