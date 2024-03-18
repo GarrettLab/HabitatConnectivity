@@ -21,7 +21,7 @@ It returns the dataset sources in which crop data is available.
 It's a wrapper around \code{\link[geodata:crop_spam]{geodata::spamCrops()}} and \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}
 
 It returns the dataset sources in which crop data is available.
-It's a wrapper around \code{\link[geodata:crop_spam]{geodata::spamCrops()}} and \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}
+Essentially, a wrapper around \code{\link[geodata:crop_spam]{geodata::spamCrops()}} and \code{\link[geodata:crop_monfreda]{geodata::monfredaCrops()}}
 }
 \examples{
 search_crop("coffee")
