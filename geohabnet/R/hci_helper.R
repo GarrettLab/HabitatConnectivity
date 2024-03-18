@@ -364,7 +364,7 @@ mapspam <- function() {
 #' Search for crop
 #'
 #' It returns the dataset sources in which crop data is available.
-#' It's a wrapper around [geodata::spamCrops()] and [geodata::monfredaCrops()]
+#' Essentially, a wrapper around [geodata::spamCrops()] and [geodata::monfredaCrops()]
 #' @param name name of crop
 #' @return Logical. Sources iin crop data is available.
 #' @export
