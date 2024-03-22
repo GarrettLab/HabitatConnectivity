@@ -53,7 +53,7 @@ hci_mean <- function(indices,
 
   plt_ret <- if (plt == TRUE) {
     .plot(toplot,
-          paste("Mean cropland connectivity risk index\n"),
+          paste("Mean habitat connectivity risk index\n"),
           global,
           geoext,
           zlim = c(0, 1),
@@ -118,7 +118,7 @@ hci_variance <- function(indices,
 
   z_var_w <- range(var_out[which(var_out[] > 0)])
   plt_ret <- .plot(var_out,
-                   "Variance in cropland connectivity",
+                   "Variance in habitat connectivity",
                    global,
                    geoext,
                    zlim = z_var_w,
