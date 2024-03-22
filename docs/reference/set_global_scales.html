@@ -26,11 +26,11 @@ Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)"><meta property="
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using habitat connectivity</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
+    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
   </div>
 </li>
 <li class="nav-item">
@@ -82,19 +82,12 @@ Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="global_scales.html">global_scales()</a></code>
-<code><a href="https://rspatial.github.io/terra/reference/ext.html" class="external-link">terra::ext()</a></code></p></div>
+<code><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">terra::ext()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">set_global_scales</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>east <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">24</span>, <span class="fl">180</span>, <span class="op">-</span><span class="fl">58</span>, <span class="fl">60</span><span class="op">)</span>, west <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">140</span>, <span class="op">-</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">58</span>, <span class="fl">60</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $east</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -24 180 -58  60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $west</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -140  -34  -58   60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-</code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">set_global_scales</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>east <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">24</span>, <span class="fl">180</span>, <span class="op">-</span><span class="fl">58</span>, <span class="fl">60</span><span class="op">)</span>, west <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">140</span>, <span class="op">-</span><span class="fl">34</span>, <span class="op">-</span><span class="fl">58</span>, <span class="fl">60</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

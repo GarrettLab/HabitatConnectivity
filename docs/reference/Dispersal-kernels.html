@@ -26,11 +26,11 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using habitat connectivity</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
+    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
   </div>
 </li>
 <li class="nav-item">
@@ -64,15 +64,50 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">inv_powerlaw</span><span class="op">(</span>params <span class="op">=</span> <span class="fu"><a href="load_parameters.html">load_parameters</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">inv_powerlaw</span><span class="op">(</span></span>
+<span>  params <span class="op">=</span> <span class="fu"><a href="load_parameters.html">load_parameters</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  betas <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mets <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  we <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  linkcutoff <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">neg_exp</span><span class="op">(</span>params <span class="op">=</span> <span class="fu"><a href="load_parameters.html">load_parameters</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">neg_expo</span><span class="op">(</span></span>
+<span>  params <span class="op">=</span> <span class="fu"><a href="load_parameters.html">load_parameters</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  gammas <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mets <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  we <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  linkcutoff <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>params</dt>
-<dd><p>Object.<code><a href="load_parameters.html">load_parameters()</a></code> by default.</p></dd>
+<dd><p>Object.<code><a href="load_parameters.html">load_parameters()</a></code> by default.
+If not provided, the function will require all other parameters.
+It takes the precedence over other parameters.</p></dd>
+
+
+<dt>betas</dt>
+<dd><p>Numeric. Parameter for calculating the inverse power law.</p></dd>
+
+
+<dt>mets</dt>
+<dd><p>Character.
+Each of these metrics is applied to the adjacency matrix produced in the intermediate step.</p></dd>
+
+
+<dt>we</dt>
+<dd><p>Numeric The link weights to be used in the network analysis.</p></dd>
+
+
+<dt>linkcutoff</dt>
+<dd><p>Numeric. Currently used as a parameter to calculate centrality in the network.</p></dd>
+
+
+<dt>gammas</dt>
+<dd><p>Numeric. Parameter for calculating the negative exponential.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -87,6 +122,7 @@
 -<code>beta</code> Parameter for calculating the inverse power law.
 -<code>gamma</code> Parameter for calculating the negative exponential.
 -<code>metrics</code> Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
+-<code>weights</code> The link weights to be used in the network analysis.
 -<code>cutoff</code> Currently used as a parameter to calculate centrality in the network - <code><a href="nn_sum.html">betweeness()</a></code> and <code><a href="nn_sum.html">closeness()</a></code>.
 As defined in <code><a href="https://r.igraph.org/reference/betweenness.html" class="external-link">igraph::betweenness()</a></code>, it's the maximum length to consider when calculating centrality.
 If zero or negative, then there is no such limit.</p>

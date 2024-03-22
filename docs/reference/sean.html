@@ -40,11 +40,11 @@ using connectivity() function. The maps are essentially the risk network.
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using habitat connectivity</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
+    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
   </div>
 </li>
 <li class="nav-item">
@@ -91,12 +91,12 @@ using <code><a href="connectivity.html">connectivity()</a></code> function. The 
 <span>  link_threshold <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  hd_threshold <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  res <span class="op">=</span> <span class="fu"><a href="reso.html">reso</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  inv_pl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span>, metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"betweeness"</span>, <span class="st">"NODE_STRENGTH"</span>,</span>
-<span>    <span class="st">"Sum_of_nearest_neighbors"</span>, <span class="st">"eigenVector_centrAlitY"</span><span class="op">)</span>, weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">15</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>,</span>
-<span>    cutoff <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>,</span>
-<span>  neg_exp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>gamma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>, metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"betweeness"</span>, <span class="st">"NODE_STRENGTH"</span>,</span>
-<span>    <span class="st">"Sum_of_nearest_neighbors"</span>, <span class="st">"eigenVector_centrAlitY"</span><span class="op">)</span>, weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">15</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>,</span>
-<span>    cutoff <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span>  inv_pl <span class="op">=</span> <span class="fu"><a href="Dispersal-kernels.html">inv_powerlaw</a></span><span class="op">(</span><span class="cn">NULL</span>, betas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span>, mets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"betweeness"</span>,</span>
+<span>    <span class="st">"NODE_STRENGTH"</span>, <span class="st">"Sum_of_nearest_neighbors"</span>, <span class="st">"eigenVector_centrAlitY"</span><span class="op">)</span>, we <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>,</span>
+<span>    <span class="fl">15</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>, linkcutoff <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>  neg_exp <span class="op">=</span> <span class="fu"><a href="Dispersal-kernels.html">neg_expo</a></span><span class="op">(</span><span class="cn">NULL</span>, gammas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>, mets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"betweeness"</span>,</span>
+<span>    <span class="st">"NODE_STRENGTH"</span>, <span class="st">"Sum_of_nearest_neighbors"</span>, <span class="st">"eigenVector_centrAlitY"</span><span class="op">)</span>, we <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>,</span>
+<span>    <span class="fl">15</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>, linkcutoff <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">msean</span><span class="op">(</span></span>
@@ -123,7 +123,7 @@ Default is <code>TRUE</code></p></dd>
 <dt>geoscale</dt>
 <dd><p>Numeric vector. Geographical coordinates
 in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If <code>geoscale</code> is NuLL,
-the extent is extracted from <code>rast</code>(SpatRaster) using <code><a href="https://rspatial.github.io/terra/reference/ext.html" class="external-link">terra::ext()</a></code>.</p></dd>
+the extent is extracted from <code>rast</code>(SpatRaster) using <code><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">terra::ext()</a></code>.</p></dd>
 
 
 <dt>agg_methods</dt>
@@ -191,12 +191,14 @@ Default is <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>When <code>global = TRUE</code>, <code>geoscale</code> is ignored and <code><a href="global_scales.html">global_scales()</a></code> is used by default.
-The functions <code>sean()</code> and <code>msean()</code> perform the same sensitivity analysis, but they differ in their return value.
+    <p>When <code>global = TRUE</code>, <code>geoscale</code> is ignored and <code><a href="global_scales.html">global_scales()</a></code> is used by default.</p>
+<p>The functions <code>sean()</code> and <code>msean()</code> perform the same sensitivity analysis, but they differ in their return value.
 The return value of <code>msean()</code> is <code>GeoNetwork</code>,
 which contains the result from applying the <code><a href="connectivity.html">connectivity()</a></code> function on the habitat connectivity indexes.
-Essentially, the risk maps.
-In <code>msean()</code>, three spatRasters are produced with the following values.
+Essentially, the risk maps.</p>
+<p>If neither the inverse power law nor the negative exponential dispersal kernel is specified,
+the function will return an error.</p>
+<p>In <code>msean()</code>, three spatRasters are produced with the following values.
 For each location in the area of interest,
 the mean in habitat connectivity across selected parameters is calculated.
 For each location in the area of interest,
@@ -220,50 +222,29 @@ R package version 1.7-46, <a href="https://CRAN.R-project.org/package=terra" cla
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Uses <code><a href="connectivity.html">connectivity()</a></code></p>
-<p>Uses <code>msean()</code> <code><a href="Dispersal-kernels.html">inv_powerlaw()</a></code> <code><a href="Dispersal-kernels.html">neg_exp()</a></code></p></div>
+<p>Uses <code>msean()</code> <code><a href="Dispersal-kernels.html">inv_powerlaw()</a></code> <code><a href="Dispersal-kernels.html">neg_expo()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="va">avocado</span> <span class="op">&lt;-</span> <span class="fu"><a href="cropharvest_rast.html">cropharvest_rast</a></span><span class="op">(</span><span class="st">"avocado"</span>, <span class="st">"monfreda"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># global</span></span></span>
-<span class="r-in"><span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu">sean</span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span> <span class="co"># returns a list of GeoRasters</span></span></span>
-<span class="r-in"><span><span class="va">mri</span> <span class="op">&lt;-</span> <span class="fu">msean</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">avocado</span><span class="op">)</span> <span class="co"># returns GeoNetwork object</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|===                                          </span>
-<span class="r-plt img"><img src="sean-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|=====                                          |---------|---------|---------|---------|==========                                          </span>
-<span class="r-plt img"><img src="sean-2.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|===                                          </span>
-<span class="r-plt img"><img src="sean-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># non-global</span></span></span>
-<span class="r-in"><span><span class="co"># geoscale is a vector of xmin, xmax, ymin, ymax</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># returns GeoRasters object</span></span></span>
-<span class="r-in"><span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu">sean</span><span class="op">(</span><span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ri</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class   :  GeoRasters </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rasters :  14 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> global  :  FALSE </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># returns GeoNetwork object</span></span></span>
-<span class="r-in"><span><span class="va">mri</span> <span class="op">&lt;-</span> <span class="fu">msean</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="sean-4.png" alt="" width="700" height="433"></span>
-<span class="r-plt img"><img src="sean-5.png" alt="" width="700" height="433"></span>
-<span class="r-plt img"><img src="sean-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">mri</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class            :  GeoNetwork </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> host density     :  27 , 40  (nrow, ncol) SpatRaster </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQmdzTP/plots/mean_20240227050334213396.tif </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mean raster      :  324 , 480  (nrow, ncol) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQmdzTP/plots/variance_20240227050334859388.tif </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> variance raster   :  324 , 480  (nrow, ncol) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQmdzTP/plots/difference_20240227050335454914.tif </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> difference raster :  324 , 480  (nrow, ncol) </span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
-</code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># \donttest{</span></span>
+<span><span class="va">avocado</span> <span class="op">&lt;-</span> <span class="fu"><a href="cropharvest_rast.html">cropharvest_rast</a></span><span class="op">(</span><span class="st">"avocado"</span>, <span class="st">"monfreda"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># global</span></span>
+<span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu">sean</span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span> <span class="co"># returns a list of GeoRasters</span></span>
+<span><span class="va">mri</span> <span class="op">&lt;-</span> <span class="fu">msean</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">avocado</span><span class="op">)</span> <span class="co"># returns GeoNetwork object</span></span>
+<span></span>
+<span><span class="co"># non-global</span></span>
+<span><span class="co"># geoscale is a vector of xmin, xmax, ymin, ymax</span></span>
+<span></span>
+<span><span class="co"># returns GeoRasters object</span></span>
+<span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu">sean</span><span class="op">(</span><span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ri</span></span>
+<span></span>
+<span><span class="co"># returns GeoNetwork object</span></span>
+<span><span class="va">mri</span> <span class="op">&lt;-</span> <span class="fu">msean</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mri</span></span>
+<span><span class="co"># }</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

@@ -36,11 +36,11 @@ It produces and plots the maps for the outcomes and results are returned as an o
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using habitat connectivity</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
+    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
   </div>
 </li>
 <li class="nav-item">
@@ -113,7 +113,7 @@ Default is <code>TRUE</code></p></dd>
 <dt>geoscale</dt>
 <dd><p>Numeric vector. Geographical coordinates
 in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If <code>geoscale</code> is NuLL,
-the extent is extracted from <code>rast</code>(SpatRaster) using <code><a href="https://rspatial.github.io/terra/reference/ext.html" class="external-link">terra::ext()</a></code>.</p></dd>
+the extent is extracted from <code>rast</code>(SpatRaster) using <code><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">terra::ext()</a></code>.</p></dd>
 
 
 <dt>res</dt>
@@ -157,32 +157,25 @@ R package version 1.7-46, <a href="https://CRAN.R-project.org/package=terra" cla
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_rasters.html">get_rasters</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>monfreda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"avocado"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">sa_onrasters</span><span class="op">(</span><span class="va">rr</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>            global <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>            geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0001</span>, <span class="fl">0.00004</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0001</span>, <span class="fl">0.00005</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sum"</span>, <span class="st">"mean"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            res <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">sa_onrasters</span><span class="op">(</span><span class="va">rr</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>            global <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>            link_thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.000001</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            hd_thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.00015</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            agg_methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sum"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            res <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">res3</span> <span class="op">&lt;-</span> <span class="fu">msean_onrast</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">rr</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>          link_thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.000001</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>          hd_thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.00015</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|======                                          </span>
-<span class="r-plt img"><img src="sa_onrasters-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|========                                          |---------|---------|---------|---------|==============                                          </span>
-<span class="r-plt img"><img src="sa_onrasters-2.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|======                                          </span>
-<span class="r-plt img"><img src="sa_onrasters-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
-</code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># \donttest{</span></span>
+<span><span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_rasters.html">get_rasters</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>monfreda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"avocado"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">sa_onrasters</span><span class="op">(</span><span class="va">rr</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>            global <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>            geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span>,</span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0001</span>, <span class="fl">0.00004</span><span class="op">)</span>,</span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0001</span>, <span class="fl">0.00005</span><span class="op">)</span>,</span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sum"</span>, <span class="st">"mean"</span><span class="op">)</span>,</span>
+<span>            res <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">sa_onrasters</span><span class="op">(</span><span class="va">rr</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>            global <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>            link_thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.000001</span><span class="op">)</span>,</span>
+<span>            hd_thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.00015</span><span class="op">)</span>,</span>
+<span>            agg_methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sum"</span><span class="op">)</span>,</span>
+<span>            res <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">res3</span> <span class="op">&lt;-</span> <span class="fu">msean_onrast</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">rr</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>          link_thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.000001</span><span class="op">)</span>,</span>
+<span>          hd_thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.00015</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># }</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

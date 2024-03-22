@@ -24,11 +24,11 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using habitat connectivity</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
+    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
   </div>
 </li>
 <li class="nav-item">
@@ -66,9 +66,34 @@
 
       <dl><dt>
           
-          <code><a href="Dispersal-kernels.html">inv_powerlaw()</a></code> <code><a href="Dispersal-kernels.html">neg_exp()</a></code> 
+          <code><a href="connectivity.html">connectivity()</a></code> 
+        </dt>
+        <dd>Calculate and plot maps</dd>
+      </dl><dl><dt>
+          
+          <code><a href="cropharvest_rast.html">cropharvest_rast()</a></code> 
+        </dt>
+        <dd>Get raster object for crop</dd>
+      </dl><dl><dt>
+          
+          <code><a href="crops_rast.html">crops_rast()</a></code> 
+        </dt>
+        <dd>Get sum of rasters for individual crops</dd>
+      </dl><dl><dt>
+          
+          <code><a href="Dispersal-kernels.html">inv_powerlaw()</a></code> <code><a href="Dispersal-kernels.html">neg_expo()</a></code> 
         </dt>
         <dd>Dispersal kernels</dd>
+      </dl><dl><dt>
+          
+          <code><a href="dist_methods.html">dist_methods()</a></code> <code><a href="dist_methods.html">dist_methods()</a></code> 
+        </dt>
+        <dd>Distance methods supported</dd>
+      </dl><dl><dt>
+          
+          <code><a href="dot-indices.html">.indices()</a></code> 
+        </dt>
+        <dd>Internal function to extract risk indices from a list of crop rasters.</dd>
       </dl><dl><dt>
           
           <code><a href="GeoModel-class.html">GeoModel-class</a></code> <code><a href="GeoModel-class.html">.model_ob</a></code> 
@@ -86,61 +111,6 @@
         <dd>GeoRaster class</dd>
       </dl><dl><dt>
           
-          <code><a href="GlobalRast-class.html">GlobalRast-class</a></code> <code><a href="GlobalRast-class.html">.grast_ro</a></code> 
-        </dt>
-        <dd>GlobalRast class</dd>
-      </dl><dl><dt>
-          
-          <code><a href="Gmap-class.html">setmaps()</a></code> 
-        </dt>
-        <dd>Gmap class</dd>
-      </dl><dl><dt>
-          
-          <code><a href="RiskMap-class.html">RiskMap-class</a></code> 
-        </dt>
-        <dd>RiskMap class</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ccri_diff.html">ccri_diff()</a></code> 
-        </dt>
-        <dd>Calculate difference map</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ccri_mean.html">ccri_mean()</a></code> 
-        </dt>
-        <dd>Calculate mean of raster objects</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ccri_variance.html">ccri_variance()</a></code> 
-        </dt>
-        <dd>Calculate variance of CCRI</dd>
-      </dl><dl><dt>
-          
-          <code><a href="connectivity.html">connectivity()</a></code> 
-        </dt>
-        <dd>Calculate and plot maps</dd>
-      </dl><dl><dt>
-          
-          <code><a href="cropharvest_rast.html">cropharvest_rast()</a></code> 
-        </dt>
-        <dd>Get raster object for crop</dd>
-      </dl><dl><dt>
-          
-          <code><a href="crops_rast.html">crops_rast()</a></code> 
-        </dt>
-        <dd>Get sum of rasters for individual crops</dd>
-      </dl><dl><dt>
-          
-          <code><a href="dist_methods.html">dist_methods()</a></code> 
-        </dt>
-        <dd>Distance methods supported</dd>
-      </dl><dl><dt>
-          
-          <code><a href="dot-indices.html">.indices()</a></code> 
-        </dt>
-        <dd>Internal function to extract risk indices from a list of crop rasters.</dd>
-      </dl><dl><dt>
-          
           <code><a href="geoscale_param.html">geoscale_param()</a></code> 
         </dt>
         <dd>Get geographical scales from the parameters</dd>
@@ -156,14 +126,39 @@
         <dd>Get rasters object from parameters</dd>
       </dl><dl><dt>
           
+          <code><a href="GlobalRast-class.html">GlobalRast-class</a></code> <code><a href="GlobalRast-class.html">.grast_ro</a></code> 
+        </dt>
+        <dd>GlobalRast class</dd>
+      </dl><dl><dt>
+          
           <code><a href="global_scales.html">global_scales()</a></code> 
         </dt>
         <dd>Global geographical extent</dd>
       </dl><dl><dt>
           
+          <code><a href="Gmap-class.html">setmaps()</a></code> 
+        </dt>
+        <dd>Gmap class</dd>
+      </dl><dl><dt>
+          
           <code><a href="gplot.html">gplot()</a></code> 
         </dt>
         <dd>Plot a Raster* object</dd>
+      </dl><dl><dt>
+          
+          <code><a href="hci_diff.html">hci_diff()</a></code> 
+        </dt>
+        <dd>Calculate difference map</dd>
+      </dl><dl><dt>
+          
+          <code><a href="hci_mean.html">hci_mean()</a></code> 
+        </dt>
+        <dd>Calculate mean of raster objects</dd>
+      </dl><dl><dt>
+          
+          <code><a href="hci_variance.html">hci_variance()</a></code> 
+        </dt>
+        <dd>Calculate variance of CCRI</dd>
       </dl><dl><dt>
           
           <code><a href="host_density-set.html">`host_density&lt;-`()</a></code> 
@@ -176,12 +171,12 @@
         <dd>Load Parameters from YAML File</dd>
       </dl><dl><dt>
           
-          <code><a href="mapspam.html">mapspam()</a></code> 
+          <code><a href="mapspam.html">mapspam()</a></code> <code><a href="mapspam.html">mapspam()</a></code> 
         </dt>
         <dd>Supported sources for Mapspam</dd>
       </dl><dl><dt>
           
-          <code><a href="monfreda.html">monfreda()</a></code> 
+          <code><a href="monfreda.html">monfreda()</a></code> <code><a href="monfreda.html">monfreda()</a></code> 
         </dt>
         <dd>Supported sources for monfreda</dd>
       </dl><dl><dt>
@@ -201,7 +196,12 @@
         <dd>Get resolution value</dd>
       </dl><dl><dt>
           
-          <code><a href="risk_indices.html">risk_indices()</a></code> 
+          <code><a href="RiskMap-class.html">RiskMap-class</a></code> 
+        </dt>
+        <dd>RiskMap class</dd>
+      </dl><dl><dt>
+          
+          <code><a href="risk_indices.html">risk_indices()</a></code> <code><a href="risk_indices.html">risk_indices()</a></code> 
         </dt>
         <dd>Get risk indices</dd>
       </dl><dl><dt>
@@ -216,7 +216,7 @@
         <dd>Sensitivity analysis across maps of habitat connectivity</dd>
       </dl><dl><dt>
           
-          <code><a href="search_crop.html">search_crop()</a></code> 
+          <code><a href="search_crop.html">search_crop()</a></code> <code><a href="search_crop.html">search_crop()</a></code> 
         </dt>
         <dd>Search for crop</dd>
       </dl><dl><dt>
@@ -224,6 +224,11 @@
           <code><a href="sensitivity_analysis.html">sensitivity_analysis()</a></code> 
         </dt>
         <dd>Sensitivity analysis for habitat connectivity</dd>
+      </dl><dl><dt>
+          
+          <code><a href="setmaps-Gmap-method.html">setmaps(<i>&lt;Gmap&gt;</i>)</a></code> 
+        </dt>
+        <dd>Sets the map slots in the Gmap object.</dd>
       </dl><dl><dt>
           
           <code><a href="set_global_scales.html">set_global_scales()</a></code> 
@@ -236,11 +241,6 @@
         <dd>Set Parameters</dd>
       </dl><dl><dt>
           
-          <code><a href="setmaps-Gmap-method.html">setmaps(<i>&lt;Gmap&gt;</i>)</a></code> 
-        </dt>
-        <dd>Sets the map slots in the Gmap object.</dd>
-      </dl><dl><dt>
-          
           <code><a href="sp_rast.html">sp_rast()</a></code> 
         </dt>
         <dd>Raster for mapspam crop.</dd>
@@ -251,7 +251,7 @@
         <dd>Returns metrics currently supported in the analysis.</dd>
       </dl><dl><dt>
           
-          <code><a href="supported_sources.html">supported_sources()</a></code> 
+          <code><a href="supported_sources.html">supported_sources()</a></code> <code><a href="supported_sources.html">supported_sources()</a></code> 
         </dt>
         <dd>Get supported sources of crops</dd>
       </dl><dl><dt>

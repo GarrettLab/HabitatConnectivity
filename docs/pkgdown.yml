@@ -2,12 +2,12 @@ pandoc: 3.1.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  LinkWeightsAnalysis: LinkWeightsAnalysis.html
   analysis: analysis.html
-  Using-raster-file: Using-raster-file.html
   distance_strategy: distance_strategy.html
   global_analysis: global_analysis.html
-last_built: 2024-02-27T09:56Z
+  Using-raster-file: Using-raster-file.html
+  LinkWeightsAnalysis: LinkWeightsAnalysis.html
+last_built: 2024-03-22T17:41Z
 urls:
   reference: https://garrettlab.github.io/HabitatConnectivity/reference
   article: https://garrettlab.github.io/HabitatConnectivity/articles
