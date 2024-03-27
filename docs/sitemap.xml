@@ -4,16 +4,16 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/404.html</loc>
   </url>
   <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/LinkWeightsAnalysis.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/Using-raster-file.html</loc>
-  </url>
-  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/articles/distance_strategy.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/articles/global_analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/articles/Using-raster-file.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/articles/distance_strategy.html</loc>
@@ -25,16 +25,52 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/LinkWeightsAnalysis.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/Using-raster-file.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/authors.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/index.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/LICENSE.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/news/index.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/ccri_diff.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/ccri_mean.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/ccri_variance.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/connectivity.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/cropharvest_rast.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/crops_rast.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/Dispersal-kernels.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/dist_methods.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/dot-indices.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/geohabnet-package.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GeoModel-class.html</loc>
@@ -46,13 +82,94 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GeoRasters-class.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/geoscale_param.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/get_parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/get_rasters.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GlobalRast-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/global_scales.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/Gmap-class.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/gplot.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/hci_diff.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/hci_mean.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/hci_variance.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/host_density-set.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/load_parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/mapspam.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/monfreda.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/nn_sum.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/reset_params.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/reso.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/RiskMap-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/risk_indices.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sa_onrasters.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/scales.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sean.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/search_crop.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sensitivity_analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/setmaps-Gmap-method.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/set_global_scales.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/set_parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sp_rast.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_BETWEENNESS.html</loc>
@@ -83,105 +200,6 @@
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_WEST.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/ccri_diff.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/ccri_mean.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/ccri_variance.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/connectivity.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/cropharvest_rast.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/crops_rast.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/dist_methods.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/dot-indices.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/geohabnet-package.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/geoscale_param.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/get_parameters.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/get_rasters.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/global_scales.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/gplot.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/host_density-set.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/load_parameters.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/mapspam.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/monfreda.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/nn_sum.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/reset_params.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/reso.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/risk_indices.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sa_onrasters.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/scales.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sean.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/search_crop.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sensitivity_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/set_global_scales.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/set_parameters.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/setmaps-Gmap-method.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sp_rast.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/supported_metrics.html</loc>

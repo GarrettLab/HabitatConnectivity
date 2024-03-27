@@ -53,9 +53,10 @@
   }
 
   # create graph object using adjacency matrix
-  cropdistancematrix <- igraph::graph.adjacency(stan,
-                                                mode = c("undirected"),
-                                                diag = FALSE, weighted = TRUE)
+  cropdistancematrix <- igraph::graph_from_adjacency_matrix(stan,
+                                                            mode = c("undirected"),
+                                                            diag = FALSE,
+                                                            weighted = TRUE)
 
   indexpre <- .unpack_rast_ifnot(crop_raster)
   indexpre[] <- 0
@@ -104,9 +105,10 @@
   }
 
   # create graph object from adjacency matrix
-  cropdistancematrix <- igraph::graph.adjacency(stan,
-                                                mode = c("undirected"),
-                                                diag = FALSE, weighted = TRUE)
+  cropdistancematrix <- igraph::graph_from_adjacency_matrix(stan,
+                                                            mode = c("undirected"),
+                                                            diag = FALSE,
+                                                            weighted = TRUE)
 
   indexpre <- terra::rast(crop_raster)
   indexpre[] <- 0

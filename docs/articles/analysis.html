@@ -48,11 +48,11 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using habitat connectivity</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
+    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
   </div>
 </li>
 <li class="nav-item">
@@ -86,7 +86,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:kkeshav@ufl.edu" class="email">kkeshav@ufl.edu</a>)</h4>
             
-            <h4 data-toc-skip class="date">27 February, 2024</h4>
+            <h4 data-toc-skip class="date">22 March, 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/analysis.Rmd" class="external-link"><code>vignettes/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -195,14 +195,88 @@ Please see the list of dependencies using
 <span>  <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"geohabnet"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Alternatively, install from github source.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: usethis</span></span>
-<span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://garrettlab.github.io/HabitatConnectivity/">"geohabnet"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GarrettLab/HabitatConnectivity"</span>, subdir <span class="op">=</span> <span class="st">"geohabnet"</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="co">#&gt; Loading required package: geohabnet</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"devtools"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; Loading required package: usethis</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"geohabnet"</span>)) {</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">install_github</span>(<span class="st">"GarrettLab/HabitatConnectivity"</span>, <span class="at">subdir =</span> <span class="st">"geohabnet"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>}</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; Loading required package: geohabnet</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; Warning in library(package, lib.loc = lib.loc, character.only = TRUE,</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; logical.return = TRUE, : there is no package called 'geohabnet'</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Downloading GitHub repo GarrettLab/HabitatConnectivity@HEAD</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; parallelly (1.37.0  -&gt; 1.37.1) [CRAN]</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; globals    (0.16.2  -&gt; 0.16.3) [CRAN]</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; digest     (0.6.33  -&gt; 0.6.35) [CRAN]</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; Rcpp       (1.0.11  -&gt; 1.0.12) [CRAN]</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; curl       (5.2.0   -&gt; 5.2.1 ) [CRAN]</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; vctrs      (0.6.3   -&gt; 0.6.5 ) [CRAN]</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; stringi    (1.7.12  -&gt; 1.8.3 ) [CRAN]</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; rlang      (1.1.1   -&gt; 1.1.3 ) [CRAN]</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; glue       (1.6.2   -&gt; 1.7.0 ) [CRAN]</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; cli        (3.6.1   -&gt; 3.6.2 ) [CRAN]</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; terra      (1.7-39  -&gt; 1.7-71) [CRAN]</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; data.table (1.15.0  -&gt; 1.15.2) [CRAN]</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; igraph     (2.0.1.1 -&gt; 2.0.3 ) [CRAN]</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; Installing 13 packages: parallelly, globals, digest, Rcpp, curl, vctrs, stringi, rlang, glue, cli, terra, data.table, igraph</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; Installing packages into 'C:/Users/kkeshav/AppData/Local/Temp/Rtmp6Nnjmd/temp_libpath18786f31507e'</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; (as 'lib' is unspecified)</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; package 'parallelly' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; package 'globals' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; package 'digest' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; package 'Rcpp' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; package 'curl' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; package 'vctrs' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; package 'stringi' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; package 'rlang' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; package 'glue' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; package 'cli' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; package 'terra' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; package 'data.table' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt; package 'igraph' successfully unpacked and MD5 sums checked</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; The downloaded binary packages are in</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt;  C:\Users\kkeshav\AppData\Local\Temp\RtmpyEq013\downloaded_packages</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt;  [36m-- [39m  [36mR CMD build [39m  [36m----------------------------------------------------------------- [39m</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt;   </span></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a>  </span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a>  </span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a>   checking <span class="cf">for</span> file <span class="st">'C:\Users\kkeshav\AppData\Local\Temp\RtmpyEq013</span><span class="sc">\r</span><span class="st">emotes49ac6a563953\GarrettLab-HabitatConnectivity-ea41a37\geohabnet/DESCRIPTION'</span> ...</span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a>  </span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a>   checking <span class="cf">for</span> file <span class="st">'C:\Users\kkeshav\AppData\Local\Temp\RtmpyEq013</span><span class="sc">\r</span><span class="st">emotes49ac6a563953\GarrettLab-HabitatConnectivity-ea41a37\geohabnet/DESCRIPTION'</span> ... </span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a>  </span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a> [32mv [39m   [<span class="dv">38</span>;<span class="dv">5</span>;247mchecking <span class="cf">for</span> file <span class="st">'C:\Users\kkeshav\AppData\Local\Temp\RtmpyEq013</span><span class="sc">\r</span><span class="st">emotes49ac6a563953\GarrettLab-HabitatConnectivity-ea41a37\geohabnet/DESCRIPTION'</span> [39m [36m [36m (346ms) [36m [39m</span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a>  </span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a>  </span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a>  </span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a> [<span class="dv">38</span>;<span class="dv">5</span>;247m<span class="sc">-</span> [39m [<span class="dv">38</span>;<span class="dv">5</span>;247m   [39m [<span class="dv">38</span>;<span class="dv">5</span>;247mpreparing <span class="st">'geohabnet'</span><span class="sc">:</span> [39m [36m [36m (2s) [36m [39m</span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt;    checking DESCRIPTION meta-information ...</span></span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a>  </span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a>   checking DESCRIPTION meta<span class="sc">-</span>information ... </span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a>  </span>
+<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a> [32mv [39m   [<span class="dv">38</span>;<span class="dv">5</span>;247mchecking DESCRIPTION meta<span class="sc">-</span>information [39m [36m [39m</span>
+<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a>  </span>
+<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a>  </span>
+<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a>  </span>
+<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a> [<span class="dv">38</span>;<span class="dv">5</span>;247m<span class="sc">-</span> [39m [<span class="dv">38</span>;<span class="dv">5</span>;247m   [39m [<span class="dv">38</span>;<span class="dv">5</span>;247mchecking <span class="cf">for</span> LF line<span class="sc">-</span>endings <span class="cf">in</span> source and make files and shell scripts [39m [36m [39m</span>
+<span id="cb3-67"><a href="#cb3-67" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-68"><a href="#cb3-68" tabindex="-1"></a>  </span>
+<span id="cb3-69"><a href="#cb3-69" tabindex="-1"></a>  </span>
+<span id="cb3-70"><a href="#cb3-70" tabindex="-1"></a>  </span>
+<span id="cb3-71"><a href="#cb3-71" tabindex="-1"></a> [<span class="dv">38</span>;<span class="dv">5</span>;247m<span class="sc">-</span> [39m [<span class="dv">38</span>;<span class="dv">5</span>;247m   [39m [<span class="dv">38</span>;<span class="dv">5</span>;247mchecking <span class="cf">for</span> empty or unneeded directories [39m [36m [39m</span>
+<span id="cb3-72"><a href="#cb3-72" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-73"><a href="#cb3-73" tabindex="-1"></a>  </span>
+<span id="cb3-74"><a href="#cb3-74" tabindex="-1"></a>  </span>
+<span id="cb3-75"><a href="#cb3-75" tabindex="-1"></a>  </span>
+<span id="cb3-76"><a href="#cb3-76" tabindex="-1"></a> [<span class="dv">38</span>;<span class="dv">5</span>;247m<span class="sc">-</span> [39m [<span class="dv">38</span>;<span class="dv">5</span>;247m   [39m [<span class="dv">38</span>;<span class="dv">5</span>;247mbuilding <span class="st">'geohabnet_2.0.0.tar.gz'</span> [39m [36m [39m</span>
+<span id="cb3-77"><a href="#cb3-77" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-78"><a href="#cb3-78" tabindex="-1"></a>  </span>
+<span id="cb3-79"><a href="#cb3-79" tabindex="-1"></a>   </span>
+<span id="cb3-80"><a href="#cb3-80" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-81"><a href="#cb3-81" tabindex="-1"></a><span class="co">#&gt; Installing package into 'C:/Users/kkeshav/AppData/Local/Temp/Rtmp6Nnjmd/temp_libpath18786f31507e'</span></span>
+<span id="cb3-82"><a href="#cb3-82" tabindex="-1"></a><span class="co">#&gt; (as 'lib' is unspecified)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://garrettlab.github.io/HabitatConnectivity/">geohabnet</a></span><span class="op">)</span></span></code></pre></div>
 <p>At any point, access the help page using following -</p>
@@ -283,21 +357,21 @@ North America.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>geo_net <span class="ot">&lt;-</span> <span class="fu">msean</span>(avocado)</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="er">====</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="er">======</span></span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>                                          </span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-======
+==========
                                           
 
 |---------|---------|---------|---------|
-==========
+==============
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+======
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
 <p>The functions <code>msean</code> is same as <code>sean</code> except
@@ -374,7 +448,7 @@ config file.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpjKaAjg/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "C:\\Users\\kkeshav\\AppData\\Local\\Temp\\RtmpyEq013/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="float">
 <img src="images/initconfig.png" width="700" alt="Initial parameters.yaml"><div class="figcaption">Initial parameters.yaml</div>
@@ -392,9 +466,10 @@ parameters has not been modified in the configuration. Modify the value
 and feed it to workflow using <code><a href="../reference/set_parameters.html">set_parameters()</a></code>.</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
+</h2>
 <div class="section level4">
 <h4 id="hosts">Hosts<a class="anchor" aria-label="anchor" href="#hosts"></a>
 </h4>
@@ -460,21 +535,17 @@ Alternatively, we can just specify the crops under
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">sensitivity_analysis</span>()</span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="er">===</span></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="er">=======</span></span>
 <span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>                                          </span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <pre><code>#&gt; 
-|---------|---------|---------|---------|
-=====
-                                          
-
 |---------|---------|---------|---------|
 ==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-14-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=======
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-14-3.png" width="700"></p>
 </div>
@@ -490,17 +561,17 @@ threshold are removed from the consideration by dispersal models.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>risk_indexes <span class="ot">&lt;-</span> <span class="fu">msean</span>(avocado, <span class="at">global =</span> <span class="cn">FALSE</span>, <span class="at">hd_threshold =</span> <span class="fl">0.00001</span>, <span class="at">link_threshold =</span> <span class="fl">0.00001</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="er">==</span></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="er">====</span></span>
 <span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>                                          </span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-==
+=====
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-15-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-==
+====
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-15-3.png" width="700"></p>
 <div class="section level5">
@@ -657,9 +728,9 @@ subset of provided raster (data-set of a crop). The workflow will apply
 graph operations and network connectivity only to the subset.</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
-</h3>
+<div class="section level2">
+<h2 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
+</h2>
 <p>By default, 3 maps are produced for each analysis.
 <code><a href="../reference/sean.html">sean()</a></code> also returns risk indices without maps which can,
 then be fed to <code><a href="../reference/connectivity.html">connectivity()</a></code> . This flexibility is
@@ -677,21 +748,17 @@ instead of S4 class.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>final <span class="ot">&lt;-</span> <span class="fu">msean</span>(avocado, <span class="at">link_threshold =</span> <span class="fl">0.000001</span>, <span class="at">hd_threshold =</span> <span class="fl">0.000025</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a><span class="er">===</span></span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a><span class="er">=======</span></span>
 <span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>                                          </span></code></pre></div>
 <p><img src="analysis_files/figure-html/final-1.png" width="700"></p>
 <pre><code>#&gt; 
-|---------|---------|---------|---------|
-=====
-                                          
-
 |---------|---------|---------|---------|
 ==========
                                           </code></pre>
 <p><img src="analysis_files/figure-html/final-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+=======
                                           </code></pre>
 <p><img src="analysis_files/figure-html/final-3.png" width="700"></p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
@@ -710,11 +777,11 @@ classes approach.</p>
 <code class="sourceCode R"><span><span class="va">final</span></span>
 <span><span class="co">#&gt; class            :  GeoNetwork </span></span>
 <span><span class="co">#&gt; host density     :  118 , 320  (nrow, ncol) SpatRaster </span></span>
-<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpjKaAjg/plots/mean_20240227051337055822.tif </span></span>
+<span><span class="co">#&gt; mean             :  C:\Users\kkeshav\AppData\Local\Temp\RtmpyEq013/plots/mean_20240322135029696171.tif </span></span>
 <span><span class="co">#&gt; mean raster      :  1416 , 3840  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpjKaAjg/plots/variance_2024022705133962323.tif </span></span>
+<span><span class="co">#&gt; variance          :  C:\Users\kkeshav\AppData\Local\Temp\RtmpyEq013/plots/variance_20240322135043271863.tif </span></span>
 <span><span class="co">#&gt; variance raster   :  1416 , 3840  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpjKaAjg/plots/difference_20240227051341652717.tif </span></span>
+<span><span class="co">#&gt; difference        :  C:\Users\kkeshav\AppData\Local\Temp\RtmpyEq013/plots/difference_20240322135055407492.tif </span></span>
 <span><span class="co">#&gt; difference raster :  1416 , 3840  (nrow, ncol)</span></span></code></pre></div>
 <p>The final operations are performed risk indices and on the 3 results
 that are produced -</p>
@@ -789,14 +856,13 @@ the calculation in <code><a href="../reference/connectivity.html">connectivity()
 In <code><a href="../reference/sean.html">sean()</a></code> or <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>, set
 <code>map = FALSE</code> to skip the generation of maps as an outcome.
 In case of global analysis, result of eastern and western geographic
-extents are merged using <code><a href="https://rspatial.github.io/terra/reference/merge.html" class="external-link">terra::merge()</a></code> . The outcome of
+extents are merged using <code><a href="https://rdrr.io/pkg/terra/man/merge.html" class="external-link">terra::merge()</a></code> . The outcome of
 each of the operation are saved in the new directory <em>plots</em>
 under the specified path in <code>OutDir</code> with name
 <em>opt_datetime.tif</em>, where <em>opt</em> is one of the above
 suffixed by datetime of the file created. If the <code>outdir</code> is
 empty, the value is defaulted to <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> . This applies
 to corresponding parameter <code>outdir</code> in all the functions.</p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="computing">Computing<a class="anchor" aria-label="anchor" href="#computing"></a>
