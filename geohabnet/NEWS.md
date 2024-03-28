@@ -1,3 +1,7 @@
+# geohabnet 2.1.0
+- Dispersal kernels can now either be Inverse Power Law or Exponential or both
+- Renamed CCRI to HCI
+
 # geohabnet 2.0.0
 - Adoption of habitat connectivity
 - Corrected difference map
