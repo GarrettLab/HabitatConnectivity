@@ -98,7 +98,7 @@ betweeness <- function(crop_dm, ...) {
 
 #' @rdname nn_sum
 ev <- function(crop_dm, ...) {
-  eigenvectorvalues <- igraph::evcent(crop_dm, ...)
+  eigenvectorvalues <- igraph::eigen_centrality(crop_dm, ...)
   evv <- eigenvectorvalues$vector
   evv[is.na(evv)] <- 0
   evp <- if (max(evv) == 0) {

@@ -3,8 +3,8 @@ library(yaml)
 # Global constants --------------------------------------------------------
 
 .kparameters_file_type <- "parameters"
-.kzeroraster_file_type <- "zero"
-.kmapgreybackground_file_type <- "map_grey"
+.kzeroraster_fname <- "ZeroRaster.tif"
+.kmapgreybackground_fname <- "map_grey_background.tif"
 
 # utility functions for CCRI ----------------------------------------------
 
@@ -121,28 +121,6 @@ risk_indices <- function(ri) {
   return(TRUE)
 }
 
-.utilrast_locs <- function() {
-
-  base_uri <- "https://geohabnet.s3.us-east-2.amazonaws.com/util-rasters/"
-  full_uri <- function(name) {
-    paste(base_uri, name, sep = "")
-  }
-
-  locs <- matrix(c(.kzeroraster_file_type, full_uri("ZeroRaster.tif"),
-                   .kmapgreybackground_file_type, full_uri("map_grey_background.tif"),
-                   "avocado", full_uri("avocado_HarvestedAreaFraction.tif")), # only for testing purpose
-                 ncol = 2, byrow = TRUE)
-  colnames(locs) <- c("raster", "uri")
-  return(locs)
-}
-
-.utilrast_uri <- function(typ) {
-  locs <- .utilrast_locs()
-  stopifnot("internal error - wrong type" = typ %in% locs[, 1])
-  idx <- which(locs[, 1] == typ)
-  return(locs[idx, ][[2]])
-}
-
 .download <- function(uri) {
   f <- paste(tempfile(), ".tif", sep = "")
   stopifnot("download failed " = utils::download.file(uri,
@@ -153,8 +131,13 @@ risk_indices <- function(ri) {
   return(f)
 }
 
-.utilrast <- function(typ) {
-  return(.download(.utilrast_uri(typ)))
+.utilrast <- function(fname) {
+
+  stopifnot("Internal error. TIFF file not available." =
+            fname %in% c(.kzeroraster_fname, .kmapgreybackground_fname))
+  return(system.file(fname,
+                     package = utils::packageName(),
+                     mustWork = TRUE))
 }
 
 .apply_agg <- function(rast,
@@ -176,7 +159,6 @@ risk_indices <- function(ri) {
 
   .utilrast <<- memoise::memoise(.utilrast)
   .cal_mgb <<- memoise::memoise(.cal_mgb)
-  #.apply_agg <<- memoise::memoise(.apply_agg)
 }
 
 .get_helper_filepath <- function(file_type) {
@@ -237,7 +219,7 @@ risk_indices <- function(ri) {
 
 .cal_mgb <- function(geoscale, isglobal) {
   # calculate map grey background
-  map_grey_background <- terra::rast(.get_helper_filepath(.kmapgreybackground_file_type))
+  map_grey_background <- terra::rast(.get_helper_filepath(.kmapgreybackground_fname))
   map_grey_background_ext <- if (isglobal == FALSE) {
     terra::crop(map_grey_background, .to_ext(geoscale))
   } else {
@@ -246,16 +228,15 @@ risk_indices <- function(ri) {
   return(map_grey_background_ext)
 }
 
-.cal_zerorast <- function(in_rast, reso) {
+.cal_zerorast <- function(in_rast) {
 
   # Create zero_rast with the same dimensions as in_rast
-  zero_rast <- terra::rast(.get_helper_filepath(.kzeroraster_file_type))
+  zero_rast <- terra::rast(.get_helper_filepath(.kzeroraster_fname))
   # Set extent of zero_rast to match in_rast
   zero_rast <- terra::resample(zero_rast, in_rast, threads = TRUE)
 
   return(zero_rast)
 }
-
 
 .get_palette <- function() {
   palette1 <- c(

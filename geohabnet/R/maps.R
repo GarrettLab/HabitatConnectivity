@@ -49,7 +49,7 @@ hci_mean <- function(indices,
   }
 
   dis_mean_id <- terra::disagg(mean_index, fact = c(res, res))
-  toplot <- dis_mean_id + .cal_zerorast(dis_mean_id, res)
+  toplot <- dis_mean_id + .cal_zerorast(dis_mean_id)
 
   plt_ret <- if (plt == TRUE) {
     .plot(toplot,
@@ -93,7 +93,7 @@ hci_variance <- function(indices,
 
     var_disag_rast[var_disag_rast[] == 0] <- NA
 
-    var_disag_rast + .cal_zerorast(var_disag_rast, res)
+    var_disag_rast + .cal_zerorast(var_disag_rast)
   }
 
   geoext <- geoscale
@@ -185,7 +185,7 @@ hci_diff <- function(x,
 
     diagg_rast <- terra::disagg(scaled_rast,
                                 fact = c(res, res))
-    diagg_rast + .cal_zerorast(diagg_rast, res)
+    diagg_rast + .cal_zerorast(diagg_rast)
   }
 
   diff_out <- .cal_diff(x, y, geoext)
