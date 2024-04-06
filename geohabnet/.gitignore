@@ -1,5 +1,5 @@
 docs
-*.tif
+/*.tif
 plots
 inst/doc
 /doc/
