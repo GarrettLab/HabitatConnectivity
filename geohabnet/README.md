@@ -43,12 +43,11 @@ Package can either be installed from CRAN:
 
 ``` r
 install.packages("geohabnet")
-#> Installing package into 'C:/Users/kkeshav/AppData/Local/Temp/Rtmp6Nnjmd/temp_libpath1878707c7a53'
+#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpBU77e3/temp_libpath4f5365f57439'
 #> (as 'lib' is unspecified)
-#> package 'geohabnet' successfully unpacked and MD5 sums checked
 #> 
 #> The downloaded binary packages are in
-#>  C:\Users\kkeshav\AppData\Local\Temp\RtmpSm8hLm\downloaded_packages
+#>  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpBqmkXl/downloaded_packages
 ```
 
 or the source version of package can be installed from
@@ -75,7 +74,7 @@ geohabnet::set_parameters(new_params = param_file)
 Run the analysis using -
 
 ``` r
-geohabnet::senstivity_analysis()
+geohabnet::sensitivity_analysis()
 ```
 
 `parameters.yaml` stores the parameter and its values. It can be

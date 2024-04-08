@@ -12,29 +12,30 @@ height="25" alt="CRAN status" />](https://CRAN.R-project.org/package=geohabnet)
 
 # geohabnet
 
-This package is expanded upon [Xing et al
+This package expands on [Xing et al
 (2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255).
-It add capabilities to customize parameter values using functions and
-see results of habitat connectivity risk index in the form of plots. The
-goal of `geohabnet` is to enable users to visualize habitat connectivity
-risk index using their own parameter values. The risk analysis includes
-3 maps -
+It adds capabilities to customize parameter values using functions and
+shows the results of habitat connectivity risk index in the form of
+plots. The goal of `geohabnet` is to enable users to visualize a habitat
+connectivity risk index using their own parameter values. The risk
+analysis outputs 3 maps -
 
-1.  Mean habitat connectivity
+1.  Mean habitat connectivity (based on a habitat connectivity index
+    defined by the user)
 
-2.  Difference
+2.  Difference in habitat connectivity
 
-3.  Variance
+3.  Variance in habitat connectivity
 
-Package currently support crops sourced from `geodata::monfredaCrops()`
-and `geodata::spamCrops()`. This analysis produces 3 maps - mean,
-variance and difference for the crop risk index. There are multiple ways
-in which functions can be used - generate final outcome and then the
-intermediate outcomes for more sophisticated use cases. Refer to
-vignettes. This values are propagated to other functions for performing
-operations such distance matrix calculation. The values are set in
-`parameters.yaml` using and it can be accessed using `get_parameters()`.
-See the usage below.
+This package currently supports crop maps sourced from
+`geodata::monfredaCrops()` and `geodata::spamCrops()`. This analysis
+produces the 3 maps listed above. There are multiple ways in which
+functions can be used - generate the final outcome and then the
+intermediate outcomes for more sophisticated use cases. The vignettes
+provide several examples. The output values are propagated to other
+functions for performing operations such as distance matrix calculation.
+The values are set in `parameters.yaml` and it can be accessed using
+`get_parameters()`. See the usage below.
 
 ## Installation
 
@@ -42,11 +43,11 @@ Package can either be installed from CRAN:
 
 ``` r
 install.packages("geohabnet")
-#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpVAU4Cz/temp_libpathfde9199513a3'
+#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpBU77e3/temp_libpath4f5365f57439'
 #> (as 'lib' is unspecified)
 #> 
 #> The downloaded binary packages are in
-#>  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpI7xB49/downloaded_packages
+#>  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpBqmkXl/downloaded_packages
 ```
 
 or the source version of package can be installed from
@@ -73,7 +74,7 @@ geohabnet::set_parameters(new_params = param_file)
 Run the analysis using -
 
 ``` r
-geohabnet::senstivity_analysis()
+geohabnet::sensitivity_analysis()
 ```
 
 `parameters.yaml` stores the parameter and its values. It can be

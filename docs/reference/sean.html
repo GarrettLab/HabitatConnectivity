@@ -26,7 +26,7 @@ using connectivity() function. The maps are essentially the risk network.
     
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,11 +40,11 @@ using connectivity() function. The maps are essentially the risk network.
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
     <a class="dropdown-item" href="../articles/analysis.html">Analyzing risk index using habitat connectivity</a>
+    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
     <a class="dropdown-item" href="../articles/distance_strategy.html">Distance Strategy</a>
     <a class="dropdown-item" href="../articles/global_analysis.html">Global Analysis</a>
-    <a class="dropdown-item" href="../articles/Using-raster-file.html">Using raster file</a>
-    <a class="dropdown-item" href="../articles/LinkWeightsAnalysis.html">Network centralities in GeoHabnet</a>
   </div>
 </li>
 <li class="nav-item">
@@ -123,7 +123,7 @@ Default is <code>TRUE</code></p></dd>
 <dt>geoscale</dt>
 <dd><p>Numeric vector. Geographical coordinates
 in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If <code>geoscale</code> is NuLL,
-the extent is extracted from <code>rast</code>(SpatRaster) using <code><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">terra::ext()</a></code>.</p></dd>
+the extent is extracted from <code>rast</code>(SpatRaster) using <code><a href="https://rspatial.github.io/terra/reference/ext.html" class="external-link">terra::ext()</a></code>.</p></dd>
 
 
 <dt>agg_methods</dt>

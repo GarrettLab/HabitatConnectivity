@@ -4,16 +4,25 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/404.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/LinkWeightsAnalysis.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/Using-raster-file.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/articles/Using-raster-file.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/articles/articles/distance_strategy.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/articles/articles/global_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/articles/Using-raster-file.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/articles/distance_strategy.html</loc>
@@ -25,22 +34,64 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/LinkWeightsAnalysis.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/articles/Using-raster-file.html</loc>
-  </url>
-  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/authors.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/index.html</loc>
   </url>
   <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/LICENSE.html</loc>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/news/index.html</loc>
   </url>
   <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/news/index.html</loc>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/Dispersal-kernels.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GeoModel-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GeoNetwork-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GeoRasters-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GlobalRast-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/Gmap-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/RiskMap-class.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_BETWEENNESS.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_CLOSENESS_CENTRALITY.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_DEGREE.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_DISTANCE_MATRIX.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_EAST.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_EIGEN_VECTOR_CENTRALITY.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_NEAREST_NEIGHBORS_SUM.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_NODE_STRENGTH.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_PAGE_RANK.html</loc>
+  </url>
+  <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_WEST.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/ccri_diff.html</loc>
@@ -61,9 +112,6 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/crops_rast.html</loc>
   </url>
   <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/Dispersal-kernels.html</loc>
-  </url>
-  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/dist_methods.html</loc>
   </url>
   <url>
@@ -71,15 +119,6 @@
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/geohabnet-package.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GeoModel-class.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GeoNetwork-class.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GeoRasters-class.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/geoscale_param.html</loc>
@@ -91,13 +130,7 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/get_rasters.html</loc>
   </url>
   <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/GlobalRast-class.html</loc>
-  </url>
-  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/global_scales.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/Gmap-class.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/gplot.html</loc>
@@ -139,9 +172,6 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/reso.html</loc>
   </url>
   <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/RiskMap-class.html</loc>
-  </url>
-  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/risk_indices.html</loc>
   </url>
   <url>
@@ -160,46 +190,16 @@
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sensitivity_analysis.html</loc>
   </url>
   <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/setmaps-Gmap-method.html</loc>
-  </url>
-  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/set_global_scales.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/set_parameters.html</loc>
   </url>
   <url>
+    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/setmaps-Gmap-method.html</loc>
+  </url>
+  <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/sp_rast.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_BETWEENNESS.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_CLOSENESS_CENTRALITY.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_DEGREE.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_DISTANCE_MATRIX.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_EAST.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_EIGEN_VECTOR_CENTRALITY.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_NEAREST_NEIGHBORS_SUM.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_NODE_STRENGTH.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_PAGE_RANK.html</loc>
-  </url>
-  <url>
-    <loc>https://garrettlab.github.io/HabitatConnectivity/reference/STR_WEST.html</loc>
   </url>
   <url>
     <loc>https://garrettlab.github.io/HabitatConnectivity/reference/supported_metrics.html</loc>

@@ -62,7 +62,7 @@ geohabnet::set_parameters(new_params = param_file)
 Run the analysis using -
 
 ```{r eval=FALSE}
-geohabnet::senstivity_analysis()
+geohabnet::sensitivity_analysis()
 ```
 
 `parameters.yaml` stores the parameter and its values. It can be accessed and set using `get_parameters()` and `set_parameters()` respectively. By default risk analysis is run on global index, for which scales are present in `global_scales()` .
