@@ -1,4 +1,5 @@
 # geohabnet 2.1.2
+- Fixed issue of TIF not present
 
 # geohabnet 2.1.1
 - Removed dependency with Amazon S3
