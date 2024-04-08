@@ -1,3 +1,5 @@
+# geohabnet 2.1.2
+
 # geohabnet 2.1.1
 - Removed dependency with Amazon S3
 
