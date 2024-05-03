@@ -5,5 +5,5 @@ network_density <- function(x) {
   graph_objs <- lapply(x@rasters$rasters, function(x) {igraph::graph_from_adjacency_matrix(x@amatrix)})
   
   
-  eds <- lapply(graph_objs, igraph::edge_density(x))
+  eds <- lapply(graph_objs, igraph::edge_density)
 }
