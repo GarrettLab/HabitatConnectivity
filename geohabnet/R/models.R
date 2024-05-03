@@ -3,9 +3,16 @@
 #' @description
 #' A ref class to represent results of dispersal models.
 #' @field matrix An adjacency matrix to represent network.
-.model_ob <- setRefClass("GeoModel",
-                         fields = list(amatrix = "matrix",
-                                       index = "ANY"))
+.model_ob <- setClass("GeoModel",
+                      slots = c(amatrix = "matrix",
+                                index = "ANY",
+                                hdthreshold = "numeric",
+                                aggregation = "character",
+                                linkthreshold = "numeric",
+                                beta = "numeric",
+                                gamma = "numeric",
+                                east = "logical",
+                                west = "logical"))
 
 # private methods ---------------------------------------------------------
 

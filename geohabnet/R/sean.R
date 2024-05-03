@@ -352,7 +352,7 @@ sean <- function(rast,
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
   .stopifnot_sprast(rast)
 
-  sean_geo <- function(geoext) {
+  sean_geo <- function(geoext, east = FALSE, west = FALSE) {
     .showmsg(paste("\nRunning sensitivity analysis for the extent: [",
                    paste(geoext, collapse = ", "),
                    "],\n",
@@ -384,6 +384,13 @@ sean <- function(rast,
                           thresholded_crop_values = density_data$crop_value,
                           distance_matrix = density_data[[STR_DISTANCE_MATRIX]]))
 
+      # mapping adjacency matrix with its parameters
+      model_ret[["hdthreshold"]] <- hd_threshold
+      model_ret[["linkthreshold"]] <- link_threshold
+      model_ret[["aggregation"]] <- agg_method
+      model_ret[["east"]] <- east
+      model_ret[["west"]] <- west
+
       host_densityrasts <- c(host_densityrasts, density_data$agg_crop)
     }
 
@@ -398,12 +405,12 @@ sean <- function(rast,
 
     graster <- .grast_ro()
 
-    ret <- sean_geo(global_exts[[STR_EAST]])
+    ret <- sean_geo(global_exts[[STR_EAST]], east = TRUE)
     graster$east <- ret$model_res
 
     east_density <- ret$host_density
 
-    ret <- sean_geo(global_exts[[STR_WEST]])
+    ret <- sean_geo(global_exts[[STR_WEST]], west = TRUE)
     graster$west <- ret$model_res
 
     west_density <- ret$host_density
