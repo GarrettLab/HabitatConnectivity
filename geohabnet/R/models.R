@@ -12,7 +12,9 @@
                                 beta = "numeric",
                                 gamma = "numeric",
                                 east = "logical",
-                                west = "logical"))
+                                west = "logical"),
+                      prototype = list(beta = NaN,
+                                       gamma = NaN))
 
 # private methods ---------------------------------------------------------
 
@@ -72,7 +74,7 @@
                                                      cropdistancematrix,
                                                      cutoff)
   indexv <- terra::wrap(indexpre)
-  return(.model_ob(index = indexv, amatrix = adjmat))
+  return(.model_ob(index = indexv, amatrix = adjmat, beta = beta))
 }
 
 .model_neg_exp <- function(gamma_val,
@@ -124,7 +126,7 @@
                                                      cropdistancematrix,
                                                      cutoff)
   indexv <- terra::wrap(indexpre)
-  return(.model_ob(index = indexv, amatrix = adjmat))
+  return(.model_ob(index = indexv, amatrix = adjmat, gamma = gamma_val))
 }
 
 .apply_met <- function(mets, we, adj_graph, cutoff) {
