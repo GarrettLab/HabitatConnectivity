@@ -12,7 +12,9 @@
                                 beta = "numeric",
                                 gamma = "numeric",
                                 east = "logical",
-                                west = "logical"))
+                                west = "logical"),
+                      prototype = list(beta = NaN,
+                                       gamma = NaN))
 
 # private methods ---------------------------------------------------------
 

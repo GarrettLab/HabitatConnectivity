@@ -82,10 +82,10 @@ risk_indices <- function(ri) {
 
     for (grast in ri$global_rast) {
       for (mod in grast$east) {
-        ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], terra::rast(mod$index))
+        ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], terra::rast(mod@index))
       }
       for (mod in grast$west) {
-        ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], terra::rast(mod$index))
+        ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], terra::rast(mod@index))
       }
     }
     return(ew_indices)
