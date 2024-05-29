@@ -84,30 +84,30 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>params</dt>
-<dd><p>Object.<code><a href="load_parameters.html">load_parameters()</a></code> by default.
-If not provided, the function will require all other parameters.
-It takes the precedence over other parameters.</p></dd>
+<dd><p>Object. This function uses the parameter values defined in <code><a href="load_parameters.html">load_parameters()</a></code> by default.
+If <code><a href="load_parameters.html">load_parameters()</a></code> is not provided, the function will require the user to specify all arguments as listed below.
+If both <code><a href="load_parameters.html">load_parameters()</a></code> and values for the arguments listed below are provided, <code><a href="load_parameters.html">load_parameters()</a></code> takes precedence over the specified arguments.</p></dd>
 
 
 <dt>betas</dt>
-<dd><p>Numeric. Parameter for calculating the inverse power law.</p></dd>
+<dd><p>Numeric. Beta is the dispersal parameter used in the inverse power law to estimate a species' dispersal gradient. Please refer to Mundt et al (2009) for details on how to calculate this parameter. Any beta values should be positive.</p></dd>
 
 
 <dt>mets</dt>
-<dd><p>Character.
-Each of these metrics is applied to the adjacency matrix produced in the intermediate step.</p></dd>
+<dd><p>Character. There are seven network metrics supported by <code>geohabnet</code>:  "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality", "closeness", "betweeness", "degree", and "page_rank".
+Each specified network metric is calculated for each location in the target region, based on the link weights between each pair of locations. Run, for example, <code><a href="nn_sum.html">pagerank()</a></code> for details of each network metric.</p></dd>
 
 
 <dt>we</dt>
-<dd><p>Numeric The link weights to be used in the network analysis.</p></dd>
+<dd><p>Numeric. This parameter indicates the weight(s) of each specified network metric, representing the importance of the network metric in the analysis. Since these weights represent percentages, any weight(s) should be between 0 and 100, and the sum of all specified weights should be 100.</p></dd>
 
 
 <dt>linkcutoff</dt>
-<dd><p>Numeric. Currently used as a parameter to calculate centrality in the network.</p></dd>
+<dd><p>Numeric. This parameter is only used to calculate <code><a href="nn_sum.html">betweeness()</a></code> and <code><a href="nn_sum.html">closeness()</a></code>, and is equivalent to <code>cutoff</code> in these functions in the <code>igraph</code> package.</p></dd>
 
 
 <dt>gammas</dt>
-<dd><p>Numeric. Parameter for calculating the negative exponential.</p></dd>
+<dd><p>Numeric. Gamma is the dispersal parameter used in the negative exponential to estimate a species' dispersal gradient. Any gamma values should be positive.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -118,10 +118,10 @@ Each of these metrics is applied to the adjacency matrix produced in the interme
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The list object has following values used in running analysis
--<code>beta</code> Parameter for calculating the inverse power law.
--<code>gamma</code> Parameter for calculating the negative exponential.
--<code>metrics</code> Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
+    <p>Refer to Esker et al (2007) for a discussion on the characteristics of each dispersal gradient or kernel model (i.e., inverse power law and negative exponential). The resulting object produced by <code><a href="load_parameters.html">load_parameters()</a></code> provides the following values used when running the analysis
+-<code>beta</code> is a dispersal parameter for calculating the inverse power law model.
+-<code>gamma</code> is a dispersal parameter for calculating the negative exponential model.
+-<code>metrics</code> Each of the network metrics is applied to the adjacency matrix produced in the intermediate step.
 -<code>weights</code> The link weights to be used in the network analysis.
 -<code>cutoff</code> Currently used as a parameter to calculate centrality in the network - <code><a href="nn_sum.html">betweeness()</a></code> and <code><a href="nn_sum.html">closeness()</a></code>.
 As defined in <code><a href="https://r.igraph.org/reference/betweenness.html" class="external-link">igraph::betweenness()</a></code>, it's the maximum length to consider when calculating centrality.
@@ -129,7 +129,15 @@ If zero or negative, then there is no such limit.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Csardi G, Nepusz T (2006).
+    <p>Esker PD, Sparks AH, Antony G, Bates M, Dall' Acqua W, Frank EE, Huebel L, Segovia V, Garrett KA (2007).
+“Ecology and Epidemiology in R: Modeling dispersal gradients.” <em>The Plant Health Instructor</em>.
+<a href="https://doi.org/10.1094/PHI-A-200%E2%80%8B8-0129-03" class="external-link">doi:10.1094/PHI-A-200​8-0129-03</a>
+.</p>
+<p>Mundt CC, Sackett KE, Wallace LD, Cowger C, Dudley JP  (2009).
+“Aerial Dispersal and Multiple-Scale Spread of Epidemic Disease.” <em>Ecohealth</em>.
+<a href="https://doi.org/10.1007/s10393-009-0251-z" class="external-link">doi:10.1007/s10393-009-0251-z</a>
+.</p>
+<p>Csardi G, Nepusz T (2006).
 “The igraph software package for complex network research.” <em>InterJournal</em>, <em>Complex Systems</em>, 1695.
 <a href="https://igraph.org" class="external-link">https://igraph.org</a>.</p>
 <p>Csárdi G, Nepusz T, Traag V, Horvát Sz, Zanini F, Noom D, Müller K (2024).

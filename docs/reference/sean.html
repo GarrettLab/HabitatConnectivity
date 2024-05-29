@@ -227,24 +227,45 @@ R package version 1.7-46, <a href="https://CRAN.R-project.org/package=terra" cla
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># \donttest{</span></span>
-<span><span class="va">avocado</span> <span class="op">&lt;-</span> <span class="fu"><a href="cropharvest_rast.html">cropharvest_rast</a></span><span class="op">(</span><span class="st">"avocado"</span>, <span class="st">"monfreda"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># global</span></span>
-<span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu">sean</span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span> <span class="co"># returns a list of GeoRasters</span></span>
-<span><span class="va">mri</span> <span class="op">&lt;-</span> <span class="fu">msean</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">avocado</span><span class="op">)</span> <span class="co"># returns GeoNetwork object</span></span>
-<span></span>
-<span><span class="co"># non-global</span></span>
-<span><span class="co"># geoscale is a vector of xmin, xmax, ymin, ymax</span></span>
-<span></span>
-<span><span class="co"># returns GeoRasters object</span></span>
-<span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu">sean</span><span class="op">(</span><span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">ri</span></span>
-<span></span>
-<span><span class="co"># returns GeoNetwork object</span></span>
-<span><span class="va">mri</span> <span class="op">&lt;-</span> <span class="fu">msean</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">mri</span></span>
-<span><span class="co"># }</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">avocado</span> <span class="op">&lt;-</span> <span class="fu"><a href="cropharvest_rast.html">cropharvest_rast</a></span><span class="op">(</span><span class="st">"avocado"</span>, <span class="st">"monfreda"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># global</span></span></span>
+<span class="r-in"><span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu">sean</span><span class="op">(</span><span class="va">avocado</span><span class="op">)</span> <span class="co"># returns a list of GeoRasters</span></span></span>
+<span class="r-in"><span><span class="va">mri</span> <span class="op">&lt;-</span> <span class="fu">msean</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">avocado</span><span class="op">)</span> <span class="co"># returns GeoNetwork object</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|=====                                          </span>
+<span class="r-plt img"><img src="sean-1.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|======                                          |---------|---------|---------|---------|==========                                          </span>
+<span class="r-plt img"><img src="sean-2.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> |---------|---------|---------|---------|===                                          </span>
+<span class="r-plt img"><img src="sean-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># non-global</span></span></span>
+<span class="r-in"><span><span class="co"># geoscale is a vector of xmin, xmax, ymin, ymax</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># returns GeoRasters object</span></span></span>
+<span class="r-in"><span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu">sean</span><span class="op">(</span><span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ri</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class   :  GeoRasters </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rasters :  14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> global  :  FALSE </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># returns GeoNetwork object</span></span></span>
+<span class="r-in"><span><span class="va">mri</span> <span class="op">&lt;-</span> <span class="fu">msean</span><span class="op">(</span>rast <span class="op">=</span> <span class="va">avocado</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="sean-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="sean-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="sean-6.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="va">mri</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class            :  GeoNetwork </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> host density     :  27 , 40  (nrow, ncol) SpatRaster </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmpmaj3vy/plots/mean_20240529153028427873.tif </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean raster      :  324 , 480  (nrow, ncol) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmpmaj3vy/plots/variance_20240529153028986696.tif </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> variance raster   :  324 , 480  (nrow, ncol) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmpmaj3vy/plots/difference_20240529153029476826.tif </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> difference raster :  324 , 480  (nrow, ncol) </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
