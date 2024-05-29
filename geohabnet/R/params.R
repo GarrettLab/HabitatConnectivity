@@ -113,27 +113,33 @@ reset_params <- function() {
 #' -`[inv_powerlaw()]` Get parameters and values pertaining to the inverse power law model.
 #' -`[neg_exp()]` Get parameters and values pertaining to the negative exponential model.
 #'
-#' @param params Object.[load_parameters()] by default.
-#' If not provided, the function will require all other parameters.
-#' It takes the precedence over other parameters.
-#' @param betas Numeric. Parameter for calculating the inverse power law.
-#' @param gammas Numeric. Parameter for calculating the negative exponential.
-#' @param mets Character.
-#' Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
-#' @param we Numeric The link weights to be used in the network analysis.
-#' @param linkcutoff Numeric. Currently used as a parameter to calculate centrality in the network.
+#' @param params Object. This function uses the parameter values defined in [load_parameters()] by default.
+#' If [load_parameters()] is not provided, the function will require the user to specify all arguments as listed below.
+#' If both [load_parameters()] and values for the arguments listed below are provided, [load_parameters()] takes precedence over the specified arguments.
+#' @param betas Numeric. Beta is the dispersal parameter used in the inverse power law to estimate a species' dispersal gradient. Please refer to Mundt et al (2009) for details on how to calculate this parameter. Any beta values should be positive.
+#' @param gammas Numeric. Gamma is the dispersal parameter used in the negative exponential to estimate a species' dispersal gradient. Any gamma values should be positive.
+#' @param mets Character. There are seven network metrics supported by `geohabnet`:  "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality", "closeness", "betweeness", "degree", and "page_rank".
+#' Each specified network metric is calculated for each location in the target region, based on the link weights between each pair of locations. Run, for example, [pagerank()] for details of each network metric.
+#' @param we Numeric. This parameter indicates the weight(s) of each specified network metric, representing the importance of the network metric in the analysis. Since these weights represent percentages, any weight(s) should be between 0 and 100, and the sum of all specified weights should be 100.
+#' @param linkcutoff Numeric. This parameter is only used to calculate [betweeness()] and [closeness()], and is equivalent to `cutoff` in these functions in the `igraph` package.
 #' @return List with parameters and values. See details.
 #' @details
-#' The list object has following values used in running analysis
-#' -`beta` Parameter for calculating the inverse power law.
-#' -`gamma` Parameter for calculating the negative exponential.
-#' -`metrics` Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
+#' Refer to Esker et al (2007) for a discussion on the characteristics of each dispersal gradient or kernel model (i.e., inverse power law and negative exponential). The resulting object produced by [load_parameters()] provides the following values used when running the analysis
+#' -`beta` is a dispersal parameter for calculating the inverse power law model.
+#' -`gamma` is a dispersal parameter for calculating the negative exponential model.
+#' -`metrics` Each of the network metrics is applied to the adjacency matrix produced in the intermediate step.
 #' -`weights` The link weights to be used in the network analysis.
 #' -`cutoff` Currently used as a parameter to calculate centrality in the network - [betweeness()] and [closeness()].
 #' As defined in [igraph::betweenness()], it's the maximum length to consider when calculating centrality.
 #' If zero or negative, then there is no such limit.
 #'
 #' @seealso [supported_metrics()]
+#' @references Esker PD, Sparks AH, Antony G, Bates M, Dall' Acqua W, Frank EE, Huebel L, Segovia V, Garrett KA (2007).
+#' “Ecology and Epidemiology in R: Modeling dispersal gradients.” *The Plant Health Instructor*.
+#' \doi{10.1094/PHI-A-200​8-0129-03}.
+#' @references Mundt CC, Sackett KE, Wallace LD, Cowger C, Dudley JP  (2009).
+#' “Aerial Dispersal and Multiple-Scale Spread of Epidemic Disease.” *Ecohealth*.
+#' \doi{https://doi.org/10.1007/s10393-009-0251-z}.
 #' @references Csardi G, Nepusz T (2006).
 #' “The igraph software package for complex network research.” _InterJournal_, *Complex Systems*, 1695.
 #' <https://igraph.org>.
