@@ -86,7 +86,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:kkeshav@ufl.edu" class="email">kkeshav@ufl.edu</a>)</h4>
             
-            <h4 data-toc-skip class="date">08 April, 2024</h4>
+            <h4 data-toc-skip class="date">31 May, 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/analysis.Rmd" class="external-link"><code>vignettes/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -222,21 +222,21 @@ extent quickly since the crop presence is relatively low.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">sensitivity_analysis</span>()</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="er">====</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="er">======</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                                          </span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-======
+========
                                           
 
 |---------|---------|---------|---------|
-==========
+==============
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-====
+======
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-5-3.png" width="700"></p>
 <p>The results are the side effects and the similar information is
@@ -283,12 +283,12 @@ North America.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>geo_net <span class="ot">&lt;-</span> <span class="fu">msean</span>(avocado)</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="sc">|---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span><span class="sc">---------</span><span class="er">|</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="er">===</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="er">=====</span></span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>                                          </span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-=====
+======
                                           
 
 |---------|---------|---------|---------|
@@ -297,7 +297,7 @@ North America.</p>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-===
+====
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
 <p>The functions <code>msean</code> is same as <code>sean</code> except
@@ -374,7 +374,7 @@ config file.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpEujxn4/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmp6S3W2u/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="float">
 <img src="images/initconfig.png" width="700" alt="Initial parameters.yaml"><div class="figcaption">Initial parameters.yaml</div>
@@ -466,7 +466,7 @@ Alternatively, we can just specify the crops under
 <p><img src="analysis_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-======
+=====
                                           
 
 |---------|---------|---------|---------|
@@ -475,7 +475,7 @@ Alternatively, we can just specify the crops under
 <p><img src="analysis_files/figure-html/unnamed-chunk-14-2.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-====
+===
                                           </code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-14-3.png" width="700"></p>
 </div>
@@ -683,7 +683,7 @@ instead of S4 class.</p>
 <p><img src="analysis_files/figure-html/final-1.png" width="700"></p>
 <pre><code>#&gt; 
 |---------|---------|---------|---------|
-======
+=====
                                           
 
 |---------|---------|---------|---------|
@@ -711,11 +711,11 @@ classes approach.</p>
 <code class="sourceCode R"><span><span class="va">final</span></span>
 <span><span class="co">#&gt; class            :  GeoNetwork </span></span>
 <span><span class="co">#&gt; host density     :  118 , 320  (nrow, ncol) SpatRaster </span></span>
-<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpEujxn4/plots/mean_20240408065032231706.tif </span></span>
+<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmp6S3W2u/plots/mean_2024053116395662811.tif </span></span>
 <span><span class="co">#&gt; mean raster      :  1416 , 3840  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpEujxn4/plots/variance_2024040806503600436.tif </span></span>
+<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmp6S3W2u/plots/variance_20240531163958851336.tif </span></span>
 <span><span class="co">#&gt; variance raster   :  1416 , 3840  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpEujxn4/plots/difference_20240408065038903921.tif </span></span>
+<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmp6S3W2u/plots/difference_20240531164000623191.tif </span></span>
 <span><span class="co">#&gt; difference raster :  1416 , 3840  (nrow, ncol)</span></span></code></pre></div>
 <p>The final operations are performed risk indices and on the 3 results
 that are produced -</p>

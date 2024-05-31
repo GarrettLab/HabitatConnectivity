@@ -8,16 +8,16 @@ get_parameters(out_path = tempdir(), iwindow = FALSE)
 }
 \arguments{
 \item{out_path}{character. The output path where the parameter file will be
-copied. Default is temporary directory \code{\link[=tempdir]{tempdir()}}}
+copied. The default is a temporary directory \code{\link[=tempdir]{tempdir()}}}
 
-\item{iwindow}{logical. If \code{TRUE}, prompts the user to select the output
-directory using a file chooser window. Default is \code{FALSE}}
+\item{iwindow}{logical. If window = \code{TRUE}, this will prompt the user to select the output
+directory using a file chooser window. The default value is \code{FALSE}.}
 }
 \value{
 character. The path to the copied parameter file.
 }
 \description{
-Retrieves the parameters and copies the parameter file to the specified
+This function retrieves the parameters and copies the parameter file to the specified
 output path.
 }
 \details{
