@@ -6,7 +6,7 @@
 #' @param out_path character. The output path where the parameter file will be
 #' copied. The default is a temporary directory [tempdir()]
 #' @param iwindow logical. If window = `TRUE`, this will prompt the user to select the output
-#' directory using a file chooser window. The default parameter is set to `FALSE`.
+#' directory using a file chooser window. The default value is `FALSE`.
 #' @return character. The path to the copied parameter file.
 #' @export
 #' @details
