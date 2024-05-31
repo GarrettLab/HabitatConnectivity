@@ -7,9 +7,9 @@
 reso()
 }
 \value{
-Numeric. Resolution from \code{parameters.yaml}. Default is 24.
+Numeric. Resolution from \code{parameters.yaml}. The default is 12.
 }
 \description{
-Resolution stored in \code{parameter.yaml}.
-If not present it will result default value.
+Resolution stored in \code{parameter.yaml}. Here, resolution values refer to the aggregation factor or granularity. Granularity is the number of small grid cells that are aggregated into larger grid cells in each direction (horizontally and vertically). For example, the finest spatial resolution of the Monfreda and MAPSPAM datasets in geohabnet is 5 minutes, a granularity value of 6 will result in maps with a spatial resolution of 0.5 degrees.
+If not provided, the resolution value used for the analysis is by default 24 (or two degrees when using the Monfreda and MAPSPAM datasets). Otherwise, a single integer value for granularity equal to or greater than one should be specified.
 }

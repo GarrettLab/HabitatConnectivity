@@ -26,7 +26,7 @@ neg_expo(
 If \code{\link[=load_parameters]{load_parameters()}} is not provided, the function will require the user to specify all arguments as listed below.
 If both \code{\link[=load_parameters]{load_parameters()}} and values for the arguments listed below are provided, \code{\link[=load_parameters]{load_parameters()}} takes precedence over the specified arguments.}
 
-\item{betas}{Numeric. Beta is the dispersal parameter used in the inverse power law to estimate a species' dispersal gradient. Please refer to Mundt et al (2009) for details on how to calculate this parameter. Any beta values should be positive.}
+\item{betas}{Numeric. Beta is the dispersal parameter used in the inverse power law to estimate a species' dispersal gradient. Please refer to Mundt et al (2009) for details on how to calculate this parameter. Any beta values should be positive. Smaller beta values indicate a higher likelihood of dispersal between nodes.}
 
 \item{mets}{Character. There are seven network metrics supported by \code{geohabnet}:  "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality", "closeness", "betweeness", "degree", and "page_rank".
 Each specified network metric is calculated for each location in the target region, based on the link weights between each pair of locations. Run, for example, \code{\link[=pagerank]{pagerank()}} for details of each network metric.}
@@ -35,7 +35,7 @@ Each specified network metric is calculated for each location in the target regi
 
 \item{linkcutoff}{Numeric. This parameter is only used to calculate \code{\link[=betweeness]{betweeness()}} and \code{\link[=closeness]{closeness()}}, and is equivalent to \code{cutoff} in these functions in the \code{igraph} package.}
 
-\item{gammas}{Numeric. Gamma is the dispersal parameter used in the negative exponential to estimate a species' dispersal gradient. Any gamma values should be positive.}
+\item{gammas}{Numeric. Gamma is the dispersal parameter used in the negative exponential to estimate a species' dispersal gradient. Any gamma values should be positive. Smaller gamma values indicate a higher likelihood of dispersal between nodes.}
 }
 \value{
 List with parameters and values. See details.
@@ -48,8 +48,8 @@ List with parameters and values. See details.
 Refer to Esker et al (2007) for a discussion on the characteristics of each dispersal gradient or kernel model (i.e., inverse power law and negative exponential). The resulting object produced by \code{\link[=load_parameters]{load_parameters()}} provides the following values used when running the analysis
 -\code{beta} is a dispersal parameter for calculating the inverse power law model.
 -\code{gamma} is a dispersal parameter for calculating the negative exponential model.
--\code{metrics} Each of the network metrics is applied to the adjacency matrix produced in the intermediate step.
--\code{weights} The link weights to be used in the network analysis.
+-\code{metrics} Each network metric is applied to the adjacency matrix produced in the intermediate step.
+-\code{weights} The link weights that is used in the network analysis.
 -\code{cutoff} Currently used as a parameter to calculate centrality in the network - \code{\link[=betweeness]{betweeness()}} and \code{\link[=closeness]{closeness()}}.
 As defined in \code{\link[igraph:betweenness]{igraph::betweenness()}}, it's the maximum length to consider when calculating centrality.
 If zero or negative, then there is no such limit.

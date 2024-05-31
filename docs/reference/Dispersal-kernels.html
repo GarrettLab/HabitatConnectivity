@@ -90,7 +90,7 @@ If both <code><a href="load_parameters.html">load_parameters()</a></code> and va
 
 
 <dt>betas</dt>
-<dd><p>Numeric. Beta is the dispersal parameter used in the inverse power law to estimate a species' dispersal gradient. Please refer to Mundt et al (2009) for details on how to calculate this parameter. Any beta values should be positive.</p></dd>
+<dd><p>Numeric. Beta is the dispersal parameter used in the inverse power law to estimate a species' dispersal gradient. Please refer to Mundt et al (2009) for details on how to calculate this parameter. Any beta values should be positive. Smaller beta values indicate a higher likelihood of dispersal between nodes.</p></dd>
 
 
 <dt>mets</dt>
@@ -107,7 +107,7 @@ Each specified network metric is calculated for each location in the target regi
 
 
 <dt>gammas</dt>
-<dd><p>Numeric. Gamma is the dispersal parameter used in the negative exponential to estimate a species' dispersal gradient. Any gamma values should be positive.</p></dd>
+<dd><p>Numeric. Gamma is the dispersal parameter used in the negative exponential to estimate a species' dispersal gradient. Any gamma values should be positive. Smaller gamma values indicate a higher likelihood of dispersal between nodes.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -121,8 +121,8 @@ Each specified network metric is calculated for each location in the target regi
     <p>Refer to Esker et al (2007) for a discussion on the characteristics of each dispersal gradient or kernel model (i.e., inverse power law and negative exponential). The resulting object produced by <code><a href="load_parameters.html">load_parameters()</a></code> provides the following values used when running the analysis
 -<code>beta</code> is a dispersal parameter for calculating the inverse power law model.
 -<code>gamma</code> is a dispersal parameter for calculating the negative exponential model.
--<code>metrics</code> Each of the network metrics is applied to the adjacency matrix produced in the intermediate step.
--<code>weights</code> The link weights to be used in the network analysis.
+-<code>metrics</code> Each network metric is applied to the adjacency matrix produced in the intermediate step.
+-<code>weights</code> The link weights that is used in the network analysis.
 -<code>cutoff</code> Currently used as a parameter to calculate centrality in the network - <code><a href="nn_sum.html">betweeness()</a></code> and <code><a href="nn_sum.html">closeness()</a></code>.
 As defined in <code><a href="https://r.igraph.org/reference/betweenness.html" class="external-link">igraph::betweenness()</a></code>, it's the maximum length to consider when calculating centrality.
 If zero or negative, then there is no such limit.</p>
