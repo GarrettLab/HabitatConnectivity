@@ -6,14 +6,14 @@ scales$gwest <- c(-140, -34, -58, 60)
 
 #' Global geographical extent
 #'
-#'   See geographical extents used in global analysis.
-#'   Returns eastern and western hemisphere extents.
-#'   Each extent is in the form of c(Xmin, Xmax, Ymin, Ymax).
-#' @return List. Named list with scales for eastern and western hemisphere
+#'   This function provides the geographical extent used in a global analysis.
+#'   This function returns the geographic extents of the eastern and western hemispheres used in the analysis.
+#'   Each geographic extent is in the form of c(Xmin, Xmax, Ymin, Ymax). The geohabnet functions are designed to work with the coordinate reference system: lon/lat WGS 84 (EPSG:4326).
+#' @return List. Named list with scales for eastern and western hemispheres
 #' @export
 #' @details
-#' Seperate analysis on geographical scales of eastern and western hemisphere
-#' are combined to run global analysis.
+#' When a habitat connectivity analysis is global, the functions in geohabnet will conduct two separate analyses, one on the geographical scale of the eastern hemisphere and another for the western hemisphere.
+#' The final outcomes (such as maps or adjacency matrices) are then combined for the global analysis.
 #'
 #' @seealso [set_global_scales()]
 global_scales <- function() {
@@ -34,8 +34,8 @@ global_scales <- function() {
 
 #' Set global geographical extent
 #'
-#'   Set the geographical extents used in global analysis.
-#'   Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)
+#'   This function sets the geographical extents used in global analysis. See also [geoscale_param()] to set the geographic extent of an analysis that is not global.
+#'   Each geographic extent should be in the form of c(Xmin, Xmax, Ymin, Ymax). Geographic extent must be specified by four values in degrees that represent the geographic limits of the area for analysis, following the order: minimum longitude, maximum longitude, minimum latitude, and maximum latitude. Degrees are in decimal notation and have a negative sign for the southern and western hemispheres.
 #' @param value list. Named list of eastern and western hemisphere extents. See usage.
 #' @inherit global_scales return
 #' @export

@@ -8,15 +8,15 @@ network_density <- function(x) {
   
   eds_gamma <- list()
   gammas <- list()
-
+  
   for (adm in x@rasters$rasters) {
     ed <- igraph::edge_density(igraph::graph_from_adjacency_matrix(adm@amatrix > 0))
     if (adm@beta != -1) {
       betas <- append(betas, adm@beta)
-      eds_beta <- append(eds_beta, g)
+      eds_beta <- append(eds_beta, ed)
     } else {
       gammas <- append(gammas, adm@gamma)
-      eds_gamma <- append(eds_gamma, g)
+      eds_gamma <- append(eds_gamma, ed)
     }
   }
 
