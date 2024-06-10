@@ -1,6 +1,6 @@
 network_density <- function(x) {
   
-  stopifnot("x must be of type GeoNetwork" == class(x) == "GeoNetwork")
+  stopifnot("x must be of type GeoNetwork" = class(x) == "GeoNetwork")
   stopifnot("x is null" = !is.null(x))
   
   eds_beta <- list()
@@ -26,7 +26,7 @@ network_density <- function(x) {
     lines(betas, net.density.mean, col = "blue", lwd = 2)
     TRUE
   }
-  
+
   if (plotted & length(gammas) > 0) {
     points(gammas, eds_gamma, col = "green", cex = 3)
     lines(gammas, net.density.mean, col = "blue", lwd = 2)

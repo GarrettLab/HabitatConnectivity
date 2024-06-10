@@ -23,7 +23,6 @@ gplot <- function(x, ...) {
     # Set the plot parameters
     oldpar <- graphics::par(no.readonly = TRUE)
     on.exit(graphics::par(oldpar))
-    graphics::par(bg = "aliceblue")
 
     # Plot the base map
     gplot(.cal_mgb(geoscale, isglobal),

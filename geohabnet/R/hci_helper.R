@@ -71,7 +71,7 @@ library(yaml)
 #' one for each hemisphere. e.g. `list(east = list(), west = list())`. If the `ri` is not global,
 #' the list will contain a single element, e.g. `list()`.
 #' @details
-#' This function will unpack SpatRasters from GeoMadel and thus is [future::future()] safe.
+#' This function will unpack SpatRasters from GeoModel and thus is [future::future()] safe.
 #'
 #' @export
 risk_indices <- function(ri) {
@@ -79,13 +79,14 @@ risk_indices <- function(ri) {
   .ew_split <- function() {
     ew_indices <- list(list(), list())
     names(ew_indices) <- c(STR_EAST, STR_WEST)
-
+    
+    cnt <- 0
     for (grast in ri$global_rast) {
       for (mod in grast$east) {
-        ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], terra::rast(mod$index))
+        ew_indices[[STR_EAST]] <- c(ew_indices[[STR_EAST]], .unpack_rast_ifnot(mod@index))
       }
       for (mod in grast$west) {
-        ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], terra::rast(mod$index))
+        ew_indices[[STR_WEST]] <- c(ew_indices[[STR_WEST]], .unpack_rast_ifnot(mod@index))
       }
     }
     return(ew_indices)
@@ -98,7 +99,7 @@ risk_indices <- function(ri) {
     unlist(lapply(
       ri$rasters,
       FUN = function(x) {
-        terra::rast(x$index)
+        terra::rast(x@index)
       }
     ), recursive = FALSE)
   }

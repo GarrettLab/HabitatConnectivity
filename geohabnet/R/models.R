@@ -2,7 +2,7 @@
 #'
 #' @description
 #' A ref class to represent results of dispersal models.
-#' @field matrix An adjacency matrix to represent network.
+#' @field amatrix An adjacency matrix to represent network.
 .model_ob <- setClass("GeoModel",
                       slots = c(amatrix = "matrix",
                                 index = "ANY",
@@ -10,11 +10,31 @@
                                 aggregation = "character",
                                 linkthreshold = "numeric",
                                 beta = "numeric",
-                                gamma = "numeric",
-                                east = "logical",
-                                west = "logical"),
+                                gamma = "numeric"),
                       prototype = list(beta = NaN,
                                        gamma = NaN))
+
+setGeneric("setprops", function(x, aggregation, hdthreshold, linkthreshold) {
+  standardGeneric("setprops")
+})
+
+setMethod("setprops",
+          signature(x = "GeoModel",
+                    aggregation = "character",
+                    hdthreshold = "numeric",
+                    linkthreshold = "numeric"),
+          function(x,
+                   aggregation,
+                   hdthreshold,
+                   linkthreshold) {
+
+            x@aggregation <- aggregation
+            x@hdthreshold <- hdthreshold
+            x@linkthreshold <- linkthreshold
+
+            return(x)
+          }
+)
 
 # private methods ---------------------------------------------------------
 
@@ -74,7 +94,10 @@
                                                      cropdistancematrix,
                                                      cutoff)
   indexv <- terra::wrap(indexpre)
-  return(.model_ob(index = indexv, amatrix = adjmat, beta = beta))
+  return(.model_ob(index = indexv,
+                   amatrix = adjmat,
+                   linkthreshold = link_threshold,
+                   beta = beta))
 }
 
 .model_neg_exp <- function(gamma_val,
@@ -126,7 +149,10 @@
                                                      cropdistancematrix,
                                                      cutoff)
   indexv <- terra::wrap(indexpre)
-  return(.model_ob(index = indexv, amatrix = adjmat, gamma = gamma_val))
+  return(.model_ob(index = indexv,
+                   amatrix = adjmat,
+                   linkthreshold = link_threshold,
+                   gamma = gamma_val))
 }
 
 .apply_met <- function(mets, we, adj_graph, cutoff) {

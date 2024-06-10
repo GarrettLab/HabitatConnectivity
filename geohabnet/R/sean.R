@@ -375,21 +375,19 @@ sean <- function(rast,
                                agg_method,
                                dist_method)
 
-      model_ret <- c(model_ret,
-                     .hci(link_threshold,
+      ret <- .hci(link_threshold,
                           ipl = inv_pl,
                           ne_exp = neg_exp,
                           rast = density_data$agg_crop,
                           crop_cells_above_threshold = density_data$crop_values_at,
                           thresholded_crop_values = density_data$crop_value,
-                          distance_matrix = density_data[[STR_DISTANCE_MATRIX]]))
+                          distance_matrix = density_data[[STR_DISTANCE_MATRIX]])
 
       # mapping adjacency matrix with its parameters
-      model_ret[["hdthreshold"]] <- hd_threshold
-      model_ret[["linkthreshold"]] <- link_threshold
-      model_ret[["aggregation"]] <- agg_method
-      model_ret[["east"]] <- east
-      model_ret[["west"]] <- west
+      for (model in ret) {
+        x <- setprops(model, agg_method, hd_threshold, link_threshold)
+        model_ret <- c(model_ret, x)
+      }
 
       host_densityrasts <- c(host_densityrasts, density_data$agg_crop)
     }
