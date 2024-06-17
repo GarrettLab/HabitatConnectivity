@@ -10,7 +10,7 @@ network_density <- function(x) {
   gammas <- list()
   
   for (adm in x@rasters$rasters) {
-    ed <- igraph::edge_density(igraph::graph_from_adjacency_matrix(adm@amatrix > 0))
+    ed <- igraph::edge_density(igraph::graph_from_adjacency_matrix(adm@amatrix > 0)) * 100
     if (!is.nan(adm@beta)) {
       betas <- append(betas, adm@beta)
       eds_beta <- append(eds_beta, ed)
@@ -22,13 +22,14 @@ network_density <- function(x) {
 
   plotted <- FALSE
   plotted <- if (length(betas) > 0) {
-    plot(betas, eds_beta, xlab = "Beta", ylab = "Network density", type = "p", col = "red", bg = "red", cex = 1)
-    lines(betas, eds_beta, col = "blue", lwd = 2)
+    #plot(betas, eds_beta, xlab = "Beta", ylab = "Network density", type = "p", col = "red", bg = "red", cex = 1)
+    #lines(betas, eds_beta, col = "blue", lwd = 2)
+    plot(betas, eds_beta, xlab = "Beta", ylab = "Network density", type = "b", col = "red")
     TRUE
   }
 
   if (plotted & length(gammas) > 0) {
-    points(gammas, eds_gamma, xlab = "Gamma", ylab = "Network density", type = "p", col = "red", cex = 1)
+    plot(gammas, eds_gamma, xlab = "Gamma", ylab = "Network density", type = "p", col = "red", bg = "red", cex = 1)
     lines(gammas, eds_gamma, col = "blue", lwd = 2)
   }
   else if (length(gammas) > 0) {
