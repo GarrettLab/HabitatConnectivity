@@ -19,12 +19,13 @@ setMethod("show", "GlobalRast",
 
 setMethod("show", "GeoModel",
           function(object) {
-            di_a <- dim(object$amatrix)
+            di_a <- dim(object@amatrix)
+            di_risk <- dim(.unpack_rast_ifnot(object@index))
             pstr <-  " (nrow, ncol)"
 
             cat("class            : ", "Model", "\n")
             cat("adjacency matrix : ", di_a[1], ", ", di_a[2], pstr, "\n")
-            cat("risk index       : ", terra::nrow(object$index), ", ", terra::ncol(object$index), pstr, "\n")
+            cat("risk index       : ", di_risk[1], ", ", di_risk[2], pstr, "\n")
           })
 
 setMethod("show", "GeoNetwork",

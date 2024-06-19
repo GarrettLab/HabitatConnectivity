@@ -10,11 +10,11 @@ set_global_scales(value)
 \item{value}{list. Named list of eastern and western hemisphere extents. See usage.}
 }
 \value{
-List. Named list with scales for eastern and western hemisphere
+List. Named list with scales for eastern and western hemispheres
 }
 \description{
-Set the geographical extents used in global analysis.
-Each extent should be in the form of c(Xmin, Xmax, Ymin, Ymax)
+This function sets the geographical extents used in global analysis. See also \code{\link[=geoscale_param]{geoscale_param()}} to set the geographic extent of an analysis that is not global.
+Each geographic extent should be in the form of c(Xmin, Xmax, Ymin, Ymax). Geographic extent must be specified by four values in degrees that represent the geographic limits of the area for analysis, following the order: minimum longitude, maximum longitude, minimum latitude, and maximum latitude. Degrees are in decimal notation and have a negative sign for the southern and western hemispheres.
 }
 \examples{
 set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))

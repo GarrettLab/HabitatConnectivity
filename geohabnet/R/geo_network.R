@@ -56,6 +56,17 @@ setGeneric("setmaps", function(x, me, vari, dif) {
   standardGeneric("setmaps")
 })
 
+#' Network density
+#'
+#' Calculates and plots the network density of a GeoNetwork object.
+#'
+#' @param x A GeoNetwork object
+#' @return Vector. Up to two ggplot2 objects
+#' @export
+setGeneric("ndplot", function(x) {
+  standardGeneric("ndplot")
+})
+
 #' Sets the map slots in the Gmap object.
 #'
 #'

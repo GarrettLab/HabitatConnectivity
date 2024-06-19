@@ -352,7 +352,7 @@ sean <- function(rast,
   stopifnot("Need atleast one aggregation method: " = length(agg_methods) >= 1)
   .stopifnot_sprast(rast)
 
-  sean_geo <- function(geoext, east = FALSE, west = FALSE) {
+  sean_geo <- function(geoext) {
     .showmsg(paste("\nRunning sensitivity analysis for the extent: [",
                    paste(geoext, collapse = ", "),
                    "],\n",
@@ -403,12 +403,12 @@ sean <- function(rast,
 
     graster <- .grast_ro()
 
-    ret <- sean_geo(global_exts[[STR_EAST]], east = TRUE)
+    ret <- sean_geo(global_exts[[STR_EAST]])
     graster$east <- ret$model_res
 
     east_density <- ret$host_density
 
-    ret <- sean_geo(global_exts[[STR_WEST]], west = TRUE)
+    ret <- sean_geo(global_exts[[STR_WEST]])
     graster$west <- ret$model_res
 
     west_density <- ret$host_density

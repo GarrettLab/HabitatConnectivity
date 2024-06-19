@@ -2,7 +2,14 @@
 #'
 #' @description
 #' A ref class to represent results of dispersal models.
-#' @field amatrix An adjacency matrix to represent network.
+#'
+#' @slot amatrix An adjacency matrix to represent network.
+#' @slot index A raster object representing the index.
+#' @slot hdthreshold A numeric value representing the threshold.
+#' @slot aggregation A character value representing the aggregation method.
+#' @slot linkthreshold A numeric value representing the link threshold.
+#' @slot beta A numeric value representing the beta parameter.
+#' @slot gamma A numeric value representing the gamma parameter.
 .model_ob <- setClass("GeoModel",
                       slots = c(amatrix = "matrix",
                                 index = "ANY",

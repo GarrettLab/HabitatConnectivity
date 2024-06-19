@@ -7,16 +7,16 @@
 global_scales()
 }
 \value{
-List. Named list with scales for eastern and western hemisphere
+List. Named list with scales for eastern and western hemispheres
 }
 \description{
-See geographical extents used in global analysis.
-Returns eastern and western hemisphere extents.
-Each extent is in the form of c(Xmin, Xmax, Ymin, Ymax).
+This function provides the geographical extent used in a global analysis.
+This function returns the geographic extents of the eastern and western hemispheres used in the analysis.
+Each geographic extent is in the form of c(Xmin, Xmax, Ymin, Ymax). The geohabnet functions are designed to work with the coordinate reference system: lon/lat WGS 84 (EPSG:4326).
 }
 \details{
-Seperate analysis on geographical scales of eastern and western hemisphere
-are combined to run global analysis.
+When a habitat connectivity analysis is global, the functions in geohabnet will conduct two separate analyses, one on the geographical scale of the eastern hemisphere and another for the western hemisphere.
+The final outcomes (such as maps or adjacency matrices) are then combined for the global analysis.
 }
 \seealso{
 \code{\link[=set_global_scales]{set_global_scales()}}
