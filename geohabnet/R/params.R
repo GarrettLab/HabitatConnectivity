@@ -1,12 +1,12 @@
 
 #' Get Parameters
 #'
-#' Retrieves the parameters and copies the parameter file to the specified
+#' This function retrieves the parameters and copies the parameter file to the specified
 #' output path.
 #' @param out_path character. The output path where the parameter file will be
-#' copied. Default is temporary directory [tempdir()]
-#' @param iwindow logical. If `TRUE`, prompts the user to select the output
-#' directory using a file chooser window. Default is `FALSE`
+#' copied. The default is a temporary directory [tempdir()]
+#' @param iwindow logical. If window = `TRUE`, this will prompt the user to select the output
+#' directory using a file chooser window. The default value is `FALSE`.
 #' @return character. The path to the copied parameter file.
 #' @export
 #' @details
@@ -31,12 +31,12 @@ get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
 
 #' Set Parameters
 #'
-#' This function allows you to set the parameters by replacing the existing
+#' This function allows the user to set the parameters by replacing the existing
 #' parameters file with a new one. Use [get_parameters()] to modify the parameter values.
 #'
 #' @param new_params The path to the new parameters file.
-#' @param iwindow Logical indicating whether to prompt the user to select the
-#' new parameters file using a file selection window. Defaults to FALSE.
+#' @param iwindow Logical, indicating whether to prompt the user to select the
+#' new parameters file using a file selection window. The default value of this parameter is set to FALSE.
 #' @return None
 #' @export
 #'
@@ -80,9 +80,9 @@ load_parameters <- function(filepath = .param_fp()) {
 
 #' Get resolution value
 #'
-#' Resolution stored in `parameter.yaml`.
-#' If not present it will result default value.
-#' @return Numeric. Resolution from `parameters.yaml`. Default is 24.
+#' Resolution stored in `parameter.yaml`. Here, resolution values refer to the aggregation factor or granularity. Granularity is the number of small grid cells that are aggregated into larger grid cells in each direction (horizontally and vertically). For example, the finest spatial resolution of the Monfreda and MAPSPAM datasets in geohabnet is 5 minutes, a granularity value of 6 will result in maps with a spatial resolution of 0.5 degrees.
+#' If not provided, the resolution value used for the analysis is by default 24 (or two degrees when using the Monfreda and MAPSPAM datasets). Otherwise, a single integer value for granularity equal to or greater than one should be specified.
+#' @return Numeric. Resolution from `parameters.yaml`. The default is 12.
 #' @export
 reso <- function() {
   reso <- load_parameters()$Resolution
@@ -113,27 +113,33 @@ reset_params <- function() {
 #' -`[inv_powerlaw()]` Get parameters and values pertaining to the inverse power law model.
 #' -`[neg_exp()]` Get parameters and values pertaining to the negative exponential model.
 #'
-#' @param params Object.[load_parameters()] by default.
-#' If not provided, the function will require all other parameters.
-#' It takes the precedence over other parameters.
-#' @param betas Numeric. Parameter for calculating the inverse power law.
-#' @param gammas Numeric. Parameter for calculating the negative exponential.
-#' @param mets Character.
-#' Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
-#' @param we Numeric The link weights to be used in the network analysis.
-#' @param linkcutoff Numeric. Currently used as a parameter to calculate centrality in the network.
+#' @param params Object. This function uses the parameter values defined in [load_parameters()] by default.
+#' If [load_parameters()] is not provided, the function will require the user to specify all arguments as listed below.
+#' If both [load_parameters()] and values for the arguments listed below are provided, [load_parameters()] takes precedence over the specified arguments.
+#' @param betas Numeric. Beta is the dispersal parameter used in the inverse power law to estimate a species' dispersal gradient. Please refer to Mundt et al (2009) for details on how to calculate this parameter. Any beta values should be positive. Smaller beta values indicate a higher likelihood of dispersal between nodes.
+#' @param gammas Numeric. Gamma is the dispersal parameter used in the negative exponential to estimate a species' dispersal gradient. Any gamma values should be positive. Smaller gamma values indicate a higher likelihood of dispersal between nodes.
+#' @param mets Character. There are seven network metrics supported by `geohabnet`:  "node_strength", "sum_of_nearest_neighbors", "eigenvector_centrality", "closeness", "betweeness", "degree", and "page_rank".
+#' Each specified network metric is calculated for each location in the target region, based on the link weights between each pair of locations. Run, for example, [pagerank()] for details of each network metric.
+#' @param we Numeric. This parameter indicates the weight(s) of each specified network metric, representing the importance of the network metric in the analysis. Since these weights represent percentages, any weight(s) should be between 0 and 100, and the sum of all specified weights should be 100.
+#' @param linkcutoff Numeric. This parameter is only used to calculate [betweeness()] and [closeness()], and is equivalent to `cutoff` in these functions in the `igraph` package.
 #' @return List with parameters and values. See details.
 #' @details
-#' The list object has following values used in running analysis
-#' -`beta` Parameter for calculating the inverse power law.
-#' -`gamma` Parameter for calculating the negative exponential.
-#' -`metrics` Each of these metrics is applied to the adjacency matrix produced in the intermediate step.
-#' -`weights` The link weights to be used in the network analysis.
+#' Refer to Esker et al (2007) for a discussion on the characteristics of each dispersal gradient or kernel model (i.e., inverse power law and negative exponential). The resulting object produced by [load_parameters()] provides the following values used when running the analysis
+#' -`beta` is a dispersal parameter for calculating the inverse power law model.
+#' -`gamma` is a dispersal parameter for calculating the negative exponential model.
+#' -`metrics` Each network metric is applied to the adjacency matrix produced in the intermediate step.
+#' -`weights` The link weights that is used in the network analysis.
 #' -`cutoff` Currently used as a parameter to calculate centrality in the network - [betweeness()] and [closeness()].
 #' As defined in [igraph::betweenness()], it's the maximum length to consider when calculating centrality.
 #' If zero or negative, then there is no such limit.
 #'
 #' @seealso [supported_metrics()]
+#' @references Esker PD, Sparks AH, Antony G, Bates M, Dall' Acqua W, Frank EE, Huebel L, Segovia V, Garrett KA (2007).
+#' “Ecology and Epidemiology in R: Modeling dispersal gradients.” *The Plant Health Instructor*.
+#' \doi{10.1094/PHI-A-200​8-0129-03}.
+#' @references Mundt CC, Sackett KE, Wallace LD, Cowger C, Dudley JP  (2009).
+#' “Aerial Dispersal and Multiple-Scale Spread of Epidemic Disease.” *Ecohealth*.
+#' \doi{https://doi.org/10.1007/s10393-009-0251-z}.
 #' @references Csardi G, Nepusz T (2006).
 #' “The igraph software package for complex network research.” _InterJournal_, *Complex Systems*, 1695.
 #' <https://igraph.org>.
