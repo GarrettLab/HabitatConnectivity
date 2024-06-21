@@ -53,7 +53,9 @@ Imports:
     methods,
     future.apply (>= 1.11.0),
     future (>= 1.33.0),
-    magrittr (>= 2.0.3)
+    magrittr (>= 2.0.3),
+    ggplot2 (>= 3.5.1),
+    patchwork (>= 1.2.0)
 Suggests: 
     devtools,
     knitr,

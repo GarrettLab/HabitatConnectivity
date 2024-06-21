@@ -8,10 +8,21 @@
 \description{
 A ref class to represent results of dispersal models.
 }
-\section{Fields}{
+\section{Slots}{
 
 \describe{
-\item{\code{matrix}}{An adjacency matrix to represent network.}
-}}
+\item{\code{amatrix}}{An adjacency matrix to represent network.}
 
+\item{\code{index}}{A raster object representing the index.}
+
+\item{\code{hdthreshold}}{A numeric value representing the threshold.}
+
+\item{\code{aggregation}}{A character value representing the aggregation method.}
+
+\item{\code{linkthreshold}}{A numeric value representing the link threshold.}
+
+\item{\code{beta}}{A numeric value representing the beta parameter.}
+
+\item{\code{gamma}}{A numeric value representing the gamma parameter.}
+}}
 

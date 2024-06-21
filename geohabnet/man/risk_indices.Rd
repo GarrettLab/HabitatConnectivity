@@ -18,5 +18,5 @@ the list will contain a single element, e.g. \code{list()}.
 Get risk indices from GeoRasters object.
 }
 \details{
-This function will unpack SpatRasters from GeoMadel and thus is \code{\link[future:future]{future::future()}} safe.
+This function will unpack SpatRasters from GeoModel and thus is \code{\link[future:future]{future::future()}} safe.
 }
