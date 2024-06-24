@@ -14,4 +14,5 @@ Vector. Up to two ggplot2 objects
 }
 \description{
 Calculates and plots the network density of a GeoNetwork object.
+The plot is produced as dispersal parameter vs edge density.
 }

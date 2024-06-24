@@ -42,10 +42,10 @@ In the context of habitat connectivity, the functions can be interpreted as foll
 \itemize{
 \item \verb{[nn_sum()]}: Calculates the sum of nearest neighbors \code{\link[igraph:graph.knn]{igraph::graph.knn()}}.
 \item \verb{[node_strength()]}: Calculates the sum of edge weights of adjacent nodes \code{\link[igraph:graph.strength]{igraph::graph.strength()}}.
-\item \verb{[betweeness()]}: Calculates the node betweenness based on the number of shortest paths.
+\item \verb{[betweenness()]}: Calculates the node betweenness based on the number of shortest paths.
 Because the \code{\link[igraph:betweenness]{igraph::betweenness()}} function in \link{igraph} interprets link weights
 as distances to calculate the shortest paths,
-the \code{\link[=betweenness]{betweenness()}} function in \link{geohabnet}
+the \code{\link[=betweeness]{betweeness()}} function in \link{geohabnet}
 transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix
 so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
 \item \verb{[ev()]}: Calculates the eigenvector centrality of positions within the network \code{\link[igraph:evcent]{igraph::evcent()}}.

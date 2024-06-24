@@ -1,3 +1,7 @@
+# geohabnet 2.1.3
+- Network density plot aviailable as ndplot() for non-global analysis
+- Attempt to CRAN submission
+
 # geohabnet 2.1.2
 - Fixed issue of TIF not present
 

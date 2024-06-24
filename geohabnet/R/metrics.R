@@ -27,10 +27,10 @@ supported_metrics <- function() {
 #' In the context of habitat connectivity, the functions can be interpreted as follows:
 #' - `[nn_sum()]`: Calculates the sum of nearest neighbors [igraph::graph.knn()].
 #' - `[node_strength()]`: Calculates the sum of edge weights of adjacent nodes [igraph::graph.strength()].
-#' - `[betweeness()]`: Calculates the node betweenness based on the number of shortest paths.
+#' - `[betweenness()]`: Calculates the node betweenness based on the number of shortest paths.
 #' Because the [igraph::betweenness()] function in [igraph] interprets link weights
 #' as distances to calculate the shortest paths,
-#' the [geohabnet::betweenness()] function in [geohabnet]
+#' the [geohabnet::betweeness()] function in [geohabnet]
 #' transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix
 #' so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
 #' - `[ev()]`: Calculates the eigenvector centrality of positions within the network [igraph::evcent()].
