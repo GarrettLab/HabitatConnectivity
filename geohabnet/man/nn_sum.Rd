@@ -59,7 +59,8 @@ so that higher link weight values will be the shortest (or more likely) paths fo
 }
 }
 \references{
-Bastos, A. D. S., & Silva, J. M. C. S. (2018). Geohabnet: An R package for habitat network analysis.
+Csardi G, Nepusz T (2006). “The igraph software package for complex network research.” \emph{InterJournal}, \emph{Complex
+Systems}, 1695. \url{https://igraph.org}.
 }
 \seealso{
 Other metrics: 

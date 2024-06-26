@@ -50,7 +50,8 @@ supported_metrics <- function() {
 #' @return SpatRaster. Representing connectivity of each node or location.
 #'
 #' @references
-#' Bastos, A. D. S., & Silva, J. M. C. S. (2018). Geohabnet: An R package for habitat network analysis.
+#' Csardi G, Nepusz T (2006). “The igraph software package for complex network research.” _InterJournal_, *Complex
+#' Systems*, 1695. <https://igraph.org>.
 #'
 #' @family metrics
 #' @export
