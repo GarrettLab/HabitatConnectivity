@@ -136,7 +136,7 @@ reset_params <- function() {
 #' @seealso [supported_metrics()]
 #' @references Esker PD, Sparks AH, Antony G, Bates M, Dall' Acqua W, Frank EE, Huebel L, Segovia V, Garrett KA (2007).
 #' “Ecology and Epidemiology in R: Modeling dispersal gradients.” *The Plant Health Instructor*.
-#' \doi{10.1094/PHI-A-200​8-0129-03}
+#' \doi{10.1094/PHI-A-2008-0129-03}
 #' @references Mundt CC, Sackett KE, Wallace LD, Cowger C, Dudley JP  (2009).
 #' “Aerial Dispersal and Multiple-Scale Spread of Epidemic Disease.” *Ecohealth*.
 #' \doi{https://doi.org/10.1007/s10393-009-0251-z}
