@@ -23,19 +23,19 @@ supported_metrics <- function() {
 #' Calculation on network metrics a.k.a centralities.
 #'
 #' @description
-#' These are functions under the [igraph] package adapted to calculate habitat connectivity.
+#' These are functions under the `igraph` package adapted to calculate habitat connectivity.
 #' In the context of habitat connectivity, the functions can be interpreted as follows:
 #' - `nn_sum()`: Calculates the sum of nearest neighbors [igraph::knn()].
 #' - `node_strength()`: Calculates the sum of edge weights of adjacent nodes [igraph::strength()].
 #' - `betweenness()`: Calculates the node betweenness based on the number of shortest paths.
-#' Because the [igraph::betweenness()] function in [igraph] interprets link weights
+#' Because the [igraph::betweenness()] function in interprets link weights
 #' as distances to calculate the shortest paths,
 #' the [geohabnet::betweeness()] function in [geohabnet]
 #' transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix
 #' so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
 #' - `ev()`: Calculates the eigenvector centrality of positions within the network [igraph::eigen_centrality()].
 #' - `closeness()`: measures how many steps is required to access every other vertex from a given vertex
-#' [igraph::closeness()]. Because the [igraph::closeness()] function in [igraph] interprets link weights as distances
+#' [igraph::closeness()]. Because the [igraph::closeness()] function interprets link weights as distances
 #' to calculate the shortest paths, this transforms the link weights
 #' (or the relative likelihood of pathogen or pest movement) in the adjacency matrix
 #' so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
@@ -46,8 +46,11 @@ supported_metrics <- function() {
 #'  In the internal workflow,
 #'  the adjacency matrix comes as a result of operations within `sean()` function.
 #' This weight represents the importance of the network metric in the habitat connectivity analysis.
-#' @param ... arguments to corresponding `igraph` fun
+#' @param ... arguments to corresponding funtions in `igraph`
 #' @return SpatRaster. Representing connectivity of each node or location.
+#'
+#' @references
+#' Bastos, A. D. S., & Silva, J. M. C. S. (2018). Geohabnet: An R package for habitat network analysis.
 #'
 #' @family metrics
 #' @export
