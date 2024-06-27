@@ -57,11 +57,11 @@ If zero or negative, then there is no such limit.
 \references{
 Esker PD, Sparks AH, Antony G, Bates M, Dall' Acqua W, Frank EE, Huebel L, Segovia V, Garrett KA (2007).
 “Ecology and Epidemiology in R: Modeling dispersal gradients.” \emph{The Plant Health Instructor}.
-\doi{10.1094/PHI-A-200​8-0129-03}.
+\doi{10.1094/PHI-A-2008-0129-03}
 
 Mundt CC, Sackett KE, Wallace LD, Cowger C, Dudley JP  (2009).
 “Aerial Dispersal and Multiple-Scale Spread of Epidemic Disease.” \emph{Ecohealth}.
-\doi{https://doi.org/10.1007/s10393-009-0251-z}.
+\doi{https://doi.org/10.1007/s10393-009-0251-z}
 
 Csardi G, Nepusz T (2006).
 “The igraph software package for complex network research.” \emph{InterJournal}, \emph{Complex Systems}, 1695.

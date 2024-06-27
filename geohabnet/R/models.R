@@ -21,10 +21,26 @@
                       prototype = list(beta = NaN,
                                        gamma = NaN))
 
+#' Set properties of the GeoModel object.
+#' 
+#' @param x The GeoModel object.
+#' @param aggregation Character. A value representing the aggregation method.
+#' @param hdthreshold Numeric. A value representing the host density threshold.
+#' @param linkthreshold Numeric. A value representing the link threshold in a network.
+#' @return The GeoModel object with updated properties.
+#' @export
 setGeneric("setprops", function(x, aggregation, hdthreshold, linkthreshold) {
   standardGeneric("setprops")
 })
 
+#' Set properties of the GeoModel object.
+#' 
+#' @param x The GeoModel object.
+#' @param aggregation Character. A value representing the aggregation method.
+#' @param hdthreshold Numeric. A value representing the host density threshold.
+#' @param linkthreshold Numeric. A value representing the link threshold in a network.
+#' @return The GeoModel object with updated properties.
+#' @export
 setMethod("setprops",
           signature(x = "GeoModel",
                     aggregation = "character",

@@ -23,7 +23,7 @@ setMethod("show", "GeoModel",
             di_risk <- dim(.unpack_rast_ifnot(object@index))
             pstr <-  " (nrow, ncol)"
 
-            cat("class            : ", "Model", "\n")
+            cat("class            : ", "GeoModel", "\n")
             cat("adjacency matrix : ", di_a[1], ", ", di_a[2], pstr, "\n")
             cat("risk index       : ", di_risk[1], ", ", di_risk[2], pstr, "\n")
           })

@@ -28,35 +28,39 @@ pagerank(crop_dm, ...)
 \item{crop_dm}{A square adjacency matrix, in which rows and columns names represent nodes (or locations) and
 each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
 In the internal workflow,
-the adjacency matrix comes as a result of operations within \code{\link[=sean]{sean()}} function.
+the adjacency matrix comes as a result of operations within \code{sean()} function.
 This weight represents the importance of the network metric in the habitat connectivity analysis.}
 
-\item{...}{arguments to corresponding \code{igraph} fun}
+\item{...}{arguments to corresponding funtions in \code{igraph}}
 }
 \value{
 SpatRaster. Representing connectivity of each node or location.
 }
 \description{
-These are functions under the \link{igraph} package adapted to calculate habitat connectivity.
+These are functions under the \code{igraph} package adapted to calculate habitat connectivity.
 In the context of habitat connectivity, the functions can be interpreted as follows:
 \itemize{
-\item \verb{[nn_sum()]}: Calculates the sum of nearest neighbors \code{\link[igraph:graph.knn]{igraph::graph.knn()}}.
-\item \verb{[node_strength()]}: Calculates the sum of edge weights of adjacent nodes \code{\link[igraph:graph.strength]{igraph::graph.strength()}}.
-\item \verb{[betweeness()]}: Calculates the node betweenness based on the number of shortest paths.
-Because the \code{\link[igraph:betweenness]{igraph::betweenness()}} function in \link{igraph} interprets link weights
+\item \code{nn_sum()}: Calculates the sum of nearest neighbors \code{\link[igraph:knn]{igraph::knn()}}.
+\item \code{node_strength()}: Calculates the sum of edge weights of adjacent nodes \code{\link[igraph:strength]{igraph::strength()}}.
+\item \code{betweenness()}: Calculates the node betweenness based on the number of shortest paths.
+Because the \code{\link[igraph:betweenness]{igraph::betweenness()}} function in interprets link weights
 as distances to calculate the shortest paths,
-the \code{\link[=betweenness]{betweenness()}} function in \link{geohabnet}
+the \code{\link[=betweeness]{betweeness()}} function in \link{geohabnet}
 transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix
 so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
-\item \verb{[ev()]}: Calculates the eigenvector centrality of positions within the network \code{\link[igraph:evcent]{igraph::evcent()}}.
-\item \verb{[closeness()]}: measures how many steps is required to access every other vertex from a given vertex
-\code{\link[igraph:closeness]{igraph::closeness()}}. Because the \code{\link[igraph:closeness]{igraph::closeness()}} function in \link{igraph} interprets link weights as distances
-to calculate the shortest paths, the \code{\link[=closeness]{closeness()}} function in \link{geohabnet}
-transforms the link weights (or the relative likelihood of pathogen or pest movement) in the adjacency matrix
+\item \code{ev()}: Calculates the eigenvector centrality of positions within the network \code{\link[igraph:eigen_centrality]{igraph::eigen_centrality()}}.
+\item \code{closeness()}: measures how many steps is required to access every other vertex from a given vertex
+\code{\link[igraph:closeness]{igraph::closeness()}}. Because the \code{\link[igraph:closeness]{igraph::closeness()}} function interprets link weights as distances
+to calculate the shortest paths, this transforms the link weights
+(or the relative likelihood of pathogen or pest movement) in the adjacency matrix
 so that higher link weight values will be the shortest (or more likely) paths for pathogen or pest movement.
-\item \verb{[degree()]}: number of adjacent edges \code{\link[igraph:degree]{igraph::degree()}}.
-\item \verb{[pagerank()]}: page rank score for vertices \code{\link[igraph:page_rank]{igraph::page_rank()}}.
+\item \code{degree()}: number of adjacent edges \code{\link[igraph:degree]{igraph::degree()}}.
+\item \code{pagerank()}: page rank score for vertices \code{\link[igraph:page_rank]{igraph::page_rank()}}.
 }
+}
+\references{
+Csardi G, Nepusz T (2006). “The igraph software package for complex network research.” \emph{InterJournal}, \emph{Complex
+Systems}, 1695. \url{https://igraph.org}.
 }
 \seealso{
 Other metrics: 

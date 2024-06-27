@@ -1,5 +1,14 @@
-\## Resubmission
-This is a resubmission. Package was accepted in the last submission but build failed in few environments. Please see the bottom of this page for the details of this submission.
+## Re-submission
+
+```         
+Package was archived on CRAN
+   
+   CRAN repository db overrides:
+     X-CRAN-Comment: Archived on 2024-05-27 as requires archived package
+       'geodata'.
+```
+
+This is a re submission with minor changes as mentioned in news.md. The package was earlier archived on 05/28/24 due to archival of one of its dependency. Since, `geodata` is back on cran, resubmitting the package for the consideration.
 
 The review comments are dated as feedback received and the submission addressing them.
 
