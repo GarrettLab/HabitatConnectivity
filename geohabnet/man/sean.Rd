@@ -112,6 +112,7 @@ the variance in habitat connectivity across selected parameters is calculated.
 For each location in the area of interest,
 the difference between the rank of habitat connectivity and the rank of host density is calculated.
 By default, each of these spatRasters is plotted for visualization.
+I am just testing
 }
 \examples{
 \donttest{

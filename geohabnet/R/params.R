@@ -80,8 +80,17 @@ load_parameters <- function(filepath = .param_fp()) {
 
 #' Get resolution value
 #'
-#' Resolution stored in `parameter.yaml`. Here, resolution values refer to the aggregation factor or granularity. Granularity is the number of small grid cells that are aggregated into larger grid cells in each direction (horizontally and vertically). For example, the finest spatial resolution of the Monfreda and MAPSPAM datasets in geohabnet is 5 minutes, a granularity value of 6 will result in maps with a spatial resolution of 0.5 degrees.
-#' If not provided, the resolution value used for the analysis is by default 24 (or two degrees when using the Monfreda and MAPSPAM datasets). Otherwise, a single integer value for granularity equal to or greater than one should be specified.
+#' Resolution stored in `parameter.yaml`. Here, resolution values refer
+#' to the aggregation factor or granularity. Granularity is the number of small
+#' grid cells that are aggregated into larger grid cells in each direction
+#' (horizontally and vertically).
+#' For example, the finest spatial resolution of the Monfreda and MAPSPAM dataset
+#' in geohabnet is 5 minutes, a granularity value of 6 will result in maps with
+#' a spatial resolution of 0.5 degrees.
+#' If not provided, the resolution value used for the analysis is by default 12
+#' (or two degrees when using the Monfreda and MAPSPAM dataset).
+#' Otherwise, a single integer value for granularity equal to or greater
+#' than one should be specified.
 #' @return Numeric. Resolution from `parameters.yaml`. The default is 12.
 #' @export
 reso <- function() {
@@ -211,15 +220,3 @@ neg_expo <- function(params = load_parameters(), gammas = NULL, mets = NULL, we 
   file.copy(from = from, to = to, overwrite = TRUE)
 }
 
-.extract_hosts <- function(params = load_parameters()) {
-  monfredas <- params$`CCRI parameters`$Hosts$monfreda
-  spams <- params$`CCRI parameters`$Hosts$mapspam
-  crops <- list()
-  if (!is.null(monfredas) && !is.list(monfredas)) {
-    crops[["monfreda"]] <- monfredas
-  }
-  if (!is.null(spams) && !is.list(spams)) {
-    crops[["mapspam"]] <- spams
-  }
-  return(crops)
-}

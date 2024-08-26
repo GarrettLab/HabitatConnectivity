@@ -4,7 +4,7 @@
 \alias{get_rasters}
 \title{Get rasters object from parameters}
 \usage{
-get_rasters(hosts)
+get_rasters(host)
 }
 \arguments{
 \item{hosts}{List of hosts and values. It is synonym to Hosts object in parameters}
@@ -21,7 +21,7 @@ and other using the provided raster file. See \code{\link[=tiff_torast]{tiff_tor
 \examples{
 # Get default rasters
 \dontrun{
-get_rasters(list(mapspam2010 = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
+get_rasters("some_raster.tif"))
 }
 }
 \seealso{

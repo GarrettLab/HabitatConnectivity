@@ -290,6 +290,7 @@
 #' For each location in the area of interest,
 #' the difference between the rank of habitat connectivity and the rank of host density is calculated.
 #' By default, each of these spatRasters is plotted for visualization.
+#' I am just testing
 #'
 #' @inherit Dispersal-kernels details
 #'
@@ -671,7 +672,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   host_thresholds <- cparams$`CCRI parameters`$HostDensityThreshold
 
   # crop data
-  crop_rasters <- get_rasters(cparams$`CCRI parameters`$Hosts)
+  crop_rasters <- get_rasters(cparams$`CCRI parameters`$Host)
   agg_methods <- cparams$`CCRI parameters`$AggregationStrategy # list
 
   # resolution
