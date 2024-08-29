@@ -297,26 +297,6 @@
 #' @seealso Uses [connectivity()]
 #' @seealso Uses [msean()] [inv_powerlaw()] [neg_expo()]
 #' @inherit sensitivity_analysis references
-#'
-#' @examples
-#' \donttest{
-#' avocado <- cropharvest_rast("avocado", "monfreda")
-#'
-#' # global
-#' ri <- sean(avocado) # returns a list of GeoRasters
-#' mri <- msean(rast = avocado) # returns GeoNetwork object
-#'
-#' # non-global
-#' # geoscale is a vector of xmin, xmax, ymin, ymax
-#'
-#' # returns GeoRasters object
-#' ri <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
-#' ri
-#'
-#' # returns GeoNetwork object
-#' mri <- msean(rast = avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
-#' mri
-#' }
 sean <- function(rast,
                  global = TRUE,
                  geoscale = NULL,
@@ -522,29 +502,8 @@ msean <- function(rast,
 #' @export
 #' @details
 #' Error not handled for non-overlapping extents.
-#'
-#' @examples
-#' \donttest{
-#' rr <- get_rasters(list(monfreda = c("avocado")))
-#' res1 <- sa_onrasters(rr[[1]],
-#'             global = FALSE,
-#'             geoscale = c(-115, -75, 5, 32),
-#'             c(0.0001, 0.00004),
-#'             c(0.0001, 0.00005),
-#'             c("sum", "mean"),
-#'             res = 12)
-#' res2 <- sa_onrasters(rr[[1]],
-#'             global = TRUE,
-#'             link_thresholds = c(0.000001),
-#'             hd_thresholds = c(0.00015),
-#'             agg_methods = c("sum"),
-#'             res = 12)
-#' res3 <- msean_onrast(rast = rr[[1]],
-#'           link_thresholds = c(0.000001),
-#'           hd_thresholds = c(0.00015))
-#'}
 #' @inherit sensitivity_analysis seealso references
-#' @seealso [msean_onrast()] [supported_sources()]
+#' @seealso [msean_onrast()]
 #'
 sa_onrasters <- function(rast,
                          link_thresholds = c(0),
@@ -640,13 +599,6 @@ msean_onrast <- function(global = TRUE,
 #' Errors are not handled.
 #' @export
 #'
-#' @examples
-#' \donttest{
-#' # Run analysis on specified parameters.yaml
-#' ss1 <- sensitivity_analysis()
-#' ss2 <- sensitivity_analysis(FALSE, FALSE)
-#' ss3 <- sensitivity_analysis(TRUE, FALSE)
-#' }
 #' @seealso
 #' [sa_onrasters()]
 #' [sean()]
@@ -672,7 +624,10 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   host_thresholds <- cparams$`CCRI parameters`$HostDensityThreshold
 
   # crop data
-  crop_rasters <- get_rasters(cparams$`CCRI parameters`$Host)
+  host_fp <- cparams$`CCRI parameters`$Host
+  stopifnot("Host must be a file that can be converted to raster. E.g. TIFF" = file.exists(host_fp))
+  crop_rasters <- get_rasters(host_fp)
+  
   agg_methods <- cparams$`CCRI parameters`$AggregationStrategy # list
 
   # resolution

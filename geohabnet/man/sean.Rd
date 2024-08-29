@@ -114,26 +114,6 @@ the difference between the rank of habitat connectivity and the rank of host den
 By default, each of these spatRasters is plotted for visualization.
 I am just testing
 }
-\examples{
-\donttest{
-avocado <- cropharvest_rast("avocado", "monfreda")
-
-# global
-ri <- sean(avocado) # returns a list of GeoRasters
-mri <- msean(rast = avocado) # returns GeoNetwork object
-
-# non-global
-# geoscale is a vector of xmin, xmax, ymin, ymax
-
-# returns GeoRasters object
-ri <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
-ri
-
-# returns GeoNetwork object
-mri <- msean(rast = avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
-mri
-}
-}
 \references{
 Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,
 Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,

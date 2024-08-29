@@ -1,6 +1,6 @@
 default:
   CCRI parameters:
-    Host: 
+    Host:
     HostDensityThreshold: [0.00015, 0.000025]
     AggregationStrategy: [sum, mean]
     DistanceStrategy: "geodesic"

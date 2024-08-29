@@ -1,6 +1,6 @@
 default:
   CCRI parameters:
-    Host: "/Users/kkeshav/Desktop/UFL/OPS/garrettLab/testing/monfreda-crops/monfreda/avocado_HarvestedAreaHectares.tif"
+    Host:
     HostDensityThreshold: [0.00015, 0.000025]
     AggregationStrategy: [sum, mean]
     DistanceStrategy: "geodesic"

@@ -35,7 +35,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
     config (>= 0.3.1),
-    geodata (>= 0.6.2),
     geosphere (>= 1.5.18),
     igraph (>= 2.0.3),
     terra (>= 1.7.29),
@@ -45,7 +44,6 @@ Imports:
     stringr (>= 1.5.0),
     memoise (>= 2.0.1),
     graphics,
-    rlang (>= 1.1.1),
     viridisLite (>= 0.4.2),
     beepr (>= 1.3),
     rnaturalearth (>= 0.3.3),

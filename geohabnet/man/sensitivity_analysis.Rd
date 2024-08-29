@@ -44,14 +44,6 @@ The second type corresponds to adjacency matrices used to calculate the habitat 
 where columns and rows represent locations in the maps and
 entries are the relative likelihood of pathogen or pest movement between each pair of nodes.
 }
-\examples{
-\donttest{
-# Run analysis on specified parameters.yaml
-ss1 <- sensitivity_analysis()
-ss2 <- sensitivity_analysis(FALSE, FALSE)
-ss3 <- sensitivity_analysis(TRUE, FALSE)
-}
-}
 \references{
 Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,
 Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,
