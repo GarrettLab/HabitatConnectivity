@@ -1,8 +1,8 @@
-#' Only meant to global variables
+#' Only meant for global variables
 #' @keywords internal
 scales <- new.env(parent = emptyenv())
-scales$geast <- c(-24, 180, -58, 60)
-scales$gwest <- c(-140, -34, -58, 60)
+scales$geast <- c(-24, 180, -58, 80)
+scales$gwest <- c(-140, -34, -58, 80)
 
 #' Global geographical extent
 #'
