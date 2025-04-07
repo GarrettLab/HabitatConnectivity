@@ -1,7 +1,7 @@
 Package: geohabnet
 Title: Geographical Risk Analysis Based on Habitat Connectivity
-Version: 2.1.3
-Date: 2024-06-26
+Version: 2.2
+Date: 2025-04-07
 Authors@R: c(
     person("Krishna", "Keshav", , "kkeshav@ufl.edu", role = c("aut", "cre")),
     person("Aaron", "Plex", , "plexaaron@ufl.edu", role = "aut",

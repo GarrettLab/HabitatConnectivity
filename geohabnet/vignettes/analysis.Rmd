@@ -104,38 +104,39 @@ At any point, access the help page using following -
 
 This is to run the analysis on default set of values for the supported parameters. Initially, the values are set based on the Xing et al(2021) [@xing2020] and crop is *Avocado*. This would run the workflow on global geographical extent quickly since the crop presence is relatively low.
 
-```{r message=FALSE}
-res <- sensitivity_analysis()
-```
+For the purposes of demonstration, the code below sets the host parameter programitically. The parameters can be fed via `parameters.yaml` in an interactive way as well using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
 
 The results are the side effects and the similar information is captured in the object returned from it. Its based on the values set for each of the parameters which we will see in details in the further sections.
 
 ## Running new analysis
 
-We provide 2 methods or entry points to run analysis by setting new values for the supported parameters.
+We provide 2 methods or entry points to run analysis by setting new values for the supported parameters. For the demonstration and examples, we will use the spatial raster for Avocado crop obtained in following way -
+
+```{r av_download}
+if (!require(geodata))
+  install.packages("geodata")
+avocado_sp <- geodata::crop_monfreda(crop = "avocado", var = "area_ha", path = tools::R_user_dir("geohabnet", which = "config"))
+
+```
 
 ### Setting values in a function
 
 The goal of the this function is to provide simple invasive factors as parameters. The internal implementation and program deals with object of `terra` [@terra] and `igraph`[@igraph] . The primary object is of type `SpatRaster` from `terra` . To get started, we will use quick way to obtain raster and later we will understand the details.
 
-An effective way to look-up is search_crop(). It will return sources which contains the data-set for this crop.
+In the example below, we will use the same spatial raster obtained for avocado.
 
 ```{r message=FALSE}
-
-avocado <- cropharvest_rast("avocado", "monfreda")
-
-# verify the raster object
-avocado
-gplot(avocado)
+avocado_sp
+gplot(avocado_sp)
 ```
 
 Now that we have a raster object, it can be fed directly to the workflow. We will only set the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
 
 ```{r message=FALSE}
-geo_net <- msean(avocado)
+geo_net <- msean(avocado_sp)
 ```
 
-The functions `msean` is same as `sean` except msean has side effects and they return different S4 objects, `GeoNetwork` and `GeoRasters` respectively. We will use them interchangeably in this article. The results should be interpreted in accordance to the values of other parameters that have factored as arguments to `sean`. Run ?sean to see all the supported parameters. We will later see the usage of other parameters as well.
+The functions `msean` is same as `sean` except `msean()` has side effects and they return different S4 objects, `GeoNetwork` and `GeoRasters` respectively. We will use them interchangeably in this article. The results should be interpreted in accordance to the values of other parameters that have factored as arguments to `sean`. Run ?sean to see all the supported parameters. We will later see the usage of other parameters as well.
 
 1.  *rast* - *spatRaster*. Represents map of crop presence in a geographical area.
 
@@ -180,10 +181,25 @@ The file should look something like this -
 
 ![Initial parameters.yaml](images/initconfig.png){width="700"}
 
-The values must be modified without modifying the structure. The order don't matter for the program. The new values in the configuration must be fed to the workflow using -
+The values must be modified without modifying the structure. The order don't matter for the program. The new values in the configuration must be fed to the workflow. For the purposes of demonstration, the code below sets the host parameter programitically. The parameters can be fed via `parameters.yaml` in an interactive way as well using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
 
-```{r}
-set_parameters(new_params = config_file)
+```{r config_run}
+
+if (!require("geodata"))
+{
+ install.packages("geodata") 
+}
+
+path_to_avo <- terra::sources(avocado_sp)
+params_file <- geohabnet::get_parameters()
+
+#install.packages("yaml")
+
+params_yaml <- yaml::yaml.load_file(params_file)
+params_yaml$default$`CCRI parameters`$Host <- path_to_avo
+yaml::write_yaml(params_yaml, params_file)
+
+geohabnet::set_parameters(params_file)
 #using iwindow = true will prompt a selction window to choose config file.
 ```
 
@@ -193,58 +209,7 @@ set_parameters(new_params = config_file)
 
 ### Hosts
 
-We have some helper functions to make the analysis easier. Available sources can be seen using -
-
-```{r}
-geohabnet::supported_sources()
-```
-
-More specifically, we support 2 data set sources - [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/) and [Mapspam](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PRFF8V) using the APIs provided by [Geodata](https://CRAN.R-project.org/package=geodata). These sources have crop presence in the geographical areas in the form of raster(tiff). To start with, we can check if a certain crop is available in the source -
-
-```{r}
-search_crop("avocado") #1
-search_crop("bean") #2
-```
-
-The #1 result suggests that we have crop information available under `monfreda` . Now, #2 suggests that *banana* is present in 2 sources. We will use the results from here to obtain its raster data from the one of the specified sources.
-
-```{r fetch_mon_av}
-# get avocado data
-rast_avocado <- crops_rast(list(monfreda = "avocado"))
-```
-
-```{r fetch_sp_ba}
-
-old_to <- options("timeout")
-options(timeout = 6000)
-
-#get data of banana crop
-rast_ban <- crops_rast(list(mapspam2010 = "banana"))
-```
-
-The returned is actually if type `SpatRaster`. In above, we will have separate raster information for each of the crop. Crops can be combined and be returned as one raster.
-
-```{r fetch_multi}
-# Back to back downloads causes connection to fail, this is a workaround
-rast_avo_ban <- crops_rast(list(monfreda = c("avocado", "banana"), mapspam2010 = c("banana")))
-old_to <- options(old_to)
-```
-
-In this case for *banana*, information from all the sources will be first combined using mean and then all the crop information i.e. banana and avocado both are again combined into one raster. This is done to produce a single map which contains information of all the requested crops. We have one more method to obtain raster, using *tiff -* `tiff_torast()` . Finally, we have `get_rasters()` method, which is an abstraction of . To see the difference in data that was generated in last 3 methods -
-
-```{r combine_sps}
-gplot(c(rast_avocado, rast_ban, rast_avo_ban))
-```
-
-The result obtained from one of these methods can be used as an argument to `sean()` . Value of `results` is list of risk indices.
-
-```{r run_msean, eval = FALSE, message=FALSE}
-results <- lapply(list(rast_avocado, rast_avo_ban), msean)
-```
-
-Internally, `cropharvest_rast()` is used to fetch the crop data-set in it's supported form.
-
-So far, we have now run the sensitivity analysis workflow for avocado and banana on global scale and default set of parameter values. Alternatively, we can just specify the crops under `parameters.yaml` and run the workflow -
+The library supports a spatial raster file (e.g. TIFF). The case studies were done on crop data from Monfreda[@monfreda2008] and Mapspam[@internationalfoodpolicyresearchinstitute2019] which is available via `geodata` package [@geodata]
 
 ```{r message=FALSE}
 results <- sensitivity_analysis()
@@ -255,7 +220,7 @@ results <- sensitivity_analysis()
 Thresholds are used to select subset of values from the `SpatRaster` on which the operations are applied. It directly effects the connectivity and gives a sense of sensitivity in the network. The intermediate goal is to produce a adjacency graph which essentially determines the connectivity. Cells which doesn't meet the threshold are removed from the consideration by dispersal models.
 
 ```{r message=FALSE}
-risk_indexes <- msean(avocado, global = FALSE, hd_threshold = 0.00001, link_threshold = 0.00001)
+risk_indexes <- msean(avocado_sp, global = FALSE, hd_threshold = 0.00001, link_threshold = 0.00001)
 ```
 
 #### Density Thresholds
@@ -330,7 +295,7 @@ Geographical extent is a subset of world map defined by coordinate reference sys
 1.  Using function
 
     ```{r non-global, message=FALSE}
-    results <- msean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
+    results <- msean(avocado_sp, global = FALSE, geoscale = c(-115, -75, 5, 32))
     ```
 
 2.  Using config
@@ -348,7 +313,7 @@ In a code below, after obtaining results, the maps are produced. In order to cal
 `sean(avocado)` + `.connectivity(georast)` is equivalent to `sensitivity_analysis()` or `msean()` which produces maps as side effect. The user function equivalent is connectivity() which accepts primitives types instead of S4 class.
 
 ```{r final}
-final <- msean(avocado, link_threshold = 0.000001, hd_threshold = 0.000025)
+final <- msean(avocado_sp, link_threshold = 0.000001, hd_threshold = 0.000025)
 
 # checkout the type of an object
 class(final)
@@ -368,7 +333,7 @@ The final operations are performed risk indices and on the 3 results that are pr
 
     Navigating the resulting object -
 
-    ```{r mean}
+    ```{r mean, eval = FALSE}
     gplot(final@me_rast)
     ```
 
@@ -376,7 +341,7 @@ The final operations are performed risk indices and on the 3 results that are pr
 
     Uses `stats::var` on risk indices, subset is extracted for provided scale and finally pixels are dis-aggregated using *factor = resolution value in original parameter* to from previous step.
 
-    ```{r var}
+    ```{r var, eval = FALSE}
     gplot(final@var_rast)
     ```
 
@@ -430,10 +395,10 @@ avocado <- geohabnet::cropharvest_rast("avocado", "monfreda")
 
 # see ?future::plan for details
 future::plan(future::multicore())
-msean(avocado)
+msean(avocado_sp)
 
 future::plan(future::multisession())
-msean(avocado)
+msean(avocado_sp)
 ```
 
 # References
