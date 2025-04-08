@@ -8,7 +8,7 @@ default:
     GeoExtent: 
       global: TRUE
       customExt: [-115, -75, 5, 32] # ignored, when global = TRUE
-    LinkThreshold: [0.000001]
+    LinkThreshold: [0.0001]
     DispersalKernelModels:
       InversePowerLaw:
         beta: [0.5, 1, 1.5]
