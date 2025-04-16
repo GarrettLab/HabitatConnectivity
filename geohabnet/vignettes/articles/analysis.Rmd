@@ -1,5 +1,5 @@
 ---
-title: "Analyzing risk index using habitat connectivity"
+title: "Map habitat connectivity"
 author: "Krishna Keshav(krishnakeshav.pes@gmail.com)"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
@@ -401,7 +401,7 @@ The operations are compute intensive. The `run_msean` snippet under [Hosts] used
 This Package applies mechanisms such as vectorization and foreach to improve the performance and efficiency. The workflow has several parts running independently. There are independent functions which performs operations such adjacency matrix and or aggregation. This created an opportunity for task level parallelism in running functions within geohabnet. Each combination of parameters can be run independently and in parallel through most of the parts using future mechanism. The implementation supports workflow acceleration using [@future.apply; @future] . It is also important to note that we use SpatRaster object throughout the computation. SpatRaster is an external pointer in C++ rather than an R object and thus adds overhead of conversion, neutralizing the performance gains.
 
 ```{r fut, eval = FALSE}
-avocado <- geohabnet::cropharvest_rast("avocado", "monfreda")
+#avocado <- geohabnet::cropharvest_rast("avocado", "monfreda")
 
 # see ?future::plan for details
 future::plan(future::multicore())

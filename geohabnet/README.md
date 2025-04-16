@@ -13,7 +13,7 @@ height="25" alt="CRAN status" />](https://CRAN.R-project.org/package=geohabnet)
 # geohabnet
 
 This package expands on [Xing et al
-(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255).
+(2021)](https://doi.org/10.1093/biosci/biaa067).
 It adds capabilities to customize parameter values using functions and
 shows the results of habitat connectivity risk index in the form of
 plots. The goal of `geohabnet` is to enable users to visualize a habitat
