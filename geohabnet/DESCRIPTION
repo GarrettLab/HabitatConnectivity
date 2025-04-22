@@ -68,4 +68,3 @@ URL:
   https://github.com/GarrettLab/HabitatConnectivity/tree/main/geohabnet/,
   https://www.garrettlab.com/
 BugReports: https://github.com/GarrettLab/HabitatConnectivity/issues
-VignetteBuilder: knitr

@@ -22,7 +22,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Krishna Keshav \email{kkeshav@ufl.edu}
+\strong{Maintainer}: Krishna Keshav \email{krishnakeshav.pes@gmail.com}
 
 Authors:
 \itemize{
