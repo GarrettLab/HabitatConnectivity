@@ -2,7 +2,7 @@
 % Please edit documentation in R/connectivity.R
 \name{connectivity}
 \alias{connectivity}
-\title{Calculate and plot maps}
+\title{Calculate and plot maps of habitat connectivity}
 \usage{
 connectivity(
   host,
@@ -19,11 +19,11 @@ connectivity(
 )
 }
 \arguments{
-\item{host}{SpatRaster. Host density map aka \code{SpatRaster} object}
+\item{host}{SpatRaster. A \code{SpatRaster} object for the spatial distribution of habitat availability (such as host availability or cropland density). Note that a valid input data for geohabnet is a raster layer of habitat availability (such as host availability), in which each grid cell has any values between zero and one. If you are using your own dataset, please also make sure that your raster layer is in the standard coordinate reference system (i.e., EPSG:4326), the only CRS supported by geohabnet for now.}
 
 \item{indices}{SpatRaster. Collection of risk indices.}
 
-\item{global}{Logical. \code{TRUE} if global analysis is desired, \code{FALSE} otherwise.
+\item{global}{Logical. Select \code{TRUE} if a global analysis is desired, \code{FALSE} otherwise.
 \code{east} and \code{west} are required when \code{TRUE}.}
 
 \item{east}{SpatRaster. Collection of risk indices on eastern extent.}
@@ -31,16 +31,16 @@ connectivity(
 \item{west}{SpatRaster. Collection of risk indices on western extent.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
+\item{geoscale}{Vector. This refers to the geographical extent for the habitat connectivity analysis when \code{global} is set to \code{FALSE}. Default is \code{NULL}.}
 
-\item{res}{Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
+\item{res}{Numeric. This parameter refers to the spatial aggregation factor. This value is the number of cells that are grouped when aggregating a raster layer from fine to coarse spatial resolution to reduce computational costs. Setting this parameter to 1 would not aggregate the raster layers.
 Default is \code{\link[=reso]{reso()}}.}
 
-\item{pmean}{Logical. \code{TRUE} if map of mean should be plotted, \code{FALSE} otherwise.}
+\item{pmean}{Logical. \code{TRUE} if a map of mean habitat connectivity should be plotted, \code{FALSE} otherwise.}
 
-\item{pvar}{Logical. \code{TRUE} if variance map should be plotted, \code{FALSE} otherwise.}
+\item{pvar}{Logical. \code{TRUE} if a map of the variance in habitat connectivity should be plotted, \code{FALSE} otherwise.}
 
-\item{pdiff}{Logical. \code{TRUE} if difference map should be plotted, \code{FALSE} otherwise.}
+\item{pdiff}{Logical. \code{TRUE} if a map of the difference in the ranks between the mean habitat connectivity and habitat availability should be plotted, \code{FALSE} otherwise.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
@@ -49,19 +49,19 @@ Default is \code{\link[=tempdir]{tempdir()}}.}
 Gmap. See details.
 }
 \description{
-Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
+Calculate the mean habitat connectivity across selected parameter, variance in habitat connectivity, and the difference in ranks between mean habitat connectivity and habitat availability. The result is produced in form of maps plotted with predefined graphics settings.
 Currently, the settings for plot cannot be customized.
 Default value is \code{TRUE} for all logical arguments
 }
 \details{
-\code{indexes} are actually risk indices i.e. lis of \code{spatRaster} objects
-resulting from operations on crop's raster and
-parameters provided in either \code{parameters.yaml} or \code{\link[=sean]{sean()}}.
+\code{indexes} has a list of \code{spatRaster} objects resulting from the unique combinations of all parameters specified in either \code{parameters.yaml} or \code{\link[=sean]{sean()}}.
+For each unique combination of parameters, an index of habitat connectivity is calculated for each location in a landscape.
+Then these indices are used to calculate the mean and variance of habitat connectivity of a location across all specified parameters.
 
-It will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
-File will be saved in provided value of \code{outdir} or  \code{\link[=tempdir]{tempdir()}}.If \code{\link[=interactive]{interactive()}} is \code{TRUE},
-then plots can be seen in active plot window. E.g. Rstudio. The maps are plotted using \code{SpatRaster} object.
-These objects are available as a return value of this function.
+This function will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
+File will be saved in provided value of \code{outdir} or  \code{\link[=tempdir]{tempdir()}}. If \code{\link[=interactive]{interactive()}} is \code{TRUE},
+then plots can be seen in active plot window (e.g., plot panel in Rstudio). The maps are plotted using \code{SpatRaster} objects.
+These \code{SpatRaster} objects are also available as a return value of this function.
 }
 \references{
 Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,

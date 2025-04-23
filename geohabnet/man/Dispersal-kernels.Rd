@@ -50,8 +50,8 @@ Refer to Esker et al (2007) for a discussion on the characteristics of each disp
 -\code{gamma} is a dispersal parameter for calculating the negative exponential model.
 -\code{metrics} Each network metric is applied to the adjacency matrix produced in the intermediate step.
 -\code{weights} The link weights that is used in the network analysis.
--\code{cutoff} Currently used as a parameter to calculate centrality in the network - \code{\link[=betweeness]{betweeness()}} and \code{\link[=closeness]{closeness()}}.
-As defined in \code{\link[igraph:betweenness]{igraph::betweenness()}}, it's the maximum length to consider when calculating centrality.
+-\code{cutoff} Currently used as a parameter to calculate two types of node centrality - \code{\link[=betweeness]{betweeness()}} and \code{\link[=closeness]{closeness()}}.
+As defined in \code{\link[igraph:betweenness]{igraph::betweenness()}}, \code{cutoff} refers to the maximum length to consider when calculating centrality.
 If zero or negative, then there is no such limit.
 }
 \references{

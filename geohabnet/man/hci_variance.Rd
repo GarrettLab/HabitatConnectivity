@@ -2,7 +2,7 @@
 % Please edit documentation in R/maps.R
 \name{hci_variance}
 \alias{hci_variance}
-\title{Calculate variance of CCRI}
+\title{Calculate variance of habitat connectivity in a region}
 \usage{
 hci_variance(
   indices,
@@ -20,7 +20,7 @@ hci_variance(
 
 \item{rast}{SpatRaster. Template for variance output}
 
-\item{global}{Logical. \code{TRUE} if global analysis is desired, \code{FALSE} otherwise.
+\item{global}{Logical. Select \code{TRUE} if a global analysis is desired, \code{FALSE} otherwise.
 \code{east} and \code{west} are required when \code{TRUE}.}
 
 \item{east}{SpatRaster. Collection of risk indices on eastern extent.}
@@ -28,9 +28,9 @@ hci_variance(
 \item{west}{SpatRaster. Collection of risk indices on western extent.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
+\item{geoscale}{Vector. This refers to the geographical extent for the habitat connectivity analysis when \code{global} is set to \code{FALSE}. Default is \code{NULL}.}
 
-\item{res}{Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
+\item{res}{Numeric. This parameter refers to the spatial aggregation factor. This value is the number of cells that are grouped when aggregating a raster layer from fine to coarse spatial resolution to reduce computational costs. Setting this parameter to 1 would not aggregate the raster layers.
 Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
@@ -41,5 +41,5 @@ RiskMap. Contains result in the form of \code{SpatRaster} objects
 and file path of the saved maps.
 }
 \description{
-This function produces a map of variance of CCRI based on input parameters
+This function produces a map of variance of habitat connectivity across selected parameter values
 }

@@ -13,5 +13,9 @@ ndplot(x)
 Vector. Up to two ggplot2 objects
 }
 \description{
-Calculates and plots the network density of a GeoNetwork object.
+This function first calculates the network density for each dispersal parameter specified by the user.
+Network density compares the number of available links in a network versus the total number of possible links in the same network.
+Network density is a measure of how well an entire network is, ranging from 0 (not connected at all) to 1 (fully connected).
+This function then compares visually how network density changes with changes in dispersal parameter values.
+In other words, it calculates and plots the network density of a GeoNetwork object.
 }

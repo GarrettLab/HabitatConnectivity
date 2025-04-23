@@ -9,11 +9,11 @@
 \arguments{
 \item{x}{The GeoModel object.}
 
-\item{aggregation}{Character. A value representing the aggregation method.}
+\item{aggregation}{Character. A value representing the spatial aggregation method used for aggregating the habitat availability map before conducting the sensitivity analysis. There are two aggregation methods available in geohabnet: sum and/or mean, either excludes NaNs during aggregation.}
 
-\item{hdthreshold}{Numeric. A value representing the host density threshold.}
+\item{hdthreshold}{Numeric. A numeric value representing the threshold for habitat availability (e.g., cropland density or host density) used in the sensitivity analysis.}
 
-\item{linkthreshold}{Numeric. A value representing the link threshold in a network.}
+\item{linkthreshold}{Numeric. A numeric value representing the threshold for the link weights used to calculate habitat connectivity of each location. Note that link weights indicate the relative likelihood of a species moving between locations (nodes) and correspond to the entries in the adjacency matrix.}
 }
 \value{
 The GeoModel object with updated properties.

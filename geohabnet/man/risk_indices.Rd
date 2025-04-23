@@ -10,12 +10,12 @@ risk_indices(ri)
 \item{ri}{GeoRasters object}
 }
 \value{
-List of risk indices. If the \code{ri} is global, the list will contain two elements,
+List of habitat connectivity indices. If the \code{ri} is global, the list will contain two elements,
 one for each hemisphere. e.g. \code{list(east = list(), west = list())}. If the \code{ri} is not global,
 the list will contain a single element, e.g. \code{list()}.
 }
 \description{
-Get risk indices from GeoRasters object.
+Get a habitat connectivity index for each unique combination of parameters from GeoRasters object.
 }
 \details{
 This function will unpack SpatRasters from GeoModel and thus is \code{\link[future:future]{future::future()}} safe.

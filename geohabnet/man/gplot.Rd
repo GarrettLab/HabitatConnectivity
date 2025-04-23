@@ -15,7 +15,7 @@ gplot(x, ...)
 a plot
 }
 \description{
-This is a wrapper for \code{\link[terra:plot]{terra::plot()}}
+This is a wrapper for \code{\link[terra:plot]{terra::plot()}} with customized parameters for an enhanced visualization.
 }
 \examples{
 r <- terra::rast(nrows=108, ncols=21, xmin=0, xmax=10)

@@ -3,7 +3,14 @@
 \docType{data}
 \name{scales}
 \alias{scales}
-\title{Only meant to global variables}
+\title{Only used when conducting a global analysis of habitat connectivity.
+Our strategy? Divide and conquer!
+Since global analyses require high-performance computing, an approach is to simplify
+the global analysis into two regional analyses:
+one analysis including the geographic extent for the East Hemisphere (or the Old World),
+and other for the West Hemisphere (mainly the Americas).
+After habitat connectivity within these hemisphere are calculated individually,
+they are combined to produce a global map of habitat connectivity back.}
 \format{
 An object of class \code{environment} of length 2.
 }
@@ -11,6 +18,13 @@ An object of class \code{environment} of length 2.
 scales
 }
 \description{
-Only meant to global variables
+Only used when conducting a global analysis of habitat connectivity.
+Our strategy? Divide and conquer!
+Since global analyses require high-performance computing, an approach is to simplify
+the global analysis into two regional analyses:
+one analysis including the geographic extent for the East Hemisphere (or the Old World),
+and other for the West Hemisphere (mainly the Americas).
+After habitat connectivity within these hemisphere are calculated individually,
+they are combined to produce a global map of habitat connectivity back.
 }
 \keyword{internal}

@@ -9,11 +9,11 @@
 \arguments{
 \item{x}{A Gmap object.}
 
-\item{me}{A GeoRaster object representing mean risk index.}
+\item{me}{A GeoRaster object representing mean habitat connectivity.}
 
-\item{vari}{A GeoRaster object representing variance.}
+\item{vari}{A GeoRaster object representing variance in habitat connectivity.}
 
-\item{dif}{A GeoRaster object representing difference.}
+\item{dif}{A GeoRaster object representing the difference in ranks between habitat connectivity and habitat availability.}
 }
 \value{
 A Gmap object.

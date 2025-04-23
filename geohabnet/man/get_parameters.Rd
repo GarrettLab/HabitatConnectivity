@@ -17,11 +17,18 @@ directory using a file chooser window. The default value is \code{FALSE}.}
 character. The path to the copied parameter file.
 }
 \description{
-This function retrieves the parameters and copies the parameter file to the specified
-output path.
+This function retrieves the list of parameters and saves a copy of
+the parameter file (of type .yaml) to the specified output path.
 }
 \details{
-Using configuration file is an alternative to \code{\link[=sean]{sean()}}
+Using this configuration where the parameters are structurally listed in
+a yaml file is an alternative method used in the \code{\link[=sensitivity_analysis]{sensitivity_analysis()}}
+function. Once the parameter.yaml is saved in a local directory, the user can
+modify each parameter value, save this file with the changes, and get the
+new parameters back in R with \code{\link[=set_parameters]{set_parameters()}}.
+
+Note that the \code{\link[=sean]{sean()}} or \code{\link[=msean]{msean()}} function will require to directly list
+the parameters within the function as it is typical in other R packages.
 }
 \examples{
 get_parameters()

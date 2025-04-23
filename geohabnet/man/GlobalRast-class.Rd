@@ -6,15 +6,15 @@
 \alias{.grast_ro}
 \title{GlobalRast class}
 \description{
-A class to represent raster for global scales. Global scales are accessible using \code{\link[=global_scales]{global_scales()}}.
+A class to represent raster objects for global scales. Global scales are accessible using \code{\link[=global_scales]{global_scales()}}.
 However, this class encapsulates the results of apply dispersal models and metrics.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{east}}{A list of raster for eastern hemisphere.}
+\item{\code{east}}{A list of raster objects for eastern hemisphere.}
 
-\item{\code{west}}{A list of raster for western hemisphere.}
+\item{\code{west}}{A list of raster objects for western hemisphere.}
 }}
 
 

@@ -26,7 +26,7 @@ pagerank(crop_dm, ...)
 }
 \arguments{
 \item{crop_dm}{A square adjacency matrix, in which rows and columns names represent nodes (or locations) and
-each entry indicate the relative likelihood of pathogen or pest movement between a pair of nodes.
+each entry indicate the relative likelihood of pathogen, pest, or other species movement between a pair of nodes.
 In the internal workflow,
 the adjacency matrix comes as a result of operations within \code{sean()} function.
 This weight represents the importance of the network metric in the habitat connectivity analysis.}

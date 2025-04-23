@@ -11,12 +11,12 @@ hci_diff(x, y, global, geoscale, res = reso(), outdir = tempdir())
 
 \item{y}{SpatRaster.}
 
-\item{global}{Logical. \code{TRUE} if global analysis is desired, \code{FALSE} otherwise.
+\item{global}{Logical. Select \code{TRUE} if a global analysis is desired, \code{FALSE} otherwise.
 \code{east} and \code{west} are required when \code{TRUE}.}
 
 \item{geoscale}{Numeric vector. \code{x} will be cropped to this extent.}
 
-\item{res}{Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
+\item{res}{Numeric. This parameter refers to the spatial aggregation factor. This value is the number of cells that are grouped when aggregating a raster layer from fine to coarse spatial resolution to reduce computational costs. Setting this parameter to 1 would not aggregate the raster layers.
 Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
@@ -27,7 +27,7 @@ RiskMap. Contains result in the form of \code{SpatRaster} objects
 and file path of the saved maps.
 }
 \description{
-This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
+This function produces a map of the difference in ranks between mean habitat connectivity and habitat availability.
 }
 \details{
 Ideally, the function is tested to yield desired results when

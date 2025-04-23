@@ -596,8 +596,7 @@ msean_onrast <- function(global = TRUE,
 #' If `TRUE`, three maps are possible: a map of mean habitat connectivity, a map of variance of habitat connectivity,
 #' and a map of the difference between the ranks in habitat connectivity and habitat density.
 #' @param alert logical. `TRUE` if a beep sound is to be played once the analysis is completed, `FALSE` otherwise
-#' @return GeoNetwork.
-#' Check documentation of the [sean()] function for better explanation of the parameters used.
+#' @return GeoNetwork. Check documentation of the [sean()] function for better explanation of the parameters used.
 #' @export
 #'
 #' @seealso
