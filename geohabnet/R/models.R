@@ -1,15 +1,15 @@
 #' GeoModel class
 #'
 #' @description
-#' A ref class to represent results of dispersal models.
+#' A reference class to represent results of dispersal models.
 #'
-#' @slot amatrix An adjacency matrix to represent network.
-#' @slot index A raster object representing the index.
-#' @slot hdthreshold A numeric value representing the threshold.
-#' @slot aggregation A character value representing the aggregation method.
-#' @slot linkthreshold A numeric value representing the link threshold.
-#' @slot beta A numeric value representing the beta parameter.
-#' @slot gamma A numeric value representing the gamma parameter.
+#' @slot amatrix A square adjacency matrix that represents the likely movement of a species between locations. In this adjacency matrix, rows and columns are the identification of the locations, and each entry indicates the relative likelihood of a species moving between a pair of locations. An adjacency matrix is produced for each unique value of the dispersal parameters chosen.
+#' @slot index A raster object representing the habitat connectivity index of the locations in the selected region. Note that connectivity is calculated based on a weighted sum of the network metrics chosen by the user. A raster object is produced for each unique value of the dispersal parameters chosen.
+#' @slot hdthreshold A numeric value representing the threshold for habitat availability (e.g., cropland density or host density) used in the sensitivity analysis.
+#' @slot aggregation A character value representing the spatial aggregation method used for aggregating the habitat availability map before conducting the sensitivity analysis.
+#' @slot linkthreshold A numeric value representing the threshold for the link weights used to calculate habitat connectivity of each location. Note that link weights indicate the relative likelihood of a species moving between locations (nodes) and correspond to the entries in the adjacency matrix.
+#' @slot beta A numeric value representing the beta parameter. The beta parameter is the dispersal parameter in one of two dispersal kernel models (the inverse power law model) included in `geohabnet`.
+#' @slot gamma A numeric value representing the gamma parameter. The gamma parameter is the dispersal parameter in one of two dispersal kernel models (the negative exponential model) included in `geohabnet`.
 .model_ob <- setClass("GeoModel",
                       slots = c(amatrix = "matrix",
                                 index = "ANY",
@@ -24,9 +24,9 @@
 #' Set properties of the GeoModel object.
 #' 
 #' @param x The GeoModel object.
-#' @param aggregation Character. A value representing the aggregation method.
-#' @param hdthreshold Numeric. A value representing the host density threshold.
-#' @param linkthreshold Numeric. A value representing the link threshold in a network.
+#' @param aggregation Character. A value representing the spatial aggregation method used for aggregating the habitat availability map before conducting the sensitivity analysis. There are two aggregation methods available in geohabnet: sum and/or mean, either excludes NaNs during aggregation.
+#' @param hdthreshold Numeric. A numeric value representing the threshold for habitat availability (e.g., cropland density or host density) used in the sensitivity analysis.
+#' @param linkthreshold Numeric. A numeric value representing the threshold for the link weights used to calculate habitat connectivity of each location. Note that link weights indicate the relative likelihood of a species moving between locations (nodes) and correspond to the entries in the adjacency matrix.
 #' @return The GeoModel object with updated properties.
 #' @export
 setGeneric("setprops", function(x, aggregation, hdthreshold, linkthreshold) {
@@ -36,9 +36,9 @@ setGeneric("setprops", function(x, aggregation, hdthreshold, linkthreshold) {
 #' Set properties of the GeoModel object.
 #' 
 #' @param x The GeoModel object.
-#' @param aggregation Character. A value representing the aggregation method.
-#' @param hdthreshold Numeric. A value representing the host density threshold.
-#' @param linkthreshold Numeric. A value representing the link threshold in a network.
+#' @param aggregation Character. A value representing the spatial aggregation method used for aggregating the habitat availability map before conducting the sensitivity analysis. There are two aggregation methods available in geohabnet: sum and/or mean, either excludes NaNs during aggregation.
+#' @param hdthreshold Numeric. A numeric value representing the threshold for habitat availability (e.g., cropland density or host density) used in the sensitivity analysis.
+#' @param linkthreshold Numeric. A numeric value representing the threshold for the link weights used to calculate habitat connectivity of each location. Note that link weights indicate the relative likelihood of a species moving between locations (nodes) and correspond to the entries in the adjacency matrix.
 #' @return The GeoModel object with updated properties.
 #' @export
 setMethod("setprops",

@@ -1,11 +1,11 @@
 
 # maps --------------------------------------------------------------------
 
-#' Calculate mean of raster objects
+#' Calculate mean of habitat connectivity in a region
 #'
-#'   Wrapper for [terra::mean()]. Calculates mean of list of rasters.
+#'   Wrapper for [terra::mean()]. Calculates mean of list of rasters for habitat connectivity.
 #' @inheritParams connectivity
-#' @param indices List of SpatRasters.
+#' @param indices List of SpatRasters indicating the habitat connectivity of a region.
 #' This input represents the spatial raster collection for which mean is to be calculated.
 #' @param plt `TRUE` if need to plot mean map, `FALSE` otherwise.
 #' @return RiskMap. Contains result in the form of `SpatRaster` objects
@@ -64,9 +64,9 @@ hci_mean <- function(indices,
   return(new("RiskMap", map = "mean", riid = mean_index, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
 
-#' Calculate variance of CCRI
+#' Calculate variance of habitat connectivity in a region
 #'
-#'    This function produces a map of variance of CCRI based on input parameters
+#'    This function produces a map of variance of habitat connectivity across selected parameter values
 #' @inheritParams connectivity
 #' @inheritParams hci_mean
 #' @inherit hci_mean return
@@ -130,7 +130,7 @@ hci_variance <- function(indices,
 
 #' Calculate difference map
 #'
-#' This function produces a map of difference b/w mean and sum indexes in rank of cropland harvested area fraction.
+#' This function produces a map of the difference in ranks between mean habitat connectivity and habitat availability.
 #' @param x SpatRaster.
 #' @param y SpatRaster.
 #' @param geoscale Numeric vector. `x` will be cropped to this extent.

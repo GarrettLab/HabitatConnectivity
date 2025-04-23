@@ -3,9 +3,9 @@
 #' @description
 #' An S4 class representing resulting maps from the specific operation type.
 #' @field map Character. A file path to the map.
-#' @field riid SpatRaster. This is one of the risk maps.
-#' @field spr SpatRaster. A spatial raster representing the risk index.
-#' @field fp Character. A file path to the risk index raster.
+#' @field riid SpatRaster. This is one of the maps of habitat connectivity.
+#' @field spr SpatRaster. A spatial raster representing the habitat connectivity index.
+#' @field fp Character. A file path to the habitat connectivity raster.
 #' @export
 setClass(
   "RiskMap",

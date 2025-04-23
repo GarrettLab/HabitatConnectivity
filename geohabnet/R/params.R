@@ -1,8 +1,9 @@
 
 #' Get Parameters
 #'
-#' This function retrieves the parameters and copies the parameter file to the specified
-#' output path.
+#' This function retrieves the list of parameters and saves a copy of
+#' the parameter file (of type .yaml) to the specified output path.
+#' 
 #' @param out_path character. The output path where the parameter file will be
 #' copied. The default is a temporary directory [tempdir()]
 #' @param iwindow logical. If window = `TRUE`, this will prompt the user to select the output
@@ -10,7 +11,14 @@
 #' @return character. The path to the copied parameter file.
 #' @export
 #' @details
-#' Using configuration file is an alternative to [sean()]
+#' Using this configuration where the parameters are structurally listed in 
+#' a yaml file is an alternative method used in the [sensitivity_analysis()] 
+#' function. Once the parameter.yaml is saved in a local directory, the user can
+#' modify each parameter value, save this file with the changes, and get the
+#' new parameters back in R with [set_parameters()].
+#' 
+#' Note that the [sean()] or [msean()] function will require to directly list
+#' the parameters within the function as it is typical in other R packages.
 #'
 #' @seealso [set_parameters()]
 #'
@@ -33,6 +41,7 @@ get_parameters <- function(out_path = tempdir(), iwindow = FALSE) {
 #'
 #' This function allows the user to set the parameters by replacing the existing
 #' parameters file with a new one. Use [get_parameters()] to modify the parameter values.
+#' After running this function, users can use the modified parameters in [sensitivity_analysis()].
 #'
 #' @param new_params The path to the new parameters file.
 #' @param iwindow Logical, indicating whether to prompt the user to select the
@@ -138,8 +147,8 @@ reset_params <- function() {
 #' -`gamma` is a dispersal parameter for calculating the negative exponential model.
 #' -`metrics` Each network metric is applied to the adjacency matrix produced in the intermediate step.
 #' -`weights` The link weights that is used in the network analysis.
-#' -`cutoff` Currently used as a parameter to calculate centrality in the network - [betweeness()] and [closeness()].
-#' As defined in [igraph::betweenness()], it's the maximum length to consider when calculating centrality.
+#' -`cutoff` Currently used as a parameter to calculate two types of node centrality - [betweeness()] and [closeness()].
+#' As defined in [igraph::betweenness()], `cutoff` refers to the maximum length to consider when calculating centrality.
 #' If zero or negative, then there is no such limit.
 #'
 #' @seealso [supported_metrics()]

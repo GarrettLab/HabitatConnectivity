@@ -22,8 +22,8 @@ Description:
     c) Because the geohabnet package allows R users to provide maps of host density (as originally in Xing et al (2021)), host landscape density (representing the geographic distribution of either crops or wild species), or habitat distribution (such as host landscape density adjusted by climate suitability) as inputs, we propose the term habitat connectivity.
     d) The geohabnet package allows R users to customize parameter values in the habitat connectivity analysis, facilitating context-specific (pathogen- or pest-specific) analyses.
     e) The geohabnet package allows users to automatically visualize maps of the habitat connectivity of locations resulting from a sensitivity analysis across all customized parameter combinations.
-    The primary function is sean() and sensitivity analysis().
-    Most functions in geohabnet provide as three main outcomes: i) A map of mean habitat connectivity across parameters selected by the user, ii) a map of variance of habitat connectivity across the selected parameters, and iii) a map of the difference between the ranks of habitat connectivity and habitat density.
+    The primary functions are msean() and sensitivity analysis().
+    Most functions in geohabnet provide three main outcomes: i) A map of mean habitat connectivity across parameters selected by the user, ii) a map of variance of habitat connectivity across the selected parameters, and iii) a map of the difference between the ranks of habitat connectivity and habitat density.
     Each function can be used to generate these maps as 'final' outcomes. 
     Each function can also provide intermediate outcomes, such as the adjacency matrices built to perform the analysis, which can be used in other network analysis.
     Refer to article at <https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html> to see examples of each function and how to access each of these outcome types.

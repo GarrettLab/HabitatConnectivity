@@ -1,7 +1,9 @@
 #' Network density
 #'
+#' This function first calculates the network density for each dispersal parameter specified by the user.
+#' Network density compares the number of available links in a network versus the total number of possible links in the same network.
+#' Network density is a measure of how well an entire network is, ranging from 0 (not connected at all) to 1 (fully connected).
 #' Calculates and plots the network density of a GeoNetwork object.
-#' The plot is produced as dispersal parameter vs edge density.
 #'
 #' @param x A GeoNetwork object
 #' @return Vector. Up to two ggplot2 objects
@@ -39,7 +41,7 @@ setMethod("ndplot", signature = "GeoNetwork", function(x) {
     yvals <- unlist(eds_beta)
     ggplot2::ggplot(data.frame(xvals = xvals, yvals = yvals),
                     ggplot2::aes(xvals, yvals)) +
-      ggplot2::geom_point(color = "red") +
+      ggplot2::geom_point(color = "#7570b3") +
       ggplot2::geom_line() +
       ggplot2::labs(x = "Betas", y = "Edge density") +
       ggplot2::ggtitle("Inverse powerlaw") +
@@ -53,7 +55,7 @@ setMethod("ndplot", signature = "GeoNetwork", function(x) {
     ggplot2::ggplot(data.frame(xvals = xvals, yvals = yvals),
                     ggplot2::aes(xvals, yvals)) +
       ggplot2::geom_line() +
-      ggplot2::geom_point(color = "green") +
+      ggplot2::geom_point(color = "#d95f02") +
       ggplot2::labs(x = "Gammas", y = "Edge density") +
       ggplot2::ggtitle("Negative exponential") +
       ggplot2::theme_bw()

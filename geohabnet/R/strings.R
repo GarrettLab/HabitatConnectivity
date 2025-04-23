@@ -1,6 +1,6 @@
 # contains string literals. -----------------------------------------------
 
-# CCRI metrics ------------------------------------------------------------
+# Habitat connectivity metrics ------------------------------------------------------------
 
 # nolint start: object_name_linter
 

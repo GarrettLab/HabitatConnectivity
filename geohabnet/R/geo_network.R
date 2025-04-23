@@ -1,25 +1,25 @@
 #' Gmap class
 #'
 #' @description
-#' An S4 class to represent various maps in the form of `SpatRaster`.
+#' An S4 class to organize various maps in the form of `SpatRaster` in a single object.
 #'
 #' @slot me_rast
-#' A raster representing mean risk index.
+#' A raster object representing habitat connectivity of a region averaged across all selected parameters.
 #'
 #' @slot me_out
-#' Character. A file path to the mean risk index raster.
+#' Character. A file path to where the mean habitat connectivity is saved.
 #'
 #' @slot diff_rast
-#' A raster representing difference.
+#' A raster object representing the difference in ranks between mean habitat connectivity and habitat availability in a region.
 #'
 #' @slot diff_out
-#' Character. A file path to the difference raster.
+#' Character. A file path to where the difference raster is saved.
 #'
 #' @slot var_rast
-#' A raster representing variance.
+#' A raster object representing the variance in habitat connectivity of a region calculated across all specified parameters.
 #'
 #' @slot var_out
-#' Character. A file path to the variance raster.
+#' Character. A file path to where the variance raster is saved.
 #'
 #' @export
 setClass("Gmap",
@@ -40,13 +40,13 @@ setClass("Gmap",
 #' Gmap object.
 #'
 #' @param me
-#' SpatRaster. A raster representing mean risk index.
+#' SpatRaster. A raster used as background when plotting the map of mean habitat connectivity.
 #'
 #' @param vari
-#' SpatRaster. A raster representing variance.
+#' SpatRaster. A raster used as background when plotting the map of variance in habitat connectivity.
 #'
 #' @param dif
-#' SpatRaster. A raster representing difference.
+#' SpatRaster. A raster used as background when plotting the map of difference in habitat connectivity and habitat availability.
 #'
 #' @return
 #' Gmap object.
@@ -58,7 +58,11 @@ setGeneric("setmaps", function(x, me, vari, dif) {
 
 #' Network density
 #'
-#' Calculates and plots the network density of a GeoNetwork object.
+#' This function first calculates the network density for each dispersal parameter specified by the user.
+#' Network density compares the number of available links in a network versus the total number of possible links in the same network.
+#' Network density is a measure of how well an entire network is, ranging from 0 (not connected at all) to 1 (fully connected).
+#' This function then compares visually how network density changes with changes in dispersal parameter values.
+#' In other words, it calculates and plots the network density of a GeoNetwork object.
 #'
 #' @param x A GeoNetwork object
 #' @return Vector. Up to two ggplot2 objects
@@ -76,13 +80,13 @@ setGeneric("ndplot", function(x) {
 #' A Gmap object.
 #'
 #' @param me
-#' A GeoRaster object representing mean risk index.
+#' A GeoRaster object representing mean habitat connectivity.
 #'
 #' @param vari
-#' A GeoRaster object representing variance.
+#' A GeoRaster object representing variance in habitat connectivity.
 #'
 #' @param dif
-#' A GeoRaster object representing difference.
+#' A GeoRaster object representing the difference in ranks between habitat connectivity and habitat availability.
 #'
 #' @return
 #' A Gmap object.
@@ -114,28 +118,28 @@ setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
 #'
 #' @description
 #' An S4 class representing a network of geographical data.
-#' This will wrap all the results from the risk analysis using [sean()] or [sensitivity_analysis()].
+#' This will wrap all the results from the habitat connectivity analysis using [sean()] or [sensitivity_analysis()].
 #' This class contains the field from `Gmap` class which has results in the form of `SpatRaster` and TIFF file.
 #'
 #' @slot rasters A list of `GeoRasters` objects.
-#' @slot host_density A `SpatRaster` representing the host density.
+#' @slot host_density A `SpatRaster` representing the habitat availability (or simply host density).
 #' @slot me_rast
-#' A raster representing mean risk index.
+#' A raster representing mean habitat connectivity in a region.
 #'
 #' @slot me_out
-#' Character. A file path to the mean risk index raster.
+#' Character. A file path to where the mean habitat connectivity raster is saved.
 #'
 #' @slot diff_rast
-#' A raster representing difference.
+#' A raster representing the difference in ranks between habitat connectivity and habitat availability.
 #'
 #' @slot diff_out
-#' Character. A file path to the difference raster.
+#' Character. A file path to where the difference raster is located.
 #'
 #' @slot var_rast
-#' A raster representing variance.
+#' A raster representing the variance in habitat connectivity in a region.
 #'
 #' @slot var_out
-#' Character. A file path to the variance raster.
+#' Character. A file path to where the variance raster is located.
 #'
 #' @export
 setClass("GeoNetwork", contains = "Gmap",

@@ -6,7 +6,7 @@ library(yaml)
 .kzeroraster_fname <- "ZeroRaster.tif"
 .kmapgreybackground_fname <- "map_grey_background.tif"
 
-# utility functions for CCRI ----------------------------------------------
+# Utility functions for calculating the habitat connectivity index -----------
 
 .is_packed_rast <- function(x) {
   if (tolower(class(x)) == "packedspatraster") {
@@ -31,7 +31,7 @@ library(yaml)
   if (length(...) == 1) {
     return(...[[1]])
   }
-  # assumes only 2 elements, since only 2 agg methods are supported,
+  # assumes only 2 elements, since only 2 spatial aggregation methods are supported,
   # i.e. sum and mean. Take mean if both are present, else take whatever.
   sum(...[[1]], ...[[2]], na.rm = TRUE) / 2
 }
@@ -65,9 +65,9 @@ library(yaml)
 
 #' Get risk indices
 #'
-#' @description Get risk indices from GeoRasters object.
+#' @description Get a habitat connectivity index for each unique combination of parameters from GeoRasters object.
 #' @param ri GeoRasters object
-#' @return List of risk indices. If the `ri` is global, the list will contain two elements,
+#' @return List of habitat connectivity indices. If the `ri` is global, the list will contain two elements,
 #' one for each hemisphere. e.g. `list(east = list(), west = list())`. If the `ri` is not global,
 #' the list will contain a single element, e.g. `list()`.
 #' @details
@@ -241,40 +241,11 @@ risk_indices <- function(ri) {
 
 .get_palette <- function() {
   palette1 <- viridisLite::viridis(n=100, option = "inferno", direction = -1, begin = 0.05, end = 0.95)
-  #c(
-    #"#F4E156FF", "#F6D746FF", "#F8CD37FF", "#FAC329FF", "#FBB91EFF",
-    #"#FCAF13FF", "#FCA50BFF", "#FB9C06FF", "#FA9207FF", "#F8890CFF",
-    #"#F68013FF", "#F37819FF", "#F06F20FF", "#EC6727FF", "#E85F2EFF",
-    #"#E25834FF", "#DD5139FF", "#D74B3FFF", "#D04545FF", "#CA404AFF",
-    #"#C33B4FFF", "#BC3754FF", "#B43359FF", "#AC305EFF", "#A42C60FF",
-    #"#9B2964FF", "#932667FF", "#922568FF", "#902568FF", "#8F2469FF",
-    #"#8D2369FF", "#8C2369FF", "#8A226AFF", "#88226AFF", "#87216BFF",
-    #"#85216BFF", "#84206BFF", "#82206CFF", "#801F6CFF", "#7F1E6CFF",
-    #"#7D1E6DFF", "#7C1D6DFF", "#7A1D6DFF", "#781C6DFF", "#771C6DFF",
-    #"#751B6EFF", "#741A6EFF", "#721A6EFF", "#71196EFF", "#6E196EFF",
-    #"#6D186EFF", "#6B186EFF", "#6A176EFF", "#68166EFF", "#66166EFF",
-    #"#65156EFF", "#63156EFF", "#61136EFF", "#60136EFF", "#5E126EFF",
-    #"#5C126EFF", "#5B126EFF", "#59106EFF", "#58106EFF", "#560F6DFF",
-    #"#540F6DFF", "#530E6DFF", "#510E6CFF", "#500D6CFF", "#4D0D6CFF",
-    #"#4C0C6BFF", "#4A0C6BFF", "#490B6AFF", "#470B6AFF", "#450A69FF",
-    #"#440A68FF", "#420A68FF", "#400A67FF", "#3E0966FF", "#3D0965FF",
-    #"#3B0964FF", "#390963FF", "#380962FF", "#360961FF", "#340A5FFF",
-    #"#320A5EFF", "#310A5CFF", "#2F0A5BFF", "#2D0B59FF", "#2B0B57FF",
-    #"#290B55FF", "#280B53FF", "#250C51FF", "#240C4EFF", "#230C4BFF",
-    #"#200C49FF", "#1F0C47FF", "#1D0C44FF", "#1C0C42FF", "#1A0C40FF",
-    #"#190C3DFF", "#170C3BFF", "#150B38FF", "#150B36FF", "#130A33FF",
-    #"#110A31FF", "#11092EFF", "#0F092CFF", "#0D082AFF", "#0C0827FF",
-    #"#0B0725FF", "#0A0723FF", "#090620FF", "#08051EFF", "#07051CFF",
-    #"#060419FF", "#050418FF", "#040315FF", "#040312FF", "#030210FF",
-    #"#02020EFF", "#02020CFF", "#02010AFF", "#010108FF", "#010106FF",
-    #"#010005FF", "#000004FF", "#000004FF", "#000004FF"
-  #)
   return(palette1)
 }
 
 .get_palette_for_diffmap <- function() {
 
-  # ```{r ,fig.width=6, fig.height=7, dpi=150}
   paldif <- viridisLite::viridis(80, option = "cividis", direction = -1, alpha = 0.95)
   return(paldif)
 }
@@ -304,7 +275,7 @@ risk_indices <- function(ri) {
 #' Distance methods supported
 #'
 #' Contains supported strategies to calculate distance between two points.
-#' Use of one the methods in [sean()] or [sensitivity_analysis()].
+#' Use of one of two methods in [sean()] or [sensitivity_analysis()].
 #' @return vector
 #' @export
 #'
