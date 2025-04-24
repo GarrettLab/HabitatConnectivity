@@ -58,7 +58,7 @@ Suggests:
     devtools,
     knitr,
     lintr (>= 3.0.2),
-    mockthat (>= 0.2.8),
+    mockthat,
     pkgdown,
     rmarkdown,
     testthat (>= 3.1.7)
