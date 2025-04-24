@@ -1,5 +1,5 @@
 ---
-title: "Map habitat connectivity"
+title: "Mapping habitat connectivity with geohabnet"
 author: "Krishna Keshav(krishnakeshav.pes@gmail.com)"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 
 # Abstract
 
-The network and connectivity of cropland can be used to analyse the potential spread of plant pathogen. While network plays a crucial role, there are several other factors that affects the spread and thus the connectivity. Although croplands may be geographically connected, the risk cannot be generalized as pathogen may not spread if it's exclusive to specific crop. [@geohabnet] supports up to 10 parameters that has potential to impact risk and connectivity among croplands. The implementation is expanded upon [@xing2020], which discusses global cropland connectivity. This framework uses default values from the paper at the same time making them as parameters and eventually turning it into framework for the analysis of crops.
+Habitat connectivity can be used to analyse the potential spread of plant pathogen, pest, or any habitat-dependent species. Habitat connectivity of a species depends on the habitat availability (e.g., host availability for plant pests or pollinators or availability of favorable climate for plant species), and probability of movement of a species between habitat locations. In geohabnet, habitat connectivity indicates the importance of a habitat location in facilitating the spread of a species across a geographic region, relative to other locations in the same landscape. For plant pathogens and pests, the spatial distribution of host availability plays a crucial role for defining habitat availability and the establishment of the pest species. Locations with abundant habitats (e.g., plant hosts) may play a minor role in species spread if they are isolated. Yet, a location with limited habitat may play a major role in the spread of a species if it acts as a bridge between regions that would otherwise be separated. [@geohabnet] provides the R-user community with a network-based approach to estimate habitat connectivity across the world. This package supports up to 10 parameters that has potential to influence habitat or landscape connectivity. The implementation of [@geohabnet] expands the cropland connectivity method for plant pathogens proposed by [@xing2020] to a general way of calculating habitat connectivity for any species. The network-based framework for [@geohabnet] is the same as the one proposed by [@xing2020]. However, [@geohabnet] provides more flexibility to users to modify any parameter values in this framework.
 
-Although this article is focused on usage, it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009], and [@config] provides a text based interface to control the parameters values for risk analysis in this context.
+Although this article focuses on the use of [@geohabnet], it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009]; and [@config] provides a text based interface to control the parameters values for risk analysis in this context.
 
-The primary objective of this vignette is to help user being familiarized with [@geohabnet], list its capabilities and get an intuition behind them. It also describes the implementation of the main functions in [@geohabnet] to support the intuition. Throughout the article, we will be citing external sites and resources, which are relevant to use of this package.
+The primary objective of this vignette is to help user being familiarized with [@geohabnet], list its capabilities and get an intuition behind them. It also describes the implementation of the main functions in [@geohabnet] to support this intuition. Throughout the article, we will be citing external sites and resources, which are relevant for the use of this package.
 
 # Pre-requisites
 
@@ -31,7 +31,7 @@ The primary objective of this vignette is to help user being familiarized with [
 
 -   Raster - Raster is a digital encoding representation of geographic information as a grid of cells or pixels, where each cell contains a value representing a specific property or attribute of a location. Some details of a raster data include spatial resolution, dimensions, or geographic extent, which are useful in identification and processing. Here, we use raster to represent maps.
 
--   TIFF(Tag Image File Format) is a file that stores geographic information in the form of raster.
+-   TIFF(Tag Image File Format) is a type of file that stores geographic information in the form of raster. [@geohabnet] has been tested using .tif and .nc files but it would be able to handle any raster type of file supported by the R package terra.
 
 ## External materials
 
@@ -43,13 +43,23 @@ The primary objective of this vignette is to help user being familiarized with [
 
 ## Data sets
 
-We use publicly available sources to obtain crop information -
+For estimating habitat connectivity for understanding the spread of plant pathogens or pests, we use cropland density or host availability around the world as a proxy for habitat availability (this assumption can be complemented with species-specific environmental suitability for a better proxy of habitat availability). We use publicly available sources to obtain crop distribution in the form of raster layers.
 
--   [Monfreda](http://www.earthstat.org/harvested-area-yield-175-crops/) [@monfreda2008]
+-   [CROPGRIDS](https://doi.org/10.6084/m9.figshare.22491997) [@Tang2024]
+
+-   [EARTHSTAT](http://www.earthstat.org/harvested-area-yield-175-crops/) [@monfreda2008]
 
 -   [MapSpam (2010, 2017)](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PRFF8V) [@internationalfoodpolicyresearchinstitute2019]
 
-geodata provides set of APIs to access these data-sets. For visualization and plots, we use [rnaturalearth](https://docs.ropensci.org/rnaturalearth/).
+-   [CroplandCROS](https://croplandcros.scinet.usda.gov/) [@USDA]
+
+-   [GBIF](https://www.gbif.org/) [@GBIF]
+
+geodata provides a set of APIs to access the EARTHSTAT and MapSPAM datasets directly in R (see code below).
+
+The raster layers from the data sources listed above may need some transformation before using them in [@geohabnet]. A valid raster layer to be used in geohabnet is one that its entry values of each pixel range from 0 (no habitat available) to 1 (habitat is available in the entirety of the pixel). For example, data layers of cropland fraction from EARTHSTAT can be directly provided to [@geohabnet] functions without the need to re-scale its entries. However, data layers of harvested area from CROPGRIDS will need re-scaling the values of each grid cell in the raster (see an example of how to do this below).
+
+For visualization and plots, [@geohabnet] uses [rnaturalearth](https://docs.ropensci.org/rnaturalearth/).
 
 # Quick Start
 
@@ -78,7 +88,7 @@ if (!require("geohabnet")) {
 }
 ```
 
-Alternatively, install from github source.
+Alternatively, you can install the development version of `geohabnet` from GitHub repository.
 
 ```{r github}
 library("devtools")
@@ -88,29 +98,29 @@ if (!require("geohabnet")) {
 }
 ```
 
+Either way, now you can load `geohabnet` in R as follows:
+
 ```{r message=FALSE}
 library(geohabnet)
 ```
 
-At any point, access the help page using following -
+At any point, you can access the help page using the following
 
 ```{r message=FALSE}
-?geohabnet
+?geohabnet # For description of the package
 # and
-?geohabnet::msean # any function
+?geohabnet::msean # For documentation of a function (in this case, the msean function)
 ```
 
-## Run analysis on default configuration
+## Habitat connectivity analysis based on default parameters
 
-This is to run the analysis on default set of values for the supported parameters. Initially, the values are set based on the Xing et al(2021) [@xing2020] and crop is *Avocado*. This would run the workflow on global geographical extent quickly since the crop presence is relatively low.
+The section below illustrate how the habitat connectivity analysis can be conducted using the default set of values for the supported parameters. For this example, we use the raster layer for avocado harvested area from CROPGRIDS as a real-world case study for the habitat connectivity of avocado-specific pathogens. This example would run the analysis on global geographical extent relatively quickly since the crop presence around the world is relatively low.
 
-For the purposes of demonstration, the code below sets the host parameter programitically. The parameters can be fed via `parameters.yaml` in an interactive way as well using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
+For the purposes of demonstration, the code below sets the host parameter programatically or directly in RStudio. Alternatively, the parameters can be fed via `parameters.yaml` in an interactive way using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
 
-The results are the side effects and the similar information is captured in the object returned from it. Its based on the values set for each of the parameters which we will see in details in the further sections.
+## Running your first habitat connectivity analysis
 
-## Running new analysis
-
-We provide 2 methods or entry points to run analysis by setting new values for the supported parameters. For the demonstration and examples, we will use the spatial raster for Avocado crop obtained in following way -
+If you are also replicating this example, please first download the avocado layer from CROPGRIDS and put it in the folder you are currently working. Note that we are downloading the raster layer for host availability (or habitat availability) manually from CROPGRIDS. However, an alternative option is getting the data layer directly in RStudio using the geodata package (depending on whether geodata is down or not). At the time, we created this vignette geodata was not working on our local machine but the R code to do so is provided.
 
 ```{r av_download}
 #if (!require(geodata))
@@ -129,52 +139,56 @@ avocado_sp<-aggregate(avocado_sp, fact=2, fun="mean", na.rm=TRUE)
 writeRaster(avocado_sp, "avocado_density.tif", overwrite=TRUE)
 ```
 
+Note that, apart from getting the raster in R, we are also scaling the entry values of each grid cell in the raster layer, from harvested area in hectares to avocado cropland fraction. We are aggregating this raster layer to reduce computational cost when running the analysis (for illustrative purposes only, you may not need to do this for your own dataset). We are also saving the new avocado area fraction as a new raster layer in our local machines.
+
 ### Setting values in a function
 
-The goal of the this function is to provide simple invasive factors as parameters. The internal implementation and program deals with object of `terra` [@terra] and `igraph`[@igraph] . The primary object is of type `SpatRaster` from `terra` . To get started, we will use quick way to obtain raster and later we will understand the details.
+Now let's visualize how the avocado area fraction looks like. The internal implementation and program deals with object of `terra` [@terra] and `igraph`[@igraph] . The primary object is of type `SpatRaster` from `terra`.
 
-In the example below, we will use the same spatial raster obtained for avocado.
+In the example below, we will use the same spatial raster obtained for avocado. First, it shows the properties of the raster layer, which we will learn about them below. [gplot()] quickly shows the content of raster layer.
 
 ```{r message=FALSE}
 avocado_sp
 gplot(avocado_sp)
 ```
 
-Now that we have a raster object, it can be fed directly to the workflow. We will only set the required parameter - *rast*. The value represents *Avocado* plantation in geographical area of North America.
+Now that we have a raster object in R, this raster layer can be used as the input in the `msean` function (one of the main functions of `geohabnet`) to produce your first habitat connectivity analysis. In this case, we are providing input for the always-required parameter - *rast* and keeping the default values for the other parameters supported by this function (for now). Running the example below usually takes 5-10 minutes depending on the processing power of your machine.
 
 ```{r message=FALSE}
 geo_net <- msean(avocado_sp)
 ```
 
-The functions `msean` is same as `sean` except `msean()` has side effects and they return different S4 objects, `GeoNetwork` and `GeoRasters` respectively. We will use them interchangeably in this article. The results should be interpreted in accordance to the values of other parameters that have factored as arguments to `sean`. Run ?sean to see all the supported parameters. We will later see the usage of other parameters as well.
+Many, many congratulations! You have just generated a full sensitivity analysis of habitat connectivity for avocado-specific pathogens and pests. Take a minute to appreciate the beauty of our three outcome maps: the map of mean habitat connectivity, the map of variance habitat connectivity, and the map of the difference between them.
 
-1.  *rast* - *spatRaster*. Represents map of crop presence in a geographical area.
+Now let's dive a little bit on the nitty-gritty details. The function `msean` is very similar to `sean` except that `msean()` is able to produce the maps above. They also return different S4 objects: a `GeoNetwork` object is produced by `msean`, while `sean` produces a `GeoRasters` object. The results should be interpreted in accordance to the values of other parameters that have factored as arguments to `sean`. Run ?sean to see all the supported parameters. For now, let's focus on some parameters you might want to change.
 
-2.  *geoscale* - *Vector*. Geographical coordinates in the form of c(Xmin, Xmax, Ymin, Ymax)
+1.  *rast* - *spatRaster*. Represents the map of habitat availability in a geographical area. In our example above, this is `avocado_sp`, the unique parameter that was provided to `msean`.
 
-3.  *global* - *Logical*. When set to TRUE, geoscale is ignored.
+2.  *geoscale* - *Vector*. Refers to the geographical coordinates in the form of c(Xmin, Xmax, Ymin, Ymax).
 
-    -   Get geographical scales used in global analysis -
+3.  *global* - *Logical*. When set as TRUE, *geoscale* is ignored.
+
+    -   You can get the geographical scales used in a global habitat connectivity analysis (like the one above) by running
 
         ```{r}
         global_scales()
         ```
 
-    -   Although recommended not to change the global scales since it has been finalized after several tries. Still, for advance use, set the global geographic scales using -
+    -   It is not highly recommended to change the default value for global scales used for a global connectivity analysis since it has been finalized after several tries. However, if you need to change the global scale for an advanced use, you can set different global geographic scales using the following
 
         ```{r}
         #set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
         ```
 
-4.  *thresholds* *- Numeric.* 2 types of thresholds: *host density* and *link weights* represented by *hd_threshold* and *link_threshold* respectively*.* The former threshold filters from the aggregation of input data-set/raster and latter will filter the cells from the adjacency matrix which is used to calculate the network connectivity.
+4.  *thresholds* *- Numeric.* `msean` supports two types of thresholds: *host density* and *link weights* represented by *hd_threshold* and *link_threshold*, respectively*.* The former threshold (host density threshold or habitat availability threshold) excludes from the habitat connectivity analysis all values in aggregated raster layer below this threshold. The latter threshold (link weight threshold) excludes from the habitat connectivity analysis all entry values in the adjacency matrix that are below this threshold. Entries in the adjacency matrix (or link weights in its corresponding network) are the product of habitat availability and the relative likelihood of dispersal between each pair of locations in the selected region.
 
-5.  *resolution* - Numeric. This is a resolution value. In the context of *SpatRaster*, it's the number of pixels that are aggregated to produce a new finer/coarser version raster data. Default is
+5.  *resolution* - Numeric. This is a spatial aggregation value. In the context of *SpatRaster*, this parameter is the number of pixels that are aggregated to produce a new finer/coarser version raster data layer. Default is
 
     ```{r reso}
     reso()
     ```
 
-6.  Side effect - Calculates, produces and plots the maps which is same as `sensitivity_analysis()` [sensitivity_analysis()]. An alternative is `sean()` which can be called to obtain the results from the function call and has no side effects.
+6.  Outcomes - `msean` calculates, produces, and plots three maps of habitat connectivity in a region, which are the same outcomes produced by `sensitivity_analysis()`(the other main function of `geohabnet`). An alternative is `sean()` which can be called to obtain the results from the function call and has no side effects.
 
 ### Using configuration
 
