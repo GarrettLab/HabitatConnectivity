@@ -21,7 +21,7 @@ See host object in \code{\link[=get_parameters]{get_parameters()}} or \code{\lin
 \examples{
 # Get default rasters
 \dontrun{
-get_rasters("some_raster.tif"))
+get_rasters("some_raster.tif")
 }
 }
 \seealso{

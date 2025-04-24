@@ -6,7 +6,7 @@
 #' @examples
 #' # Get default rasters
 #' \dontrun{
-#' get_rasters("some_raster.tif"))
+#' get_rasters("some_raster.tif")
 #' }
 #' @seealso [load_parameters()], [get_parameters()]
 get_rasters <- function(host) {

@@ -4,7 +4,7 @@ author: "Krishna Keshav(krishnakeshav.pes@gmail.com)"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Analyzing risk index using habitat connectivity}
+  %\VignetteIndexEntry{Mapping habitat connectivity with geohabnet}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
