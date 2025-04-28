@@ -71,10 +71,13 @@ This is a wrapper to <code><a href="https://rspatial.github.io/terra/reference/r
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Get default rasters</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu">get_rasters</span><span class="op">(</span><span class="st">"some_raster.tif"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Get default raster</span></span></span>
+<span class="r-in"><span><span class="fu">get_rasters</span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 180, 360, 1  (nrow, ncol, nlyr)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 1, 1  (x, y)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : lon/lat WGS 84 (CRS84) (OGC:CRS84) </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

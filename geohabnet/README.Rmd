@@ -49,7 +49,7 @@ if (!require("devtools")) {
 devtools::install_github("GarrettLab/HabitatConnectivity", subdir = "geohabnet")
 ```
 
-## geohabnet Example
+## Example
 
 ```{r example, eval=FALSE}
 library(geohabnet)
@@ -69,4 +69,4 @@ geohabnet::sensitivity_analysis()
 
 Refer to help using ?*geohabnet::fun* or *help(geohabnet::fun)*
 
-Refer to article [*Analyzing risk index using cropland connectivity*](https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html) for more elaborate description and usages of functions in this package.
+Refer to article [*Mapping habitat connectivity with geohabnet*](https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html) for more elaborate description and usages of functions in this package.

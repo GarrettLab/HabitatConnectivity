@@ -120,7 +120,7 @@ For the purposes of demonstration, the code below sets the host parameter progra
 
 ## Running your first habitat connectivity analysis
 
-If you are also replicating this example, please first download the avocado layer from CROPGRIDS and put it in the folder you are currently working. Note that we are downloading the raster layer for host availability (or habitat availability) manually from CROPGRIDS. However, an alternative option is getting the data layer directly in RStudio using the geodata package (depending on whether geodata is down or not). At the time, we created this vignette geodata was not working on our local machine but the R code to do so is provided.
+If you are also replicating this example, please first download the avocado layer from CROPGRIDS and put it in the folder you are currently working. Note that we are downloading the raster layer for host availability (or habitat availability) manually from CROPGRIDS. However, an alternative option is getting the data layer directly in RStudio using the `geodata` package (depending on whether it is down or not). At the time, we created this vignette `geodata` was not working on our local machine but the R code to do so is provided.
 
 ```{r av_download}
 #if (!require(geodata))
@@ -129,17 +129,18 @@ If you are also replicating this example, please first download the avocado laye
 
 library(terra)
 
-avocado_sp<-rast("CROPGRIDSv1.08_avocado.nc")
+avocado_rast_input <- system.file("extdata/CROPGRIDSv1.08_avocado.nc", package = "geohabnet", mustWork = TRUE)
+avocado_sp<-rast(avocado_rast_input)
 cell.area <- (0.05*111111)*(0.05*111111) /10000 #area in heactares
 avocado_sp<-avocado_sp$harvarea / cell.area #area in hectares
 
 values(avocado_sp)<-ifelse(values(avocado_sp) > 0,
                            values(avocado_sp), NaN)
 avocado_sp<-aggregate(avocado_sp, fact=2, fun="mean", na.rm=TRUE)
-writeRaster(avocado_sp, "avocado_density.tif", overwrite=TRUE)
+writeRaster(avocado_sp, tempfile(pattern = "avocado_density", fileext = ".tif"), overwrite=TRUE)
 ```
 
-Note that, apart from getting the raster in R, we are also scaling the entry values of each grid cell in the raster layer, from harvested area in hectares to avocado cropland fraction. We are aggregating this raster layer to reduce computational cost when running the analysis (for illustrative purposes only, you may not need to do this for your own dataset). We are also saving the new avocado area fraction as a new raster layer in our local machines.
+Note that, apart from getting the raster in R, we are also scaling the entry values of each grid cell in the raster layer, from harvested area in hectares to avocado cropland fraction. We are aggregating this raster layer to reduce computational cost when running the analysis (for illustrative purposes only, you may not need to do this for your own data set). We are also saving the new avocado area fraction as a new raster layer in our local machines.
 
 ### Setting values in a function
 
@@ -214,10 +215,11 @@ if (!require("geodata"))
  install.packages("geodata") 
 }
 
-path_to_avo <- "avocado_density.tif" #terra::sources(avocado_sp)
+path_to_avo <- system.file("extdata/avocado_density.tif", package = "geohabnet", mustWork = TRUE) #terra::sources(avocado_sp)
 params_file <- geohabnet::get_parameters()
 
-#install.packages("yaml")
+if (!require(yaml))
+  install.packages("yaml")
 
 params_yaml <- yaml::yaml.load_file(params_file)
 params_yaml$default$`CCRI parameters`$Host <- path_to_avo

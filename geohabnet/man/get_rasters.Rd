@@ -19,10 +19,8 @@ Get rasters object from parameters
 See host object in \code{\link[=get_parameters]{get_parameters()}} or \code{\link[=load_parameters]{load_parameters()}}.
 }
 \examples{
-# Get default rasters
-\dontrun{
-get_rasters("some_raster.tif")
-}
+# Get default raster
+get_rasters(terra::rast())
 }
 \seealso{
 \code{\link[=load_parameters]{load_parameters()}}, \code{\link[=get_parameters]{get_parameters()}}
