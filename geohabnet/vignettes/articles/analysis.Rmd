@@ -129,15 +129,15 @@ If you are also replicating this example, please first download the avocado laye
 
 library(terra)
 
-avocado_rast_input <- system.file("extdata/CROPGRIDSv1.08_avocado.nc", package = "geohabnet", mustWork = TRUE)
-avocado_sp<-rast(avocado_rast_input)
+#avocado_rast_input <- system.file("CROPGRIDSv1.08_avocado.nc", package = "geohabnet", mustWork = TRUE)
+avocado_sp<-rast("CROPGRIDSv1.08_avocado.nc")
 cell.area <- (0.05*111111)*(0.05*111111) /10000 #area in heactares
 avocado_sp<-avocado_sp$harvarea / cell.area #area in hectares
 
 values(avocado_sp)<-ifelse(values(avocado_sp) > 0,
                            values(avocado_sp), NaN)
 avocado_sp<-aggregate(avocado_sp, fact=2, fun="mean", na.rm=TRUE)
-writeRaster(avocado_sp, tempfile(pattern = "avocado_density", fileext = ".tif"), overwrite=TRUE)
+writeRaster(avocado_sp, "avocado_density.tif", overwrite=TRUE)
 ```
 
 Note that, apart from getting the raster in R, we are also scaling the entry values of each grid cell in the raster layer, from harvested area in hectares to avocado cropland fraction. We are aggregating this raster layer to reduce computational cost when running the analysis (for illustrative purposes only, you may not need to do this for your own data set). We are also saving the new avocado area fraction as a new raster layer in our local machines.
@@ -206,7 +206,7 @@ The file should look something like this -
 
 ![Initial parameters.yaml](images/initconfig.png){width="700"}
 
-The values must be modified without modifying the structure. The order don't matter for the program. The new values in the configuration must be fed to the workflow. For the purposes of demonstration, the code below sets the host parameter programitically. The parameters can be fed via `parameters.yaml` in an interactive way as well using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
+The values must be modified without modifying the structure. The order don't matter for the program. The new values in the configuration must be fed to the workflow. For the purposes of demonstration, the code below sets the host parameter programmitically. The parameters can be fed via `parameters.yaml` in an interactive way as well using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
 
 ```{r config_run}
 
