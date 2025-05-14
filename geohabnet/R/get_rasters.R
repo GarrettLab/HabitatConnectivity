@@ -4,10 +4,8 @@
 #' This is a wrapper to [terra::rast()] and generates a raster object if provided with a TIF file.
 #' @return List of SpatRaster.
 #' @examples
-#' # Get default rasters
-#' \dontrun{
-#' get_rasters("some_raster.tif"))
-#' }
+#' # Get default raster
+#' get_rasters(terra::rast())
 #' @seealso [load_parameters()], [get_parameters()]
 get_rasters <- function(host) {
   return(terra::rast(host))

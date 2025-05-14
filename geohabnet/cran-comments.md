@@ -1,5 +1,27 @@
 ## Re-submission
 
+05/01/2025
+
+Addressing feedback from manual inspection
+
+-   Removed files from ext/data, moved to articles which is excluded via .Rbuildignore
+
+Note: We currently have 2 raster which is required for processing in the workflow. However, the package size is under 5Mb as required by the CRAN policy.
+
+### 04/27/2025
+
+Addressed feedback from manual inspection -
+
+-   Fixed description, articles and comments as per the policy.
+
+-   Replaced dontrun with donttest in 'get_raster()'.
+
+-   Moved example files used in article to inst/extdata
+
+**NOTE:** The installation size is now \~9Mb due to presence of raster files used in articles. This causes R cmd check to produce a note regarding the same.
+
+### 04/24/2025
+
 ```         
 Package was archived on CRAN
    
@@ -8,9 +30,7 @@ Package was archived on CRAN
        'geodata'.
 ```
 
-This is a re submission with minor changes as mentioned in news.md. The package was earlier archived on 05/28/24 due to archival of one of its dependency. Since, `geodata` is back on cran, resubmitting the package for the consideration.
-
-The review comments are dated as feedback received and the submission addressing them.
+This is a re submission with minor changes as mentioned in news.md. The package was earlier archived on 05/28/24 due to archival of one of its dependency. In this version I have \* Rewritten some documentation \* Removed dependency with `Geodata` package
 
 ## First submission
 
@@ -78,7 +98,7 @@ Based on suggesstion from CRAN mailing list, I have replaced write destination f
 3.  Get user config from `tools::R_user_dir()` whenever needed in the program.
 4.  Unit test added for this capability which removes the file from `tools::R_user_dir()` after test check.
 
-Addtionally, added `dontrun` tag in `\name{get_rasters}` since the example shows usage of dummy file name.
+Additionally, added `dontrun` tag in `\name{get_rasters}` since the example shows usage of dummy file name.
 
 ## Reviewers
 

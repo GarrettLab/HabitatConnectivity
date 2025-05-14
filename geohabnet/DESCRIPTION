@@ -27,12 +27,12 @@ Description:
     Each function can be used to generate these maps as 'final' outcomes. 
     Each function can also provide intermediate outcomes, such as the adjacency matrices built to perform the analysis, which can be used in other network analysis.
     Refer to article at <https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html> to see examples of each function and how to access each of these outcome types.
-    To change parameter values, the file called parameters.yaml stores the parameters and their values, can be accessed using get_parameters() and set new parameter values with set_parameters().
+    To change parameter values, the file called 'parameters.yaml' stores the parameters and their values, can be accessed using 'get_parameters()' and set new parameter values with 'set_parameters()'.
     Users can modify up to ten parameters.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports: 
     config (>= 0.3.1),
     geosphere (>= 1.5.18),
@@ -58,7 +58,7 @@ Suggests:
     devtools,
     knitr,
     lintr (>= 3.0.2),
-    mockthat (>= 0.2.8),
+    mockthat,
     pkgdown,
     rmarkdown,
     testthat (>= 3.1.7)

@@ -4,7 +4,7 @@ author: "Krishna Keshav(krishnakeshav.pes@gmail.com)"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Analyzing risk index using habitat connectivity}
+  %\VignetteIndexEntry{Mapping habitat connectivity with geohabnet}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
@@ -120,7 +120,7 @@ For the purposes of demonstration, the code below sets the host parameter progra
 
 ## Running your first habitat connectivity analysis
 
-If you are also replicating this example, please first download the avocado layer from CROPGRIDS and put it in the folder you are currently working. Note that we are downloading the raster layer for host availability (or habitat availability) manually from CROPGRIDS. However, an alternative option is getting the data layer directly in RStudio using the geodata package (depending on whether geodata is down or not). At the time, we created this vignette geodata was not working on our local machine but the R code to do so is provided.
+If you are also replicating this example, please first download the avocado layer from CROPGRIDS and put it in the folder you are currently working. Note that we are downloading the raster layer for host availability (or habitat availability) manually from CROPGRIDS. However, an alternative option is getting the data layer directly in RStudio using the `geodata` package (depending on whether it is down or not). At the time, we created this vignette `geodata` was not working on our local machine but the R code to do so is provided.
 
 ```{r av_download}
 #if (!require(geodata))
@@ -129,6 +129,7 @@ If you are also replicating this example, please first download the avocado laye
 
 library(terra)
 
+#avocado_rast_input <- system.file("CROPGRIDSv1.08_avocado.nc", package = "geohabnet", mustWork = TRUE)
 avocado_sp<-rast("CROPGRIDSv1.08_avocado.nc")
 cell.area <- (0.05*111111)*(0.05*111111) /10000 #area in heactares
 avocado_sp<-avocado_sp$harvarea / cell.area #area in hectares
@@ -139,7 +140,7 @@ avocado_sp<-aggregate(avocado_sp, fact=2, fun="mean", na.rm=TRUE)
 writeRaster(avocado_sp, "avocado_density.tif", overwrite=TRUE)
 ```
 
-Note that, apart from getting the raster in R, we are also scaling the entry values of each grid cell in the raster layer, from harvested area in hectares to avocado cropland fraction. We are aggregating this raster layer to reduce computational cost when running the analysis (for illustrative purposes only, you may not need to do this for your own dataset). We are also saving the new avocado area fraction as a new raster layer in our local machines.
+Note that, apart from getting the raster in R, we are also scaling the entry values of each grid cell in the raster layer, from harvested area in hectares to avocado cropland fraction. We are aggregating this raster layer to reduce computational cost when running the analysis (for illustrative purposes only, you may not need to do this for your own data set). We are also saving the new avocado area fraction as a new raster layer in our local machines.
 
 ### Setting values in a function
 
@@ -205,7 +206,7 @@ The file should look something like this -
 
 ![Initial parameters.yaml](images/initconfig.png){width="700"}
 
-The values must be modified without modifying the structure. The order don't matter for the program. The new values in the configuration must be fed to the workflow. For the purposes of demonstration, the code below sets the host parameter programitically. The parameters can be fed via `parameters.yaml` in an interactive way as well using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
+The values must be modified without modifying the structure. The order don't matter for the program. The new values in the configuration must be fed to the workflow. For the purposes of demonstration, the code below sets the host parameter programmitically. The parameters can be fed via `parameters.yaml` in an interactive way as well using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
 
 ```{r config_run}
 
@@ -214,10 +215,11 @@ if (!require("geodata"))
  install.packages("geodata") 
 }
 
-path_to_avo <- "avocado_density.tif" #terra::sources(avocado_sp)
+path_to_avo <- system.file("extdata/avocado_density.tif", package = "geohabnet", mustWork = TRUE) #terra::sources(avocado_sp)
 params_file <- geohabnet::get_parameters()
 
-#install.packages("yaml")
+if (!require(yaml))
+  install.packages("yaml")
 
 params_yaml <- yaml::yaml.load_file(params_file)
 params_yaml$default$`CCRI parameters`$Host <- path_to_avo

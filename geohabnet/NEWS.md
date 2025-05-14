@@ -1,3 +1,10 @@
+# geohabnet 2.2
+
+- Removed dependency on `Geodata` package for data sources
+- Moved Vignettes to articles
+- Support for `terra::rast()`
+- Modified input structure in `parameters.yaml`
+
 # geohabnet 2.1.3
 - Network density plot aviailable as ndplot() for non-global analysis
 - Attempt to CRAN submission
