@@ -56,7 +56,7 @@ setGeneric("setmaps", function(x, me, vari, dif) {
   standardGeneric("setmaps")
 })
 
-#' Network density
+#' Network density plot
 #'
 #' This function first calculates the network density for each dispersal parameter specified by the user.
 #' Network density compares the number of available links in a network versus the total number of possible links in the same network.
@@ -65,7 +65,7 @@ setGeneric("setmaps", function(x, me, vari, dif) {
 #' In other words, it calculates and plots the network density of a GeoNetwork object.
 #'
 #' @param x A GeoNetwork object
-#' @return Vector. Up to two ggplot2 objects
+#' @return Vector. Up to two ggplot2 objects, one for the dispersal parameter values in the negative exponential model and one for the dispersal parameter values in the inverse power law model.
 #' @export
 setGeneric("ndplot", function(x) {
   standardGeneric("ndplot")
@@ -118,11 +118,11 @@ setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
 #'
 #' @description
 #' An S4 class representing a network of geographical data.
-#' This will wrap all the results from the habitat connectivity analysis using [sean()] or [sensitivity_analysis()].
-#' This class contains the field from `Gmap` class which has results in the form of `SpatRaster` and TIFF file.
+#' The GeoNetwork object will wrap all the results from the habitat connectivity analysis using [sean()] or [sensitivity_analysis()].
+#' This class contains the field from `Gmap` class, which has results of the habitat connectivity analysis in the form of `SpatRaster` and TIFF file.
 #'
 #' @slot rasters A list of `GeoRasters` objects.
-#' @slot host_density A `SpatRaster` representing the habitat availability (or simply host density).
+#' @slot habitat_density A `SpatRaster` representing the habitat availability (or simply host density).
 #' @slot me_rast
 #' A raster representing mean habitat connectivity in a region.
 #'
@@ -144,11 +144,11 @@ setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
 #' @export
 setClass("GeoNetwork", contains = "Gmap",
          slots = list(
-           host_density = "ANY",
+           habitat_density = "ANY",
            rasters = "ANY"
          ),
          prototype = list(
-           host_density = NA,
+           habitat_density = NA,
            me_rast = NA,
            me_out = NA_character_,
            diff_rast = NA,
@@ -159,14 +159,15 @@ setClass("GeoNetwork", contains = "Gmap",
          ))
 
 
-#' Set the host density.
+#' Set the habitat density.
 #'
 #'
-#' Sets the host density slot in the GeoNetwork object
+#' This function helps to set the SpatRaster of the habitat availability or density in a GeoNetwork object. The function is an S4 replacement method in the geohabnet package. It allows you to assign a host availability SpatRaster to a geohabnet object.
 #' @param x the GeoNetwork object.
 #' @param value SpatRaster.
-setGeneric("host_density<-", function(x, value) {
-  standardGeneric("host_density<-")
+#' @return The same object type as x, that is, GeoNetwork. This function returns the updated S4 GeoNetwork object with the new habitat availability SpatRaster assigned.
+setGeneric("habitat_density<-", function(x, value) {
+  standardGeneric("habitat_density<-")
 })
 
 
@@ -182,9 +183,9 @@ setGeneric("host_density<-", function(x, value) {
 #' GeoNetwork.
 #'
 #' @export
-setMethod("host_density<-", "GeoNetwork", function(x, value) {
+setMethod("habitat_density<-", "GeoNetwork", function(x, value) {
   stopifnot(class(value) == "SpatRaster", "value must be of type SpatRaster")
-  x@host_density <- value
+  x@habitat_density <- value
   x
 })
 

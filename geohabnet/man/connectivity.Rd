@@ -49,14 +49,14 @@ Default is \code{\link[=tempdir]{tempdir()}}.}
 Gmap. See details.
 }
 \description{
-Calculate the mean habitat connectivity across selected parameter, variance in habitat connectivity, and the difference in ranks between mean habitat connectivity and habitat availability. The result is produced in form of maps plotted with predefined graphics settings.
+Calculate the mean habitat connectivity across a set of selected parameters, variance in habitat connectivity, and the difference in ranks between mean habitat connectivity and habitat availability. The result is produced in form of maps plotted with predefined graphics settings.
 Currently, the settings for plot cannot be customized.
 Default value is \code{TRUE} for all logical arguments
 }
 \details{
 \code{indexes} has a list of \code{spatRaster} objects resulting from the unique combinations of all parameters specified in either \code{parameters.yaml} or \code{\link[=sean]{sean()}}.
 For each unique combination of parameters, an index of habitat connectivity is calculated for each location in a landscape.
-Then these indices are used to calculate the mean and variance of habitat connectivity of a location across all specified parameters.
+Then these indices are used to calculate the mean and the variance of habitat connectivity of a location across all specified parameters.
 
 This function will save all the opted plots using - \code{pmean}, \code{pvar} and \code{pdiff}.
 File will be saved in provided value of \code{outdir} or  \code{\link[=tempdir]{tempdir()}}. If \code{\link[=interactive]{interactive()}} is \code{TRUE},

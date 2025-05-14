@@ -1,6 +1,6 @@
 #' Calculate and plot maps of habitat connectivity
 #'
-#' Calculate the mean habitat connectivity across selected parameter, variance in habitat connectivity, and the difference in ranks between mean habitat connectivity and habitat availability. The result is produced in form of maps plotted with predefined graphics settings.
+#' Calculate the mean habitat connectivity across a set of selected parameters, variance in habitat connectivity, and the difference in ranks between mean habitat connectivity and habitat availability. The result is produced in form of maps plotted with predefined graphics settings.
 #' Currently, the settings for plot cannot be customized.
 #' Default value is `TRUE` for all logical arguments
 #' @param host SpatRaster. A `SpatRaster` object for the spatial distribution of habitat availability (such as host availability or cropland density). Note that a valid input data for geohabnet is a raster layer of habitat availability (such as host availability), in which each grid cell has any values between zero and one. If you are using your own dataset, please also make sure that your raster layer is in the standard coordinate reference system (i.e., EPSG:4326), the only CRS supported by geohabnet for now.
@@ -22,7 +22,7 @@
 #' @details
 #' `indexes` has a list of `spatRaster` objects resulting from the unique combinations of all parameters specified in either `parameters.yaml` or [sean()].
 #' For each unique combination of parameters, an index of habitat connectivity is calculated for each location in a landscape.
-#' Then these indices are used to calculate the mean and variance of habitat connectivity of a location across all specified parameters.
+#' Then these indices are used to calculate the mean and the variance of habitat connectivity of a location across all specified parameters. 
 #'
 #' This function will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
 #' File will be saved in provided value of `outdir` or  [tempdir()]. If [interactive()] is `TRUE`,

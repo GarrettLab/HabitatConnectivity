@@ -2,7 +2,7 @@
 % Please edit documentation in R/geo_network.R
 \name{ndplot}
 \alias{ndplot}
-\title{Network density}
+\title{Network density plot}
 \usage{
 ndplot(x)
 }
@@ -10,7 +10,7 @@ ndplot(x)
 \item{x}{A GeoNetwork object}
 }
 \value{
-Vector. Up to two ggplot2 objects
+Vector. Up to two ggplot2 objects, one for the dispersal parameter values in the negative exponential model and one for the dispersal parameter values in the inverse power law model.
 }
 \description{
 This function first calculates the network density for each dispersal parameter specified by the user.
