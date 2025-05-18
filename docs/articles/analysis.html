@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:krishnakeshav.pes@gmail.com" class="email">krishnakeshav.pes@gmail.com</a>)</h4>
             
-            <h4 data-toc-skip class="date">01 May, 2025</h4>
+            <h4 data-toc-skip class="date">17 May, 2025</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/analysis.Rmd" class="external-link"><code>vignettes/articles/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -84,14 +84,14 @@ plant pathogen, pest, or any habitat-dependent species. Habitat
 connectivity of a species depends on the habitat availability (e.g.,
 host availability for plant pests or pollinators or availability of
 favorable climate for plant species), and probability of movement of a
-species between habitat locations. In geohabnet, habitat connectivity
-indicates the importance of a habitat location in facilitating the
-spread of a species across a geographic region, relative to other
-locations in the same landscape. For plant pathogens and pests, the
-spatial distribution of host availability plays a crucial role for
-defining habitat availability and the establishment of the pest species.
-Locations with abundant habitats (e.g., plant hosts) may play a minor
-role in species spread if they are isolated. Yet, a location with
+species between habitat locations. In <code>geohabnet</code>, habitat
+connectivity indicates the importance of a habitat location in
+facilitating the spread of a species across a geographic region,
+relative to other locations in the same landscape. For plant pathogens
+and pests, the spatial distribution of host availability plays a crucial
+role for defining habitat availability and the establishment of the pest
+species. Locations with abundant habitats (e.g., plant hosts) may play a
+minor role in species spread if they are isolated. Yet, a location with
 limited habitat may play a major role in the spread of a species if it
 acts as a bridge between regions that would otherwise be separated.
 <span class="citation">(Keshav et al. 2023)</span> provides the R-user
@@ -134,9 +134,9 @@ location. Some details of a raster data include spatial resolution,
 dimensions, or geographic extent, which are useful in identification and
 processing. Here, we use raster to represent maps.</p></li>
 <li><p>TIFF(Tag Image File Format) is a type of file that stores
-geographic information in the form of raster. <span class="citation">(Keshav et al. 2023)</span> has been tested using .tif
-and .nc files but it would be able to handle any raster type of file
-supported by the R package terra.</p></li>
+geographic information in the form of raster. <span class="citation">(Keshav et al. 2023)</span> has been tested using
+<em>.tif</em> and <em>.nc</em> files but it would be able to handle any
+raster type of file supported by the R package <span class="citation">(Hijmans 2023)</span> .</p></li>
 </ul>
 </div>
 <div class="section level3">
@@ -169,18 +169,18 @@ Research Institute 2019)</span></p></li>
 <span class="citation">(Service 2025)</span></p></li>
 <li><p><a href="https://www.gbif.org/" class="external-link">GBIF</a> <span class="citation">(GBIF 2025)</span></p></li>
 </ul>
-<p>geodata provides a set of APIs to access the EARTHSTAT and MapSPAM
-datasets directly in R (see code below).</p>
+<p><span class="citation">(Hijmans et al. 2024)</span> provides a set of
+APIs to access the EARTHSTAT and MapSPAM datasets directly in R (see
+code below).</p>
 <p>The raster layers from the data sources listed above may need some
 transformation before using them in <span class="citation">(Keshav et
-al. 2023)</span>. A valid raster layer to be used in geohabnet is one
-that its entry values of each pixel range from 0 (no habitat available)
-to 1 (habitat is available in the entirety of the pixel). For example,
-data layers of cropland fraction from EARTHSTAT can be directly provided
-to <span class="citation">(Keshav et al. 2023)</span> functions without
-the need to re-scale its entries. However, data layers of harvested area
-from CROPGRIDS will need re-scaling the values of each grid cell in the
-raster (see an example of how to do this below).</p>
+al. 2023)</span>. A valid raster layer to be used is one that its entry
+values of each pixel range from 0 (no habitat available) to 1 (habitat
+is available in the entirety of the pixel). For example, data layers of
+cropland fraction from EARTHSTAT can be directly provided to functions
+without the need to re-scale its entries. However, data layers of
+harvested area from CROPGRIDS will need re-scaling the values of each
+grid cell in the raster (see an example of how to do this below).</p>
 <p>For visualization and plots, <span class="citation">(Keshav et al.
 2023)</span> uses <a href="https://docs.ropensci.org/rnaturalearth/" class="external-link">rnaturalearth</a>.</p>
 </div>
@@ -273,7 +273,7 @@ provided.</p>
 <span><span class="co">#avocado_sp &lt;- geodata::crop_monfreda(crop = "avocado", var = "area_ha", path = tools::R_user_dir("geohabnet", which = "config"))</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; terra 1.8.42</span></span>
+<span><span class="co">#&gt; terra 1.8.50</span></span>
 <span></span>
 <span><span class="co">#avocado_rast_input &lt;- system.file("CROPGRIDSv1.08_avocado.nc", package = "geohabnet", mustWork = TRUE)</span></span>
 <span><span class="va">avocado_sp</span><span class="op">&lt;-</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="st">"CROPGRIDSv1.08_avocado.nc"</span><span class="op">)</span></span>
@@ -311,7 +311,7 @@ raster layer.</p>
 <span><span class="co">#&gt; dimensions  : 1800, 3600, 1  (nrow, ncol, nlyr)</span></span>
 <span><span class="co">#&gt; resolution  : 0.1, 0.1  (x, y)</span></span>
 <span><span class="co">#&gt; extent      : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">#&gt; coord. ref. : lon/lat WGS 84 (CRS84) (OGC:CRS84) </span></span>
+<span><span class="co">#&gt; coord. ref. :  </span></span>
 <span><span class="co">#&gt; source(s)   : memory</span></span>
 <span><span class="co">#&gt; name        :     harvarea </span></span>
 <span><span class="co">#&gt; min value   : 3.268422e-06 </span></span>
@@ -328,11 +328,16 @@ the example below usually takes 5-10 minutes depending on the processing
 power of your machine.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">geo_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado_sp</span><span class="op">)</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span></code></pre></div>
+<span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          |---------|---------|---------|---------|==========                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=======                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|==============                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
 <p>Many, many congratulations! You have just generated a full
 sensitivity analysis of habitat connectivity for avocado-specific
@@ -428,7 +433,7 @@ config file.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpTKmby5/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpIChuc6/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="float">
 <img src="images%2Finitconfig.png" width="700" alt="Initial parameters.yaml"><div class="figcaption">Initial parameters.yaml</div>
@@ -448,7 +453,8 @@ prompt in <code><a href="../reference/set_parameters.html">set_parameters()</a><
 <span><span class="op">}</span></span>
 <span><span class="co">#&gt; Loading required package: geodata</span></span>
 <span></span>
-<span><span class="va">path_to_avo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/avocado_density.tif"</span>, package <span class="op">=</span> <span class="st">"geohabnet"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">#terra::sources(avocado_sp)</span></span>
+<span><span class="va">path_to_avo</span> <span class="op">&lt;-</span> <span class="st">"avocado_density.tif"</span></span>
+<span><span class="co">#terra::sources(avocado_sp)</span></span>
 <span><span class="va">params_file</span> <span class="op">&lt;-</span> <span class="fu">geohabnet</span><span class="fu">::</span><span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/vubiostat/r-yaml/" class="external-link">yaml</a></span><span class="op">)</span><span class="op">)</span></span>
@@ -542,11 +548,16 @@ package <span class="citation">(Hijmans et al. 2024)</span></p>
 <span><span class="co">#&gt; -Inf</span></span>
 <span><span class="co">#&gt; Warning in max(wv, na.rm = TRUE): no non-missing arguments to max; returning</span></span>
 <span><span class="co">#&gt; -Inf</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span></code></pre></div>
+<span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          |---------|---------|---------|---------|========                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-3.png" width="700"></p>
 </div>
 <div class="section level4">
@@ -576,11 +587,14 @@ threshold are removed from the consideration by dispersal models.</p>
 <span><span class="co">#&gt; -Inf</span></span>
 <span><span class="co">#&gt; Warning in max(wv, na.rm = TRUE): no non-missing arguments to max; returning</span></span>
 <span><span class="co">#&gt; -Inf</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|==                                          </span></span></code></pre></div>
+<span><span class="co">#&gt; |---------|---------|---------|---------|==                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|==                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|==                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-11-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|==                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|==                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-11-3.png" width="700"></p>
 <div class="section level5">
 <h5 id="density-thresholds">Density Thresholds<a class="anchor" aria-label="anchor" href="#density-thresholds"></a>
@@ -720,8 +734,13 @@ tested on it.</p>
 <li>
 <p>Using function</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado_sp</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="analysis_files/figure-html/non-global-1.png" width="700"><img src="analysis_files/figure-html/non-global-2.png" width="700"><img src="analysis_files/figure-html/non-global-3.png" width="700"></p>
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado_sp</span>, global <span class="op">=</span> <span class="cn">FALSE</span>, geoscale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">115</span>, <span class="op">-</span><span class="fl">75</span>, <span class="fl">5</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
+<p><img src="analysis_files/figure-html/non-global-1.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
+<p><img src="analysis_files/figure-html/non-global-2.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
+<p><img src="analysis_files/figure-html/non-global-3.png" width="700"></p>
 </li>
 <li>
 <p>Using config</p>
@@ -753,7 +772,7 @@ equivalent to <code><a href="../reference/sensitivity_analysis.html">sensitivity
 <code><a href="../reference/sean.html">msean()</a></code> which produces maps as side effect. The user
 function equivalent is connectivity() which accepts primitives types
 instead of S4 class.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">final</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado_sp</span>, link_threshold <span class="op">=</span> <span class="fl">0.0001</span>, hd_threshold <span class="op">=</span> <span class="fl">0.0025</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in max(wv, na.rm = TRUE): no non-missing arguments to max; returning</span></span>
 <span><span class="co">#&gt; -Inf</span></span>
@@ -785,13 +804,18 @@ instead of S4 class.</p>
 <span><span class="co">#&gt; -Inf</span></span>
 <span><span class="co">#&gt; Warning in max(wv, na.rm = TRUE): no non-missing arguments to max; returning</span></span>
 <span><span class="co">#&gt; -Inf</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span></code></pre></div>
+<span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/final-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          |---------|---------|---------|---------|==========                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/final-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
+<span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/final-3.png" width="700"></p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># checkout the type of an object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">final</span><span class="op">)</span></span>
@@ -803,15 +827,15 @@ object final object. You would have noticed the maps as a side effect
 and that’s really the whole point. See the result summary by simply
 calling the <code>final</code> object and navigate using the standard S4
 classes approach.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">final</span></span>
 <span><span class="co">#&gt; class            :  GeoNetwork </span></span>
-<span><span class="co">#&gt; host density     :  98 , 267  (nrow, ncol) SpatRaster </span></span>
-<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpTKmby5/plots/mean_20250501013338279665.tif </span></span>
+<span><span class="co">#&gt; habitat density     :  98 , 267  (nrow, ncol) SpatRaster </span></span>
+<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpIChuc6/plots/mean_2025051716460322944.tif </span></span>
 <span><span class="co">#&gt; mean raster      :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpTKmby5/plots/variance_20250501013339844415.tif </span></span>
+<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpIChuc6/plots/variance_2025051716460468615.tif </span></span>
 <span><span class="co">#&gt; variance raster   :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpTKmby5/plots/difference_20250501013340922135.tif </span></span>
+<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpIChuc6/plots/difference_20250517164605733524.tif </span></span>
 <span><span class="co">#&gt; difference raster :  1176 , 3204  (nrow, ncol)</span></span></code></pre></div>
 <p>The final operations are performed risk indices and on the 3 results
 that are produced -</p>
@@ -823,7 +847,7 @@ of parameter values. The values in cells are added across all the
 indices and divided by number of indices. It represents the connectivity
 based on host density in the given area.</p>
 <p>Navigating the resulting object -</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gplot.html">gplot</a></span><span class="op">(</span><span class="va">final</span><span class="op">@</span><span class="va">me_rast</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -831,7 +855,7 @@ based on host density in the given area.</p>
 <p>Uses <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::var</a></code> on risk indices, subset is extracted for
 provided scale and finally pixels are dis-aggregated using <em>factor =
 resolution value in original parameter</em> to from previous step.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gplot.html">gplot</a></span><span class="op">(</span><span class="va">final</span><span class="op">@</span><span class="va">var_rast</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -840,7 +864,7 @@ resolution value in original parameter</em> to from previous step.</p>
 then difference is calculated between the rank of matrices which are
 essentially numeric cells of risk indices of type <em>SpatRaster</em>.
 The result is dis-aggregated in the same way as previous step.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gplot.html">gplot</a></span><span class="op">(</span><span class="va">final</span><span class="op">@</span><span class="va">diff_rast</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/diff-1.png" width="700"></p>
 </li>
@@ -849,7 +873,7 @@ The result is dis-aggregated in the same way as previous step.</p>
 Additionally, access the risk indices and it’s corresponding adjacency
 are further accessible within slots in the <code>GeoNetwork</code>
 class.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># checkout the results</span></span>
 <span><span class="va">final</span><span class="op">@</span><span class="va">rasters</span></span>
@@ -873,7 +897,7 @@ class.</p>
 <span><span class="co">#&gt; adjacency matrix :  1 ,  1  (nrow, ncol) </span></span>
 <span><span class="co">#&gt; risk index       :  98 ,  170  (nrow, ncol)</span></span></code></pre></div>
 <p>Checkout the adjacency matrices by running the code below -</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># replace the indexing with any arbitary index,</span></span>
 <span><span class="co"># uncomment line below to see the results.</span></span>
@@ -928,7 +952,7 @@ to note that we use SpatRaster object throughout the computation.
 SpatRaster is an external pointer in C++ rather than an R object and
 thus adds overhead of conversion, neutralizing the performance
 gains.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#avocado &lt;- geohabnet::cropharvest_rast("avocado", "monfreda")</span></span>
 <span></span>
 <span><span class="co"># see ?future::plan for details</span></span>

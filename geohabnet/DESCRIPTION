@@ -38,7 +38,6 @@ Imports:
     geosphere (>= 1.5.18),
     igraph (>= 2.0.3),
     terra (>= 1.7.29),
-    easycsv (>= 1.0.8),
     yaml (>= 2.3.7),
     stats,
     stringr (>= 1.5.0),

@@ -442,7 +442,7 @@ msean <- function(rast,
                         outdir = outdir)
 
   return(new("GeoNetwork",
-             host_density = grasters$host_density,
+             habitat_density = grasters$host_density,
              rasters = grasters,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,
@@ -553,7 +553,7 @@ msean_onrast <- function(global = TRUE,
                         outdir)
 
   return(new("GeoNetwork",
-             host_density = grast$host_density,
+             habitat_density = grast$host_density,
              rasters = grast,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,
@@ -678,7 +678,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   ret <- if (maps == TRUE) {
     new("GeoNetwork",
-        host_density = .unpack_rast_ifnot(newrast$host_density),
+        habitat_density = .unpack_rast_ifnot(newrast$host_density),
         rasters = newrast,
         me_rast = gmap@me_rast,
         me_out = gmap@me_out,

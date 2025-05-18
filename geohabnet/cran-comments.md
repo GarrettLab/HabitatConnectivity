@@ -1,10 +1,20 @@
 ## Re-submission
 
-05/01/2025
+### 05/18/2025
+
+**[Done]** Please always write package names, software names and API (application\
+programming interface) names in single quotes in title and description.
+
+**[Done]** Please always write package names, software names and API (application\
+programming interface) names in single quotes in title and description.
+
+**[Note]** Removed dependency on `easycsv::choose.dir` with it's implementation because it's not in CRAN repo anymore.
+
+### 05/01/2025
 
 Addressing feedback from manual inspection
 
--   Removed files from ext/data, moved to articles which is excluded via .Rbuildignore
+-   Removed files from ext/data, moved to articles which is excluded via `.Rbuildignore`
 
 Note: We currently have 2 raster which is required for processing in the workflow. However, the package size is under 5Mb as required by the CRAN policy.
 

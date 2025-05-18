@@ -33,9 +33,9 @@ setMethod("show", "GeoNetwork",
             pstr <-  " (nrow, ncol)"
 
             cat("class            : ", "GeoNetwork", "\n")
-            if (!is.null(object@host_density)) {
-              hd <- .unpack_rast_ifnot(object@host_density)
-              cat("host density     : ", terra::nrow(hd), ",",
+            if (!is.null(object@habitat_density)) {
+              hd <- .unpack_rast_ifnot(object@habitat_density)
+              cat("habitat density     : ", terra::nrow(hd), ",",
                   terra::ncol(hd), pstr, class(hd), "\n")
             }
             if (!is.null(object@me_rast)) {

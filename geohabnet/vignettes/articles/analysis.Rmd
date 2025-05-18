@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 # Abstract
 
-Habitat connectivity can be used to analyse the potential spread of plant pathogen, pest, or any habitat-dependent species. Habitat connectivity of a species depends on the habitat availability (e.g., host availability for plant pests or pollinators or availability of favorable climate for plant species), and probability of movement of a species between habitat locations. In geohabnet, habitat connectivity indicates the importance of a habitat location in facilitating the spread of a species across a geographic region, relative to other locations in the same landscape. For plant pathogens and pests, the spatial distribution of host availability plays a crucial role for defining habitat availability and the establishment of the pest species. Locations with abundant habitats (e.g., plant hosts) may play a minor role in species spread if they are isolated. Yet, a location with limited habitat may play a major role in the spread of a species if it acts as a bridge between regions that would otherwise be separated. [@geohabnet] provides the R-user community with a network-based approach to estimate habitat connectivity across the world. This package supports up to 10 parameters that has potential to influence habitat or landscape connectivity. The implementation of [@geohabnet] expands the cropland connectivity method for plant pathogens proposed by [@xing2020] to a general way of calculating habitat connectivity for any species. The network-based framework for [@geohabnet] is the same as the one proposed by [@xing2020]. However, [@geohabnet] provides more flexibility to users to modify any parameter values in this framework.
+Habitat connectivity can be used to analyse the potential spread of plant pathogen, pest, or any habitat-dependent species. Habitat connectivity of a species depends on the habitat availability (e.g., host availability for plant pests or pollinators or availability of favorable climate for plant species), and probability of movement of a species between habitat locations. In `geohabnet`, habitat connectivity indicates the importance of a habitat location in facilitating the spread of a species across a geographic region, relative to other locations in the same landscape. For plant pathogens and pests, the spatial distribution of host availability plays a crucial role for defining habitat availability and the establishment of the pest species. Locations with abundant habitats (e.g., plant hosts) may play a minor role in species spread if they are isolated. Yet, a location with limited habitat may play a major role in the spread of a species if it acts as a bridge between regions that would otherwise be separated. [@geohabnet] provides the R-user community with a network-based approach to estimate habitat connectivity across the world. This package supports up to 10 parameters that has potential to influence habitat or landscape connectivity. The implementation of [@geohabnet] expands the cropland connectivity method for plant pathogens proposed by [@xing2020] to a general way of calculating habitat connectivity for any species. The network-based framework for [@geohabnet] is the same as the one proposed by [@xing2020]. However, [@geohabnet] provides more flexibility to users to modify any parameter values in this framework.
 
 Although this article focuses on the use of [@geohabnet], it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009]; and [@config] provides a text based interface to control the parameters values for risk analysis in this context.
 
@@ -31,7 +31,7 @@ The primary objective of this vignette is to help user being familiarized with [
 
 -   Raster - Raster is a digital encoding representation of geographic information as a grid of cells or pixels, where each cell contains a value representing a specific property or attribute of a location. Some details of a raster data include spatial resolution, dimensions, or geographic extent, which are useful in identification and processing. Here, we use raster to represent maps.
 
--   TIFF(Tag Image File Format) is a type of file that stores geographic information in the form of raster. [@geohabnet] has been tested using .tif and .nc files but it would be able to handle any raster type of file supported by the R package terra.
+-   TIFF(Tag Image File Format) is a type of file that stores geographic information in the form of raster. [@geohabnet] has been tested using *.tif* and *.nc* files but it would be able to handle any raster type of file supported by the R package [@terra] .
 
 ## External materials
 
@@ -55,9 +55,9 @@ For estimating habitat connectivity for understanding the spread of plant pathog
 
 -   [GBIF](https://www.gbif.org/) [@GBIF]
 
-geodata provides a set of APIs to access the EARTHSTAT and MapSPAM datasets directly in R (see code below).
+[@geodata] provides a set of APIs to access the EARTHSTAT and MapSPAM datasets directly in R (see code below).
 
-The raster layers from the data sources listed above may need some transformation before using them in [@geohabnet]. A valid raster layer to be used in geohabnet is one that its entry values of each pixel range from 0 (no habitat available) to 1 (habitat is available in the entirety of the pixel). For example, data layers of cropland fraction from EARTHSTAT can be directly provided to [@geohabnet] functions without the need to re-scale its entries. However, data layers of harvested area from CROPGRIDS will need re-scaling the values of each grid cell in the raster (see an example of how to do this below).
+The raster layers from the data sources listed above may need some transformation before using them in [@geohabnet]. A valid raster layer to be used is one that its entry values of each pixel range from 0 (no habitat available) to 1 (habitat is available in the entirety of the pixel). For example, data layers of cropland fraction from EARTHSTAT can be directly provided to functions without the need to re-scale its entries. However, data layers of harvested area from CROPGRIDS will need re-scaling the values of each grid cell in the raster (see an example of how to do this below).
 
 For visualization and plots, [@geohabnet] uses [rnaturalearth](https://docs.ropensci.org/rnaturalearth/).
 
@@ -215,7 +215,8 @@ if (!require("geodata"))
  install.packages("geodata") 
 }
 
-path_to_avo <- system.file("extdata/avocado_density.tif", package = "geohabnet", mustWork = TRUE) #terra::sources(avocado_sp)
+path_to_avo <- "avocado_density.tif"
+#terra::sources(avocado_sp)
 params_file <- geohabnet::get_parameters()
 
 if (!require(yaml))
