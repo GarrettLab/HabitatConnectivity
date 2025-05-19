@@ -1,22 +1,22 @@
 #' Gmap class
 #'
 #' @description
-#' An S4 class to organize various maps in the form of `SpatRaster` in a single object.
+#' An S4 class object to organize various maps in the form of `SpatRaster` in a single object.
 #'
 #' @slot me_rast
-#' A raster object representing habitat connectivity of a region averaged across all selected parameters.
+#' A `SpatRaster` object representing habitat connectivity of a region averaged across all selected parameters.
 #'
 #' @slot me_out
 #' Character. A file path to where the mean habitat connectivity is saved.
 #'
 #' @slot diff_rast
-#' A raster object representing the difference in ranks between mean habitat connectivity and habitat availability in a region.
+#' A `SpatRaster` object representing the difference in ranks between mean habitat connectivity and habitat availability in a region.
 #'
 #' @slot diff_out
 #' Character. A file path to where the difference raster is saved.
 #'
 #' @slot var_rast
-#' A raster object representing the variance in habitat connectivity of a region calculated across all specified parameters.
+#' A `SpatRaster` object representing the variance in habitat connectivity of a region calculated across all specified parameters.
 #'
 #' @slot var_out
 #' Character. A file path to where the variance raster is saved.
@@ -32,18 +32,18 @@ setClass("Gmap",
            var_out = "character"
          ))
 
-#' Sets the slots in the Gmap object.
+#' Sets the slots in a Gmap object.
 #'
 #' @rdname Gmap-class
 #'
 #' @param x
-#' Gmap object.
+#' Gmap. Please provide a `Gmap` object.
 #'
 #' @param me
-#' SpatRaster. A raster used as background when plotting the map of mean habitat connectivity.
+#' SpatRaster. A SpatRaster used as background when plotting the map of mean habitat connectivity.
 #'
 #' @param vari
-#' SpatRaster. A raster used as background when plotting the map of variance in habitat connectivity.
+#' SpatRaster. A Spatraster used as background when plotting the map of variance in habitat connectivity.
 #'
 #' @param dif
 #' SpatRaster. A raster used as background when plotting the map of difference in habitat connectivity and habitat availability.
@@ -117,29 +117,29 @@ setMethod("setmaps", "Gmap", function(x, me, vari, dif) {
 #' GeoNetwork
 #'
 #' @description
-#' An S4 class representing a network of geographical data.
+#' An S4 class object with the multiple components resulting from a geographical habitat network analysis.
 #' The GeoNetwork object will wrap all the results from the habitat connectivity analysis using [sean()] or [sensitivity_analysis()].
-#' This class contains the field from `Gmap` class, which has results of the habitat connectivity analysis in the form of `SpatRaster` and TIFF file.
+#' Specifically, this class contains the field from `Gmap` class, which has results of the habitat connectivity analysis in the form of `SpatRaster` and TIFF file.
 #'
 #' @slot rasters A list of `GeoRasters` objects.
-#' @slot habitat_density A `SpatRaster` representing the habitat availability (or simply host density).
+#' @slot habitat_density A `SpatRaster` representing the habitat availability (or simply host density) that was used as input in the habitat connectivity analysis.
 #' @slot me_rast
-#' A raster representing mean habitat connectivity in a region.
+#' A `SpatRaster` representing the mean habitat connectivity of a region. The mean is calculated based on a sensitivity analysis across the user-specified dispersal parameters.
 #'
 #' @slot me_out
 #' Character. A file path to where the mean habitat connectivity raster is saved.
 #'
 #' @slot diff_rast
-#' A raster representing the difference in ranks between habitat connectivity and habitat availability.
+#' A `SpatRaster` representing the difference in ranks between the mean habitat connectivity and the user-supplied map of habitat availability.
 #'
 #' @slot diff_out
-#' Character. A file path to where the difference raster is located.
+#' Character. A file path to where the difference raster is saved.
 #'
 #' @slot var_rast
-#' A raster representing the variance in habitat connectivity in a region.
+#' A `SpatRaster` representing the variance in habitat connectivity in a region. The variance is calculated based on a sensitivity analysis across the user-specified dispersal parameters.
 #'
 #' @slot var_out
-#' Character. A file path to where the variance raster is located.
+#' Character. A file path to where the variance raster is saved.
 #'
 #' @export
 setClass("GeoNetwork", contains = "Gmap",
@@ -162,7 +162,7 @@ setClass("GeoNetwork", contains = "Gmap",
 #' Set the habitat density.
 #'
 #'
-#' This function helps to set the SpatRaster of the habitat availability or density in a GeoNetwork object. The function is an S4 replacement method in the geohabnet package. It allows you to assign a host availability SpatRaster to a geohabnet object.
+#' This function helps to set a `SpatRaster` of the habitat availability or density in a GeoNetwork object. The function is an S4 replacement method in the geohabnet package. It allows you to assign a host availability `SpatRaster` to a geohabnet object.
 #' @param x the GeoNetwork object.
 #' @param value SpatRaster.
 #' @return The same object type as x, that is, GeoNetwork. This function returns the updated S4 GeoNetwork object with the new habitat availability SpatRaster assigned.
@@ -184,15 +184,15 @@ setGeneric("habitat_density<-", function(x, value) {
 #'
 #' @export
 setMethod("habitat_density<-", "GeoNetwork", function(x, value) {
-  stopifnot(class(value) == "SpatRaster", "value must be of type SpatRaster")
+  stopifnot(class(value) == "SpatRaster", "A valid value must be of type SpatRaster")
   x@habitat_density <- value
   x
 })
 
-#' Internal function to extract risk indices from a list of crop rasters.
+#' Internal function to extract risk indices from a list of habitat rasters.
 #'
 #' @param crop_rasters
-#' List of raster objects.
+#' List of `SpatRaster` objects.
 #'
 #' @return
 #' A list of risk indices.

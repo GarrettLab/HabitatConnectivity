@@ -15,5 +15,5 @@ habitat_density(x) <- value
 The same object type as x, that is, GeoNetwork. This function returns the updated S4 GeoNetwork object with the new habitat availability SpatRaster assigned.
 }
 \description{
-This function helps to set the SpatRaster of the habitat availability or density in a GeoNetwork object. The function is an S4 replacement method in the geohabnet package. It allows you to assign a host availability SpatRaster to a geohabnet object.
+This function helps to set a \code{SpatRaster} of the habitat availability or density in a GeoNetwork object. The function is an S4 replacement method in the geohabnet package. It allows you to assign a host availability SpatRaster to a geohabnet object.
 }
