@@ -14,8 +14,7 @@ and a map of the difference between the ranks in habitat connectivity and habita
 \item{alert}{logical. \code{TRUE} if a beep sound is to be played once the analysis is completed, \code{FALSE} otherwise}
 }
 \value{
-GeoNetwork.
-Errors are not handled.
+GeoNetwork. Check documentation of the \code{\link[=sean]{sean()}} function for better explanation of the parameters used.
 }
 \description{
 This function runs a sensitivity analysis on habitat connectivity
@@ -31,8 +30,9 @@ Once the values have been changed manually, run \code{\link[=set_parameters]{set
 which will return TRUE if the parameters were set successfully.
 }
 \details{
-For each location in a region, sensitivity_analysis()
+For each location in a region, \code{\link[=sensitivity_analysis]{sensitivity_analysis()}}
 calculates the habitat connectivity risk index (CCRI) proposed by Xing et al. (2021).
+If you are providing a map of habitat availability (as opposed to simply cropland density or host availability), you could call the output of your sensitivity analysis as the habitat connectivity index, which is a broader term than CCRI. :)
 By default, sensitivity_analysis() runs a sensitivity analysis on a global extent,
 see \code{\link[=global_scales]{global_scales()}} for details.
 This function also plots maps of the outcomes automatically,
@@ -43,14 +43,6 @@ One outcome type corresponds to spatRasters representing the maps of habitat con
 The second type corresponds to adjacency matrices used to calculate the habitat connectivity,
 where columns and rows represent locations in the maps and
 entries are the relative likelihood of pathogen or pest movement between each pair of nodes.
-}
-\examples{
-\donttest{
-# Run analysis on specified parameters.yaml
-ss1 <- sensitivity_analysis()
-ss2 <- sensitivity_analysis(FALSE, FALSE)
-ss3 <- sensitivity_analysis(TRUE, FALSE)
-}
 }
 \references{
 Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,

@@ -1,7 +1,7 @@
 #' Plot a Raster* object
 #'
 #'
-#' This is a wrapper for [terra::plot()]
+#' This is a wrapper for [terra::plot()] with customized parameters for an enhanced visualization.
 #' @param x a Raster* object
 #' @param ... additional arguments passed to [terra::plot()]
 #' @return a plot

@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 # geohabnet
 
-This package expands on [Xing et al (2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255). It adds capabilities to customize parameter values using functions and shows the results of habitat connectivity risk index in the form of plots. The goal of `geohabnet` is to enable users to visualize a habitat connectivity risk index using their own parameter values. The risk analysis outputs 3 maps -
+This package expands on Xing et al (2021) <doi:10.1093/biosci/biaa067>. It adds capabilities to customize parameter values using functions and shows the results of habitat connectivity risk index in the form of plots. The goal of `geohabnet` is to enable users to visualize a habitat connectivity risk index using their own parameter values. The risk analysis outputs 3 maps -
 
 1.  Mean habitat connectivity (based on a habitat connectivity index defined by the user)
 
@@ -49,7 +49,7 @@ if (!require("devtools")) {
 devtools::install_github("GarrettLab/HabitatConnectivity", subdir = "geohabnet")
 ```
 
-## geohabnet Example
+## Example
 
 ```{r example, eval=FALSE}
 library(geohabnet)
@@ -69,4 +69,4 @@ geohabnet::sensitivity_analysis()
 
 Refer to help using ?*geohabnet::fun* or *help(geohabnet::fun)*
 
-Refer to article [*Analyzing risk index using cropland connectivity*](https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html) for more elaborate description and usages of functions in this package.
+Refer to article [*Mapping habitat connectivity with geohabnet*](https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html) for more elaborate description and usages of functions in this package.

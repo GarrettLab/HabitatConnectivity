@@ -2,28 +2,26 @@
 % Please edit documentation in R/get_rasters.R
 \name{get_rasters}
 \alias{get_rasters}
-\title{Get rasters object from parameters}
+\title{Get rasters object from parameters
+See host object in \code{\link[=get_parameters]{get_parameters()}} or \code{\link[=load_parameters]{load_parameters()}}.}
 \usage{
-get_rasters(hosts)
+get_rasters(host)
 }
 \arguments{
-\item{hosts}{List of hosts and values. It is synonym to Hosts object in parameters}
+\item{host}{SpatRaster. It is synonym to Hosts object in parameters.
+This is a wrapper to \code{\link[terra:rast]{terra::rast()}} and generates a raster object if provided with a TIF file.}
 }
 \value{
 List of SpatRaster.
 }
 \description{
-Takes named list of hosts as an input. See host object in \code{\link[=get_parameters]{get_parameters()}} or \code{\link[=load_parameters]{load_parameters()}}.
-This is also a wrapper of \code{\link[=crops_rast]{crops_rast()}}.
-Function creates 2 raster object - one is a sum of all the crops specified under sources
-and other using the provided raster file. See \code{\link[=tiff_torast]{tiff_torast()}}
+Get rasters object from parameters
+See host object in \code{\link[=get_parameters]{get_parameters()}} or \code{\link[=load_parameters]{load_parameters()}}.
 }
 \examples{
-# Get default rasters
-\dontrun{
-get_rasters(list(mapspam2010 = c("wheat"), monfreda = c("avocado"), file = "some_raster.tif"))
-}
+# Get default raster
+get_rasters(terra::rast())
 }
 \seealso{
-\code{\link[=load_parameters]{load_parameters()}}, \code{\link[=get_parameters]{get_parameters()}}, \code{\link[=tiff_torast]{tiff_torast()}}, \code{\link[=cropharvest_rast]{cropharvest_rast()}}
+\code{\link[=load_parameters]{load_parameters()}}, \code{\link[=get_parameters]{get_parameters()}}
 }

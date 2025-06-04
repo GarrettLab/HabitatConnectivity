@@ -1,10 +1,6 @@
 default:
   CCRI parameters:
-    Hosts:
-      monfreda: ["avocado"]
-      mapspam2010: 
-      mapspam2017Africa:
-      file:
+    Host:
     HostDensityThreshold: [0.00015, 0.000025]
     AggregationStrategy: [sum, mean]
     DistanceStrategy: "geodesic"
@@ -12,7 +8,7 @@ default:
     GeoExtent: 
       global: TRUE
       customExt: [-115, -75, 5, 32] # ignored, when global = TRUE
-    LinkThreshold: [0.000001]
+    LinkThreshold: [0.0001]
     DispersalKernelModels:
       InversePowerLaw:
         beta: [0.5, 1, 1.5]

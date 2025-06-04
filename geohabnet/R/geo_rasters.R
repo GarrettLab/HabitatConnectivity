@@ -1,10 +1,10 @@
 #' GlobalRast class
 #'
 #' @description
-#' A class to represent raster for global scales. Global scales are accessible using [global_scales()].
+#' A class to represent raster objects for global scales. Global scales are accessible using [global_scales()].
 #' However, this class encapsulates the results of apply dispersal models and metrics.
-#' @field east A list of raster for eastern hemisphere.
-#' @field west A list of raster for western hemisphere.
+#' @field east A list of raster objects for eastern hemisphere.
+#' @field west A list of raster objects for western hemisphere.
 #' @export
 .grast_ro <- setRefClass("GlobalRast",
                          fields = list(east = "ANY",

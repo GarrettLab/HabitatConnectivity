@@ -1,4 +1,12 @@
-#' Only meant to global variables
+#' Only used when conducting a global analysis of habitat connectivity.
+#' Our strategy? Divide and conquer!
+#' Since global analyses require high-performance computing, an approach is to simplify
+#' the global analysis into two regional analyses: 
+#' one analysis including the geographic extent for the East Hemisphere (or the Old World),
+#' and other for the West Hemisphere (mainly the Americas).
+#' After habitat connectivity within these hemisphere are calculated individually,
+#' they are combined to produce a global map of habitat connectivity back.
+#' 
 #' @keywords internal
 scales <- new.env(parent = emptyenv())
 scales$geast <- c(-24, 180, -58, 60)
@@ -62,7 +70,7 @@ set_global_scales <- function(value) {
 #'   This function returns a list of geographical scales set in global and custom extent in `parameters.yaml`.
 #'   If `global` is `TRUE`, the `CustomExt` is ignored.
 #' @param gparams Optional. [load_parameters()] or null
-#' @return Vector. A set of geographical scales
+#' @return Vector. A set of geographic coordinates that delimit the extent of a region of the world.
 #' @export
 geoscale_param <- function(gparams = load_parameters()) {
 

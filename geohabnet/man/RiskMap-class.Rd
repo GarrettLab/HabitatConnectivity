@@ -12,10 +12,10 @@ An S4 class representing resulting maps from the specific operation type.
 \describe{
 \item{\code{map}}{Character. A file path to the map.}
 
-\item{\code{riid}}{SpatRaster. This is one of the risk maps.}
+\item{\code{riid}}{SpatRaster. This is one of the maps of habitat connectivity.}
 
-\item{\code{spr}}{SpatRaster. A spatial raster representing the risk index.}
+\item{\code{spr}}{SpatRaster. A spatial raster representing the habitat connectivity index.}
 
-\item{\code{fp}}{Character. A file path to the risk index raster.}
+\item{\code{fp}}{Character. A file path to the habitat connectivity raster.}
 }}
 

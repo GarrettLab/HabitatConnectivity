@@ -31,7 +31,7 @@ Default is \code{TRUE}}
 in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If \code{geoscale} is NuLL,
 the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
-\item{res}{Numeric. Resolution of the raster. Default is \code{\link[=reso]{reso()}}.}
+\item{res}{Numeric. The spatial aggregation factor that will be used to aggregate the raster layer of habitat availability, from fine to coars resolution. Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
@@ -53,27 +53,6 @@ It produces and plots the maps for the outcomes and results are returned as an o
 \details{
 Error not handled for non-overlapping extents.
 }
-\examples{
-\donttest{
-rr <- get_rasters(list(monfreda = c("avocado")))
-res1 <- sa_onrasters(rr[[1]],
-            global = FALSE,
-            geoscale = c(-115, -75, 5, 32),
-            c(0.0001, 0.00004),
-            c(0.0001, 0.00005),
-            c("sum", "mean"),
-            res = 12)
-res2 <- sa_onrasters(rr[[1]],
-            global = TRUE,
-            link_thresholds = c(0.000001),
-            hd_thresholds = c(0.00015),
-            agg_methods = c("sum"),
-            res = 12)
-res3 <- msean_onrast(rast = rr[[1]],
-          link_thresholds = c(0.000001),
-          hd_thresholds = c(0.00015))
-}
-}
 \references{
 Yanru Xing, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L Andrade-Piedra, Fenton D Beed,
 Guy Blomme, Mónica Carvajal-Yepes, Danny L Coyne, Wilmer J Cuellar, Gregory A Forbes,
@@ -89,5 +68,5 @@ R package version 1.7-46, \url{https://CRAN.R-project.org/package=terra}
 \seealso{
 Use \code{\link[=get_rasters]{get_rasters()}} to obtain raster object.
 
-\code{\link[=msean_onrast]{msean_onrast()}} \code{\link[=supported_sources]{supported_sources()}}
+\code{\link[=msean_onrast]{msean_onrast()}}
 }

@@ -18,6 +18,7 @@ None
 \description{
 This function allows the user to set the parameters by replacing the existing
 parameters file with a new one. Use \code{\link[=get_parameters]{get_parameters()}} to modify the parameter values.
+After running this function, users can use the modified parameters in \code{\link[=sensitivity_analysis]{sensitivity_analysis()}}.
 }
 \examples{
 param_fp <- get_parameters()

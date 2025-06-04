@@ -1,33 +1,33 @@
-#' Calculate and plot maps
+#' Calculate and plot maps of habitat connectivity
 #'
-#' Calculate mean, variance and difference. The result is produced in form of maps plotted with predefined settings.
+#' Calculate the mean habitat connectivity across a set of selected parameters, variance in habitat connectivity, and the difference in ranks between mean habitat connectivity and habitat availability. The result is produced in form of maps plotted with predefined graphics settings.
 #' Currently, the settings for plot cannot be customized.
 #' Default value is `TRUE` for all logical arguments
-#' @param host SpatRaster. Host density map aka `SpatRaster` object
+#' @param host SpatRaster. A `SpatRaster` object for the spatial distribution of habitat availability (such as host availability or cropland density). Note that a valid input data for geohabnet is a raster layer of habitat availability (such as host availability), in which each grid cell has any values between zero and one. If you are using your own dataset, please also make sure that your raster layer is in the standard coordinate reference system (i.e., EPSG:4326), the only CRS supported by geohabnet for now.
 #' @param indices SpatRaster. Collection of risk indices.
-#' @param global Logical. `TRUE` if global analysis is desired, `FALSE` otherwise.
+#' @param global Logical. Select `TRUE` if a global analysis is desired, `FALSE` otherwise.
 #' `east` and `west` are required when `TRUE`.
 #' @param east SpatRaster. Collection of risk indices on eastern extent.
 #' @param west SpatRaster. Collection of risk indices on western extent.
 #' When `TRUE`, `geoscale` is ignored. Default is `TRUE`.
-#' @param geoscale Vector. geographical scale. Default is `NULL`.
-#' @param res Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
+#' @param geoscale Vector. This refers to the geographical extent for the habitat connectivity analysis when `global` is set to `FALSE`. Default is `NULL`.
+#' @param res Numeric. This parameter refers to the spatial aggregation factor. This value is the number of cells that are grouped when aggregating a raster layer from fine to coarse spatial resolution to reduce computational costs. Setting this parameter to 1 would not aggregate the raster layers.
 #' Default is [reso()].
-#' @param pmean Logical. `TRUE` if map of mean should be plotted, `FALSE` otherwise.
-#' @param pvar Logical. `TRUE` if variance map should be plotted, `FALSE` otherwise.
-#' @param pdiff Logical. `TRUE` if difference map should be plotted, `FALSE` otherwise.
+#' @param pmean Logical. `TRUE` if a map of mean habitat connectivity should be plotted, `FALSE` otherwise.
+#' @param pvar Logical. `TRUE` if a map of the variance in habitat connectivity should be plotted, `FALSE` otherwise.
+#' @param pdiff Logical. `TRUE` if a map of the difference in the ranks between the mean habitat connectivity and habitat availability should be plotted, `FALSE` otherwise.
 #' @param outdir Character. Output directory for saving raster in TIFF format.
 #' Default is [tempdir()].
 #' @return Gmap. See details.
 #' @details
-#' `indexes` are actually risk indices i.e. lis of `spatRaster` objects
-#' resulting from operations on crop's raster and
-#' parameters provided in either `parameters.yaml` or [sean()].
+#' `indexes` has a list of `spatRaster` objects resulting from the unique combinations of all parameters specified in either `parameters.yaml` or [sean()].
+#' For each unique combination of parameters, an index of habitat connectivity is calculated for each location in a landscape.
+#' Then these indices are used to calculate the mean and the variance of habitat connectivity of a location across all specified parameters. 
 #'
-#' It will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
-#' File will be saved in provided value of `outdir` or  [tempdir()].If [interactive()] is `TRUE`,
-#' then plots can be seen in active plot window. E.g. Rstudio. The maps are plotted using `SpatRaster` object.
-#' These objects are available as a return value of this function.
+#' This function will save all the opted plots using - `pmean`, `pvar` and `pdiff`.
+#' File will be saved in provided value of `outdir` or  [tempdir()]. If [interactive()] is `TRUE`,
+#' then plots can be seen in active plot window (e.g., plot panel in Rstudio). The maps are plotted using `SpatRaster` objects.
+#' These `SpatRaster` objects are also available as a return value of this function.
 #'
 #' @inherit sensitivity_analysis references
 #' @seealso [hci_mean()], [hci_variance()], [hci_diff()]

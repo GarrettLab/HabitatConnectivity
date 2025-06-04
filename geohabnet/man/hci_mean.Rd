@@ -2,7 +2,7 @@
 % Please edit documentation in R/maps.R
 \name{hci_mean}
 \alias{hci_mean}
-\title{Calculate mean of raster objects}
+\title{Calculate mean of habitat connectivity in a region}
 \usage{
 hci_mean(
   indices,
@@ -16,10 +16,10 @@ hci_mean(
 )
 }
 \arguments{
-\item{indices}{List of SpatRasters.
+\item{indices}{List of SpatRasters indicating the habitat connectivity of a region.
 This input represents the spatial raster collection for which mean is to be calculated.}
 
-\item{global}{Logical. \code{TRUE} if global analysis is desired, \code{FALSE} otherwise.
+\item{global}{Logical. Select \code{TRUE} if a global analysis is desired, \code{FALSE} otherwise.
 \code{east} and \code{west} are required when \code{TRUE}.}
 
 \item{east}{SpatRaster. Collection of risk indices on eastern extent.}
@@ -27,9 +27,9 @@ This input represents the spatial raster collection for which mean is to be calc
 \item{west}{SpatRaster. Collection of risk indices on western extent.
 When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 
-\item{geoscale}{Vector. geographical scale. Default is \code{NULL}.}
+\item{geoscale}{Vector. This refers to the geographical extent for the habitat connectivity analysis when \code{global} is set to \code{FALSE}. Default is \code{NULL}.}
 
-\item{res}{Numeric. Map resolution. This value is used in aggregation and dis-aggregation operation.
+\item{res}{Numeric. This parameter refers to the spatial aggregation factor. This value is the number of cells that are grouped when aggregating a raster layer from fine to coarse spatial resolution to reduce computational costs. Setting this parameter to 1 would not aggregate the raster layers.
 Default is \code{\link[=reso]{reso()}}.}
 
 \item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise.}
@@ -42,5 +42,5 @@ RiskMap. Contains result in the form of \code{SpatRaster} objects
 and file path of the saved maps.
 }
 \description{
-Wrapper for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters.
+Wrapper for \code{\link[terra:summarize-generics]{terra::mean()}}. Calculates mean of list of rasters for habitat connectivity.
 }

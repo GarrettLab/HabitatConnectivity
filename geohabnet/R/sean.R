@@ -62,7 +62,7 @@
     stop("unable to extract density data, longitude/latitude")
   }
 
-  # Prepare arguments elements values for the CCRI functions
+  # Prepare arguments elements values for the habitat connectivity functions
 
   # save the latitude and longitude as new matrix
   latilongimatr <- terra::xyFromCell(density_data$agg_crop, cell = density_data$crop_values_at)
@@ -93,7 +93,7 @@
   return(TRUE)
 }
 
-# CCRI functions ----------------------------------------------------------
+# Functions to calculate habitat connectivity ----------------------------------
 .hci_powerlaw <- function(betas,
                           link_threshold = 0,
                           metrics = NULL,
@@ -231,7 +231,7 @@
 }
 
 
-# Sensitivity analysis ----------------------------------------------------
+# Sensitivity analysis --------------------------------------------------------
 
 #' Sensitivity analysis across maps of habitat connectivity
 #'
@@ -242,27 +242,27 @@
 #' [sensitivity_analysis()] is a wrapper around [sean()] function.
 #' - `msean()` is a wrapper around [sean()] function.
 #' It has additional argument to specify maps which are calculated
-#' using [connectivity()] function. The maps are essentially the risk network.
+#' using [connectivity()] function.
 #' @param ... arguments passed to [sean()]
 #' @param link_threshold Numeric. A threshold value for link weight.
 #' All link weights that are below this threshold will be replaced with zero for the connectivity analysis.
 #' Link weights represent the relative likelihood of pathogen, pest,
 #' or invasive species movement between a pair of host locations,
 #' which is calculated using gravity models based on host density (or availability) and dispersal kernels.
-#' @param hd_threshold Numeric. A threshold value for host density.
+#' @param hd_threshold Numeric. A threshold value for habitat availability (e.g., cropland density or host density).
 #' All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
 #' which focuses the analysis on the most important locations.
-#' The values for the host density threshold can range between 0 and 1;
+#' The values for the habitat availability threshold can range between 0 and 1;
 #' if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
-#' Selecting a threshold for host density requires at least knowing what is the maximum value
+#' Selecting a threshold for, for example, host density requires at least knowing what is the maximum value
 #' in the host density map to avoid excluding all locations in the analysis.
 #' if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
 #' Selecting a threshold for host density requires at least knowing what is the maximum value
 #' in the host density map to avoid excluding all locations in the analysis.
-#' @param agg_methods Character. One or both the values - SUM, MEAN.
+#' @param agg_methods Character. One or both methods of spatial aggregation - SUM, MEAN.
 #' Aggregation strategy for scaling the input raster to the desired resolution.
 #' @param dist_method Character. The method to calculate the distance matrix.
-#' @param res Numeric. The resolution of the output raster. Default is [reso()] or 12.
+#' @param res Numeric. The spatial aggregation factor that will be used to aggregate the raster layers of habitat availability from fine to coarse resolution. Default is [reso()] or 12.
 #' @param inv_pl List. A named list of parameters for inverse power law. See details.
 #' @param neg_exp List. A named list of parameters for inverse negative exponential. See details.
 #' All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
@@ -290,32 +290,13 @@
 #' For each location in the area of interest,
 #' the difference between the rank of habitat connectivity and the rank of host density is calculated.
 #' By default, each of these spatRasters is plotted for visualization.
+#' 
 #'
 #' @inherit Dispersal-kernels details
 #'
 #' @seealso Uses [connectivity()]
 #' @seealso Uses [msean()] [inv_powerlaw()] [neg_expo()]
 #' @inherit sensitivity_analysis references
-#'
-#' @examples
-#' \donttest{
-#' avocado <- cropharvest_rast("avocado", "monfreda")
-#'
-#' # global
-#' ri <- sean(avocado) # returns a list of GeoRasters
-#' mri <- msean(rast = avocado) # returns GeoNetwork object
-#'
-#' # non-global
-#' # geoscale is a vector of xmin, xmax, ymin, ymax
-#'
-#' # returns GeoRasters object
-#' ri <- sean(avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
-#' ri
-#'
-#' # returns GeoNetwork object
-#' mri <- msean(rast = avocado, global = FALSE, geoscale = c(-115, -75, 5, 32))
-#' mri
-#' }
 sean <- function(rast,
                  global = TRUE,
                  geoscale = NULL,
@@ -434,7 +415,7 @@ sean <- function(rast,
 }
 
 #' @rdname sean
-#' @param res Numeric. Resolution of the raster. Default is [reso()].
+#' @param res Numeric. The spatial aggregation factor that will be used to aggregate the raster layer of habitat availability, from fine to coars resolution. Default is [reso()].
 #' @return GeoNetwork.
 msean <- function(rast,
                   global = TRUE,
@@ -461,7 +442,7 @@ msean <- function(rast,
                         outdir = outdir)
 
   return(new("GeoNetwork",
-             host_density = grasters$host_density,
+             habitat_density = grasters$host_density,
              rasters = grasters,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,
@@ -521,29 +502,8 @@ msean <- function(rast,
 #' @export
 #' @details
 #' Error not handled for non-overlapping extents.
-#'
-#' @examples
-#' \donttest{
-#' rr <- get_rasters(list(monfreda = c("avocado")))
-#' res1 <- sa_onrasters(rr[[1]],
-#'             global = FALSE,
-#'             geoscale = c(-115, -75, 5, 32),
-#'             c(0.0001, 0.00004),
-#'             c(0.0001, 0.00005),
-#'             c("sum", "mean"),
-#'             res = 12)
-#' res2 <- sa_onrasters(rr[[1]],
-#'             global = TRUE,
-#'             link_thresholds = c(0.000001),
-#'             hd_thresholds = c(0.00015),
-#'             agg_methods = c("sum"),
-#'             res = 12)
-#' res3 <- msean_onrast(rast = rr[[1]],
-#'           link_thresholds = c(0.000001),
-#'           hd_thresholds = c(0.00015))
-#'}
 #' @inherit sensitivity_analysis seealso references
-#' @seealso [msean_onrast()] [supported_sources()]
+#' @seealso [msean_onrast()]
 #'
 sa_onrasters <- function(rast,
                          link_thresholds = c(0),
@@ -593,7 +553,7 @@ msean_onrast <- function(global = TRUE,
                         outdir)
 
   return(new("GeoNetwork",
-             host_density = grast$host_density,
+             habitat_density = grast$host_density,
              rasters = grast,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,
@@ -619,8 +579,9 @@ msean_onrast <- function(global = TRUE,
 #' which will return TRUE if the parameters were set successfully.
 #'
 #' @details
-#' For each location in a region, sensitivity_analysis()
+#' For each location in a region, [sensitivity_analysis()]
 #' calculates the habitat connectivity risk index (CCRI) proposed by Xing et al. (2021).
+#' If you are providing a map of habitat availability (as opposed to simply cropland density or host availability), you could call the output of your sensitivity analysis as the habitat connectivity index, which is a broader term than CCRI. :)
 #' By default, sensitivity_analysis() runs a sensitivity analysis on a global extent,
 #' see [global_scales()] for details.
 #' This function also plots maps of the outcomes automatically,
@@ -635,17 +596,9 @@ msean_onrast <- function(global = TRUE,
 #' If `TRUE`, three maps are possible: a map of mean habitat connectivity, a map of variance of habitat connectivity,
 #' and a map of the difference between the ranks in habitat connectivity and habitat density.
 #' @param alert logical. `TRUE` if a beep sound is to be played once the analysis is completed, `FALSE` otherwise
-#' @return GeoNetwork.
-#' Errors are not handled.
+#' @return GeoNetwork. Check documentation of the [sean()] function for better explanation of the parameters used.
 #' @export
 #'
-#' @examples
-#' \donttest{
-#' # Run analysis on specified parameters.yaml
-#' ss1 <- sensitivity_analysis()
-#' ss2 <- sensitivity_analysis(FALSE, FALSE)
-#' ss3 <- sensitivity_analysis(TRUE, FALSE)
-#' }
 #' @seealso
 #' [sa_onrasters()]
 #' [sean()]
@@ -671,7 +624,10 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   host_thresholds <- cparams$`CCRI parameters`$HostDensityThreshold
 
   # crop data
-  crop_rasters <- get_rasters(cparams$`CCRI parameters`$Hosts)
+  host_fp <- cparams$`CCRI parameters`$Host
+  stopifnot("Host must be a file that can be converted to raster. E.g. TIFF" = file.exists(host_fp))
+  crop_rasters <- get_rasters(host_fp)
+  
   agg_methods <- cparams$`CCRI parameters`$AggregationStrategy # list
 
   # resolution
@@ -722,7 +678,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   ret <- if (maps == TRUE) {
     new("GeoNetwork",
-        host_density = .unpack_rast_ifnot(newrast$host_density),
+        habitat_density = .unpack_rast_ifnot(newrast$host_density),
         rasters = newrast,
         me_rast = gmap@me_rast,
         me_out = gmap@me_out,

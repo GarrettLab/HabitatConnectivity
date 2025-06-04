@@ -2,7 +2,7 @@
 % Please edit documentation in R/geo_network.R
 \name{ndplot}
 \alias{ndplot}
-\title{Network density}
+\title{Network density plot}
 \usage{
 ndplot(x)
 }
@@ -10,8 +10,12 @@ ndplot(x)
 \item{x}{A GeoNetwork object}
 }
 \value{
-Vector. Up to two ggplot2 objects
+Vector. Up to two ggplot2 objects, one for the dispersal parameter values in the negative exponential model and one for the dispersal parameter values in the inverse power law model.
 }
 \description{
-Calculates and plots the network density of a GeoNetwork object.
+This function first calculates the network density for each dispersal parameter specified by the user.
+Network density compares the number of available links in a network versus the total number of possible links in the same network.
+Network density is a measure of how well an entire network is, ranging from 0 (not connected at all) to 1 (fully connected).
+This function then compares visually how network density changes with changes in dispersal parameter values.
+In other words, it calculates and plots the network density of a GeoNetwork object.
 }

@@ -12,8 +12,7 @@ height="25" alt="CRAN status" />](https://CRAN.R-project.org/package=geohabnet)
 
 # geohabnet
 
-This package expands on [Xing et al
-(2021)](https://academic.oup.com/bioscience/article/70/9/744/5875255).
+This package expands on Xing et al (2021) <doi:10.1093/biosci/biaa067>.
 It adds capabilities to customize parameter values using functions and
 shows the results of habitat connectivity risk index in the form of
 plots. The goal of `geohabnet` is to enable users to visualize a habitat
@@ -43,11 +42,13 @@ Package can either be installed from CRAN:
 
 ``` r
 install.packages("geohabnet")
-#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpBU77e3/temp_libpath4f5365f57439'
+#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/Rtmpk04dwi/temp_libpath644e7beb8e10'
 #> (as 'lib' is unspecified)
+#> Warning: package 'geohabnet' is not available for this version of R
 #> 
-#> The downloaded binary packages are in
-#>  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpBqmkXl/downloaded_packages
+#> A version of this package for your version of R might be available elsewhere,
+#> see the ideas at
+#> https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages
 ```
 
 or the source version of package can be installed from

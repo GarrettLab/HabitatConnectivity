@@ -6,23 +6,23 @@
 \alias{.model_ob}
 \title{GeoModel class}
 \description{
-A ref class to represent results of dispersal models.
+A reference class to represent results of dispersal models.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{amatrix}}{An adjacency matrix to represent network.}
+\item{\code{amatrix}}{A square adjacency matrix that represents the likely movement of a species between locations. In this adjacency matrix, rows and columns are the identification of the locations, and each entry indicates the relative likelihood of a species moving between a pair of locations. An adjacency matrix is produced for each unique value of the dispersal parameters chosen.}
 
-\item{\code{index}}{A raster object representing the index.}
+\item{\code{index}}{A raster object representing the habitat connectivity index of the locations in the selected region. Note that connectivity is calculated based on a weighted sum of the network metrics chosen by the user. A raster object is produced for each unique value of the dispersal parameters chosen.}
 
-\item{\code{hdthreshold}}{A numeric value representing the threshold.}
+\item{\code{hdthreshold}}{A numeric value representing the threshold for habitat availability (e.g., cropland density or host density) used in the sensitivity analysis.}
 
-\item{\code{aggregation}}{A character value representing the aggregation method.}
+\item{\code{aggregation}}{A character value representing the spatial aggregation method used for aggregating the habitat availability map before conducting the sensitivity analysis.}
 
-\item{\code{linkthreshold}}{A numeric value representing the link threshold.}
+\item{\code{linkthreshold}}{A numeric value representing the threshold for the link weights used to calculate habitat connectivity of each location. Note that link weights indicate the relative likelihood of a species moving between locations (nodes) and correspond to the entries in the adjacency matrix.}
 
-\item{\code{beta}}{A numeric value representing the beta parameter.}
+\item{\code{beta}}{A numeric value representing the beta parameter. The beta parameter is the dispersal parameter in one of two dispersal kernel models (the inverse power law model) included in \code{geohabnet}.}
 
-\item{\code{gamma}}{A numeric value representing the gamma parameter.}
+\item{\code{gamma}}{A numeric value representing the gamma parameter. The gamma parameter is the dispersal parameter in one of two dispersal kernel models (the negative exponential model) included in \code{geohabnet}.}
 }}
 
