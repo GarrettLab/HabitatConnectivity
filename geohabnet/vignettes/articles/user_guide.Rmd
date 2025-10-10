@@ -1,0 +1,39 @@
+---
+title: "User guide"
+output: rmarkdown::pdf_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+Welcome to the user guide for geohabnet, an R package for the analysis of habitat landscape connectivity!
+
+This section is designed for users already familiar with R and RStudio. While RStudio is considered an interactive environment, using R from the CLI is not.
+
+The underlying theory for calculating habitat connectivity is based on network analysis. To get an idea of the concepts of habitat connectivity in geohabnet, users are recommended to check Xing et al. (2020) – Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests. BioScience 70(9): 744-758.
+
+
+# Installation and pre-requisites
+
+The geohabnet R package can be directly installed and loaded in RStudio using the following commands.
+For the stable version published in CRAN:
+
+```{r eval=FALSE}
+install.packages("geohabnet")
+```
+
+This version 2.2 is available in [CRAN](https://cran.r-project.org/web/packages/geohabnet/index.html)
+
+For the latest development version available on GitHub:
+
+```{r eval=FALSE}
+install.packages("devtools")
+devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+```
+
+This version is available at the [GitHub repository](https://github.com/GarrettLab/HabitatConnectivity)
