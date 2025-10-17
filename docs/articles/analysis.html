@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:krishnakeshav.pes@gmail.com" class="email">krishnakeshav.pes@gmail.com</a>)</h4>
             
-            <h4 data-toc-skip class="date">16 October, 2025</h4>
+            <h4 data-toc-skip class="date">17 October, 2025</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/analysis.Rmd" class="external-link"><code>vignettes/articles/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -95,31 +95,29 @@ species. Locations with abundant habitats (e.g., plant hosts) may play a
 minor role in species spread if they are isolated. Yet, a location with
 limited habitat may play a major role in the spread of a species if it
 acts as a bridge between regions that would otherwise be separated.
-<span class="citation">(Keshav et al. 2023)</span> provides the R-user
-community with a network-based approach to estimate habitat connectivity
-across the world. This package supports up to 10 parameters that has
-potential to influence habitat or landscape connectivity. The
-implementation of <span class="citation">(Keshav et al. 2023)</span>
-expands the cropland connectivity method for plant pathogens proposed by
-<span class="citation">(Xing et al. 2020)</span> to a general way of
+<em>geohabnet</em> <span class="citation">(Keshav, Plex, and Garrett
+2025)</span> provides the R-user community with a network-based approach
+to estimate habitat connectivity across the world. This package supports
+up to 10 parameters that has potential to influence habitat or landscape
+connectivity. The implementation of <em>geohabnet</em> <span class="citation">(Keshav, Plex, and Garrett 2025)</span> expands the
+cropland connectivity method for plant pathogens proposed by <span class="citation">(Xing et al. 2020)</span> to a general way of
 calculating habitat connectivity for any species. The network-based
-framework for <span class="citation">(Keshav et al. 2023)</span> is the
-same as the one proposed by <span class="citation">(Xing et al.
-2020)</span>. However, <span class="citation">(Keshav et al.
-2023)</span> provides more flexibility to users to modify any parameter
-values in this framework.</p>
-<p>Although this article focuses on the use of <span class="citation">(Keshav et al. 2023)</span>, it is useful to know for
+framework is the same as the one proposed by <span class="citation">(Xing et al. 2020)</span>. However, <em>geohabnet</em>
+provides more flexibility to users to modify any parameter values in
+this framework.</p>
+<p>Although this article focuses on the use of <em>geohabnet</em> <span class="citation">(Keshav et al. 2023)</span>, it is useful to know for
 interested developers that package design is inspired from widely used
 Configuration-based design in software development <span class="citation">(Majors 2022)</span>, <span class="citation">(Nash and
 DeMore 2009)</span>; and <span class="citation">(Allaire 2023)</span>
 provides a text based interface to control the parameters values for
 risk analysis in this context.</p>
 <p>The primary objective of this vignette is to help user being
-familiarized with <span class="citation">(Keshav et al. 2023)</span>,
-list its capabilities and get an intuition behind them. It also
-describes the implementation of the main functions in <span class="citation">(Keshav et al. 2023)</span> to support this intuition.
-Throughout the article, we will be citing external sites and resources,
-which are relevant for the use of this package.</p>
+familiarized with <em>geohabnet</em> <span class="citation">(Keshav et
+al. 2023)</span>, list its capabilities and get an intuition behind
+them. It also describes the implementation of the main functions in
+<em>geohabnet</em> to support this intuition. Throughout the article, we
+will be citing external sites and resources, which are relevant for the
+use of this package.</p>
 </div>
 <div class="section level2">
 <h2 id="pre-requisites">Pre-requisites<a class="anchor" aria-label="anchor" href="#pre-requisites"></a>
@@ -137,7 +135,7 @@ processing. Here, we use raster to represent maps.</p></li>
 <li><p>TIFF(Tag Image File Format) is a type of file that stores
 geographic information in the form of raster. <span class="citation">(Keshav et al. 2023)</span> has been tested using
 <em>.tif</em> and <em>.nc</em> files but it would be able to handle any
-raster type of file supported by the R package <span class="citation">(Hijmans 2023)</span> .</p></li>
+raster type of file supported by the R package <em>terra</em> <span class="citation">(Hijmans 2023)</span> .</p></li>
 </ul>
 </div>
 <div class="section level3">
@@ -170,9 +168,8 @@ Research Institute 2019)</span></p></li>
 <span class="citation">(Service 2025)</span></p></li>
 <li><p><a href="https://www.gbif.org/" class="external-link">GBIF</a> <span class="citation">(GBIF 2025)</span></p></li>
 </ul>
-<p><span class="citation">(Hijmans et al. 2024)</span> provides a set of
-APIs to access the EARTHSTAT and MapSPAM datasets directly in R (see
-code below).</p>
+<p><em>geodata</em> provides a set of APIs to access the EARTHSTAT and
+MapSPAM datasets directly in R (see code below).</p>
 <p>The raster layers from the data sources listed above may need some
 transformation before using them in <span class="citation">(Keshav et
 al. 2023)</span>. A valid raster layer to be used is one that its entry
@@ -182,8 +179,8 @@ cropland fraction from EARTHSTAT can be directly provided to functions
 without the need to re-scale its entries. However, data layers of
 harvested area from CROPGRIDS will need re-scaling the values of each
 grid cell in the raster (see an example of how to do this below).</p>
-<p>For visualization and plots, <span class="citation">(Keshav et al.
-2023)</span> uses <a href="https://docs.ropensci.org/rnaturalearth/" class="external-link">rnaturalearth</a>.</p>
+<p>For visualization and plots, <em>geohabnet</em> uses
+<em>rnaturalearth</em> <a href="#id_0">rnaturalearth</a>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -246,10 +243,11 @@ follows:</p>
 <p>The section below illustrate how the habitat connectivity analysis
 can be conducted using the default set of values for the supported
 parameters. For this example, we use the raster layer for avocado
-harvested area from CROPGRIDS as a real-world case study for the habitat
-connectivity of avocado-specific pathogens. This example would run the
-analysis on global geographical extent relatively quickly since the crop
-presence around the world is relatively low.</p>
+harvested area from CROPGRIDS <span class="citation">(Tang FHM
+2024)</span> as a real-world case study for the habitat connectivity of
+avocado-specific pathogens. This example would run the analysis on
+global geographical extent relatively quickly since the crop presence
+around the world is relatively low.</p>
 <p>For the purposes of demonstration, the code below sets the host
 parameter programatically or directly in RStudio. Alternatively, the
 parameters can be fed via <code>parameters.yaml</code> in an interactive
@@ -332,12 +330,12 @@ power of your machine.</p>
 <span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=======                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
 <span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
 <p>Many, many congratulations! You have just generated a full
@@ -434,7 +432,7 @@ config file.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQQXJ4k/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmprp11dF/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="float">
 <img src="images%2Finitconfig.png" width="700" alt="Initial parameters.yaml"><div class="figcaption">Initial parameters.yaml</div>
@@ -486,7 +484,7 @@ and feed it to workflow using <code><a href="../reference/set_parameters.html">s
 studies were done on crop data from Monfreda<span class="citation">(Monfreda, Ramankutty, and Foley 2008)</span> and
 Mapspam<span class="citation">(International Food Policy Research
 Institute 2019)</span> which is available via <code>geodata</code>
-package <span class="citation">(Hijmans et al. 2024)</span></p>
+package <span class="citation">(<strong>geodata2025?</strong>)</span></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sensitivity_analysis.html">sensitivity_analysis</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in max(wv, na.rm = TRUE): no non-missing arguments to max; returning</span></span>
@@ -552,7 +550,7 @@ package <span class="citation">(Hijmans et al. 2024)</span></p>
 <span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=======                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
 <span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
@@ -588,7 +586,7 @@ threshold are removed from the consideration by dispersal models.</p>
 <span><span class="co">#&gt; -Inf</span></span>
 <span><span class="co">#&gt; Warning in max(wv, na.rm = TRUE): no non-missing arguments to max; returning</span></span>
 <span><span class="co">#&gt; -Inf</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|==                                          </span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|==                                          </span></span>
@@ -805,15 +803,15 @@ instead of S4 class.</p>
 <span><span class="co">#&gt; -Inf</span></span>
 <span><span class="co">#&gt; Warning in max(wv, na.rm = TRUE): no non-missing arguments to max; returning</span></span>
 <span><span class="co">#&gt; -Inf</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/final-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
 <span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/final-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/final-3.png" width="700"></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
@@ -832,11 +830,11 @@ classes approach.</p>
 <code class="sourceCode R"><span><span class="va">final</span></span>
 <span><span class="co">#&gt; class            :  GeoNetwork </span></span>
 <span><span class="co">#&gt; habitat density     :  98 , 267  (nrow, ncol) SpatRaster </span></span>
-<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQQXJ4k/plots/mean_20251016234210527975.tif </span></span>
+<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmprp11dF/plots/mean_20251017004248904906.tif </span></span>
 <span><span class="co">#&gt; mean raster      :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQQXJ4k/plots/variance_20251016234211494127.tif </span></span>
+<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmprp11dF/plots/variance_2025101700424982942.tif </span></span>
 <span><span class="co">#&gt; variance raster   :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQQXJ4k/plots/difference_20251016234212129151.tif </span></span>
+<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmprp11dF/plots/difference_20251017004250492381.tif </span></span>
 <span><span class="co">#&gt; difference raster :  1176 , 3204  (nrow, ncol)</span></span></code></pre></div>
 <p>The final operations are performed risk indices and on the 3 results
 that are produced -</p>
@@ -990,10 +988,6 @@ Facility.”</span> <a href="https://www.gbif.org/" class="external-link">https:
 <div id="ref-terra" class="csl-entry">
 Hijmans, Robert J. 2023. <span>“Terra: Spatial Data Analysis.”</span> <a href="https://CRAN.R-project.org/package=terra" class="external-link">https://CRAN.R-project.org/package=terra</a>.
 </div>
-<div id="ref-geodata" class="csl-entry">
-Hijmans, Robert J., Márcia Barbosa, Aniruddha Ghosh, and Alex Mandel.
-2024. <span>“Geodata: Download Geographic Data.”</span> <a href="https://CRAN.R-project.org/package=geodata" class="external-link">https://CRAN.R-project.org/package=geodata</a>.
-</div>
 <div id="ref-internationalfoodpolicyresearchinstitute2019" class="csl-entry">
 International Food Policy Research Institute. 2019. <span>“Global
 Spatially-Disaggregated Crop Production Statistics Data for 2010 Version
@@ -1002,6 +996,10 @@ Spatially-Disaggregated Crop Production Statistics Data for 2010 Version
 <div id="ref-geohabnet" class="csl-entry">
 Keshav, Krishna, Garrett Lab, Karen Garrett, and Aaron Plex. 2023.
 <span>“Geohabnet: Analysis of Cropland Connectivity.”</span> <a href="https://CRAN.R-project.org/package=geohabnet" class="external-link">https://CRAN.R-project.org/package=geohabnet</a>.
+</div>
+<div id="ref-geohabnet2025" class="csl-entry">
+Keshav, Krishna, Aaron Plex, and Karen Garrett. 2025. <span>“Geohabnet:
+Geographical Risk Analysis Based on Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
 </div>
 <div id="ref-sre_book" class="csl-entry">
 Majors, Charity. 2022. <em>SRE Workbook: Configuration Design</em>.
