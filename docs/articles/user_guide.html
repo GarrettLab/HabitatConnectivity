@@ -66,6 +66,9 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>User guide</h1>
+                        <h4 data-toc-skip class="author">Aaron Plex Sula
+(<a href="mailto:plexaaron@ufl.edu" class="email">plexaaron@ufl.edu</a>
+), Garrett Lab, University of Florida</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/user_guide.Rmd" class="external-link"><code>vignettes/articles/user_guide.Rmd</code></a></small>
@@ -74,23 +77,20 @@
 
     
     
-<p>Welcome to the user guide for geohabnet, an R package for the
-analysis of habitat landscape connectivity!</p>
+<p>Welcome to the user guide for geohabnet <span class="citation">(Keshav, Plex, and Garrett 2025)</span>, an R package
+for the analysis of habitat landscape connectivity!</p>
 <p>This section is designed for users already familiar with R and
 RStudio. While RStudio is considered an interactive environment, using R
 from the CLI is not.</p>
 <p>The underlying theory for calculating habitat connectivity is based
 on network analysis. To get an idea of the concepts of habitat
-connectivity in geohabnet, users are recommended to check Xing et
-al. (2020) – Global cropland connectivity: A risk factor for invasion
-and saturation by emerging pathogens and pests. BioScience 70(9):
-744-758.</p>
+connectivity in geohabnet, users are recommended to check <span class="citation">(Xing et al. 2020)</span> .</p>
 <div class="section level2">
 <h2 id="installation-and-pre-requisites">Installation and pre-requisites<a class="anchor" aria-label="anchor" href="#installation-and-pre-requisites"></a>
 </h2>
-<p>The geohabnet R package can be directly installed and loaded in
-RStudio using the following commands. For the stable version published
-in CRAN:</p>
+<p>The <code>geohabnet</code> R package can be directly installed and
+loaded in RStudio using the following commands. For the stable version
+published in CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"geohabnet"</span><span class="op">)</span></span></code></pre></div>
 <p>This version 2.2 is available in <a href="https://cran.r-project.org/web/packages/geohabnet/index.html" class="external-link">CRAN</a></p>
@@ -102,13 +102,13 @@ in CRAN:</p>
 repository</a></p>
 <p>In either case, the user will be prompted to update dependencies to
 other R packages during the installation in RStudio. We recommend
-updating all the package dependencies. The dependencies of the geohabnet
-package and their minimum versions required can be accessed by the
-following code:</p>
+updating all the package dependencies. The dependencies of the
+<code>geohabnet</code> package and their minimum versions required can
+be accessed by the following code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">desc</span><span class="fu">::</span><span class="fu"><a href="https://desc.r-lib.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"geohabnet"</span><span class="op">)</span></span></code></pre></div>
-<p>Note that desc::desc() is a function from an external package and
-requires installation for its use. Now, the geohabnet package can be
+<p>Note that <code><a href="https://desc.r-lib.org/reference/desc.html" class="external-link">desc::desc()</a></code> is a function from an external
+package and requires installation for its use. Now, the package can be
 loaded into the current R environment.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://garrettlab.github.io/HabitatConnectivity/">geohabnet</a></span><span class="op">)</span></span></code></pre></div>
@@ -116,28 +116,27 @@ loaded into the current R environment.</p>
 <div class="section level2">
 <h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
-<p>The landing page and documentation can be accessed using ?geohabnet.
-This guide was written for geohabnet 2.2, which is available for
-download in CRAN and GitHub.</p>
+<p>The landing page and documentation can be accessed using
+<code><a href="../reference/geohabnet-package.html">?geohabnet</a></code>. This guide was written for geohabnet v2.2 <span class="citation">(Keshav, Plex, and Garrett 2025)</span>, which is
+available for download in CRAN and GitHub.</p>
 <p>The help page for all the functions can be accessed with
 <code>?geohabnet::fun</code> or <code>help(geohabnet::fun)</code>, where
 fun needs to be changed to the name of a function of your interest. For
 example, <code>?geohabnet::msean()</code> or simply <code><a href="../reference/sean.html">?msean</a></code>
 will provide documentation for the function <code><a href="../reference/sean.html">msean()</a></code>.</p>
-<p><code>geohabnet 2.2</code> provides two main functions to estimate
-and map the connectivity of locations where habitat is present
-(hereafter, habitat connectivity): <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>
-and <code><a href="../reference/sean.html">msean()</a></code>. The package also offers supplementary
-functions, but they are not covered in this user guide. Before running
-the function, please review the description of each parameter below.
-Well, there are over ten parameters that can be used in either
-<code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> or <code><a href="../reference/sean.html">msean()</a></code>. The
-parameters in <code><a href="../reference/sean.html">msean()</a></code> can be modified directly within the
-function in RStudio, as is common in many R packages.
-<code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> requires a list of parameters,
-providing an organized way to easily change the default parameter values
-without listing them every time. The list of parameters for
-<code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> is called
+<p>v2.2 provides two main functions to estimate and map the connectivity
+of locations where habitat is present (hereafter, habitat connectivity):
+<code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> and <code><a href="../reference/sean.html">msean()</a></code>. The
+package also offers supplementary functions, but they are not covered in
+this user guide. Before running the function, please review the
+description of each parameter below. Well, there are over ten parameters
+that can be used in either <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> or
+<code><a href="../reference/sean.html">msean()</a></code>. The parameters in <code><a href="../reference/sean.html">msean()</a></code> can be
+modified directly within the function in RStudio, as is common in many R
+packages. <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> requires a list of
+parameters, providing an organized way to easily change the default
+parameter values without listing them every time. The list of parameters
+for <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> is called
 <code>Parameters.yaml</code>.</p>
 <p>The following steps allow you to access the
 <code>Parameters.yaml</code> file, specify parameter values, and use
@@ -147,8 +146,7 @@ them for analysis in <code><a href="../reference/sensitivity_analysis.html">sens
 <code><a href="../reference/get_parameters.html">geohabnet::get_parameters()</a></code> and specifying the location
 where the file will be saved. Use <code>iwindow = TRUE</code> for
 interactive selection or provide an absolute file path to the parameter
-out_path for non-interactive use. For example, Plex ran the
-following:</li>
+out_path for non-interactive use. For example, <a href="https://scholar.google.com/citations?user=t1kkSGQAAAAJ&amp;hl=en" title="Aaron Plex Sula" class="external-link">Plex</a> ran the following:</li>
 </ol>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="st">"C:/Users/plexaaron/Documents"</span><span class="op">)</span></span></code></pre></div>
@@ -163,7 +161,7 @@ picture below).</p></li>
 save it.</p></li>
 <li><p>Feed the new Parameters.yaml file to the package using
 <code><a href="../reference/set_parameters.html">geohabnet::set_parameters()</a></code> which will return TRUE if the
-parameters were set successfully. For example, Plex ran the
+parameters were set successfully. For example, <a href="https://scholar.google.com/citations?user=t1kkSGQAAAAJ&amp;hl=en" title="Aaron Plex, Phd, University of Florida" class="external-link">Plex</a> ran the
 following:</p></li>
 </ol>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -180,15 +178,16 @@ of habitat connectivity.</li>
 <h3 id="providing-habitat-distribution">1. Providing habitat distribution<a class="anchor" aria-label="anchor" href="#providing-habitat-distribution"></a>
 </h3>
 <p>Users can provide any type of habitat map that is compatible with the
-<code>terra:rast()</code> function. Typically, this is a TIFF file in
-the standard geographic coordinate system (WGS84). Acceptable entries in
-this SpatRaster range from zero (no habitat is available in a location)
-to one (the location is fully covered with habitat for a species).</p>
+<code>terra:rast()</code> function in <span class="citation">(Hijmans
+2023)</span>. Typically, this is a TIFF file in the standard geographic
+coordinate system (WGS84). Acceptable entries in this SpatRaster range
+from zero (no habitat is available in a location) to one (the location
+is fully covered with habitat for a species).</p>
 <p>Host availability is an important component of habitat quality for
 plant pathogens. Here, we provide two ways for providing maps of host
-availability for geohabnet. The first one is based on data sources for
-the global distribution of crop hosts, and the latter is intended for
-using your data.</p>
+availability for <code>geohabnet</code>. The first one is based on data
+sources for the global distribution of crop hosts, and the latter is
+intended for using your data.</p>
 <p>• **Your own data*. The <code>geohabnet</code> package is designed to
 accept raster files as inputs for the distribution of habitat
 availability. You can provide your raster file in two ways:</p>
@@ -199,32 +198,36 @@ example in the figure above).</p>
 map directly in R. For example:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hab.rast</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="st">"habitat-map-example.tif"</span><span class="op">)</span></span></code></pre></div>
-<p>• <strong>Monfreda Dataset</strong>. Monfreda et al. (2008) provides
-information for the geographic distribution of 172 crop categories.
-These maps can be used as a first approximation for the habitat quality
-of plant pests.</p>
-<p>You can access this dataset directly in R using the
-<code>geodata</code> package. Run <code><a href="https://rdrr.io/pkg/geodata/man/crop_monfreda.html" class="external-link">geodata::monfredaCrops()</a></code>
-in your console to check which crops are available in the Monfreda
-dataset. You can use a SpatRaster of the crop of interest in
-<code>geohabnet</code> with the following code:</p>
+<p>• <strong>Monfreda Dataset</strong> <span class="citation">(Monfreda,
+Ramankutty, and Foley 2008)</span> . Database provides information for
+the geographic distribution of 172 crop categories. These maps can be
+used as a first approximation for the habitat quality of plant
+pests.</p>
+<p>You can access this data directly in R using the <code>geodata</code>
+package. Run <code><a href="https://rdrr.io/pkg/geodata/man/crop_monfreda.html" class="external-link">geodata::monfredaCrops()</a></code> in your console to
+check which crops are available in the Monfreda. You can use a
+SpatRaster of the crop of interest in <code>geohabnet</code> with the
+following code:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">geodata</span><span class="op">)</span></span>
 <span><span class="va">hab.rast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geodata/man/crop_monfreda.html" class="external-link">crop_monfreda</a></span><span class="op">(</span>crop <span class="op">=</span> <span class="st">"banana"</span>, var <span class="op">=</span> <span class="st">"area_f"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://garrettlab.github.io/HabitatConnectivity/">geohabnet</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span>rast <span class="op">=</span> <span class="va">hab.rast</span><span class="op">)</span></span></code></pre></div>
-<p>Alternatively, you can access the Monfreda dataset by downloading
-crop distribution maps from <a href="http://www.earthstat.org/" class="external-link">EarthStat</a>. You can then provide the
-location of the downloaded TIFF file in the Parameters.yaml file when
-using <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>.</p>
-<p>• <strong>MAPSPAM dataset</strong>. This dataset provides information
-for the global distribution of 42 crops or crop groups (IFPRI 2019). You
-may want to use the harvested area or physical area for your analysis of
-habitat connectivity in <code>geohabnet</code>: You can access this
-dataset in R using the geodata package. Run
-<code><a href="https://rdrr.io/pkg/geodata/man/crop_spam.html" class="external-link">geodata::spamCrops()</a></code> in your console to check which crops
-are available in the MAPSPAM dataset. You can use a SpatRaster of the
-crop of interest in <code>geohabnet</code> with the following code:</p>
+<p>Alternatively, you can access the Monfreda by downloading crop
+distribution maps from <a href="http://www.earthstat.org/" class="external-link">EarthStat</a>
+. You can then provide the location of the downloaded TIFF file in the
+<code>parameters.yaml</code> file when using
+<code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>.</p>
+<p>• <strong>MAPSPAM dataset <span class="citation">(International Food
+Policy Research Institute 2019)</span></strong>. This provides
+information for the global distribution of 42 crops or crop groups
+(IFPRI 2019). You may want to use the harvested area or physical area
+for your analysis of habitat connectivity in <code>geohabnet</code>: You
+can access this data-set in R using the <code>geodata</code> package.
+Run <code><a href="https://rdrr.io/pkg/geodata/man/crop_spam.html" class="external-link">geodata::spamCrops()</a></code> in your console to check which
+crops are available in the MAPSPAM. You can use a
+<code>SpatRaster</code> of the crop of interest in
+<code>geohabnet</code> with the following code:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>hab.rast <span class="ot">&lt;-</span> <span class="fu">crop_spam</span>(<span class="at">crop =</span> <span class="st">"banana"</span>, <span class="at">var =</span> <span class="st">"phys_area"</span>, <span class="at">path =</span> <span class="fu">tempdir</span>()</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>conv.factor <span class="ot">&lt;-</span> <span class="fu">res</span>(hab.rast)[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">111000</span> <span class="sc">*</span> <span class="fu">res</span>(hab.rast)[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">111000</span> <span class="sc">/</span> <span class="dv">10000</span></span>
@@ -235,17 +238,55 @@ crop of interest in <code>geohabnet</code> with the following code:</p>
 hectares to the fraction of total area occupied by the crop. The
 <code>conv.factor</code> estimates the total area of each grid cell in
 hectares.</p>
-<p>Alternatively, you can access the MAPSPAM dataset by downloading crop
+<p>Alternatively, you can access the data-set by downloading crop
 distribution maps from <a href="https://www.mapspam.info/" class="external-link">MAPSPAM</a>.
-Note that newer versions of MAPSPAM are not available in the geodata
-package, as of October 10, 2025.</p>
+Note that newer versions are not available in the geodata package <span class="citation">(Hijmans et al. 2024)</span>, as of October 17,
+2025.</p>
 <p>• You may prefer that your analysis be based on both the Monfreda and
-MAPSPAM datasets. In this case, you may first get a spatRaster with host
-density for the target crop category from each dataset and then average
-them to generate a SpatRaster of the mean host availability. Another
-situation is that you need to add different crop categories into a
-SpatRaster because the habitat of a species ranges across multiple crop
-species.</p>
+MAPSPAM database. In this case, you may first get a
+<code>spatRaster</code> with host density for the target crop category
+from each data-set and then average them to generate a
+<code>SpatRaster</code> of the mean host availability. Another situation
+is that you need to add different crop categories into a
+<code>SpatRaster</code> because the habitat of a species ranges across
+multiple crop species.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<p><a href="https://www.garrettlab.com/" class="external-link">Garrett Lab, University of
+Florida</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-terra" class="csl-entry">
+Hijmans, Robert J. 2023. <span>“Terra: Spatial Data Analysis.”</span> <a href="https://CRAN.R-project.org/package=terra" class="external-link">https://CRAN.R-project.org/package=terra</a>.
+</div>
+<div id="ref-geodata" class="csl-entry">
+Hijmans, Robert J., Márcia Barbosa, Aniruddha Ghosh, and Alex Mandel.
+2024. <span>“Geodata: Download Geographic Data.”</span> <a href="https://doi.org/10.32614/CRAN.package.geodata" class="external-link">https://doi.org/10.32614/CRAN.package.geodata</a>.
+</div>
+<div id="ref-internationalfoodpolicyresearchinstitute2019" class="csl-entry">
+International Food Policy Research Institute. 2019. <span>“Global
+Spatially-Disaggregated Crop Production Statistics Data for 2010 Version
+2.0.”</span> Harvard Dataverse. <a href="https://doi.org/10.7910/DVN/PRFF8V" class="external-link">https://doi.org/10.7910/DVN/PRFF8V</a>.
+</div>
+<div id="ref-geohabnet2025" class="csl-entry">
+Keshav, Krishna, Aaron Plex, and Karen Garrett. 2025. <span>“Geohabnet:
+Geographical Risk Analysis Based on Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
+</div>
+<div id="ref-monfreda2008" class="csl-entry">
+Monfreda, Chad, Navin Ramankutty, and Jonathan A. Foley. 2008.
+<span>“Farming the Planet: 2. Geographic Distribution of Crop Areas,
+Yields, Physiological Types, and Net Primary Production in the Year
+2000.”</span> <em>Global Biogeochemical Cycles</em> 22 (1): n/a–. <a href="https://doi.org/10.1029/2007gb002947" class="external-link">https://doi.org/10.1029/2007gb002947</a>.
+</div>
+<div id="ref-xing2020" class="csl-entry">
+Xing, Yanru, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L
+Andrade-Piedra, Fenton D Beed, Guy Blomme, Mónica Carvajal-Yepes, et al.
+2020. <span>“Global Cropland Connectivity: A Risk Factor for Invasion
+and Saturation by Emerging Pathogens and Pests.”</span>
+<em>BioScience</em> 70 (9): 744–58. <a href="https://doi.org/10.1093/biosci/biaa067" class="external-link">https://doi.org/10.1093/biosci/biaa067</a>.
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

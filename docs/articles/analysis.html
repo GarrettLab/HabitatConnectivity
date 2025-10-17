@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:krishnakeshav.pes@gmail.com" class="email">krishnakeshav.pes@gmail.com</a>)</h4>
             
-            <h4 data-toc-skip class="date">16 October, 2025</h4>
+            <h4 data-toc-skip class="date">17 October, 2025</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/analysis.Rmd" class="external-link"><code>vignettes/articles/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -329,10 +329,10 @@ the example below usually takes 5-10 minutes depending on the processing
 power of your machine.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">geo_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado_sp</span><span class="op">)</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=======                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
 <span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
@@ -434,7 +434,7 @@ config file.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQQXJ4k/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpORlgHc/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="float">
 <img src="images%2Finitconfig.png" width="700" alt="Initial parameters.yaml"><div class="figcaption">Initial parameters.yaml</div>
@@ -805,15 +805,15 @@ instead of S4 class.</p>
 <span><span class="co">#&gt; -Inf</span></span>
 <span><span class="co">#&gt; Warning in max(wv, na.rm = TRUE): no non-missing arguments to max; returning</span></span>
 <span><span class="co">#&gt; -Inf</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/final-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
 <span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/final-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/final-3.png" width="700"></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
@@ -832,11 +832,11 @@ classes approach.</p>
 <code class="sourceCode R"><span><span class="va">final</span></span>
 <span><span class="co">#&gt; class            :  GeoNetwork </span></span>
 <span><span class="co">#&gt; habitat density     :  98 , 267  (nrow, ncol) SpatRaster </span></span>
-<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQQXJ4k/plots/mean_20251016234210527975.tif </span></span>
+<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpORlgHc/plots/mean_20251017003336388978.tif </span></span>
 <span><span class="co">#&gt; mean raster      :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQQXJ4k/plots/variance_20251016234211494127.tif </span></span>
+<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpORlgHc/plots/variance_20251017003337318103.tif </span></span>
 <span><span class="co">#&gt; variance raster   :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpQQXJ4k/plots/difference_20251016234212129151.tif </span></span>
+<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpORlgHc/plots/difference_20251017003338055946.tif </span></span>
 <span><span class="co">#&gt; difference raster :  1176 , 3204  (nrow, ncol)</span></span></code></pre></div>
 <p>The final operations are performed risk indices and on the 3 results
 that are produced -</p>
@@ -992,7 +992,7 @@ Hijmans, Robert J. 2023. <span>“Terra: Spatial Data Analysis.”</span> <a hre
 </div>
 <div id="ref-geodata" class="csl-entry">
 Hijmans, Robert J., Márcia Barbosa, Aniruddha Ghosh, and Alex Mandel.
-2024. <span>“Geodata: Download Geographic Data.”</span> <a href="https://CRAN.R-project.org/package=geodata" class="external-link">https://CRAN.R-project.org/package=geodata</a>.
+2024. <span>“Geodata: Download Geographic Data.”</span> <a href="https://doi.org/10.32614/CRAN.package.geodata" class="external-link">https://doi.org/10.32614/CRAN.package.geodata</a>.
 </div>
 <div id="ref-internationalfoodpolicyresearchinstitute2019" class="csl-entry">
 International Food Policy Research Institute. 2019. <span>“Global
