@@ -1,0 +1,130 @@
+---
+title: "User guide"
+output: rmarkdown::pdf_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Welcome to the user guide for geohabnet, an R package for the analysis of habitat landscape connectivity!
+
+This section is designed for users already familiar with R and RStudio. While RStudio is considered an interactive environment, using R from the CLI is not.
+
+The underlying theory for calculating habitat connectivity is based on network analysis. To get an idea of the concepts of habitat connectivity in geohabnet, users are recommended to check Xing et al. (2020) – Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests. BioScience 70(9): 744-758.
+
+# Installation and pre-requisites
+
+The geohabnet R package can be directly installed and loaded in RStudio using the following commands. For the stable version published in CRAN:
+
+```{r eval=FALSE}
+install.packages("geohabnet")
+```
+
+This version 2.2 is available in [CRAN](https://cran.r-project.org/web/packages/geohabnet/index.html)
+
+For the latest development version available on GitHub:
+
+```{r eval=FALSE}
+install.packages("devtools")
+devtools::install_github("GarrettLab/CroplandConnectivity", subdir = "geohabnet")
+```
+
+This version is available at the [GitHub repository](https://github.com/GarrettLab/HabitatConnectivity)
+
+In either case, the user will be prompted to update dependencies to other R packages during the installation in RStudio. We recommend updating all the package dependencies. The dependencies of the geohabnet package and their minimum versions required can be accessed by the following code:
+
+```{r eval=FALSE}
+desc::desc(package = "geohabnet")
+```
+
+Note that desc::desc() is a function from an external package and requires installation for its use. Now, the geohabnet package can be loaded into the current R environment.
+
+```{r eval=FALSE}
+library(geohabnet)
+```
+
+# Getting started
+
+The landing page and documentation can be accessed using ?geohabnet. This guide was written for geohabnet 2.2, which is available for download in CRAN and GitHub.
+
+The help page for all the functions can be accessed with `?geohabnet::fun` or `help(geohabnet::fun)`, where fun needs to be changed to the name of a function of your interest. For example, `?geohabnet::msean()` or simply `?msean` will provide documentation for the function `msean()`.
+
+`geohabnet 2.2` provides two main functions to estimate and map the connectivity of locations where habitat is present (hereafter, habitat connectivity): `sensitivity_analysis()` and `msean()`. The package also offers supplementary functions, but they are not covered in this user guide. Before running the function, please review the description of each parameter below. Well, there are over ten parameters that can be used in either `sensitivity_analysis()` or `msean()`. The parameters in `msean()` can be modified directly within the function in RStudio, as is common in many R packages. `sensitivity_analysis()` requires a list of parameters, providing an organized way to easily change the default parameter values without listing them every time. The list of parameters for `sensitivity_analysis()` is called `Parameters.yaml`.
+
+The following steps allow you to access the `Parameters.yaml` file, specify parameter values, and use them for analysis in `sensitivity_analysis()`:
+
+1.  You can get the Parameters.yaml file by running `geohabnet::get_parameters()` and specifying the location where the file will be saved. Use `iwindow = TRUE` for interactive selection or provide an absolute file path to the parameter out_path for non-interactive use. For example, Plex ran the following:
+
+```{r eval=FALSE}
+get_parameters(out_path = "C:/Users/plexaaron/Documents")
+```
+
+2.  Open the Parameters.yaml file in any program that allows you to edit it (outside RStudio). Please do not alter the structure of the yaml file and parameter names to ensure it will be successfully compatible with `sensitivity_analysis()`. Except for host, this file will contain default acceptable values for the supported parameters (see picture below).
+
+3.  Manually modify or add values in the Parameters.yaml file and save it.
+
+4.  Feed the new Parameters.yaml file to the package using `geohabnet::set_parameters()` which will return TRUE if the parameters were set successfully. For example, Plex ran the following:
+
+```{r eval=FALSE}
+set_parameters(new_params = "C:/Users/plexaaron/Documents/parameters.yaml")
+```
+
+5.  Now you can run `sensitivity_analysis()` to produce maps of habitat connectivity.
+
+# Setting parameters in sensitivity_analysis() and msean()
+
+## 1. Providing habitat distribution
+
+Users can provide any type of habitat map that is compatible with the `terra:rast()` function. Typically, this is a TIFF file in the standard geographic coordinate system (WGS84). Acceptable entries in this SpatRaster range from zero (no habitat is available in a location) to one (the location is fully covered with habitat for a species).
+
+Host availability is an important component of habitat quality for plant pathogens. Here, we provide two ways for providing maps of host availability for geohabnet. The first one is based on data sources for the global distribution of crop hosts, and the latter is intended for using your data.
+
+• \*\*Your own data\*. The `geohabnet` package is designed to accept raster files as inputs for the distribution of habitat availability. You can provide your raster file in two ways:
+
+To use `sensitivity_analysis()`, you can set the file parameter under Host to the absolute path of the raster file (see example in the figure above).
+
+To use `msean()`, the user is required to read the habitat map directly in R. For example:
+
+```{r eval=FALSE}
+hab.rast <- terra::rast("habitat-map-example.tif")
+```
+
+• **Monfreda Dataset**. Monfreda et al. (2008) provides information for the geographic distribution of 172 crop categories. These maps can be used as a first approximation for the habitat quality of plant pests.
+
+You can access this dataset directly in R using the `geodata` package. Run `geodata::monfredaCrops()` in your console to check which crops are available in the Monfreda dataset. You can use a SpatRaster of the crop of interest in `geohabnet` with the following code:
+
+```{r eval=FALSE}
+library(geodata)
+hab.rast <- crop_monfreda(crop = "banana", var = "area_f", path = tempdir())
+library(geohabnet)
+msean(rast = hab.rast)
+```
+
+Alternatively, you can access the Monfreda dataset by downloading crop distribution maps from [EarthStat](http://www.earthstat.org/). You can then provide the location of the downloaded TIFF file in the Parameters.yaml file when using `sensitivity_analysis()`.
+
+• **MAPSPAM dataset**. This dataset provides information for the global distribution of 42 crops or crop groups (IFPRI 2019). You may want to use the harvested area or physical area for your analysis of habitat connectivity in `geohabnet`: 
+  You can access this dataset in R using the geodata package. Run `geodata::spamCrops()` in your console to check which crops are available in the MAPSPAM dataset. You can use a SpatRaster of the crop of interest in `geohabnet` with the following code: 
+
+```{r eval=FALSE}
+library(geodata)
+hab.rast <- crop_spam(crop = "banana", var = "phys_area", path = tempdir()
+conv.factor <- res(hab.rast)[1]*111000 * res(hab.rast)[1]*111000 / 10000
+hab.rast <- hab.rast$banana_phys_area_all / conv.factor
+library(geohabnet)
+msean(rast = hab.rast)
+```
+
+
+Note that we convert the physical area of crop availability in hectares to the fraction of total area occupied by the crop. The `conv.factor` estimates the total area of each grid cell in hectares.
+
+  Alternatively, you can access the MAPSPAM dataset by downloading crop distribution maps from [MAPSPAM](https://www.mapspam.info/). Note that newer versions of MAPSPAM are not available in the geodata package, as of October 10, 2025.
+  
+  • You may prefer that your analysis be based on both the Monfreda and MAPSPAM datasets. In this case, you may first get a spatRaster with host density for the target crop category from each dataset and then average them to generate a SpatRaster of the mean host availability. Another situation is that you need to add different crop categories into a SpatRaster because the habitat of a species ranges across multiple crop species.
+
+```{r eval=FALSE}
+
+```
