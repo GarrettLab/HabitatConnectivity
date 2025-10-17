@@ -5,8 +5,9 @@ articles:
   articles/analysis: analysis.html
   articles/distance_strategy: distance_strategy.html
   articles/global_analysis: global_analysis.html
+  articles/user_guide: user_guide.html
   articles/Using-raster-file: Using-raster-file.html
-last_built: 2025-05-17T20:44Z
+last_built: 2025-10-17T03:40Z
 urls:
   reference: https://garrettlab.github.io/HabitatConnectivity/reference
   article: https://garrettlab.github.io/HabitatConnectivity/articles
