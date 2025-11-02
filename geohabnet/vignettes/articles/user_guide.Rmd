@@ -1,6 +1,13 @@
 ---
 title: "User guide"
+author:
+  - name: Aaron Plex Sula (author)
+    email: plexaaron@ufl.edu
+  - name: Krishna Keshav (co-author)
+    email: krishnakeshav.pes@gmail.com
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::pdf_document
+bibliography: references.bib
 ---
 
 ```{r, include = FALSE}
@@ -10,11 +17,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-Welcome to the user guide for `geohabnet`, an R package for the analysis of habitat landscape connectivity!
+Welcome to the user guide for geohabnet [@geohabnet2025], an R package for the analysis of habitat landscape connectivity!
 
-This section is designed for users already familiar with R and RStudio. While RStudio is considered an interactive environment, using R from the CLI is not.
+This section is designed for users already familiar with R and RStudio. While RStudio is considered an interactive environment, using R from the CLI is not. The pre-print for application paper is can be accessed here [@sulá2025] .
 
-The underlying theory for calculating habitat connectivity is based on network analysis. To get an idea of the concepts of habitat connectivity in `geohabnet`, users are recommended to check [Xing et al. (2020)](https://academic.oup.com/bioscience/article/70/9/744/5875255) – Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests. BioScience 70(9): 744-758.
+The underlying theory for calculating habitat connectivity is based on network analysis. To get an idea of the concepts of habitat connectivity in `geohabnet`, users are recommended to check [@xing2020] – Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests. BioScience 70(9): 744-758.
 
 # Installation and pre-requisites
 
@@ -41,7 +48,7 @@ In either case, the user will be prompted to update dependencies to other R pack
 desc::desc(package = "geohabnet")
 ```
 
-Note that desc::desc() is a function from an external package and requires installation for its use. Now, the geohabnet package can be loaded into the current R environment.
+Note that desc::desc() is a function from an external package and requires installation for its use. Now, the geohabnet [@geohabnet2025] package can be loaded into the current R environment.
 
 ```{r eval=FALSE}
 library(geohabnet)
@@ -163,7 +170,7 @@ You can choose the spatial resolution of the analysis using the `Resolution` par
 
 -   Setting the spatial resolution directly in *parameters.yaml* file is recommended.
 
-Analysis at finer (higher) spatial resolution can be more computationally expensive. For example, using a machine of 6 CPUs, a global analysis of host connectivity at one-degree resolution for coffee croplands can last 20-30 minutes, and for wheat croplands, more than two hours.
+Analysis at finer (higher) spatial resolution can be more computationally expensive. For example, using a 6 CPU machine, a global analysis of host connectivity at one-degree resolution for coffee croplands can last 20-30 minutes, and for wheat croplands, more than two hours.
 
 ## 6. Selecting geographic extent
 
@@ -201,7 +208,7 @@ Now you may be wondering or panicking about two questions. No worries, we gotcha
 
     -   The mean parameter gamma is 0.345.
 
-**Table 2.** Characteristics of the two common dispersal kernels for range expansion of species, after [Brown and Hovmøller (2002)](https://www.science.org/doi/10.1126/science.1072678).
+**Table 2.** Characteristics of the two common dispersal kernels for range expansion of species, after [@brown2002].
 
 | Characteristic | Negative exponential model | Inverse power-law model |
 |------------------|--------------------------|----------------------------|
@@ -232,7 +239,7 @@ The `geohabnet` package provides the flexibility for the user to choose among se
 **Table 3.** Network metrics that are available in the `geohabnet` package.
 
 | Network metric | Function in `geohabnet` | Rationale |
-|------------------|------------------|------------------------------------|
+|------------------|------------------|-----------------------------------|
 | *Betweenness* | `betweeness(crop_dm, we)` | Betweenness centrality emphasizes the importance of a node acting as a bridge by connecting parts of the network that would otherwise be separate. Paths with more weighted links (that is, “shortest paths”) imply faster species movement between different regions of the network. |
 | *Node strength* | `node_strength(crop_dm, we)` | Node strength measures the sum of the link weights of a location. **ADD INTERPRETATION** |
 | *Sum of nearest neighbors* | `nn_sum(crop_dm, we)` | **ADD DEFINITION** — **ADD INTERPRETATION** |
@@ -267,6 +274,4 @@ If the value above is set to `TRUE`, the outcomes will be calculated internally,
 
 Enjoy `geohabnet`!
 
-```{r eval=FALSE}
-
-```
+# References
