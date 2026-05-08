@@ -436,6 +436,7 @@ msean <- function(rast,
                   global = TRUE,
                   geoscale = NULL,
                   res = reso(),
+                  maps = TRUE,
                   ...,
                   outdir = tempdir()) {
 
@@ -446,14 +447,14 @@ msean <- function(rast,
                    res = res,
                    ...)
 
-
+  plotMaps <- maps | FALSE
   gmap <- .connectivity(grasters,
                         global,
                         geoscale,
                         res,
-                        TRUE,
-                        TRUE,
-                        TRUE,
+                        plotMaps,
+                        plotMaps,
+                        plotMaps,
                         outdir = outdir)
 
   return(new("GeoNetwork",
