@@ -431,6 +431,7 @@ sean <- function(rast,
 
 #' @rdname sean
 #' @param res Numeric. The spatial aggregation factor that will be used to aggregate the raster layer of habitat availability, from fine to coars resolution. Default is [reso()].
+#' @param maps Logical. True, if plots should be included in side effects. False, otherwise.
 #' @return GeoNetwork.
 msean <- function(rast,
                   global = TRUE,

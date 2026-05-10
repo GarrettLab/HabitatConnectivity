@@ -16,9 +16,15 @@ msean_onrast(
 )
 }
 \arguments{
-\item{rast}{Raster object which will be used in analysis.}
+\item{rast}{This is a SpatRaster object that indicates habitat suitability across locations in a landscape. Entry values in this object can include any positive real numbers, but they typically range from 0 to 1. Currently, this argument supports only raster layers in the standard global coordinate reference system -CRS-, that is, WGS 84 or World Geodetic System 1984, identified by the EPSG code 4326. Users need to project the raster layer before providing it as an input in \code{\link[=msean]{msean()}} if it is in another CRS.}
 
-\item{link_thresholds}{Numeric vector. link threshold values}
+\item{link_thresholds}{Numeric vector. Threshold values for link weight.
+Based on the information on the habitat layer and dispersal kernels, adjacency matrices are created, where entries represent the potential of an organism's movement between habitat locations.
+Then, the adjacency matrices are converted into graph objects to perform a network analysis, where the entries in the adjacency matrices are now the werights of the links of the network.
+This parameter supports any positive values, but make sure these values are smaller than the maximum link weight in the network.
+If \code{link_threshold = 0}, all links int he netowkr will be considered in the connectivity analysis.
+Choosing link weight thresholds greater than zero helps to focus the analysis on the msot likely dispersal connections in the landscape.
+All link weights that are below this threshold will be replaced with zeros for the connectivity analysis.}
 
 \item{hd_thresholds}{Numeric vector. host density threshold values}
 
@@ -27,9 +33,10 @@ msean_onrast(
 \item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
 Default is \code{TRUE}}
 
-\item{geoscale}{Numeric vector. Geographical coordinates
-in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If \code{geoscale} is NuLL,
-the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
+\item{geoscale}{Numeric vector. This is a set of geographic coordinates in the form of
+c(Xmin, Xmax, Ymin, Ymax) which correspond to the positions in the standard geographic coordinate system or EPSG:4326. \code{geoscape} referst to the geographic extent, or bounding box, for the habitat connectivity analysis.
+Habitat locations outside the geographic extent will be excluded from the analysis.
+If \code{geoscale} is NuLL, the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
 \item{res}{Numeric. The spatial aggregation factor that will be used to aggregate the raster layer of habitat availability, from fine to coars resolution. Default is \code{\link[=reso]{reso()}}.}
 

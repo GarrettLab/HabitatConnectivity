@@ -48,10 +48,10 @@ hci_mean <- function(indices,
     .cal_mean(indices)
   }
 
-  dis_mean_id <- terra::disagg(mean_index, fact = c(res, res))
-  toplot <- dis_mean_id + .cal_zerorast(dis_mean_id)
-
   plt_ret <- if (plt == TRUE) {
+    dis_mean_id <- terra::disagg(mean_index, fact = c(res, res))
+    toplot <- dis_mean_id + .cal_zerorast(dis_mean_id)
+    
     .plot(toplot,
           paste("Mean habitat connectivity risk index\n"),
           global,

@@ -122,7 +122,7 @@ We usually call this a pest invasion or epidemic network because this represents
 
 There are multiple ways to calculate the connectivity of nodes in a network. These ways are often referred to as network metrics or node centralities. We can use a network metric to measure the importance of a habitat location (or node) in an invasion, epidemic or habitat network. Each network metric provides a different perspective of the potential role of a node during an epidemic, invasion or the spread of a species. Below, we illustrate three commonly used network metrics for the hypothetical example.
 
-## habitat location importance based on node strength
+## Habitat location importance based on node strength
 
 ```{r fig.height=7, fig.width=7}
 # Calculating the node strength of habitat locations in the network
@@ -135,7 +135,7 @@ plot(habitatnet, #this is the graph object to plot
      main = "Node strength")
 ```
 
-## habitat location importance based on eigenvector centrality
+## Habitat location importance based on eigenvector centrality
 
 ```{r fig.height=7, fig.width=7}
 # Calculating and visualizing the eigenvector centrality of habitat locations in the network
@@ -146,11 +146,11 @@ plot(habitatnet, vertex.size = V(habitatnet)$evcent*40,
 
 ## Betweenness centrality
 
-Did you realize that we provided the link weights in the function when calculating node strength but not so when calculating eigenvector centrality? Well, in this case, either way is okay because the graph object has only ony type of links and the interpretation of link weights in both node centrality measures is in line with our expectation of pest movement: higher link weights is directly proportional to higher likelihood of pest movement.
+Did you realize that we provided the link weights in the function when calculating node strength but not so when calculating *eigenvector centrality*? Well, in this case, either way is okay because the graph object has only one type of links and the interpretation of link weights in both node centrality measures is in line with our expectation of pest movement: higher link weights is directly proportional to higher likelihood of pest movement.
 
-This interpretation is not valid for the betweenness function in igraph, where link weights are interpreted as distances to calculate the shortest paths. This interpretation is the opposite and wrong to what we would expect to occur in a invasion network: higher link weights means longer distances and lower likelihood of pest movement. Instead, our analysis should correctly match the shortest paths with those paths where pest movement is most likely (i.e., higher link weights). So, we need to transform so that new link weights are inversely proportional to the likelihood of pest movement when calculating betweenness centrality.
+This interpretation is not valid for the `betweenness` function in igraph, where link weights are interpreted as distances to calculate the shortest paths. This interpretation is the opposite and wrong to what we would expect to occur in a invasion network: higher link weights means longer distances and lower likelihood of pest movement. Instead, our analysis should correctly match the shortest paths with those paths where pest movement is most likely (i.e., higher link weights). So, we need to transform so that new link weights are inversely proportional to the likelihood of pest movement when calculating *betweenness centrality*.
 
-> > **Note that this link weight transformation is needed when calculating betweenness and closeness centrality because they both depend on shortest distance for the importance of locations.**
+> > **Note that this link weight transformation is needed when calculating *betweenness and closeness centrality* because they both depend on shortest distance for the importance of locations.**
 
 ```{r fig.height=7, fig.width=7}
 # Transforming link weights for shortest paths
@@ -224,7 +224,7 @@ plot(new.graph, vertex.size = V(new.graph)$betweenness*50,
 
 # Reproducing the cartoon example from Xing et al. (2020)
 
-[Xing et al (2020)](https://doi.org/10.1093/biosci/biaa067) provided the foundation for the mathematical framework we used in geohabnet to conduct a habitat connectivity analysis. Figure 3 in that paper illustrates cropland connectivity for a simple hypothetical example. Let's try to replicate this network using the knowledge you get above.
+[Xing et al (2020)](https://doi.org/10.1093/biosci/biaa067) provided the foundation for the mathematical framework we used in `geohabnet` to conduct a habitat connectivity analysis. Figure 3 in that paper illustrates cropland connectivity for a simple hypothetical example. Let's try to replicate this network using the knowledge you get above.
 
 ```{r fig.height=5, fig.width=5, dpi=250}
 set.seed(3)
@@ -232,7 +232,7 @@ library(viridis)
 vir.pal<-viridis(n=100, option = "inferno", direction = -1, begin = 0.2, end = 0.9)
 
 # getting the habitat density map
-xing.mat<-read.csv("Xing et al cartoons.csv")
+xing.mat<-system.file("extdata", "xing_cartoon.csv", package = "geohabnet")
 xing.mat<-as.matrix(xing.mat)
 xing.rast<-rast(xing.mat, extent=c(-117,-110,33,38))
 crs(xing.rast)<-"OGC:CRS84" #this assign a coordinate reference system to the raster
