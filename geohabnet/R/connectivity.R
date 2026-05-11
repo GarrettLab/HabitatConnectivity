@@ -60,31 +60,29 @@ connectivity <- function(host,
     geoscale
   }
 
-  mobj <- hci_mean(indices, global, east, west, actualscale, res, pmean, outdir)
+  mobj <- hci_mean(indices, global, east, west, actualscale, res, outdir, pmean)
 
-  vobj <- if (pvar == TRUE) {
-    hci_variance(indices,
-                 mobj@riid,
-                 global,
-                 east,
-                 west,
-                 actualscale,
-                 res,
-                 outdir)
-  }
+  vobj <- hci_variance(indices,
+                       mobj@riid,
+                       global,
+                       east,
+                       west,
+                       actualscale,
+                       res,
+                       outdir,
+                       pvar)
 
-  dobj <- if (pdiff == TRUE) {
-    if (global) {
+  if (global) {
       geoscale <- .global_ext()
     }
 
-    hci_diff(mobj@riid,
-             host,
-             global,
-             actualscale,
-             res,
-             outdir)
-  }
+  dobj <- hci_diff(mobj@riid,
+                   host,
+                   global,
+                   actualscale,
+                   res,
+                   outdir,
+                   pdiff)
 
   return(.merge_mapobs(mobj, vobj, dobj))
 }

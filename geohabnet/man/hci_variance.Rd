@@ -12,7 +12,8 @@ hci_variance(
   west = NULL,
   geoscale,
   res = reso(),
-  outdir = tempdir()
+  outdir = tempdir(),
+  plt = TRUE
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
+
+\item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise.}
 }
 \value{
 RiskMap. Contains result in the form of \code{SpatRaster} objects

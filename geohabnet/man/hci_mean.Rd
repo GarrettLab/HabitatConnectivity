@@ -11,8 +11,8 @@ hci_mean(
   west = NULL,
   geoscale = NULL,
   res = reso(),
-  plt = TRUE,
-  outdir = tempdir()
+  outdir = tempdir(),
+  plt = TRUE
 )
 }
 \arguments{
@@ -32,10 +32,10 @@ When \code{TRUE}, \code{geoscale} is ignored. Default is \code{TRUE}.}
 \item{res}{Numeric. This parameter refers to the spatial aggregation factor. This value is the number of cells that are grouped when aggregating a raster layer from fine to coarse spatial resolution to reduce computational costs. Setting this parameter to 1 would not aggregate the raster layers.
 Default is \code{\link[=reso]{reso()}}.}
 
-\item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise.}
-
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
+
+\item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise.}
 }
 \value{
 RiskMap. Contains result in the form of \code{SpatRaster} objects
