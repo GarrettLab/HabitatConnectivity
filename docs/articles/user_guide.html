@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,7 @@ Keshav (co-author)</h4>
                   <a class="author_email" href="mailto:#"></a><a href="mailto:krishnakeshav.pes@gmail.com" class="email">krishnakeshav.pes@gmail.com</a>
       
                   
-            <h4 data-toc-skip class="date">01 November, 2025</h4>
+            <h4 data-toc-skip class="date">25 May, 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/user_guide.Rmd" class="external-link"><code>vignettes/articles/user_guide.Rmd</code></a></small>
       <div class="d-none name"><code>user_guide.Rmd</code></div>
@@ -83,12 +83,13 @@ Keshav (co-author)</h4>
 
     
     
-<p>Welcome to the user guide for geohabnet <span class="citation">(Keshav, Plex, and Garrett 2025)</span>, an R package
-for the analysis of habitat landscape connectivity!</p>
+<p>Welcome to the user guide for geohabnet <span class="citation">(Plex
+Sulá 2025)</span>, an R package for the analysis of habitat landscape
+connectivity!</p>
 <p>This section is designed for users already familiar with R and
 RStudio. While RStudio is considered an interactive environment, using R
-from the CLI is not. The pre-print for application paper is can be
-accessed here <span class="citation">(Sulá et al. 2025)</span> .</p>
+from the CLI is not. The pre-print for this application paper can be
+accessed <a href="https://arxiv.org/abs/2510.24955" class="external-link">here</a> <span class="citation">(Plex Sulá 2025)</span>.</p>
 <p>The underlying theory for calculating habitat connectivity is based
 on network analysis. To get an idea of the concepts of habitat
 connectivity in <code>geohabnet</code>, users are recommended to check
@@ -117,9 +118,9 @@ updating all the package dependencies. The dependencies of the
 be accessed by the following code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">desc</span><span class="fu">::</span><span class="fu"><a href="https://desc.r-lib.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"geohabnet"</span><span class="op">)</span></span></code></pre></div>
-<p>Note that desc::desc() is a function from an external package and
-requires installation for its use. Now, the geohabnet <span class="citation">(Keshav, Plex, and Garrett 2025)</span> package can be
-loaded into the current R environment.</p>
+<p>Note that <code><a href="https://desc.r-lib.org/reference/desc.html" class="external-link">desc::desc()</a></code> is a function from an external
+package and requires installation for its use. Now, the geohabnet <span class="citation">(Plex Sulá 2025)</span> package can be loaded into the
+current R environment.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://garrettlab.github.io/HabitatConnectivity/">geohabnet</a></span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -177,7 +178,7 @@ parameters were set successfully. For example, Plex ran the
 following:</p></li>
 </ol>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/set_parameters.html">set_parameters</a></span><span class="op">(</span>new_params <span class="op">=</span> <span class="st">"C:/Users/plexaaron/Documents/*parameters.yaml*"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set_parameters.html">set_parameters</a></span><span class="op">(</span>new_params <span class="op">=</span> <span class="st">"C:/Users/plexaaron/Documents/*parameters.yaml"</span><span class="op">)</span></span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>Now you can run <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> to produce maps
 of habitat connectivity.</li>
@@ -200,18 +201,19 @@ this SpatRaster range from zero (no habitat is available in a location)
 to one (the location is fully covered with habitat for a species).</p>
 <p>Host availability is an important component of habitat quality for
 plant pathogens. Here, we provide two ways for providing maps of host
-availability for <code>geohabnet</code>. The first one is based on data
-sources for the global distribution of crop hosts, and the latter is
-intended for using your data.</p>
+availability for <code>geohabnet</code>. The first one is indented for
+using your data, and the latter is based on data sources for the global
+distribution of crop hosts.</p>
 <ul>
 <li>
 <strong>Your own data</strong>. The <code>geohabnet</code> package
 is designed to accept raster files as inputs for the distribution of
 habitat availability. You can provide your raster file in two ways:</li>
 </ul>
-<p>To use <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>, you can set the file
-parameter under Host to the absolute path of the raster file (see
-example in the figure above).</p>
+<p>To use <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>, you can specify the
+absolute path or location of your raster file in the
+<em>Parameters.yaml</em> under <code>Host</code> (see example in the
+figure above).</p>
 <p>To use <code><a href="../reference/sean.html">msean()</a></code>, the user is required to read the habitat
 map directly in R. For example:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -236,7 +238,10 @@ dataset. You can use a SpatRaster of the crop of interest in
 <p>Alternatively, you can access the Monfreda dataset by downloading
 crop distribution maps from <a href="http://www.earthstat.org/" class="external-link">EarthStat</a>. You can then provide the
 location of the downloaded TIFF file in the <em>parameters.yaml</em>
-file when using <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>.</p>
+file when using <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>.Note that an updated
+version of the Monfreda dataset is the [CROPGRIDS dataset] (<a href="https://doi.org/10.6084/m9.figshare.22491997" class="external-link uri">https://doi.org/10.6084/m9.figshare.22491997</a>), though
+data layers need to be transformed from harvested area to cropland
+fraction.</p>
 <ul>
 <li>
 <strong>MAPSPAM dataset</strong>. This dataset provides information
@@ -248,12 +253,14 @@ dataset in R using the <code>geodata</code> package. Run
 are available in the MAPSPAM dataset. You can use a SpatRaster of the
 crop of interest in <code>geohabnet</code> with the following code:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>hab.rast <span class="ot">&lt;-</span> <span class="fu">crop_spam</span>(<span class="at">crop =</span> <span class="st">"banana"</span>, <span class="at">var =</span> <span class="st">"phys_area"</span>, <span class="at">path =</span> <span class="fu">tempdir</span>()</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>conv.factor <span class="ot">&lt;-</span> <span class="fu">res</span>(hab.rast)[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">111000</span> <span class="sc">*</span> <span class="fu">res</span>(hab.rast)[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">111000</span> <span class="sc">/</span> <span class="dv">10000</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>hab.rast <span class="ot">&lt;-</span> hab.rast<span class="sc">$</span>banana_phys_area_all <span class="sc">/</span> conv.factor</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">library</span>(geohabnet)</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">msean</span>(<span class="at">rast =</span> hab.rast)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">geodata</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
+<span><span class="va">hab.rast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geodata/man/crop_spam.html" class="external-link">crop_spam</a></span><span class="op">(</span>crop <span class="op">=</span> <span class="st">"banana"</span>, var <span class="op">=</span> <span class="st">"phys_area"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">conv.factor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/dimensions.html" class="external-link">res</a></span><span class="op">(</span><span class="va">hab.rast</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">*</span><span class="fl">111000</span> <span class="op">*</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/dimensions.html" class="external-link">res</a></span><span class="op">(</span><span class="va">hab.rast</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">*</span><span class="fl">111000</span> <span class="op">/</span> <span class="fl">10000</span></span>
+<span><span class="va">hab.rast</span> <span class="op">&lt;-</span> <span class="va">hab.rast</span><span class="op">$</span><span class="va">banana_phys_area_all</span> <span class="op">/</span> <span class="va">conv.factor</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://garrettlab.github.io/HabitatConnectivity/">geohabnet</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span>rast <span class="op">=</span> <span class="va">hab.rast</span>, res <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span></code></pre></div>
 <p>Note that we convert the physical area of crop availability in
 hectares to the fraction of total area occupied by the crop. The
 <code>conv.factor</code> estimates the total area of each grid cell in
@@ -468,9 +475,9 @@ of species dispersal.</p></li>
 kernels for range expansion of species, after <span class="citation">(Brown and Hovmøller 2002)</span>.</p>
 <table class="table">
 <colgroup>
-<col width="25%">
-<col width="36%">
-<col width="38%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr class="header">
 <th>Characteristic</th>
@@ -509,6 +516,9 @@ compared to the negative exponential model.</td>
 </tr>
 </tbody>
 </table>
+<p>In conclusion, the inverse power law model is often useful to model
+long-range spread of a species, while the negative exponential model is
+more useful to assess short-range spread.</p>
 <p><img src="images%2Fdispersal-kernels.png" width="70%" style="display:block; margin:auto;"></p>
 <p><strong>Figure 2.</strong> Beta values estimated from empirical
 studies (5 bacteria, 47 fungi, 20 oomycete, 29 plants, and 19 viruses)
@@ -558,9 +568,9 @@ network metrics are supported by <code>geohabnet</code>.</p>
 <code>geohabnet</code> package.</p>
 <table class="table">
 <colgroup>
-<col width="25%">
-<col width="25%">
-<col width="49%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr class="header">
 <th>Network metric</th>
@@ -688,15 +698,10 @@ Brown, James K. M., and Mogens S. Hovmøller. 2002. <span>“Aerial
 Dispersal of Pathogens on the Global and Continental Scales and Its
 Impact on Plant Disease.”</span> <em>Science</em> 297 (5581): 537–41. <a href="https://doi.org/10.1126/science.1072678" class="external-link">https://doi.org/10.1126/science.1072678</a>.
 </div>
-<div id="ref-geohabnet2025" class="csl-entry">
-Keshav, Krishna, Aaron Plex, and Karen Garrett. 2025. <span>“Geohabnet:
-Geographical Risk Analysis Based on Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
-</div>
-<div id="ref-sulá2025" class="csl-entry">
-Sulá, Aaron I. Plex, Krishna Keshav, Ashish Adhikari, Romaric A.
-Mouafo-Tchinda, Jacobo Robledo, Stavan Nikhilchandra Shah, and Karen A.
-Garrett. 2025. <span>“Geohabnet: An r Package for Mapping Habitat
-Connectivity for Biosecurity and Conservation.”</span> <a href="https://doi.org/10.48550/ARXIV.2510.24955" class="external-link">https://doi.org/10.48550/ARXIV.2510.24955</a>.
+<div id="ref-geohabnet" class="csl-entry">
+Plex Sulá, Krishna; Adhikari, Aaron I.; Keshav. 2025. <span>“Geohabnet:
+An r Package for Mapping Habitat Connectivity for Biosecurity and
+Conservation.”</span> <a href="https://arxiv.org/abs/2510.24955" class="external-link">https://arxiv.org/abs/2510.24955</a>.
 </div>
 <div id="ref-xing2020" class="csl-entry">
 Xing, Yanru, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L
