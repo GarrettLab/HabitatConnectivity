@@ -12,7 +12,7 @@ This class encapsulates the results of apply dispersal models and metrics.
 \section{Fields}{
 
 \describe{
-\item{\code{host_density}}{SpatRaster. A spatial raster representing host density.}
+\item{\code{habitat_density}}{SpatRaster. A spatial raster representing habitat density.}
 
 \item{\code{rasters}}{List. List of raster representing risk indices. These are of type \code{GeoModels}.}
 

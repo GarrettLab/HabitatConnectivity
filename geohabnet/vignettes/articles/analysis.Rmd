@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 # Abstract
 
-Habitat connectivity can be used to analyse the potential spread of plant pathogen, pest, or any habitat-dependent species. Habitat connectivity of a species depends on the habitat availability (e.g., host availability for plant pests or pollinators or availability of favorable climate for plant species), and probability of movement of a species between habitat locations. In `geohabnet`, habitat connectivity indicates the importance of a habitat location in facilitating the spread of a species across a geographic region, relative to other locations in the same landscape. For plant pathogens and pests, the spatial distribution of host availability plays a crucial role for defining habitat availability and the establishment of the pest species. Locations with abundant habitats (e.g., plant hosts) may play a minor role in species spread if they are isolated. Yet, a location with limited habitat may play a major role in the spread of a species if it acts as a bridge between regions that would otherwise be separated. *geohabnet* [@geohabnet2025] provides the R-user community with a network-based approach to estimate habitat connectivity across the world. This package supports up to 10 parameters that has potential to influence habitat or landscape connectivity. The implementation of *geohabnet* [@geohabnet2025] expands the cropland connectivity method for plant pathogens proposed by [@xing2020] to a general way of calculating habitat connectivity for any species. The network-based framework is the same as the one proposed by [@xing2020]. However, *geohabnet* provides more flexibility to users to modify any parameter values in this framework.
+Habitat connectivity can be used to analyse the potential spread of plant pathogen, pest, or any habitat-dependent species. Habitat connectivity of a species depends on the habitat availability (e.g., habitat availability for plant pests or pollinators or availability of favorable climate for plant species), and probability of movement of a species between habitat locations. In `geohabnet`, habitat connectivity indicates the importance of a habitat location in facilitating the spread of a species across a geographic region, relative to other locations in the same landscape. For plant pathogens and pests, the spatial distribution of habitat availability plays a crucial role for defining habitat availability and the establishment of the pest species. Locations with abundant habitats (e.g., plant hosts) may play a minor role in species spread if they are isolated. Yet, a location with limited habitat may play a major role in the spread of a species if it acts as a bridge between regions that would otherwise be separated. *geohabnet* [@geohabnet2025] provides the R-user community with a network-based approach to estimate habitat connectivity across the world. This package supports up to 10 parameters that has potential to influence habitat or landscape connectivity. The implementation of *geohabnet* [@geohabnet2025] expands the cropland connectivity method for plant pathogens proposed by [@xing2020] to a general way of calculating habitat connectivity for any species. The network-based framework is the same as the one proposed by [@xing2020]. However, *geohabnet* provides more flexibility to users to modify any parameter values in this framework.
 
 Although this article focuses on the use of *geohabnet* [@geohabnet], it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009]; and [@config] provides a text based interface to control the parameters values for risk analysis in this context.
 
@@ -116,7 +116,7 @@ At any point, you can access the help page using the following
 
 The section below illustrate how the habitat connectivity analysis can be conducted using the default set of values for the supported parameters. For this example, we use the raster layer for avocado harvested area from CROPGRIDS [@Tang2024] as a real-world case study for the habitat connectivity of avocado-specific pathogens. This example would run the analysis on global geographical extent relatively quickly since the crop presence around the world is relatively low.
 
-For the purposes of demonstration, the code below sets the host parameter programatically or directly in RStudio. Alternatively, the parameters can be fed via `parameters.yaml` in an interactive way using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
+For the purposes of demonstration, the code below sets the habitat parameter programatically or directly in RStudio. Alternatively, the parameters can be fed via `parameters.yaml` in an interactive way using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
 
 ## Running your first habitat connectivity analysis
 
@@ -181,7 +181,7 @@ Now let's dive a little bit on the nitty-gritty details. The function `msean` is
         #set_global_scales(list(east = c(-24, 180, -58, 60), west = c(-140, -34, -58, 60)))
         ```
 
-4.  *thresholds* *- Numeric.* `msean` supports two types of thresholds: *host density* and *link weights* represented by *hd_threshold* and *link_threshold*, respectively*.* The former threshold (host density threshold or habitat availability threshold) excludes from the habitat connectivity analysis all values in aggregated raster layer below this threshold. The latter threshold (link weight threshold) excludes from the habitat connectivity analysis all entry values in the adjacency matrix that are below this threshold. Entries in the adjacency matrix (or link weights in its corresponding network) are the product of habitat availability and the relative likelihood of dispersal between each pair of locations in the selected region.
+4.  *thresholds* *- Numeric.* `msean` supports two types of thresholds: *habitat density* and *link weights* represented by *hd_threshold* and *link_threshold*, respectively*.* The former threshold (host density threshold or habitat availability threshold) excludes from the habitat connectivity analysis all values in aggregated raster layer below this threshold. The latter threshold (link weight threshold) excludes from the habitat connectivity analysis all entry values in the adjacency matrix that are below this threshold. Entries in the adjacency matrix (or link weights in its corresponding network) are the product of habitat availability and the relative likelihood of dispersal between each pair of locations in the selected region.
 
 5.  *resolution* - Numeric. This is a spatial aggregation value. In the context of *SpatRaster*, this parameter is the number of pixels that are aggregated to produce a new finer/coarser version raster data layer. Default is
 
@@ -223,7 +223,7 @@ if (!require(yaml))
   install.packages("yaml")
 
 params_yaml <- yaml::yaml.load_file(params_file)
-params_yaml$default$`CCRI parameters`$Host <- path_to_avo
+params_yaml$default$`CCRI parameters`$Habitat <- path_to_avo
 yaml::write_yaml(params_yaml, params_file)
 
 geohabnet::set_parameters(params_file)
@@ -234,7 +234,7 @@ geohabnet::set_parameters(params_file)
 
 # Parameters
 
-### Hosts
+### Habitat/Hosts
 
 The library supports a spatial raster file (e.g. TIFF). The case studies were done on crop data from Monfreda[@monfreda2008] and Mapspam[@internationalfoodpolicyresearchinstitute2019] which is available via `geodata` package [@geodata2025]
 
@@ -252,11 +252,11 @@ risk_indexes <- msean(avocado_sp, global = FALSE, hd_threshold = 0.0001, link_th
 
 #### Density Thresholds
 
-host density threshold. The host density threshold is the minimum cropland proportion in the grid cells (or locations) that will be included in the analysis. This parameter is called `HostDensityThreshold` and supports a list of values between 0 and 1. Before running the sensitivity_analysis() function, check that the values for the host density threshold are smaller than the maximum host density in the map to prevent errors. The values are rounded off to 5 decimal points.
+habitat density threshold. The host density threshold is the minimum cropland proportion in the grid cells (or locations) that will be included in the analysis. This parameter is called `HabitatDensityThreshold` and supports a list of values between 0 and 1. Before running the sensitivity_analysis() function, check that the values for the habitat density threshold are smaller than the maximum host density in the map to prevent errors. The values are rounded off to 5 decimal points.
 
 #### Link Thresholds
 
-Based on the information on host distribution and dispersal kernels, adjacency matrices are created, where entries are the likelihood of pathogen movement between locations. Then, adjacency matrices are converted into graph objects to perform a network analysis, where the entries in the adjacency matrices now are the weight of the links of the network.
+Based on the information on habitat distribution and dispersal kernels, adjacency matrices are created, where entries are the likelihood of pathogen movement between locations. Then, adjacency matrices are converted into graph objects to perform a network analysis, where the entries in the adjacency matrices now are the weight of the links of the network.
 
 Choosing link weight thresholds helps to focus the analysis on the more likely pathogen dispersal in the landscape.
 
@@ -264,7 +264,7 @@ Like what you did with the host density threshold, you can provide a list of pos
 
 ### Aggregation
 
-Aggregation strategy refers to the function used to create a new map of host density with a lower resolution (larger cells). Reducing the spatial resolution helps to reduce the computational power needed to run the analysis.
+Aggregation strategy refers to the function used to create a new map of habitat density with a lower resolution (larger cells). Reducing the spatial resolution helps to reduce the computational power needed to run the analysis.
 
 -   If AggregationStrategy: [sum], then the sum of the cropland proportion of all initially small grids within a large grid is divided by the total number of initially small grids within that large grid.
 
@@ -274,7 +274,7 @@ By default, analysis is run on both but can be opted out from one. If only one m
 
 ### Distance methods
 
-For each pair of locations in the host map with values greater than the host density threshold, the sensitivity_analysis() function will calculate the physical distances and use them to calculate the relative likelihood of pathogen movement between locations based on their pairwise geographical proximity.
+For each pair of locations in the habitat map with values greater than the habitat density threshold, the sensitivity_analysis() function will calculate the physical distances and use them to calculate the relative likelihood of pathogen movement between locations based on their pairwise geographical proximity.
 
 There are two different options to calculate the distance between locations.
 
@@ -356,7 +356,7 @@ The final operations are performed risk indices and on the 3 results that are pr
 
 1.  Mean
 
-    A mean of all the `SpatRasters` resulting from combination of parameter values. The values in cells are added across all the indices and divided by number of indices. It represents the connectivity based on host density in the given area.
+    A mean of all the `SpatRasters` resulting from combination of parameter values. The values in cells are added across all the indices and divided by number of indices. It represents the connectivity based on habitat density in the given area.
 
     Navigating the resulting object -
 
@@ -411,11 +411,11 @@ Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `conne
 
 # Computing
 
-To understand the motivation behind implementation, let's analyze the complexity. Since link and host density threshold is a list, let the size be N. For the kernel models, let's represent metrics and dispersal coefficients as x and 4 reprectively. The overall complexity turns out to be $N \cdot N \cdot (7X + 7Y)$ . Here, we have assumed the availability of host density. Although, the crop data is fetched in parallel to minimize the download time. Considering $X = max(X, Y)$ , the complexity will now be $T = 7N^2 X^2 \approx 7N^4$. We discount the complexity of graph operations like those of centrality scores because we haven't attempted to optimize these operations. We try to optimize the performance through scaling which is fixed problem size, but increasing parallelism.
+To understand the motivation behind implementation, let's analyze the complexity. Since link and habitat density threshold is a list, let the size be N. For the kernel models, let's represent metrics and dispersal coefficients as x and 4 respectively. The overall complexity turns out to be $N \cdot N \cdot (7X + 7Y)$ . Here, we have assumed the availability of habitat density. Although, the crop data is fetched in parallel to minimize the download time. Considering $X = max(X, Y)$ , the complexity will now be $T = 7N^2 X^2 \approx 7N^4$. We discount the complexity of graph operations like those of centrality scores because we haven't attempted to optimize these operations. We try to optimize the performance through scaling which is fixed problem size, but increasing parallelism.
 
-The operations are compute intensive. The `run_msean` snippet under [Hosts] used up to 8.3GB of memory which was 81% of the memory allotted to RStudio. For the most part, the implementation has focused on performance over efficient memory usage.
+The operations are compute intensive. The `run_msean` snippet under [Habitat/Hosts] used up to 8.3GB of memory which was 81% of the memory allotted to RStudio. For the most part, the implementation has focused on performance over efficient memory usage.
 
-This Package applies mechanisms such as vectorization and foreach to improve the performance and efficiency. The workflow has several parts running independently. There are independent functions which performs operations such adjacency matrix and or aggregation. This created an opportunity for task level parallelism in running functions within geohabnet. Each combination of parameters can be run independently and in parallel through most of the parts using future mechanism. The implementation supports workflow acceleration using [@future.apply; @future] . It is also important to note that we use SpatRaster object throughout the computation. SpatRaster is an external pointer in C++ rather than an R object and thus adds overhead of conversion, neutralizing the performance gains.
+This Package applies mechanisms such as vectorization and `foreach` to improve the performance and efficiency. The workflow has several parts running independently. There are independent functions which performs operations such adjacency matrix and or aggregation. This created an opportunity for task level parallelism in running functions within `geohabnet`. Each combination of parameters can be run independently and in parallel through most of the parts using future mechanism. The implementation supports workflow acceleration using [@future.apply; @future] . It is also important to note that we use `SpatRaster` object throughout the computation. `SpatRaster` is an external pointer in C++ rather than an R object and thus adds overhead of conversion, neutralizing the performance gains.
 
 ```{r fut, eval = FALSE}
 #avocado <- geohabnet::cropharvest_rast("avocado", "monfreda")

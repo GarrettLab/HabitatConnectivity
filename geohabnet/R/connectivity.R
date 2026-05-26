@@ -100,7 +100,7 @@ connectivity <- function(host,
 
   ri_ind <- risk_indices(grast)
 
-  return(connectivity(.unpack_rast_ifnot(grast$host_density),
+  return(connectivity(.unpack_rast_ifnot(grast$habitat_density),
                       ri_ind,
                       global,
                       east = ri_ind[[STR_EAST]],

@@ -17,3 +17,4 @@
 ^cran-comments.md$
 ^geohabnet-report\.html$
 ^parameters\.yaml$
+^vignettes/articles/case_study1\.Rmd$

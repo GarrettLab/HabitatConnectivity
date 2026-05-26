@@ -42,13 +42,11 @@ Package can either be installed from CRAN:
 
 ``` r
 install.packages("geohabnet")
-#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/Rtmpk04dwi/temp_libpath644e7beb8e10'
+#> Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpccQH3n/temp_libpathe01e79f606f8'
 #> (as 'lib' is unspecified)
-#> Warning: package 'geohabnet' is not available for this version of R
 #> 
-#> A version of this package for your version of R might be available elsewhere,
-#> see the ideas at
-#> https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages
+#> The downloaded binary packages are in
+#>  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpWN2zPN/downloaded_packages
 ```
 
 or the source version of package can be installed from
@@ -62,7 +60,7 @@ if (!require("devtools")) {
 devtools::install_github("GarrettLab/HabitatConnectivity", subdir = "geohabnet")
 ```
 
-## geohabnet Example
+## Example
 
 ``` r
 library(geohabnet)
@@ -85,6 +83,6 @@ scales are present in `global_scales()` .
 
 Refer to help using ?*geohabnet::fun* or *help(geohabnet::fun)*
 
-Refer to article [*Analyzing risk index using cropland
-connectivity*](https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html)
+Refer to article [*Mapping habitat connectivity with
+geohabnet*](https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html)
 for more elaborate description and usages of functions in this package.

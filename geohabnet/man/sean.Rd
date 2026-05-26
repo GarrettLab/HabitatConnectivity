@@ -62,7 +62,7 @@ If \code{link_threshold = 0}, all link weights in the network will be considered
 Choosing link weight thresholds greater than zero helps to focus the analysis on the most likely dispersal connections in the landscape.
 All link weights that are below this threshold will be replaced with zeros for the connectivity analysis.}
 
-\item{hd_threshold}{Numeric. A threshold value for habitat suitability (e.g., host density or climate suitability).
+\item{hd_threshold}{Numeric. A threshold value for habitat suitability (e.g., habitat density or climate suitability).
 All locations with a habitat suitability below the selected threshold will be excluded from the connectivity analysis,
 which focuses the analysis on the most important locations.
 For example, the values for the habitat suitability range between 0 and 1;

@@ -3,14 +3,14 @@
 # Utility functions -------------------------------------------------------
 
 #----------- Extract habitat density data -----------------------
-.extract_habitat_density <- function(cropharvest_agg_crop, host_density_threshold) {
+.extract_habitat_density <- function(cropharvest_agg_crop, habitat_density_threshold) {
   crop_values <- terra::values(cropharvest_agg_crop)
   max_val <- max(crop_values, na.rm = TRUE)
-  if (max_val <= host_density_threshold) {
-    stop(paste("host density threshold: ", host_density_threshold,
+  if (max_val <= habitat_density_threshold) {
+    stop(paste("host density threshold: ", habitat_density_threshold,
                " is greater than the max value: ", max_val, " of aggregate raster"))
   }
-  crop_cells_above_threshold <- which(crop_values > host_density_threshold)
+  crop_cells_above_threshold <- which(crop_values > habitat_density_threshold)
   thresholded_crop_values <- crop_values[crop_cells_above_threshold]
   return(list(agg_crop = cropharvest_agg_crop,
               crop_value = thresholded_crop_values,
@@ -42,7 +42,7 @@
 .init_cd <- function(cropharvest_raster,
                      resolution = reso(),
                      geo_scale,
-                     host_density_threshold = 0,
+                     habitat_density_threshold = 0,
                      agg_method = "sum",
                      dist_method = "geodesic") {
 
@@ -56,7 +56,7 @@
                           resolution,
                           geo_scale)
   density_data <- .extract_habitat_density(temp_rast,
-                                           host_density_threshold)
+                                           habitat_density_threshold)
 
   if (is.null(density_data) || (!is.list(density_data))) {
     stop("unable to extract density data, longitude/latitude")
@@ -251,7 +251,7 @@
 #' If `link_threshold = 0`, all link weights in the network will be considered in the connectivity analysis.
 #' Choosing link weight thresholds greater than zero helps to focus the analysis on the most likely dispersal connections in the landscape.
 #' All link weights that are below this threshold will be replaced with zeros for the connectivity analysis.
-#' @param hd_threshold Numeric. A threshold value for habitat suitability (e.g., host density or climate suitability).
+#' @param hd_threshold Numeric. A threshold value for habitat suitability (e.g., habitat density or climate suitability).
 #' All locations with a habitat suitability below the selected threshold will be excluded from the connectivity analysis,
 #' which focuses the analysis on the most important locations.
 #' For example, the values for the habitat suitability range between 0 and 1;
@@ -355,19 +355,19 @@ sean <- function(rast,
                    "Link threshold: ",
                    link_threshold,
                    "\n",
-                   "Host density threshold: ",
+                   "Habitat density threshold: ",
                    hd_threshold,
                    "\n"))
 
     model_ret <- list()
-    host_densityrasts <- list()
+    habitat_densityrasts <- list()
     up_rast <- .unpack_rast_ifnot(rast)
 
     for (agg_method in agg_methods) {
       density_data <- .init_cd(up_rast,
                                res,
                                geoext,
-                               host_density_threshold = hd_threshold,
+                               habitat_density_threshold = hd_threshold,
                                agg_method,
                                dist_method)
 
@@ -385,10 +385,10 @@ sean <- function(rast,
         model_ret <- c(model_ret, x)
       }
 
-      host_densityrasts <- c(host_densityrasts, density_data$agg_crop)
+      habitat_densityrasts <- c(habitat_densityrasts, density_data$agg_crop)
     }
 
-    return(list(model_res = model_ret, host_density = .host_map(host_densityrasts)))
+    return(list(model_res = model_ret, habitat_density = .host_map(habitat_densityrasts)))
   }
 
   rasters <- .rast_ro(global = global)
@@ -402,12 +402,12 @@ sean <- function(rast,
     ret <- sean_geo(global_exts[[STR_EAST]])
     graster$east <- ret$model_res
 
-    east_density <- ret$host_density
+    east_density <- ret$habitat_density
 
     ret <- sean_geo(global_exts[[STR_WEST]])
     graster$west <- ret$model_res
 
-    west_density <- ret$host_density
+    west_density <- ret$habitat_density
 
     rasters$add_gr(graster)
     rasters$set_hd(terra::wrap(terra::merge(east_density, west_density)))
@@ -422,7 +422,7 @@ sean <- function(rast,
     }
     ret <- sean_geo(actualscale)
     rasters$rasters <- ret$model_res
-    rasters$set_hd(terra::wrap(ret$host_density))
+    rasters$set_hd(terra::wrap(ret$habitat_density))
     rasters$global <- FALSE
   }
 
@@ -459,7 +459,7 @@ msean <- function(rast,
                         outdir = outdir)
 
   return(new("GeoNetwork",
-             habitat_density = grasters$host_density,
+             habitat_density = grasters$habitat_density,
              rasters = grasters,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,
@@ -485,7 +485,7 @@ msean <- function(rast,
   # it will be memory extensive to store it for each param combination
   # thus, we will store it only once assuming it is same
   # this was verified at time of implementation using terra::CompareGeom
-  newrast$set_hd(rasters[[1]]$host_density)
+  newrast$set_hd(rasters[[1]]$habitat_density)
 
   return(newrast)
 }
@@ -550,7 +550,7 @@ sa_onrasters <- function(rast,
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
-  newrast$set_hd(rasters[[1]]$host_density)
+  newrast$set_hd(rasters[[1]]$habitat_density)
 
   return(newrast)
 }
@@ -577,7 +577,7 @@ msean_onrast <- function(global = TRUE,
                         outdir)
 
   return(new("GeoNetwork",
-             habitat_density = grast$host_density,
+             habitat_density = grast$habitat_density,
              rasters = grast,
              me_rast = gmap@me_rast,
              me_out = gmap@me_out,
@@ -645,10 +645,10 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
   cparams <- load_parameters()
 
   # cutoff adjacency matrix
-  host_thresholds <- cparams$`CCRI parameters`$HostDensityThreshold
+  host_thresholds <- cparams$`CCRI parameters`$HabitatDensityThreshold
 
   # crop data
-  host_fp <- cparams$`CCRI parameters`$Host
+  host_fp <- cparams$`CCRI parameters`$Habitat
   stopifnot("Host must be a file that can be converted to raster. E.g. TIFF" = file.exists(host_fp))
   crop_rasters <- get_rasters(host_fp)
   
@@ -682,7 +682,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   newrast <- .rast_ro()
   lapply(rasters, function(x) newrast$com(x))
-  newrast$set_hd(rasters[[1]]$host_density)
+  newrast$set_hd(rasters[[1]]$habitat_density)
 
   gmap <- if (maps == TRUE) {
     .connectivity(newrast,
@@ -702,7 +702,7 @@ sensitivity_analysis <- function(maps = TRUE, alert = TRUE) {
 
   ret <- if (maps == TRUE) {
     new("GeoNetwork",
-        habitat_density = .unpack_rast_ifnot(newrast$host_density),
+        habitat_density = .unpack_rast_ifnot(newrast$habitat_density),
         rasters = newrast,
         me_rast = gmap@me_rast,
         me_out = gmap@me_out,
