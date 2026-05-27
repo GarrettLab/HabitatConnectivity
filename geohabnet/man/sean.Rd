@@ -27,50 +27,69 @@ msean(
   global = TRUE,
   geoscale = NULL,
   res = reso(),
+  maps = TRUE,
   ...,
   outdir = tempdir()
 )
 }
 \arguments{
-\item{rast}{Raster object which will be used in analysis.}
+\item{rast}{This is a SpatRaster object that indicates habitat suitability across locations in a landscape. Entry values in this object can include any positive real numbers, but they typically range from 0 to 1. Currently, this argument supports only raster layers in the standard global coordinate reference system -CRS-, that is, WGS 84 or World Geodetic System 1984, identified by the EPSG code 4326. Users need to project the raster layer before providing it as an input in \code{\link[=msean]{msean()}} if it is in another CRS.}
 
 \item{global}{Logical. \code{TRUE} if global analysis, \code{FALSE} otherwise.
 Default is \code{TRUE}}
 
-\item{geoscale}{Numeric vector. Geographical coordinates
-in the form of c(Xmin, Xmax, Ymin, Ymax) which EPSG:4326 in coordinate reference system. If \code{geoscale} is NuLL,
-the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
+\item{geoscale}{Numeric vector. This is a set of geographic coordinates in the form of
+c(Xmin, Xmax, Ymin, Ymax) which correspond to the positions in the standard geographic coordinate system or EPSG:4326. \code{geoscape} referst to the geographic extent, or bounding box, for the habitat connectivity analysis.
+Habitat locations outside the geographic extent will be excluded from the analysis.
+If \code{geoscale} is NuLL, the extent is extracted from \code{rast}(SpatRaster) using \code{\link[terra:ext]{terra::ext()}}.}
 
 \item{agg_methods}{Character. One or both methods of spatial aggregation - SUM, MEAN.
-Aggregation strategy for scaling the input raster to the desired resolution.}
+This is an aggregation strategy for upscaling the input raster to the desired spatial resolution.
+If \code{agg_methods = c("sum")}, then the sum of the habitat suitability of a set of small grid cells is divided by the total number of small cells within the resulting larger grid.
+If \code{agg_methods = c("mean")}, then the sum of the habitat suitability of a set of small grid cells is divided by the number of small cells containing only land within the large grid. In this strategy, small cells with water are excluded from spatial aggregation.}
 
-\item{dist_method}{Character. The method to calculate the distance matrix.}
+\item{dist_method}{Character. The method to calculate the distance matrix.
+For each pair of habitat locations in the SpatRaster object, \code{\link[=msean]{msean()}} will calculate the geographic distances and use them to calculate the probability of an organism's movement between locations based on dispersal kernels.
+There are two options to calculate the distance between locations: "vincentyEllipsoid", "geodesic".
+Vincenty ellipsoid distance is highly accurate, accounting for the curvature of Earth, but more computationally expensive.
+Geodesic distance is less computationally expensive but may be less accurate for large distances than the option above.}
 
 \item{link_threshold}{Numeric. A threshold value for link weight.
-All link weights that are below this threshold will be replaced with zero for the connectivity analysis.
-Link weights represent the relative likelihood of pathogen, pest,
-or invasive species movement between a pair of host locations,
-which is calculated using gravity models based on host density (or availability) and dispersal kernels.}
+Based on the information on the habitat layer and dispersal kernels, adjacency matrices are created, where entries represent the potential of an organism's movement between habitat locations.
+Then, the adjacency matrices are converted into graph objects to perform a network analysis, where the entries in the adjacency matrices are now the weights of the links of the network.
+This parameter supports any positive values, but make sure these values are smaller than the maximum link weight in the network.
+If \code{link_threshold = 0}, all link weights in the network will be considered in the connectivity analysis.
+Choosing link weight thresholds greater than zero helps to focus the analysis on the most likely dispersal connections in the landscape.
+All link weights that are below this threshold will be replaced with zeros for the connectivity analysis.}
 
-\item{hd_threshold}{Numeric. A threshold value for habitat availability (e.g., cropland density or host density).
-All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
+\item{hd_threshold}{Numeric. A threshold value for habitat suitability (e.g., habitat density or climate suitability).
+All locations with a habitat suitability below the selected threshold will be excluded from the connectivity analysis,
 which focuses the analysis on the most important locations.
-The values for the habitat availability threshold can range between 0 and 1;
-if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
-Selecting a threshold for, for example, host density requires at least knowing what is the maximum value
-in the host density map to avoid excluding all locations in the analysis.
-if value is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
-Selecting a threshold for host density requires at least knowing what is the maximum value
-in the host density map to avoid excluding all locations in the analysis.}
+For example, the values for the habitat suitability range between 0 and 1;
+if the threshold is 1, all locations will be excluded from the analysis and 0 will include all locations in the analysis.
+Selecting a threshold for habitat suitability requires at least knowing the maximum value
+in the habitat suitability map to avoid excluding all locations from the analysis.
+Note that if the layer of habitat suitability has entry values above 1, \code{hd_threshold} can also be adjusted accordingly.}
 
 \item{res}{Numeric. The spatial aggregation factor that will be used to aggregate the raster layer of habitat availability, from fine to coars resolution. Default is \code{\link[=reso]{reso()}}.}
 
-\item{inv_pl}{List. A named list of parameters for inverse power law. See details.}
+\item{inv_pl}{List. A named list of parameters for inverse power law model.
+In geohabnet, two dispersal kernel models are used to calculate the probability of an organism's movement between habitat locations.
+In this model, the dispersal probability distribution is fat-tailed.
+Thus, very long-distance dispersal events are assigned a higher probability compared to the negative exponential model.
+Please use the \code{\link[=inv_powerlaw]{inv_powerlaw()}} function as input for the \code{inv_pl} argument, customizing parameters as exemplified above.
+Refer to Xing et al 2020 for the specific mathematical formulation of this dispersal kernel. Users need to specify at least one value for each parameter in \code{\link[=inv_powerlaw]{inv_powerlaw()}}.
+\code{\link[=msean]{msean()}} works with either or both dispersal kernel models, \code{inv_pl} and/or \code{neg_exp}.}
 
-\item{neg_exp}{List. A named list of parameters for inverse negative exponential. See details.
-All locations with a host density below the selected threshold will be excluded from the connectivity analysis,
-which focuses the analysis on the most important locations.
-The values for the host density threshold can range between 0 and 1;}
+\item{neg_exp}{List. A named list of parameters for negative exponential model. See details.
+This is another dispersal kernel models commonly used in landscape and movement ecology to calculate the probability of an organism's movement between habitat locations.
+In this model, the dispersal probability distribution tail is exponentially bounded.
+Thus, long-distance dispersal events will be assigned a very low probability of occurrence.
+Please use the \code{\link[=neg_expo]{neg_expo()}} function as input for the \code{neg_exp} argument, customizing parameters as exemplified above.
+Refer to Xing et al 2020 for the specific mathematical formulation of this dispersal kernel. Users need to specify at least one value for each parameter in \code{\link[=inv_powerlaw]{inv_powerlaw()}}.
+\code{\link[=msean]{msean()}} works with either or both dispersal kernel models, \code{inv_pl} and/or \code{neg_exp}.}
+
+\item{maps}{Logical. True, if plots should be included in side effects. False, otherwise.}
 
 \item{...}{arguments passed to \code{\link[=sean]{sean()}}}
 
@@ -83,15 +102,13 @@ GeoRasters.
 GeoNetwork.
 }
 \description{
-This function performs a sensitivity analysis across different values of habitat connectivity
-for each location in a map.
+This function performs a sensitivity analysis of habitat connectivity across dispersal, geographic, and habitat parameters.
 For each combination of selected parameters, an index of habitat connectivity is calculated.
-\code{\link[=sensitivity_analysis]{sensitivity_analysis()}} is a wrapper around \code{\link[=sean]{sean()}} function.
-\itemize{
-\item \code{msean()} is a wrapper around \code{\link[=sean]{sean()}} function.
+\code{msean()} is a wrapper function around \code{\link[=sean]{sean()}} function. \code{\link[=sean]{sean()}} is the base connectivity analysis function, while \code{\link[=msean]{msean()}} (mapped sean) is a wrappers that produces visual maps.
+\code{\link[=sean]{sean()}} returns a \code{GeoRasters} object, whereas \code{\link[=msean]{msean()}} produces a \code{GeoNetwork} object containing maps for mean connectivity, variance, and rank differences.
+Users can use \code{\link[=sean]{sean()}} for raw numerical connectivity analysis data, and \code{\link[=msean]{msean()}} to generate the three standard output maps: mean, variance, difference.
 It has additional argument to specify maps which are calculated
 using \code{\link[=connectivity]{connectivity()}} function.
-}
 }
 \details{
 When \code{global = TRUE}, \code{geoscale} is ignored and \code{\link[=global_scales]{global_scales()}} is used by default.

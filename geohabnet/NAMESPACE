@@ -2,6 +2,7 @@
 
 export("%>%")
 export(.indices)
+export(RiskMap)
 export(connectivity)
 export(dist_methods)
 export(geoscale_param)

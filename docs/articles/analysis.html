@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geohabnet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:krishnakeshav.pes@gmail.com" class="email">krishnakeshav.pes@gmail.com</a>)</h4>
             
-            <h4 data-toc-skip class="date">01 November, 2025</h4>
+            <h4 data-toc-skip class="date">25 May, 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/analysis.Rmd" class="external-link"><code>vignettes/articles/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -83,38 +83,38 @@ Keshav(<a href="mailto:krishnakeshav.pes@gmail.com" class="email">krishnakeshav.
 <p>Habitat connectivity can be used to analyse the potential spread of
 plant pathogen, pest, or any habitat-dependent species. Habitat
 connectivity of a species depends on the habitat availability (e.g.,
-host availability for plant pests or pollinators or availability of
+habitat availability for plant pests or pollinators or availability of
 favorable climate for plant species), and probability of movement of a
 species between habitat locations. In <code>geohabnet</code>, habitat
 connectivity indicates the importance of a habitat location in
 facilitating the spread of a species across a geographic region,
 relative to other locations in the same landscape. For plant pathogens
-and pests, the spatial distribution of host availability plays a crucial
-role for defining habitat availability and the establishment of the pest
-species. Locations with abundant habitats (e.g., plant hosts) may play a
-minor role in species spread if they are isolated. Yet, a location with
-limited habitat may play a major role in the spread of a species if it
-acts as a bridge between regions that would otherwise be separated.
-<em>geohabnet</em> <span class="citation">(Keshav, Plex, and Garrett
-2025)</span> provides the R-user community with a network-based approach
-to estimate habitat connectivity across the world. This package supports
-up to 10 parameters that has potential to influence habitat or landscape
-connectivity. The implementation of <em>geohabnet</em> <span class="citation">(Keshav, Plex, and Garrett 2025)</span> expands the
+and pests, the spatial distribution of habitat availability plays a
+crucial role for defining habitat availability and the establishment of
+the pest species. Locations with abundant habitats (e.g., plant hosts)
+may play a minor role in species spread if they are isolated. Yet, a
+location with limited habitat may play a major role in the spread of a
+species if it acts as a bridge between regions that would otherwise be
+separated. <em>geohabnet</em> <span class="citation">(<strong>geohabnet2025?</strong>)</span> provides the
+R-user community with a network-based approach to estimate habitat
+connectivity across the world. This package supports up to 10 parameters
+that has potential to influence habitat or landscape connectivity. The
+implementation of <em>geohabnet</em> <span class="citation">(<strong>geohabnet2025?</strong>)</span> expands the
 cropland connectivity method for plant pathogens proposed by <span class="citation">(Xing et al. 2020)</span> to a general way of
 calculating habitat connectivity for any species. The network-based
 framework is the same as the one proposed by <span class="citation">(Xing et al. 2020)</span>. However, <em>geohabnet</em>
 provides more flexibility to users to modify any parameter values in
 this framework.</p>
-<p>Although this article focuses on the use of <em>geohabnet</em> <span class="citation">(Keshav et al. 2023)</span>, it is useful to know for
+<p>Although this article focuses on the use of <em>geohabnet</em> <span class="citation">(Plex Sulá 2025)</span>, it is useful to know for
 interested developers that package design is inspired from widely used
 Configuration-based design in software development <span class="citation">(Majors 2022)</span>, <span class="citation">(Nash and
 DeMore 2009)</span>; and <span class="citation">(Allaire 2023)</span>
 provides a text based interface to control the parameters values for
 risk analysis in this context.</p>
 <p>The primary objective of this vignette is to help user being
-familiarized with <em>geohabnet</em> <span class="citation">(Keshav et
-al. 2023)</span>, list its capabilities and get an intuition behind
-them. It also describes the implementation of the main functions in
+familiarized with <em>geohabnet</em> <span class="citation">(Plex Sulá
+2025)</span>, list its capabilities and get an intuition behind them. It
+also describes the implementation of the main functions in
 <em>geohabnet</em> to support this intuition. Throughout the article, we
 will be citing external sites and resources, which are relevant for the
 use of this package.</p>
@@ -133,7 +133,7 @@ location. Some details of a raster data include spatial resolution,
 dimensions, or geographic extent, which are useful in identification and
 processing. Here, we use raster to represent maps.</p></li>
 <li><p>TIFF(Tag Image File Format) is a type of file that stores
-geographic information in the form of raster. <span class="citation">(Keshav et al. 2023)</span> has been tested using
+geographic information in the form of raster. <span class="citation">(Plex Sulá 2025)</span> has been tested using
 <em>.tif</em> and <em>.nc</em> files but it would be able to handle any
 raster type of file supported by the R package <em>terra</em> <span class="citation">(Hijmans 2023)</span> .</p></li>
 </ul>
@@ -171,8 +171,8 @@ Research Institute 2019)</span></p></li>
 <p><em>geodata</em> provides a set of APIs to access the EARTHSTAT and
 MapSPAM datasets directly in R (see code below).</p>
 <p>The raster layers from the data sources listed above may need some
-transformation before using them in <span class="citation">(Keshav et
-al. 2023)</span>. A valid raster layer to be used is one that its entry
+transformation before using them in <span class="citation">(Plex Sulá
+2025)</span>. A valid raster layer to be used is one that its entry
 values of each pixel range from 0 (no habitat available) to 1 (habitat
 is available in the entirety of the pixel). For example, data layers of
 cropland fraction from EARTHSTAT can be directly provided to functions
@@ -248,7 +248,7 @@ harvested area from CROPGRIDS <span class="citation">(Tang FHM
 avocado-specific pathogens. This example would run the analysis on
 global geographical extent relatively quickly since the crop presence
 around the world is relatively low.</p>
-<p>For the purposes of demonstration, the code below sets the host
+<p>For the purposes of demonstration, the code below sets the habitat
 parameter programatically or directly in RStudio. Alternatively, the
 parameters can be fed via <code>parameters.yaml</code> in an interactive
 way using either the path or setting <code>iwindow = TRUE</code> for the
@@ -327,15 +327,15 @@ the example below usually takes 5-10 minutes depending on the processing
 power of your machine.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">geo_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado_sp</span><span class="op">)</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          </span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=====                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span>
 <span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span>
 <span><span class="co">#&gt; Warning: [+] CRS do not match</span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
 <p>Many, many congratulations! You have just generated a full
@@ -387,7 +387,7 @@ scales using the following</p>
 </ul>
 </li>
 <li><p><em>thresholds</em> <em>- Numeric.</em> <code>msean</code>
-supports two types of thresholds: <em>host density</em> and <em>link
+supports two types of thresholds: <em>habitat density</em> and <em>link
 weights</em> represented by <em>hd_threshold</em> and
 <em>link_threshold</em>, respectively<em>.</em> The former threshold
 (host density threshold or habitat availability threshold) excludes from
@@ -432,7 +432,7 @@ config file.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmphRPeWc/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmp8eSzLV/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="float">
 <img src="images%2Finitconfig.png" width="700" alt="Initial parameters.yaml"><div class="figcaption">Initial parameters.yaml</div>
@@ -461,7 +461,7 @@ prompt in <code><a href="../reference/set_parameters.html">set_parameters()</a><
 <span><span class="co">#&gt; Loading required package: yaml</span></span>
 <span></span>
 <span><span class="va">params_yaml</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/yaml.load.html" class="external-link">yaml.load_file</a></span><span class="op">(</span><span class="va">params_file</span><span class="op">)</span></span>
-<span><span class="va">params_yaml</span><span class="op">$</span><span class="va">default</span><span class="op">$</span><span class="va">`CCRI parameters`</span><span class="op">$</span><span class="va">Host</span> <span class="op">&lt;-</span> <span class="va">path_to_avo</span></span>
+<span><span class="va">params_yaml</span><span class="op">$</span><span class="va">default</span><span class="op">$</span><span class="va">`CCRI parameters`</span><span class="op">$</span><span class="va">Habitat</span> <span class="op">&lt;-</span> <span class="va">path_to_avo</span></span>
 <span><span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/write_yaml.html" class="external-link">write_yaml</a></span><span class="op">(</span><span class="va">params_yaml</span>, <span class="va">params_file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">geohabnet</span><span class="fu">::</span><span class="fu"><a href="../reference/set_parameters.html">set_parameters</a></span><span class="op">(</span><span class="va">params_file</span><span class="op">)</span></span>
@@ -478,7 +478,7 @@ and feed it to workflow using <code><a href="../reference/set_parameters.html">s
 <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
 </h2>
 <div class="section level4">
-<h4 id="hosts">Hosts<a class="anchor" aria-label="anchor" href="#hosts"></a>
+<h4 id="habitathosts">Habitat/Hosts<a class="anchor" aria-label="anchor" href="#habitathosts"></a>
 </h4>
 <p>The library supports a spatial raster file (e.g. TIFF). The case
 studies were done on crop data from Monfreda<span class="citation">(Monfreda, Ramankutty, and Foley 2008)</span> and
@@ -598,24 +598,24 @@ threshold are removed from the consideration by dispersal models.</p>
 <div class="section level5">
 <h5 id="density-thresholds">Density Thresholds<a class="anchor" aria-label="anchor" href="#density-thresholds"></a>
 </h5>
-<p>host density threshold. The host density threshold is the minimum
+<p>habitat density threshold. The host density threshold is the minimum
 cropland proportion in the grid cells (or locations) that will be
 included in the analysis. This parameter is called
-<code>HostDensityThreshold</code> and supports a list of values between
-0 and 1. Before running the sensitivity_analysis() function, check that
-the values for the host density threshold are smaller than the maximum
-host density in the map to prevent errors. The values are rounded off to
-5 decimal points.</p>
+<code>HabitatDensityThreshold</code> and supports a list of values
+between 0 and 1. Before running the sensitivity_analysis() function,
+check that the values for the habitat density threshold are smaller than
+the maximum host density in the map to prevent errors. The values are
+rounded off to 5 decimal points.</p>
 </div>
 <div class="section level5">
 <h5 id="link-thresholds">Link Thresholds<a class="anchor" aria-label="anchor" href="#link-thresholds"></a>
 </h5>
-<p>Based on the information on host distribution and dispersal kernels,
-adjacency matrices are created, where entries are the likelihood of
-pathogen movement between locations. Then, adjacency matrices are
-converted into graph objects to perform a network analysis, where the
-entries in the adjacency matrices now are the weight of the links of the
-network.</p>
+<p>Based on the information on habitat distribution and dispersal
+kernels, adjacency matrices are created, where entries are the
+likelihood of pathogen movement between locations. Then, adjacency
+matrices are converted into graph objects to perform a network analysis,
+where the entries in the adjacency matrices now are the weight of the
+links of the network.</p>
 <p>Choosing link weight thresholds helps to focus the analysis on the
 more likely pathogen dispersal in the landscape.</p>
 <p>Like what you did with the host density threshold, you can provide a
@@ -629,7 +629,7 @@ to prevent errors.</p>
 <h4 id="aggregation">Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
 </h4>
 <p>Aggregation strategy refers to the function used to create a new map
-of host density with a lower resolution (larger cells). Reducing the
+of habitat density with a lower resolution (larger cells). Reducing the
 spatial resolution helps to reduce the computational power needed to run
 the analysis.</p>
 <ul>
@@ -649,11 +649,11 @@ outcome.</p>
 <div class="section level4">
 <h4 id="distance-methods">Distance methods<a class="anchor" aria-label="anchor" href="#distance-methods"></a>
 </h4>
-<p>For each pair of locations in the host map with values greater than
-the host density threshold, the sensitivity_analysis() function will
-calculate the physical distances and use them to calculate the relative
-likelihood of pathogen movement between locations based on their
-pairwise geographical proximity.</p>
+<p>For each pair of locations in the habitat map with values greater
+than the habitat density threshold, the sensitivity_analysis() function
+will calculate the physical distances and use them to calculate the
+relative likelihood of pathogen movement between locations based on
+their pairwise geographical proximity.</p>
 <p>There are two different options to calculate the distance between
 locations.</p>
 <p>· Vincenty ellipsoid distance</p>
@@ -830,11 +830,11 @@ classes approach.</p>
 <code class="sourceCode R"><span><span class="va">final</span></span>
 <span><span class="co">#&gt; class            :  GeoNetwork </span></span>
 <span><span class="co">#&gt; habitat density     :  98 , 267  (nrow, ncol) SpatRaster </span></span>
-<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmphRPeWc/plots/mean_20251101192717060378.tif </span></span>
+<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmp8eSzLV/plots/mean_20260525195951053048.tif </span></span>
 <span><span class="co">#&gt; mean raster      :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmphRPeWc/plots/variance_20251101192718031884.tif </span></span>
+<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmp8eSzLV/plots/variance_20260525195951923168.tif </span></span>
 <span><span class="co">#&gt; variance raster   :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmphRPeWc/plots/difference_2025110119271871457.tif </span></span>
+<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//Rtmp8eSzLV/plots/diff_20260525195952598981.tif </span></span>
 <span><span class="co">#&gt; difference raster :  1176 , 3204  (nrow, ncol)</span></span></code></pre></div>
 <p>The final operations are performed risk indices and on the 3 results
 that are produced -</p>
@@ -844,7 +844,7 @@ that are produced -</p>
 <p>A mean of all the <code>SpatRasters</code> resulting from combination
 of parameter values. The values in cells are added across all the
 indices and divided by number of indices. It represents the connectivity
-based on host density in the given area.</p>
+based on habitat density in the given area.</p>
 <p>Navigating the resulting object -</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gplot.html">gplot</a></span><span class="op">(</span><span class="va">final</span><span class="op">@</span><span class="va">me_rast</span><span class="op">)</span></span></code></pre></div>
@@ -919,13 +919,13 @@ to corresponding parameter <code>outdir</code> in all the functions.</p>
 <h2 id="computing">Computing<a class="anchor" aria-label="anchor" href="#computing"></a>
 </h2>
 <p>To understand the motivation behind implementation, let’s analyze the
-complexity. Since link and host density threshold is a list, let the
+complexity. Since link and habitat density threshold is a list, let the
 size be N. For the kernel models, let’s represent metrics and dispersal
-coefficients as x and 4 reprectively. The overall complexity turns out
+coefficients as x and 4 respectively. The overall complexity turns out
 to be
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>⋅</mo><mi>N</mi><mo>⋅</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>7</mn><mi>X</mi><mo>+</mo><mn>7</mn><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N \cdot N \cdot (7X + 7Y)</annotation></semantics></math>
-. Here, we have assumed the availability of host density. Although, the
-crop data is fetched in parallel to minimize the download time.
+. Here, we have assumed the availability of habitat density. Although,
+the crop data is fetched in parallel to minimize the download time.
 Considering
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>,</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">X = max(X, Y)</annotation></semantics></math>
 , the complexity will now be
@@ -935,22 +935,24 @@ scores because we haven’t attempted to optimize these operations. We try
 to optimize the performance through scaling which is fixed problem size,
 but increasing parallelism.</p>
 <p>The operations are compute intensive. The <code>run_msean</code>
-snippet under <a href="#hosts">Hosts</a> used up to 8.3GB of memory
-which was 81% of the memory allotted to RStudio. For the most part, the
-implementation has focused on performance over efficient memory
-usage.</p>
-<p>This Package applies mechanisms such as vectorization and foreach to
-improve the performance and efficiency. The workflow has several parts
-running independently. There are independent functions which performs
-operations such adjacency matrix and or aggregation. This created an
-opportunity for task level parallelism in running functions within
-geohabnet. Each combination of parameters can be run independently and
-in parallel through most of the parts using future mechanism. The
-implementation supports workflow acceleration using <span class="citation">(Bengtsson 2021a, 2021b)</span> . It is also important
-to note that we use SpatRaster object throughout the computation.
-SpatRaster is an external pointer in C++ rather than an R object and
-thus adds overhead of conversion, neutralizing the performance
-gains.</p>
+snippet under <a href="#habitathosts">Habitat/Hosts</a> used up to 8.3GB
+of memory which was 81% of the memory allotted to RStudio. For the most
+part, the implementation has focused on performance over efficient
+memory usage.</p>
+<p>This Package applies mechanisms such as vectorization and
+<code>foreach</code> to improve the performance and efficiency. The
+workflow has several parts running independently. There are independent
+functions which performs operations such adjacency matrix and or
+aggregation. This created an opportunity for task level parallelism in
+running functions within <code>geohabnet</code>. Each combination of
+parameters can be run independently and in parallel through most of the
+parts using future mechanism. The implementation supports workflow
+acceleration using <span class="citation">(Bengtsson 2021a,
+2021b)</span> . It is also important to note that we use
+<code>SpatRaster</code> object throughout the computation.
+<code>SpatRaster</code> is an external pointer in C++ rather than an R
+object and thus adds overhead of conversion, neutralizing the
+performance gains.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#avocado &lt;- geohabnet::cropharvest_rast("avocado", "monfreda")</span></span>
 <span></span>
@@ -993,14 +995,6 @@ International Food Policy Research Institute. 2019. <span>“Global
 Spatially-Disaggregated Crop Production Statistics Data for 2010 Version
 2.0.”</span> Harvard Dataverse. <a href="https://doi.org/10.7910/DVN/PRFF8V" class="external-link">https://doi.org/10.7910/DVN/PRFF8V</a>.
 </div>
-<div id="ref-geohabnet" class="csl-entry">
-Keshav, Krishna, Garrett Lab, Karen Garrett, and Aaron Plex. 2023.
-<span>“Geohabnet: Analysis of Cropland Connectivity.”</span> <a href="https://CRAN.R-project.org/package=geohabnet" class="external-link">https://CRAN.R-project.org/package=geohabnet</a>.
-</div>
-<div id="ref-geohabnet2025" class="csl-entry">
-Keshav, Krishna, Aaron Plex, and Karen Garrett. 2025. <span>“Geohabnet:
-Geographical Risk Analysis Based on Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
-</div>
 <div id="ref-sre_book" class="csl-entry">
 Majors, Charity. 2022. <em>SRE Workbook: Configuration Design</em>.
 Google. <a href="https://sre.google/workbook/configuration-design/" class="external-link">https://sre.google/workbook/configuration-design/</a>.
@@ -1015,6 +1009,11 @@ Yields, Physiological Types, and Net Primary Production in the Year
 Nash, Brent, and Martha DeMore. 2009. <span>“Using XML
 Configuration-Driven Development to Create a Customizable Ground Data
 System.”</span> <em>2009 IEEE Aerospace Conference</em>, March. <a href="https://doi.org/10.1109/aero.2009.4839708" class="external-link">https://doi.org/10.1109/aero.2009.4839708</a>.
+</div>
+<div id="ref-geohabnet" class="csl-entry">
+Plex Sulá, Krishna; Adhikari, Aaron I.; Keshav. 2025. <span>“Geohabnet:
+An r Package for Mapping Habitat Connectivity for Biosecurity and
+Conservation.”</span> <a href="https://arxiv.org/abs/2510.24955" class="external-link">https://arxiv.org/abs/2510.24955</a>.
 </div>
 <div id="ref-USDA" class="csl-entry">
 Service, USDA National Agricultural Statistics. 2025.

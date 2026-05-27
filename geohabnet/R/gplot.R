@@ -77,11 +77,7 @@ gplot <- function(x, ...) {
                   geoscale,
                   colorss = .get_palette(),
                   zlim,
-                  typ = "plot",
-                  outdir,
                   plotf = .plotmap) {
-
-  info <- .saverast(typ, rast, outdir)
 
   plotf(rast = rast,
         geoscale = geoscale,
@@ -89,8 +85,6 @@ gplot <- function(x, ...) {
         label = label,
         col_pal = colorss,
         zlim = zlim)
-
-  return(info)
 }
 
 .saverast <- function(typ, rast, outdir) {

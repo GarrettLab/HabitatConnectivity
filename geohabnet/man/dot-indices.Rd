@@ -2,16 +2,16 @@
 % Please edit documentation in R/geo_network.R
 \name{.indices}
 \alias{.indices}
-\title{Internal function to extract risk indices from a list of crop rasters.}
+\title{Internal function to extract risk indices from a list of habitat rasters.}
 \usage{
 .indices(crop_rasters)
 }
 \arguments{
-\item{crop_rasters}{List of raster objects.}
+\item{crop_rasters}{List of \code{SpatRaster} objects.}
 }
 \value{
 A list of risk indices.
 }
 \description{
-Internal function to extract risk indices from a list of crop rasters.
+Internal function to extract risk indices from a list of habitat rasters.
 }

@@ -9,11 +9,11 @@
 setmaps(x, me, vari, dif)
 }
 \arguments{
-\item{x}{Gmap object.}
+\item{x}{Gmap. Please provide a \code{Gmap} object.}
 
-\item{me}{SpatRaster. A raster used as background when plotting the map of mean habitat connectivity.}
+\item{me}{SpatRaster. A SpatRaster used as background when plotting the map of mean habitat connectivity.}
 
-\item{vari}{SpatRaster. A raster used as background when plotting the map of variance in habitat connectivity.}
+\item{vari}{SpatRaster. A Spatraster used as background when plotting the map of variance in habitat connectivity.}
 
 \item{dif}{SpatRaster. A raster used as background when plotting the map of difference in habitat connectivity and habitat availability.}
 }
@@ -21,20 +21,20 @@ setmaps(x, me, vari, dif)
 Gmap object.
 }
 \description{
-An S4 class to organize various maps in the form of \code{SpatRaster} in a single object.
+An S4 class object to organize various maps in the form of \code{SpatRaster} in a single object.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{me_rast}}{A raster object representing habitat connectivity of a region averaged across all selected parameters.}
+\item{\code{me_rast}}{A \code{SpatRaster} object representing habitat connectivity of a region averaged across all selected parameters.}
 
 \item{\code{me_out}}{Character. A file path to where the mean habitat connectivity is saved.}
 
-\item{\code{diff_rast}}{A raster object representing the difference in ranks between mean habitat connectivity and habitat availability in a region.}
+\item{\code{diff_rast}}{A \code{SpatRaster} object representing the difference in ranks between mean habitat connectivity and habitat availability in a region.}
 
 \item{\code{diff_out}}{Character. A file path to where the difference raster is saved.}
 
-\item{\code{var_rast}}{A raster object representing the variance in habitat connectivity of a region calculated across all specified parameters.}
+\item{\code{var_rast}}{A \code{SpatRaster} object representing the variance in habitat connectivity of a region calculated across all specified parameters.}
 
 \item{\code{var_out}}{Character. A file path to where the variance raster is saved.}
 }}

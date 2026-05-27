@@ -4,7 +4,7 @@
 \alias{hci_diff}
 \title{Calculate difference map}
 \usage{
-hci_diff(x, y, global, geoscale, res = reso(), outdir = tempdir())
+hci_diff(x, y, global, geoscale, res = reso(), outdir = tempdir(), plt = TRUE)
 }
 \arguments{
 \item{x}{SpatRaster.}
@@ -21,6 +21,8 @@ Default is \code{\link[=reso]{reso()}}.}
 
 \item{outdir}{Character. Output directory for saving raster in TIFF format.
 Default is \code{\link[=tempdir]{tempdir()}}.}
+
+\item{plt}{\code{TRUE} if need to plot mean map, \code{FALSE} otherwise.}
 }
 \value{
 RiskMap. Contains result in the form of \code{SpatRaster} objects

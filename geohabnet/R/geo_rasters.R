@@ -15,12 +15,12 @@
 #' @description
 #' A class to represent raster vis-a-vis risk indices.
 #' This class encapsulates the results of apply dispersal models and metrics.
-#' @field host_density SpatRaster. A spatial raster representing host density.
+#' @field habitat_density SpatRaster. A spatial raster representing habitat density.
 #' @field rasters List. List of raster representing risk indices. These are of type `GeoModels`.
 #' @field global Boolean. True if contains `GlobalRast` object, False otherwise.
 #' @export
 .rast_ro <- setRefClass("GeoRasters",
-                        fields = list(host_density = "ANY",
+                        fields = list(habitat_density = "ANY",
                                       rasters = "list",
                                       global = "logical",
                                       global_rast = "list"),
@@ -33,25 +33,25 @@
                               rasters <<- c(rasters, x$rasters)
                             }
                             ## commenting this because it will take lot of memory to store the same
-                            # host density again and again. Handled externally wherever required.
-                            # if (!is.null(host_density) &&
-                            #     terra::compareGeom(x$host_density, host_density) != TRUE) {
-                            #   warning("The host density is different")
+                            # habitat density again and again. Handled externally wherever required.
+                            # if (!is.null(habitat_density) &&
+                            #     terra::compareGeom(x$habitat_density, habitat_density) != TRUE) {
+                            #   warning("The habitat_density density is different")
                             # }
-                            # host_density <<- x$host_density
+                            # habitat_density <<- x$habitat_density
                             return(.self)
                           },
                           initialize = function(...) {
                             global <<- TRUE
-                            host_density <<- NULL
+                            habitat_density <<- NULL
                           },
                           add_gr = function(x) {
                             stopifnot("Object is not of type GlobaRast" = class(x) == "GlobalRast")
                             global_rast <<- c(global_rast, x)
                           },
                           set_hd = function(x) {
-                            stopifnot("Host density must be of type SpatRaster" = class(x) == "SpatRaster" |
+                            stopifnot("Habitat density must be of type SpatRaster" = class(x) == "SpatRaster" |
                                         .is_packed_rast(x))
-                            host_density <<- x
+                            habitat_density <<- x
                           }
                         ))

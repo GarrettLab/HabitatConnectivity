@@ -18,8 +18,8 @@ hci_mean <- function(indices,
                      west = NULL,
                      geoscale = NULL,
                      res = reso(),
-                     plt = TRUE,
-                     outdir = tempdir()) {
+                     outdir = tempdir(),
+                     plt = TRUE) {
 
   .cal_mean <- function(ext_indices) {
     mean_idx <- terra::app(terra::rast(ext_indices), sum, na.rm = TRUE) / length(ext_indices)
@@ -48,20 +48,27 @@ hci_mean <- function(indices,
     .cal_mean(indices)
   }
 
+  # 1. Prepare the raster
   dis_mean_id <- terra::disagg(mean_index, fact = c(res, res))
   toplot <- dis_mean_id + .cal_zerorast(dis_mean_id)
 
-  plt_ret <- if (plt == TRUE) {
+  plt_ret <- .saverast("mean", toplot, outdir)
+
+  # 2. Only plot if required
+  if (plt) {
     .plot(toplot,
           paste("Mean habitat connectivity risk index\n"),
           global,
           geoext,
-          zlim = c(0, 1),
-          typ = "mean",
-          outdir = outdir)
+          zlim = c(0, 1))
   }
 
-  return(new("RiskMap", map = "mean", riid = mean_index, spr = plt_ret[[1]], fp = plt_ret[[2]]))
+  # 3. Return the S4 object
+  return(new("RiskMap", 
+             map = "mean", 
+             riid = mean_index, 
+             spr = plt_ret[[1]], 
+             fp = plt_ret[[2]]))
 }
 
 #' Calculate variance of habitat connectivity in a region
@@ -79,7 +86,8 @@ hci_variance <- function(indices,
                          west = NULL,
                          geoscale,
                          res = reso(),
-                         outdir = tempdir()) {
+                         outdir = tempdir(),
+                         plt = TRUE) {
 
   .cal_var <- function(ext_indices, scale) {
     var_rastvect <-
@@ -116,14 +124,16 @@ hci_variance <- function(indices,
     .cal_var(indices, geoscale)
   }
 
+  plt_ret <- .saverast("variance", var_out, outdir)
+
   z_var_w <- range(var_out[which(var_out[] > 0)])
-  plt_ret <- .plot(var_out,
-                   "Variance in habitat connectivity",
-                   global,
-                   geoext,
-                   zlim = z_var_w,
-                   typ = "variance",
-                   outdir = outdir)
+  if (plt) {
+    .plot(var_out,
+          "Variance in habitat connectivity",
+          global,
+          geoext,
+          zlim = z_var_w) 
+  }
 
   return(new("RiskMap", map = "variance", riid = var_out, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
@@ -147,7 +157,8 @@ hci_diff <- function(x,
                      global,
                      geoscale,
                      res = reso(),
-                     outdir = tempdir()) {
+                     outdir = tempdir(),
+                     plt = TRUE) {
   # difference map
   # Function to check for missing or null values
   # Check if all arguments are SpatRaster objects
@@ -190,18 +201,19 @@ hci_diff <- function(x,
 
   diff_out <- .cal_diff(x, y, geoext)
 
-  plt_ret <- .plot(diff_out,
-                   "Difference in rank of host connectivity and host density",
-                   global,
-                   geoext,
-                   .get_palette_for_diffmap(),
-                   zr2,
-                   typ = "difference",
-                   outdir)
+  plt_ret <- .saverast("diff", diff_out, outdir)
+  
+  if (plt) {
+    .plot(diff_out,
+          "Difference in rank of host connectivity and host density",
+          global,
+          geoext,
+          .get_palette_for_diffmap(),
+          zr2) 
+  }
 
   return(new("RiskMap", map = "difference", riid = diff_out, spr = plt_ret[[1]], fp = plt_ret[[2]]))
 }
-
 
 # private functions -------------------------------------------------------
 
