@@ -1,0 +1,8 @@
+General Instructions for Using geohabnet
+
+Step 1. Download all supplementary materials
+Step 2. Save all the supplementary materials in the same folder
+Step 3. Install geohabnet as indicated in 0SM2_install_geohabnet.R
+Step 4. (Optional) Run 0SM3_mini_example.R
+Step 5. Use geohabnet following the instructions in the User_guide.pdf
+Step 6. (Optional) Replicate case studies
