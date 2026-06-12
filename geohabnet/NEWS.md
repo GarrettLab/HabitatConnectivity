@@ -1,3 +1,9 @@
+# geohabnet 2.3
+
+- Added maps = true parameter to `msean`
+- new case studies
+- Occurrence of host replaced with habitat
+
 # geohabnet 2.2
 
 - Removed dependency on `Geodata` package for data sources
