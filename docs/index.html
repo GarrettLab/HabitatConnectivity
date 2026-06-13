@@ -42,7 +42,10 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/analysis.html">Mapping habitat connectivity with geohabnet</a></li>
+<li><a class="dropdown-item" href="articles/0SM4_case_study_1.html">Case study 1</a></li>
+    <li><a class="dropdown-item" href="articles/0SM5_case_study_2.html">Case study 2: Yam and sorghum landscape connectivity in Sub-Saharan Africa</a></li>
+    <li><a class="dropdown-item" href="articles/0SM6_case-study_3.html">Case study 3: Maizeland connectivity in the Americas</a></li>
+    <li><a class="dropdown-item" href="articles/analysis.html">Mapping habitat connectivity with geohabnet</a></li>
     <li><a class="dropdown-item" href="articles/distance_strategy.html">Distance Strategy</a></li>
     <li><a class="dropdown-item" href="articles/global_analysis.html">Global Analysis</a></li>
     <li><a class="dropdown-item" href="articles/user_guide.html">User guide</a></li>
@@ -83,13 +86,11 @@
 <p>Package can either be installed from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"geohabnet"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/Rtmpk04dwi/temp_libpath644e7beb8e10'</span></span>
+<span><span class="co">#&gt; Installing package into '/private/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T/RtmpccQH3n/temp_libpathe01e79f606f8'</span></span>
 <span><span class="co">#&gt; (as 'lib' is unspecified)</span></span>
-<span><span class="co">#&gt; Warning: package 'geohabnet' is not available for this version of R</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; A version of this package for your version of R might be available elsewhere,</span></span>
-<span><span class="co">#&gt; see the ideas at</span></span>
-<span><span class="co">#&gt; https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages</span></span></code></pre></div>
+<span><span class="co">#&gt; The downloaded binary packages are in</span></span>
+<span><span class="co">#&gt;  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpWN2zPN/downloaded_packages</span></span></code></pre></div>
 <p>or the source version of package can be installed from <a href="https://github.com/GarrettLab/HabitatConnectivity/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -99,7 +100,7 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GarrettLab/HabitatConnectivity"</span>, subdir <span class="op">=</span> <span class="st">"geohabnet"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="geohabnet-example">geohabnet Example<a class="anchor" aria-label="anchor" href="#geohabnet-example"></a>
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://garrettlab.github.io/HabitatConnectivity/">geohabnet</a></span><span class="op">)</span></span>
@@ -112,7 +113,7 @@
 <code class="sourceCode R"><span><span class="fu">geohabnet</span><span class="fu">::</span><span class="fu"><a href="reference/sensitivity_analysis.html">sensitivity_analysis</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><code>parameters.yaml</code> stores the parameter and its values. It can be accessed and set using <code><a href="reference/get_parameters.html">get_parameters()</a></code> and <code><a href="reference/set_parameters.html">set_parameters()</a></code> respectively. By default risk analysis is run on global index, for which scales are present in <code><a href="reference/global_scales.html">global_scales()</a></code> .</p>
 <p>Refer to help using ?<em>geohabnet::fun</em> or <em>help(geohabnet::fun)</em></p>
-<p>Refer to article <a href="https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html"><em>Analyzing risk index using cropland connectivity</em></a> for more elaborate description and usages of functions in this package.</p>
+<p>Refer to article <a href="https://garrettlab.github.io/HabitatConnectivity/articles/analysis.html"><em>Mapping habitat connectivity with geohabnet</em></a> for more elaborate description and usages of functions in this package.</p>
 </div>
 </div>
 

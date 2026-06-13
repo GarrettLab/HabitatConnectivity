@@ -2,12 +2,15 @@ pandoc: '3.2'
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
+  articles/0SM4_case_study_1: 0SM4_case_study_1.html
+  articles/0SM5_case_study_2: 0SM5_case_study_2.html
+  articles/0SM6_case-study_3: 0SM6_case-study_3.html
   articles/analysis: analysis.html
   articles/distance_strategy: distance_strategy.html
   articles/global_analysis: global_analysis.html
   articles/user_guide: user_guide.html
   articles/Using-raster-file: Using-raster-file.html
-last_built: 2026-05-25T23:58Z
+last_built: 2026-06-12T01:53Z
 urls:
   reference: https://garrettlab.github.io/HabitatConnectivity/reference
   article: https://garrettlab.github.io/HabitatConnectivity/articles
