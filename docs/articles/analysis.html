@@ -72,7 +72,7 @@
                         <h4 data-toc-skip class="author">Krishna
 Keshav(<a href="mailto:krishnakeshav.pes@gmail.com" class="email">krishnakeshav.pes@gmail.com</a>)</h4>
             
-            <h4 data-toc-skip class="date">11 June, 2026</h4>
+            <h4 data-toc-skip class="date">26 July, 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/analysis.Rmd" class="external-link"><code>vignettes/articles/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -98,29 +98,29 @@ the pest species. Locations with abundant habitats (e.g., plant hosts)
 may play a minor role in species spread if they are isolated. Yet, a
 location with limited habitat may play a major role in the spread of a
 species if it acts as a bridge between regions that would otherwise be
-separated. <em>geohabnet</em> <span class="citation">(<strong>geohabnet2025?</strong>)</span> provides the
-R-user community with a network-based approach to estimate habitat
-connectivity across the world. This package supports up to 10 parameters
-that has potential to influence habitat or landscape connectivity. The
-implementation of <em>geohabnet</em> <span class="citation">(<strong>geohabnet2025?</strong>)</span> expands the
+separated. <em>geohabnet</em> <span class="citation">(Keshav, Plex, and
+Garrett 2026a)</span> provides the R-user community with a network-based
+approach to estimate habitat connectivity across the world. This package
+supports up to 10 parameters that has potential to influence habitat or
+landscape connectivity. The implementation of the package expands the
 cropland connectivity method for plant pathogens proposed by <span class="citation">(Xing et al. 2020)</span> to a general way of
 calculating habitat connectivity for any species. The network-based
-framework is the same as the one proposed by <span class="citation">(Xing et al. 2020)</span>. However, <em>geohabnet</em>
+framework is the same as the one proposed by <span class="citation">(Xing et al. 2020)</span>. However, this package
 provides more flexibility to users to modify any parameter values in
 this framework.</p>
-<p>Although this article focuses on the use of <em>geohabnet</em> <span class="citation">(Plex Sulá 2025)</span>, it is useful to know for
-interested developers that package design is inspired from widely used
-Configuration-based design in software development <span class="citation">(Majors 2022)</span>, <span class="citation">(Nash and
+<p>Although this article focuses on the use of <em>geohabnet</em> <span class="citation">(Keshav, Plex, and Garrett 2026a)</span>, it is useful
+to know for interested developers that package design is inspired from
+widely used Configuration-based design in software development <span class="citation">(Majors 2022)</span>, <span class="citation">(Nash and
 DeMore 2009)</span>; and <span class="citation">(Allaire 2023)</span>
 provides a text based interface to control the parameters values for
 risk analysis in this context.</p>
 <p>The primary objective of this vignette is to help user being
-familiarized with <em>geohabnet</em> <span class="citation">(Plex Sulá
-2025)</span>, list its capabilities and get an intuition behind them. It
-also describes the implementation of the main functions in
-<em>geohabnet</em> to support this intuition. Throughout the article, we
-will be citing external sites and resources, which are relevant for the
-use of this package.</p>
+familiarized with <em>geohabnet</em> <span class="citation">(Keshav,
+Plex, and Garrett 2026b, 2026a)</span>, list its capabilities and get an
+intuition behind them. It also describes the implementation of the main
+functions to support this intuition. Throughout the article, we will be
+citing external sites and resources, which are relevant for the use of
+this package.</p>
 </div>
 <div class="section level2">
 <h2 id="pre-requisites">Pre-requisites<a class="anchor" aria-label="anchor" href="#pre-requisites"></a>
@@ -136,9 +136,10 @@ location. Some details of a raster data include spatial resolution,
 dimensions, or geographic extent, which are useful in identification and
 processing. Here, we use raster to represent maps.</p></li>
 <li><p>TIFF(Tag Image File Format) is a type of file that stores
-geographic information in the form of raster. <span class="citation">(Plex Sulá 2025)</span> has been tested using
-<em>.tif</em> and <em>.nc</em> files but it would be able to handle any
-raster type of file supported by the R package <em>terra</em> <span class="citation">(Hijmans 2023)</span> .</p></li>
+geographic information in the form of raster. <span class="citation">(Keshav, Plex, and Garrett 2026b, 2026a)</span> has
+been tested using <em>.tif</em> and <em>.nc</em> files but it would be
+able to handle any raster type of file supported by the R package
+<em>terra</em> <span class="citation">(Hijmans 2023)</span> .</p></li>
 </ul>
 </div>
 <div class="section level3">
@@ -174,14 +175,14 @@ Research Institute 2019)</span></p></li>
 <p><em>geodata</em> provides a set of APIs to access the EARTHSTAT and
 MapSPAM datasets directly in R (see code below).</p>
 <p>The raster layers from the data sources listed above may need some
-transformation before using them in <span class="citation">(Plex Sulá
-2025)</span>. A valid raster layer to be used is one that its entry
-values of each pixel range from 0 (no habitat available) to 1 (habitat
-is available in the entirety of the pixel). For example, data layers of
-cropland fraction from EARTHSTAT can be directly provided to functions
-without the need to re-scale its entries. However, data layers of
-harvested area from CROPGRIDS will need re-scaling the values of each
-grid cell in the raster (see an example of how to do this below).</p>
+transformation before using them in the workflow/functions. A valid
+raster layer to be used is one that its entry values of each pixel range
+from 0 (no habitat available) to 1 (habitat is available in the entirety
+of the pixel). For example, data layers of cropland fraction from
+EARTHSTAT can be directly provided to functions without the need to
+re-scale its entries. However, data layers of harvested area from
+CROPGRIDS will need re-scaling the values of each grid cell in the
+raster (see an example of how to do this below).</p>
 <p>For visualization and plots, <em>geohabnet</em> uses
 <em>rnaturalearth</em> <a href="#id_0">rnaturalearth</a>.</p>
 </div>
@@ -252,7 +253,7 @@ avocado-specific pathogens. This example would run the analysis on
 global geographical extent relatively quickly since the crop presence
 around the world is relatively low.</p>
 <p>For the purposes of demonstration, the code below sets the habitat
-parameter programatically or directly in RStudio. Alternatively, the
+parameter programmatically or directly in RStudio. Alternatively, the
 parameters can be fed via <code>parameters.yaml</code> in an interactive
 way using either the path or setting <code>iwindow = TRUE</code> for the
 windows prompt in <code><a href="../reference/set_parameters.html">set_parameters()</a></code></p>
@@ -332,11 +333,11 @@ power of your machine.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">geo_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">msean</a></span><span class="op">(</span><span class="va">avocado_sp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: package 'future' was built under R version 4.5.2</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span></code></pre></div>
+<span><span class="co">#&gt; |---------|---------|---------|---------|=======                                          </span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=======                                          </span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
 <p>Many, many congratulations! You have just generated a full
 sensitivity analysis of habitat connectivity for avocado-specific
@@ -432,7 +433,7 @@ config file.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parameters.html">get_parameters</a></span><span class="op">(</span>out_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">config_file</span></span>
-<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpAmaiEQ/parameters.yaml"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpuUAqJq/parameters.yaml"</span></span></code></pre></div>
 <p>The file should look something like this -</p>
 <div class="float">
 <img src="images%2Finitconfig.png" width="700" alt="Initial parameters.yaml"><div class="figcaption">Initial parameters.yaml</div>
@@ -550,9 +551,9 @@ package <span class="citation">(<strong>geodata2025?</strong>)</span></p>
 <span><span class="co">#&gt; -Inf</span></span>
 <span><span class="co">#&gt; |---------|---------|---------|---------|=======                                          </span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          |---------|---------|---------|---------|==============                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|==========                                          </span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|======                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|=======                                          </span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-3.png" width="700"></p>
 </div>
 <div class="section level4">
@@ -584,7 +585,7 @@ threshold are removed from the consideration by dispersal models.</p>
 <span><span class="co">#&gt; -Inf</span></span>
 <span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span></code></pre>
+<pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|====                                          </span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-11-2.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; |---------|---------|---------|---------|===                                          </span></span></code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-11-3.png" width="700"></p>
@@ -719,9 +720,9 @@ setting is <code>global = TRUE</code> which will ignore the value of
 account using values from <code><a href="../reference/global_scales.html">global_scales()</a></code> . For non-global
 analysis, either set <code>global = FALSE</code> with or without the
 setting <code>geoscale</code>. By default, <code>geoscale</code> will be
-extracted from the extents from the input SpatRaster. We recommend using
-EPSG:4326 as coordinate reference system because the functions have been
-tested on it.</p>
+extracted from the extents from the input <code>SpatRaster</code>. We
+recommend using EPSG:4326 as coordinate reference system because the
+functions have been tested on it.</p>
 <ol style="list-style-type: decimal">
 <li>
 <p>Using function</p>
@@ -813,11 +814,11 @@ classes approach.</p>
 <code class="sourceCode R"><span><span class="va">final</span></span>
 <span><span class="co">#&gt; class            :  GeoNetwork </span></span>
 <span><span class="co">#&gt; habitat density     :  98 , 267  (nrow, ncol) SpatRaster </span></span>
-<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpAmaiEQ/plots/mean_20260611220212747409.tif </span></span>
+<span><span class="co">#&gt; mean             :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpuUAqJq/plots/mean_20260726124510851352.tif </span></span>
 <span><span class="co">#&gt; mean raster      :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpAmaiEQ/plots/variance_20260611220213782694.tif </span></span>
+<span><span class="co">#&gt; variance          :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpuUAqJq/plots/variance_20260726124511842376.tif </span></span>
 <span><span class="co">#&gt; variance raster   :  1176 , 3204  (nrow, ncol) </span></span>
-<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpAmaiEQ/plots/diff_20260611220214579996.tif </span></span>
+<span><span class="co">#&gt; difference        :  /var/folders/r5/zggvft9d3yn5kh51wqp78rd00000gn/T//RtmpuUAqJq/plots/diff_20260726124512601425.tif </span></span>
 <span><span class="co">#&gt; difference raster :  1176 , 3204  (nrow, ncol)</span></span></code></pre></div>
 <p>The final operations are performed risk indices and on the 3 results
 that are produced -</p>
@@ -885,18 +886,19 @@ class.</p>
 <span><span class="co"># uncomment line below to see the results.</span></span>
 <span></span>
 <span><span class="co">#final@rasters$global_rast[[1]]$east[[1]]$amatrix</span></span></code></pre></div>
-<p>Set <em>pmean, pvar, pdiff</em> to <em>FALSE</em> to skip the any of
-the calculation in <code><a href="../reference/connectivity.html">connectivity()</a></code> to skip this calculation.
-In <code><a href="../reference/sean.html">sean()</a></code> or <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>, set
-<code>map = FALSE</code> to skip the generation of maps as an outcome.
-In case of global analysis, result of eastern and western geographic
-extents are merged using <code><a href="https://rspatial.github.io/terra/reference/merge.html" class="external-link">terra::merge()</a></code> . The outcome of
-each of the operation are saved in the new directory <em>plots</em>
-under the specified path in <code>OutDir</code> with name
-<em>opt_datetime.tif</em>, where <em>opt</em> is one of the above
-suffixed by datetime of the file created. If the <code>outdir</code> is
-empty, the value is defaulted to <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> . This applies
-to corresponding parameter <code>outdir</code> in all the functions.</p>
+<p>Set parameters - <em>pmean, pvar, pdiff</em> to <em>FALSE</em> to
+skip the any of the calculation in <code><a href="../reference/connectivity.html">connectivity()</a></code> to skip
+this calculation. In <code><a href="../reference/sean.html">sean()</a></code> or
+<code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>, set <code>map = FALSE</code> to
+skip the generation of maps as an outcome. In case of global analysis,
+result of eastern and western geographic extents are merged using
+<code><a href="https://rspatial.github.io/terra/reference/merge.html" class="external-link">terra::merge()</a></code> . The outcome of each of the operation are
+saved in the new directory <em>plots</em> under the specified path in
+<code>OutDir</code> with name <em>opt_datetime.tif</em>, where
+<em>opt</em> is one of the above suffixed by datetime of the file
+created. If the <code>outdir</code> is empty, the value is defaulted to
+<code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> . This applies to corresponding parameter
+<code>outdir</code> in all the functions.</p>
 </div>
 <div class="section level2">
 <h2 id="computing">Computing<a class="anchor" aria-label="anchor" href="#computing"></a>
@@ -978,6 +980,14 @@ International Food Policy Research Institute. 2019. <span>“Global
 Spatially-Disaggregated Crop Production Statistics Data for 2010 Version
 2.0.”</span> Harvard Dataverse. <a href="https://doi.org/10.7910/DVN/PRFF8V" class="external-link">https://doi.org/10.7910/DVN/PRFF8V</a>.
 </div>
+<div id="ref-geohabnet-2" class="csl-entry">
+Keshav, Krishna, Aaron Plex, and Karen Garrett. 2026a. <span>“Geohabnet:
+Geographical Risk Analysis Based on Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
+</div>
+<div id="ref-geohabnet" class="csl-entry">
+———. 2026b. <span>“Geohabnet: Geographical Risk Analysis Based on
+Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
+</div>
 <div id="ref-sre_book" class="csl-entry">
 Majors, Charity. 2022. <em>SRE Workbook: Configuration Design</em>.
 Google. <a href="https://sre.google/workbook/configuration-design/" class="external-link">https://sre.google/workbook/configuration-design/</a>.
@@ -992,11 +1002,6 @@ Yields, Physiological Types, and Net Primary Production in the Year
 Nash, Brent, and Martha DeMore. 2009. <span>“Using XML
 Configuration-Driven Development to Create a Customizable Ground Data
 System.”</span> <em>2009 IEEE Aerospace Conference</em>, March. <a href="https://doi.org/10.1109/aero.2009.4839708" class="external-link">https://doi.org/10.1109/aero.2009.4839708</a>.
-</div>
-<div id="ref-geohabnet" class="csl-entry">
-Plex Sulá, Krishna; Adhikari, Aaron I.; Keshav. 2025. <span>“Geohabnet:
-An r Package for Mapping Habitat Connectivity for Biosecurity and
-Conservation.”</span> <a href="https://arxiv.org/abs/2510.24955" class="external-link">https://arxiv.org/abs/2510.24955</a>.
 </div>
 <div id="ref-USDA" class="csl-entry">
 Service, USDA National Agricultural Statistics. 2025.

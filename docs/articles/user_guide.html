@@ -78,7 +78,7 @@ Keshav (co-author)</h4>
                   <a class="author_email" href="mailto:#"></a><a href="mailto:krishnakeshav.pes@gmail.com" class="email">krishnakeshav.pes@gmail.com</a>
       
                   
-            <h4 data-toc-skip class="date">11 June, 2026</h4>
+            <h4 data-toc-skip class="date">26 July, 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/user_guide.Rmd" class="external-link"><code>vignettes/articles/user_guide.Rmd</code></a></small>
       <div class="d-none name"><code>user_guide.Rmd</code></div>
@@ -86,28 +86,29 @@ Keshav (co-author)</h4>
 
     
     
-<p>Welcome to the user guide for geohabnet <span class="citation">(Plex
-Sulá 2025)</span>, an R package for the analysis of habitat landscape
-connectivity!</p>
+<p>Welcome to the user guide for geohabnet <span class="citation">(Keshav, Plex, and Garrett 2026)</span>, an R package
+for the analysis of habitat landscape connectivity!</p>
 <p>This section is designed for users already familiar with R and
 RStudio. While RStudio is considered an interactive environment, using R
 from the CLI is not. The pre-print for this application paper can be
-accessed <a href="https://arxiv.org/abs/2510.24955" class="external-link">here</a> <span class="citation">(Plex Sulá 2025)</span>.</p>
+accessed <a href="https://arxiv.org/abs/2510.24955" class="external-link">here</a> <span class="citation">(Keshav, Plex, and Garrett 2026)</span>.</p>
 <p>The underlying theory for calculating habitat connectivity is based
 on network analysis. To get an idea of the concepts of habitat
 connectivity in <code>geohabnet</code>, users are recommended to check
-<span class="citation">(Xing et al. 2020)</span> – Global cropland
-connectivity: A risk factor for invasion and saturation by emerging
-pathogens and pests. BioScience 70(9): 744-758.</p>
+Xing et al<span class="citation">(Xing et al. 2020)</span> – Global
+cropland connectivity: A risk factor for invasion and saturation by
+emerging pathogens and pests.</p>
 <div class="section level2">
 <h2 id="installation-and-pre-requisites">Installation and pre-requisites<a class="anchor" aria-label="anchor" href="#installation-and-pre-requisites"></a>
 </h2>
 <p>The <code>geohabnet</code> R package can be directly installed and
-loaded in RStudio using the following commands. For the stable version
-published in CRAN:</p>
+loaded in RStudio using the following commands.</p>
+<p>Note that it is strongly recommended to have R 4.5.1 as the minimum
+version of R to successfully install <code>geohabnet</code>.</p>
+<p>For the stable version published in CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"geohabnet"</span><span class="op">)</span></span></code></pre></div>
-<p>This version 2.2 is available in <a href="https://cran.r-project.org/web/packages/geohabnet/index.html" class="external-link">CRAN</a></p>
+<p>This version 2.3 is available in <a href="https://cran.r-project.org/web/packages/geohabnet/index.html" class="external-link">CRAN</a></p>
 <p>For the latest development version available on GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
@@ -122,8 +123,9 @@ be accessed by the following code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">desc</span><span class="fu">::</span><span class="fu"><a href="https://desc.r-lib.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"geohabnet"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that <code><a href="https://desc.r-lib.org/reference/desc.html" class="external-link">desc::desc()</a></code> is a function from an external
-package and requires installation for its use. Now, the geohabnet <span class="citation">(Plex Sulá 2025)</span> package can be loaded into the
-current R environment.</p>
+package and requires installation for its use. Now, the
+<code>geohabnet</code> package can be loaded into the current R
+environment.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://garrettlab.github.io/HabitatConnectivity/">geohabnet</a></span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -131,20 +133,22 @@ current R environment.</p>
 <h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
 <p>The landing page and documentation can be accessed using
-<code><a href="../reference/geohabnet-package.html">?geohabnet</a></code>. This guide was written for geohabnet 2.2, which
-is available for download in CRAN and GitHub.</p>
+<code><a href="../reference/geohabnet-package.html">?geohabnet</a></code>. This guide was written for
+<code>geohabnet 2.3</code>, which is available for download in CRAN and
+GitHub.</p>
 <p>The help page for all the functions can be accessed with
 <code>?geohabnet::fun</code> or <code>help(geohabnet::fun)</code>, where
 fun needs to be changed to the name of a function of your interest. For
 example, <code>?geohabnet::msean()</code> or simply <code><a href="../reference/sean.html">?msean</a></code>
 will provide documentation for the function <code><a href="../reference/sean.html">msean()</a></code>.</p>
-<p><code>geohabnet 2.2</code> provides two main functions to estimate
+<p><code>geohabnet 2.3</code> provides two main functions to estimate
 and map the connectivity of locations where habitat is present
 (hereafter, habitat connectivity): <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>
 and <code><a href="../reference/sean.html">msean()</a></code>. The package also offers supplementary
 functions, but they are not covered in this user guide. Before running
-the function, please review the description of each parameter below.
-Well, there are over ten parameters that can be used in either
+the main functions, please review the description of each parameter
+below.</p>
+<p>Well, there are over ten parameters that can be used in either
 <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> or <code><a href="../reference/sean.html">msean()</a></code>. The
 parameters in <code><a href="../reference/sean.html">msean()</a></code> can be modified directly within the
 function in RStudio, as is common in many R packages.
@@ -170,7 +174,7 @@ following:</li>
 <li><p>Open the <em>parameters.yaml</em> file in any program that allows
 you to edit it (outside RStudio). Please do not alter the structure of
 the yaml file and parameter names to ensure it will be successfully
-compatible with <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>. Except for host,
+compatible with <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>. Except for Habitat,
 this file will contain default acceptable values for the supported
 parameters (see picture below).</p></li>
 <li><p>Manually modify or add values in the <em>parameters.yaml</em>
@@ -200,11 +204,12 @@ of habitat connectivity.</li>
 <p>Users can provide any type of habitat map that is compatible with the
 <code>terra:rast()</code> function. Typically, this is a TIFF file in
 the standard geographic coordinate system (WGS84). Acceptable entries in
-this SpatRaster range from zero (no habitat is available in a location)
-to one (the location is fully covered with habitat for a species).</p>
+this <code>SpatRaster</code> range from zero (no habitat is available in
+a location) to one (the location is fully covered with habitat for a
+species).</p>
 <p>Host availability is an important component of habitat quality for
 plant pathogens. Here, we provide two ways for providing maps of host
-availability for <code>geohabnet</code>. The first one is indented for
+availability for <code>geohabnet</code>. The first one is intended for
 using your data, and the latter is based on data sources for the global
 distribution of crop hosts.</p>
 <ul>
@@ -215,7 +220,7 @@ habitat availability. You can provide your raster file in two ways:</li>
 </ul>
 <p>To use <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>, you can specify the
 absolute path or location of your raster file in the
-<em>Parameters.yaml</em> under <code>Host</code> (see example in the
+<em>parameters.yaml</em> under <code>Habitat</code> (see example in the
 figure above).</p>
 <p>To use <code><a href="../reference/sean.html">msean()</a></code>, the user is required to read the habitat
 map directly in R. For example:</p>
@@ -223,10 +228,11 @@ map directly in R. For example:</p>
 <code class="sourceCode R"><span><span class="va">hab.rast</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="st">"habitat-map-example.tif"</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>
-<strong>Monfreda Dataset</strong>. Monfreda et al. (2008) provides
-information for the geographic distribution of 172 crop categories.
-These maps can be used as a first approximation for the habitat quality
-of plant pests.</li>
+<strong>Monfreda Dataset<span class="citation">(Monfreda,
+Ramankutty, and Foley 2008)</span></strong>. Monfreda et al. (2008)
+provides information for the geographic distribution of 172 crop
+categories. These maps can be used as a first approximation for the
+habitat quality of plant pests or pollinators.</li>
 </ul>
 <p>You can access this dataset directly in R using the
 <code>geodata</code> package. Run <code><a href="https://rdrr.io/pkg/geodata/man/crop_monfreda.html" class="external-link">geodata::monfredaCrops()</a></code>
@@ -241,21 +247,21 @@ dataset. You can use a SpatRaster of the crop of interest in
 <p>Alternatively, you can access the Monfreda dataset by downloading
 crop distribution maps from <a href="http://www.earthstat.org/" class="external-link">EarthStat</a>. You can then provide the
 location of the downloaded TIFF file in the <em>parameters.yaml</em>
-file when using <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>.Note that an updated
-version of the Monfreda dataset is the [CROPGRIDS dataset] (<a href="https://doi.org/10.6084/m9.figshare.22491997" class="external-link uri">https://doi.org/10.6084/m9.figshare.22491997</a>), though
-data layers need to be transformed from harvested area to cropland
-fraction.</p>
+file when using <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>. Note that an
+updated version of the Monfreda dataset is the <span class="citation">(Tang FHM 2024)</span>, though data layers need to be
+transformed from harvested area to cropland fraction.</p>
 <ul>
 <li>
 <strong>MAPSPAM dataset</strong>. This dataset provides information
 for the global distribution of 42 crops or crop groups (IFPRI 2019). You
 may want to use the harvested area or physical area for your analysis of
-habitat connectivity in <code>geohabnet</code>: You can access this
-dataset in R using the <code>geodata</code> package. Run
-<code><a href="https://rdrr.io/pkg/geodata/man/crop_spam.html" class="external-link">geodata::spamCrops()</a></code> in your console to check which crops
-are available in the MAPSPAM dataset. You can use a SpatRaster of the
-crop of interest in <code>geohabnet</code> with the following code:</li>
+habitat connectivity in <code>geohabnet</code>:</li>
 </ul>
+<p>You can access this dataset in R using the <code>geodata</code>
+package. Run <code><a href="https://rdrr.io/pkg/geodata/man/crop_spam.html" class="external-link">geodata::spamCrops()</a></code> in your console to check
+which crops are available in the MAPSPAM dataset. You can use a
+SpatRaster of the crop of interest in <code>geohabnet</code> with the
+following code:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">geodata</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
@@ -273,13 +279,19 @@ distribution maps from <a href="https://www.mapspam.info/" class="external-link"
 Note that newer versions of MAPSPAM are not available in the
 <code>geodata</code> package, as of October 10, 2025.</p>
 <ul>
-<li>You may prefer that your analysis be based on both the Monfreda and
-MAPSPAM datasets. In this case, you may first get a spatRaster with host
-density for the target crop category from each dataset and then average
-them to generate a SpatRaster of the mean host availability. Another
-situation is that you need to add different crop categories into a
-SpatRaster because the habitat of a species ranges across multiple crop
-species.</li>
+<li><p><strong>Other data sources</strong>. High resolution data layers
+for crops in the United States are available at <a href="https://croplandcros.scinet.usda.gov/" class="external-link">CroplandCROS</a> <span class="citation">(Service 2025)</span>. Maps of wild host species may be
+constructed from geographic occurrences in the Global Biodiversity
+Information Facility (GBIF<span class="citation">(GBIF 2025)</span>, <a href="https://www.gbif.org/" class="external-link uri">https://www.gbif.org/</a>).</p></li>
+<li><p><strong>Other choices</strong>. You may prefer that your analysis
+be based on both the Monfreda<span class="citation">(Monfreda,
+Ramankutty, and Foley 2008)</span> and MAPSPAM datasets. In this case,
+you may first get a spatRaster with host density for the target crop
+category from each dataset and then average them to generate a
+<code>SpatRaster</code> of the mean host availability. Another situation
+is that you need to add different crop categories into a
+<code>SpatRaster</code> because the habitat of a species ranges across
+multiple crop species.</p></li>
 </ul>
 </div>
 <div class="section level3">
@@ -325,13 +337,13 @@ aggregation.</p></li>
 <h3 id="selecting-spatial-resolution">4. Selecting spatial resolution<a class="anchor" aria-label="anchor" href="#selecting-spatial-resolution"></a>
 </h3>
 <p>In <code>geohabnet</code>, the aggregation factor or granularity is
-the number of small grid cells used to generate or aggregate into a
-larger grid cell (horizontally and vertically). For example, the finest
-spatial resolution of the MAPSPAM and Monfreda datasets is 5 minutes,
-and a granularity value of 6 will result in maps with a spatial
-resolution of 0.5 degrees. Table 1 compares the spatial resolution and
-sizes of grid cells for different values of granularity that can be used
-to aggregate the maps from the MAPSPAM or Monfreda.</p>
+the number of small grid cells that are aggregated into larger grid
+cells in each direction (horizontally and vertically). For example, the
+finest spatial resolution of the MAPSPAM and Monfreda<span class="citation">(Monfreda, Ramankutty, and Foley 2008)</span> datasets
+is 5 minutes, and a granularity value of 6 will result in maps with a
+spatial resolution of 0.5 degrees. Table 1 compares the spatial
+resolution and sizes of grid cells for different values of granularity
+that can be used to aggregate the maps from the MAPSPAM or Monfreda<span class="citation">(Monfreda, Ramankutty, and Foley 2008)</span>.</p>
 <p><strong>Table 1.</strong> Spatial resolutions and their corresponding
 granularity.</p>
 <table class="table">
@@ -403,6 +415,33 @@ croplands can last 20-30 minutes, and for wheat croplands, more than two
 hours.</p>
 </div>
 <div class="section level3">
+<h3 id="selecting-strategy-for-the-calculation-of-geographic-distance">5. Selecting strategy for the calculation of geographic
+distance<a class="anchor" aria-label="anchor" href="#selecting-strategy-for-the-calculation-of-geographic-distance"></a>
+</h3>
+<p>For each pair of locations in the habitat map with values greater
+than the habitat threshold, the <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>
+function will calculate the physical distances and use them to calculate
+the probability of species movement between locations based on their
+pairwise geographical proximity. Section 7 provides information about
+the functions used to calculate dispersal probabilities.</p>
+<p>There are two options to calculate the physical distance between
+locations.</p>
+<ul>
+<li>
+<strong>Vincenty ellipsoid distance</strong>. This option is highly
+accurate but more computationally expensive.</li>
+<li>
+<strong>Geodesic distance</strong>. This option is less
+computationally expensive and less accurate for large distances than the
+option above.</li>
+</ul>
+<p>You can set the distance option either as DistanceStrategy:
+“vincentyEllipsoid” or “geodesic”. One of these options should be used
+as input to run the analysis.</p>
+<p>You can check supported methods in analysis by running dist_methods()
+in the console.</p>
+</div>
+<div class="section level3">
 <h3 id="selecting-geographic-extent">6. Selecting geographic extent<a class="anchor" aria-label="anchor" href="#selecting-geographic-extent"></a>
 </h3>
 <p>The geographic extent refers to the rectangular area for analysis
@@ -413,7 +452,7 @@ the order: minimum longitude, maximum longitude, minimum latitude, and
 maximum latitude. The geographic extent in <code>geohabnet</code> is
 specified in degrees, which are in decimal notation and have a negative
 sign for the southern and western hemispheres.</p>
-<p>In <em>Parameters.yaml</em>, two options are available to set the
+<p>In <em>parameters.yaml</em>, two options are available to set the
 geographic extent of the analysis with the parameter
 <code>GeoExtent</code>.</p>
 <ul>
@@ -440,12 +479,11 @@ then <code>customExt</code> is ignored.</p></li>
 <div class="section level3">
 <h3 id="selecting-a-dispersal-kernel-model">7. Selecting a dispersal kernel model<a class="anchor" aria-label="anchor" href="#selecting-a-dispersal-kernel-model"></a>
 </h3>
-<p>In <code>geohabnet</code>, two dispersal kernel models are used to
-calculate the “relative likelihood” of species movement between
-locations. These dispersal kernels are also commonly used in movement
-ecology.</p>
-<p>In <em>Parameters.yaml</em>, set any of the following options under
-<code>DispersalKernelModels</code>:</p>
+<p>Two dispersal kernel models are used to calculate the “relative
+likelihood” of species movement between locations. These dispersal
+kernels are also commonly used in movement ecology.</p>
+<p>In <em><code>parameters.yaml</code></em>, set any of the following
+options under <code>DispersalKernelModels</code>:</p>
 <ul>
 <li>If you are interested in the inverse power law model, then set the
 dispersal parameter beta to any positive decimal value.</li>
@@ -571,86 +609,104 @@ network metrics are supported by <code>geohabnet</code>.</p>
 <code>geohabnet</code> package.</p>
 <table class="table">
 <colgroup>
-<col width="33%">
-<col width="33%">
-<col width="33%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
 </colgroup>
 <thead><tr class="header">
-<th>Network metric</th>
-<th>Function in <code>geohabnet</code>
-</th>
-<th>Rationale</th>
+<th align="left">Network metric</th>
+<th align="left">Function in geohabnet</th>
+<th align="left">Definition in network analysis</th>
+<th align="left">Interpretation in geohabnet</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><em>Betweenness</em></td>
-<td><code>betweeness(crop_dm, we)</code></td>
-<td>Betweenness centrality emphasizes the importance of a node acting as
-a bridge by connecting parts of the network that would otherwise be
-separate. Paths with more weighted links (that is, “shortest paths”)
-imply faster species movement between different regions of the
+<td align="left"><strong>Degree</strong></td>
+<td align="left"><code>degree(crop_dm, we)</code></td>
+<td align="left">Node degree measures the number of links of a target
+node.</td>
+<td align="left">Node degree measures a node’s influence on its
+neighbors in a habitat network. In other words, nodes with more
+connections are more likely to both receive and propagate the species to
+others once they have it.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Node strength</strong></td>
+<td align="left"><code>node_strength(crop_dm, we)</code></td>
+<td align="left">Node strength is the sum of link weights of a target
+node.</td>
+<td align="left">Node strength measures the likely inflow or outflow of
+a species into or out of each neighbor node in a habitat network.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Sum of nearest neighbors</strong></td>
+<td align="left"><code>nn_sum(crop_dm, we)</code></td>
+<td align="left">It calculates the average nearest neighbor degree of a
+given node.</td>
+<td align="left">This network metric measures the influence of the
+nearest neighbors on a target node in a habitat network.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Eigenvector centrality</strong></td>
+<td align="left"><code>ev(crop_dm, we)</code></td>
+<td align="left">Eigenvector centrality measures a node’s influence
+based not only on how many connections it has, but also on how important
+its neighbors are. A node connected to other highly connected nodes has
+a higher eigenvector centrality than one connected to less influential
+nodes.</td>
+<td align="left">Eigenvector centrality measures how locations having
+many neighbors’ neighbors through long paths in the network can
+facilitate the flow of species spread. A location in a network, for
+instance, can be important, by this measure, because it connects to lots
+of locations (even though those locations may be less important in
+risking themselves) or connects to a few locations at high risk.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Page rank</strong></td>
+<td align="left"><code>page_rank(crop_dm, we)</code></td>
+<td align="left">PageRank is a variant of eigenvector centrality
+originally developed by Google to rank web pages. It measures the
+probability that a random walker will arrive at a given node, taking
+into account both the quantity and quality of incoming links and
+applying a “damping factor” to simulate random jumps.</td>
+<td align="left">PageRank can be interpreted in a similar way as
+eigenvector centrality.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Closeness</strong></td>
+<td align="left"><code>closeness(crop_dm, we)</code></td>
+<td align="left">Closeness centrality measures how close a node is to
+all other nodes in the network. It is based on the inverse of the
+average shortest path distance from the node to every other node.</td>
+<td align="left">Closeness centrality indicates (i) the relative
+importance that the spread of a species in a node access or reaches
+every other node in the host network or (ii) how easily a species from a
+targeted location can invade every other location in the habitat
+landscape.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Betweenness</strong></td>
+<td align="left"><code>betweenness(crop_dm, we)</code></td>
+<td align="left">Vertex betweenness quantifies how often a target node
+lies on the shortest paths between other pairs of nodes in a
 network.</td>
-</tr>
-<tr class="even">
-<td><em>Node strength</em></td>
-<td><code>node_strength(crop_dm, we)</code></td>
-<td>Node strength measures the sum of the link weights of a location.
-<strong>ADD INTERPRETATION</strong>
-</td>
-</tr>
-<tr class="odd">
-<td><em>Sum of nearest neighbors</em></td>
-<td><code>nn_sum(crop_dm, we)</code></td>
-<td>
-<strong>ADD DEFINITION</strong> — <strong>ADD
-INTERPRETATION</strong>
-</td>
-</tr>
-<tr class="even">
-<td><em>Eigenvector centrality</em></td>
-<td><code>ev(crop_dm, we)</code></td>
-<td>Eigenvector centrality measures how locations having many neighbors’
-neighbors through long paths in the network can facilitate the flow of
-pathogen spread. A location in a network can be important, by this
-measure, because it connects to lots of locations (even though those
-locations may be less important in risking themselves) or connects to a
-few locations at high risk.</td>
-</tr>
-<tr class="odd">
-<td><em>Closeness</em></td>
-<td><code>closeness(crop_dm, we)</code></td>
-<td>Closeness centrality indicates (i) the relative importance that the
-spread of a species in a node can access or reach every other node in
-the host network, or (ii) how easily a species from a targeted location
-can invade every other location in the habitat landscape.</td>
-</tr>
-<tr class="even">
-<td><em>Degree</em></td>
-<td><code>degree(crop_dm, we)</code></td>
-<td>Node degree measures the number of links of a location. <strong>ADD
-INTERPRETATION</strong>
-</td>
-</tr>
-<tr class="odd">
-<td><em>Page rank</em></td>
-<td><code>page_rank(crop_dm, we)</code></td>
-<td>
-<strong>ADD DEFINITION</strong> — <strong>ADD
-INTERPRETATION</strong>
-</td>
+<td align="left">Betweenness centrality emphasizes the importance of a
+node acting as a bridge by connecting parts of the network that
+otherwise be separate. Paths with more weighted links (that is,
+‘shortest paths’) imply fast species movement between different regions
+of the network.</td>
 </tr>
 </tbody>
 </table>
 <p>One or more of the supported metrics should be specified in the
 parameter <code>NetworkMetrics</code> for each dispersal kernel model
 used in the analysis. The user should assign a <code>weight</code> to
-each network metric, and the sum of the weights should equal 100. Figure
-1 shows an example in which the user selected four network metrics for
-each dispersal model in the analysis.</p>
-<ul>
-<li>Note that naming the network metrics is uppercase/lowercase
-insensitive.</li>
-</ul>
+each network metric (in percentage), and the sum of the weights should
+equal 100. Figure 1 shows an example in which the user selected four
+network metrics for each dispersal model in the analysis.</p>
+<p>Note that naming the network metrics is uppercase/lowercase
+insensitive.</p>
 <p>The <code>geohabnet</code> package also provides the user with a
 function for each network metric as listed in Table 3. Each network
 metric function can work independently if they are provided with an
@@ -677,7 +733,7 @@ connectivity and habitat availability.</p></li>
 </ul>
 <p>By default, all the maps will be produced. Users can choose to see a
 specific map by setting the parameters under <code>PriorityMaps</code>
-to <code>TRUE</code> or FALSE:</p>
+to <code>TRUE</code> or FALSE.</p>
 <p>If the value above is set to <code>TRUE</code>, the outcomes will be
 calculated internally, and plots will be generated.</p>
 <ul>
@@ -689,7 +745,8 @@ example, “mean_msd07.tif”). Users can specify the directory in which the
 raster files will be saved by specifying so in the <code>OutDir</code>
 parameter under <code>PriorityMaps</code>.</li>
 </ul>
-<p>Enjoy <code>geohabnet</code>!</p>
+<p>Enjoy <code>geohabnet</code>!<span class="citation">(Keshav, Plex,
+and Garrett 2026)</span></p>
 </div>
 </div>
 <div class="section level2">
@@ -701,10 +758,29 @@ Brown, James K. M., and Mogens S. Hovmøller. 2002. <span>“Aerial
 Dispersal of Pathogens on the Global and Continental Scales and Its
 Impact on Plant Disease.”</span> <em>Science</em> 297 (5581): 537–41. <a href="https://doi.org/10.1126/science.1072678" class="external-link">https://doi.org/10.1126/science.1072678</a>.
 </div>
-<div id="ref-geohabnet" class="csl-entry">
-Plex Sulá, Krishna; Adhikari, Aaron I.; Keshav. 2025. <span>“Geohabnet:
-An r Package for Mapping Habitat Connectivity for Biosecurity and
-Conservation.”</span> <a href="https://arxiv.org/abs/2510.24955" class="external-link">https://arxiv.org/abs/2510.24955</a>.
+<div id="ref-GBIF" class="csl-entry">
+GBIF. 2025. <span>“GBIF: Global Biodiversity Information
+Facility.”</span> <a href="https://www.gbif.org/" class="external-link">https://www.gbif.org/</a>.
+</div>
+<div id="ref-geohabnet-2" class="csl-entry">
+Keshav, Krishna, Aaron Plex, and Karen Garrett. 2026. <span>“Geohabnet:
+Geographical Risk Analysis Based on Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
+</div>
+<div id="ref-monfreda2008" class="csl-entry">
+Monfreda, Chad, Navin Ramankutty, and Jonathan A. Foley. 2008.
+<span>“Farming the Planet: 2. Geographic Distribution of Crop Areas,
+Yields, Physiological Types, and Net Primary Production in the Year
+2000.”</span> <em>Global Biogeochemical Cycles</em> 22 (1): n/a–. <a href="https://doi.org/10.1029/2007gb002947" class="external-link">https://doi.org/10.1029/2007gb002947</a>.
+</div>
+<div id="ref-USDA" class="csl-entry">
+Service, USDA National Agricultural Statistics. 2025.
+<span>“CroplandCROS: High-Resolution Crop Distribution in the United
+States of America.”</span> <a href="https://croplandcros.scinet.usda.gov/" class="external-link">https://croplandcros.scinet.usda.gov/</a>.
+</div>
+<div id="ref-Tang2024" class="csl-entry">
+Tang FHM, Conchedda G, Nguyen TH. 2024. <span>“CROPGRIDS: A Global
+Geo-Referenced Dataset of 173 Crops.”</span> <em>Scientific Data</em>
+413 (1): n/a–. <a href="https://doi.org/10.1038/s41597-024-03247-7" class="external-link">https://doi.org/10.1038/s41597-024-03247-7</a>.
 </div>
 <div id="ref-xing2020" class="csl-entry">
 Xing, Yanru, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L

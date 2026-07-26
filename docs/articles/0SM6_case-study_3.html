@@ -72,7 +72,7 @@
                         <h4 data-toc-skip class="author">Aaron I. Plex
 Sulá and Ashish Adhikari</h4>
             
-            <h4 data-toc-skip class="date">2026-06-11</h4>
+            <h4 data-toc-skip class="date">2026-07-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/0SM6_case-study_3.Rmd" class="external-link"><code>vignettes/articles/0SM6_case-study_3.Rmd</code></a></small>
       <div class="d-none name"><code>0SM6_case-study_3.Rmd</code></div>
@@ -80,8 +80,9 @@ Sulá and Ashish Adhikari</h4>
 
     
     
-<p>The data was first downloaded from CROPGRIDS at <a href="https://doi.org/10.6084/m9.figshare.22491997" class="external-link uri">https://doi.org/10.6084/m9.figshare.22491997</a> and load it
-in R using the terra package.</p>
+<p>The data was first downloaded from CROPGRIDS<span class="citation">(Tang FHM 2024)</span> at <a href="https://doi.org/10.6084/m9.figshare.22491997" class="external-link uri">https://doi.org/10.6084/m9.figshare.22491997</a> and load it
+in R using the terra<span class="citation">(Hijmans 2023)</span>
+package.</p>
 <p>Each layer then transformed from hectares of maize per grid cell to
 the fraction of maize cropland available in each grid cell.</p>
 <p>A combined layer was produced by summing both “maize” and “maize
@@ -107,26 +108,28 @@ pests and pathogens.</p>
 <span><span class="va">maize.density</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">maize</span>, <span class="va">maizefor</span><span class="op">)</span> <span class="co">#combining layers to create a map of cumulative maize availabilty</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/writeRaster.html" class="external-link">writeRaster</a></span><span class="op">(</span><span class="va">maize.density</span>, <span class="st">"maize-density.tif"</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co">#saving the output layer</span></span></code></pre></div>
 <p>The purpose of this vignette is to illustrate the use of the
-sensitivity_analysis() function. Users can use sensitivity_analysis() in
-three steps:</p>
+<code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> function. Users can use
+<code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code> in three steps:</p>
 <ul>
 <li><ol style="list-style-type: decimal">
 <li>Get the template file for the parameters</li>
 </ol></li>
 </ul>
 <p>Users can get the parameters.yaml file in their directory by running
-get_parameters(). This function will download the parameters.yaml file
-outside RStudio. The parameters.yaml file serves as a configuration of
-parameters that is expected by sensitivity_analysis(). Note that you can
-provide the output path (with “out_path”) where the parameters.yaml will
-be saved programatically or you can manually chose the path by setting
-“iwindow = TRUE”. Note that users are recommended to change the
-parameter values (or entries) in the parameters.yaml file but changing
-the names of the parameters or configuration of the list of parameters
-might create errors when running sensitivity_analysis().</p>
-<p>Open the parameters.yaml file and modify the parameters values and
-save the new file to capture your changes. Note that you can change the
-name of the file as well. In our case, we change this file to
+<code><a href="../reference/get_parameters.html">get_parameters()</a></code>. This function will download the
+<code>parameters.yaml</code> file outside RStudio. The
+<code>parameters.yaml</code> file serves as a configuration of
+parameters that is expected by <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>. Note
+that you can provide the output path (with “out_path”) where the
+parameters.yaml will be saved programmatically or you can manually chose
+the path by setting <code>"iwindow = TRUE"</code>. Note that users are
+recommended to change the parameter values (or entries) in the
+parameters.yaml file but changing the names of the parameters or
+configuration of the list of parameters might create errors when running
+sensitivity_analysis().</p>
+<p>Open the <code>parameters.yaml</code> file and modify the parameters
+values and save the new file to capture your changes. Note that you can
+change the name of the file as well. In our case, we change this file to
 “new_parameters.yaml” so we can easily identify the file for this case
 study.</p>
 <ul>
@@ -192,8 +195,18 @@ with a 4 CPU machine.</p>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">maize.connectivity</span><span class="op">$</span><span class="va">difference</span>, col <span class="op">=</span> <span class="va">paldif</span>, main <span class="op">=</span> <span class="st">"Difference between cropland connectivity and density"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="0SM6_case-study_3_files/figure-html/unnamed-chunk-2-6.png" width="672"></p>
 <p>Congratulations! You are now ready to measure habitat connectivity of
-the world. Did you hear that sensitivity_analysis() produced a sound
-once the analysis had finished?</p>
+the world. Did you hear that <code><a href="../reference/sensitivity_analysis.html">sensitivity_analysis()</a></code>
+produced a sound once the analysis had finished?</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-terra" class="csl-entry">
+Hijmans, Robert J. 2023. <span>“Terra: Spatial Data Analysis.”</span> <a href="https://CRAN.R-project.org/package=terra" class="external-link">https://CRAN.R-project.org/package=terra</a>.
+</div>
+<div id="ref-Tang2024" class="csl-entry">
+Tang FHM, Conchedda G, Nguyen TH. 2024. <span>“CROPGRIDS: A Global
+Geo-Referenced Dataset of 173 Crops.”</span> <em>Scientific Data</em>
+413 (1): n/a–. <a href="https://doi.org/10.1038/s41597-024-03247-7" class="external-link">https://doi.org/10.1038/s41597-024-03247-7</a>.
+</div>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>

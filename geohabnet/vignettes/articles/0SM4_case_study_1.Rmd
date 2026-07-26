@@ -5,9 +5,10 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document: default
   pdf_document: default
+bibliography: references.bib
 ---
 
-The objective of this vignette is to illustrate the underlying assumptions to calculate habitat connectivity in the `geohabnet` package using a simple example. If you are interested in a particular step in in the habitat connectivity analysis, you can skip some sections. However, we recommend beginners to look at the material in sequence of sections in the vignette.
+The objective of this vignette is to illustrate the underlying assumptions to calculate habitat connectivity in the `geohabnet` [@geohabnet-2] ] package using a simple example. If you are interested in a particular step in in the habitat connectivity analysis, you can skip some sections. However, we recommend beginners to look at the material in sequence of sections in the vignette.
 
 # Creating a hypothetical habitat landscape
 
@@ -218,9 +219,9 @@ plot(new.graph, vertex.size = V(new.graph)$betweenness*50,
      edge.width = E(new.graph)$weight*20, main = "A quick intuition for betweenness centrality")
 ```
 
-# Reproducing the cartoon example from Xing et al. (2020)
+# Reproducing the cartoon example from Xing et al. (2020)[@xing2020]
 
-[Xing et al (2020)](https://doi.org/10.1093/biosci/biaa067) provided the foundation for the mathematical framework we used in geohabnet to conduct a habitat connectivity analysis. Figure 3 in that paper illustrates cropland connectivity for a simple hypothetical example. Let's try to replicate this network using the knowledge you get above.
+[Xing et al (2020)](https://doi.org/10.1093/biosci/biaa067)[@xing2020] provided the foundation for the mathematical framework we used in geohabnet to conduct a habitat connectivity analysis. Figure 3 in that paper illustrates cropland connectivity for a simple hypothetical example. Let's try to replicate this network using the knowledge you get above.
 
 ```{r fig.height=5, fig.width=5, dpi=250}
 set.seed(3)
@@ -299,11 +300,11 @@ plot(xing.closeness, col = vir.pal, colNA = "grey85",
      main = "C) Mean closeness centrality")
 ```
 
-# Illustrating the functionality of geohabnet
+# Illustrating the functionality of geohabnet[@geohabnet-2]
 
 While you can conduct a habitat connectivity analysis running all lines of code provided above, `geohabnet` offers this functionality and more with a single function in R.
 
-In our hypothetical example above from Xing et al 2020, you will only need to provide the SpatRaster object indicating the habitat density distribution to the `msean` function and specify all the parameters available in this function as you wish.
+In our hypothetical example above from Xing et al 2020 [@xing2020], you will only need to provide the `SpatRaster` object indicating the habitat density distribution to the `msean` function and specify all the parameters available in this function as you wish.
 
 Lets first install the `geohabnet` package and then call the library in our environment. Then use the `msean` function to conduct a habitat connectivity analysis using the map of habitat density called `xing.rast`.
 
@@ -356,6 +357,6 @@ plot(hab.net@diff_rast, col = civ.pal, colNA = "grey85",
      main = "I) Mean connectivity - Habitat density")
 ```
 
-As you noticed, there are many parameters that can be modified in the `msean` function. This is because geohabnet is flexible so you can apply it to any pest or pathogen species. `geohabnet` takes all these parameters as inputs and conduct a sensitiviy analysis across these parameters to provide output maps. Play around with different parameter values and see what happens...
+As you noticed, there are many parameters that can be modified in the `msean` function. This is because functions in the package is flexible so you can apply it to any pest or pathogen species. `geohabnet` takes all these parameters as inputs and conduct a sensitivity analysis across these parameters to provide output maps. Play around with different parameter values and see what happens...
 
 > > **Note** that in the code above, we explicitly extract the outputs (mean, variance and difference maps) from the object produced by `geohabnet` because Rmarkdown does not allowed us to directly plot these maps. :( But no worries: if you run `msean` in your console (not in the RMarkdown chunk), geohabnet will automatically get pictures of the three maps of habitat connectivity in the "Plots" panel in RStudio for you and do not have to deal with plotting.

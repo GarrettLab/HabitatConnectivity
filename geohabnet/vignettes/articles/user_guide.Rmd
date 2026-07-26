@@ -17,21 +17,25 @@ knitr::opts_chunk$set(
 )
 ```
 
-Welcome to the user guide for geohabnet [@geohabnet], an R package for the analysis of habitat landscape connectivity!
+Welcome to the user guide for geohabnet [@geohabnet-2], an R package for the analysis of habitat landscape connectivity!
 
-This section is designed for users already familiar with R and RStudio. While RStudio is considered an interactive environment, using R from the CLI is not. The pre-print for this application paper can be accessed [here](https://arxiv.org/abs/2510.24955) [@geohabnet].
+This section is designed for users already familiar with R and RStudio. While RStudio is considered an interactive environment, using R from the CLI is not. The pre-print for this application paper can be accessed [here](https://arxiv.org/abs/2510.24955) [@geohabnet-2].
 
-The underlying theory for calculating habitat connectivity is based on network analysis. To get an idea of the concepts of habitat connectivity in `geohabnet`, users are recommended to check [@xing2020] – Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests. BioScience 70(9): 744-758.
+The underlying theory for calculating habitat connectivity is based on network analysis. To get an idea of the concepts of habitat connectivity in `geohabnet`, users are recommended to check Xing et al[@xing2020] – Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests.
 
 # Installation and pre-requisites
 
-The `geohabnet` R package can be directly installed and loaded in RStudio using the following commands. For the stable version published in CRAN:
+The `geohabnet` R package can be directly installed and loaded in RStudio using the following commands.
+
+Note that it is strongly recommended to have R 4.5.1 as the minimum version of R to successfully install `geohabnet`.
+
+For the stable version published in CRAN:
 
 ```{r eval=FALSE}
 install.packages("geohabnet")
 ```
 
-This version 2.2 is available in [CRAN](https://cran.r-project.org/web/packages/geohabnet/index.html)
+This version 2.3 is available in [CRAN](https://cran.r-project.org/web/packages/geohabnet/index.html)
 
 For the latest development version available on GitHub:
 
@@ -48,7 +52,7 @@ In either case, the user will be prompted to update dependencies to other R pack
 desc::desc(package = "geohabnet")
 ```
 
-Note that `desc::desc()` is a function from an external package and requires installation for its use. Now, the geohabnet [@geohabnet] package can be loaded into the current R environment.
+Note that `desc::desc()` is a function from an external package and requires installation for its use. Now, the `geohabnet` package can be loaded into the current R environment.
 
 ```{r eval=FALSE}
 library(geohabnet)
@@ -56,11 +60,13 @@ library(geohabnet)
 
 # Getting started
 
-The landing page and documentation can be accessed using `?geohabnet`. This guide was written for geohabnet 2.2, which is available for download in CRAN and GitHub.
+The landing page and documentation can be accessed using `?geohabnet`. This guide was written for `geohabnet 2.3`, which is available for download in CRAN and GitHub.
 
 The help page for all the functions can be accessed with `?geohabnet::fun` or `help(geohabnet::fun)`, where fun needs to be changed to the name of a function of your interest. For example, `?geohabnet::msean()` or simply `?msean` will provide documentation for the function `msean()`.
 
-`geohabnet 2.2` provides two main functions to estimate and map the connectivity of locations where habitat is present (hereafter, habitat connectivity): `sensitivity_analysis()` and `msean()`. The package also offers supplementary functions, but they are not covered in this user guide. Before running the function, please review the description of each parameter below. Well, there are over ten parameters that can be used in either `sensitivity_analysis()` or `msean()`. The parameters in `msean()` can be modified directly within the function in RStudio, as is common in many R packages. `sensitivity_analysis()` requires a list of parameters, providing an organized way to easily change the default parameter values without listing them every time. The list of parameters for `sensitivity_analysis()` is called *parameters.yaml*.
+`geohabnet 2.3` provides two main functions to estimate and map the connectivity of locations where habitat is present (hereafter, habitat connectivity): `sensitivity_analysis()` and `msean()`. The package also offers supplementary functions, but they are not covered in this user guide. Before running the main functions, please review the description of each parameter below.
+
+Well, there are over ten parameters that can be used in either `sensitivity_analysis()` or `msean()`. The parameters in `msean()` can be modified directly within the function in RStudio, as is common in many R packages. `sensitivity_analysis()` requires a list of parameters, providing an organized way to easily change the default parameter values without listing them every time. The list of parameters for `sensitivity_analysis()` is called *parameters.yaml*.
 
 The following steps allow you to access the *parameters.yaml* file, specify parameter values, and use them for analysis in `sensitivity_analysis()`:
 
@@ -70,7 +76,7 @@ The following steps allow you to access the *parameters.yaml* file, specify para
 get_parameters(out_path = "C:/Users/plexaaron/Documents")
 ```
 
-2.  Open the *parameters.yaml* file in any program that allows you to edit it (outside RStudio). Please do not alter the structure of the yaml file and parameter names to ensure it will be successfully compatible with `sensitivity_analysis()`. Except for host, this file will contain default acceptable values for the supported parameters (see picture below).
+2.  Open the *parameters.yaml* file in any program that allows you to edit it (outside RStudio). Please do not alter the structure of the yaml file and parameter names to ensure it will be successfully compatible with `sensitivity_analysis()`. Except for Habitat, this file will contain default acceptable values for the supported parameters (see picture below).
 
 3.  Manually modify or add values in the *parameters.yaml* file and save it.
 
@@ -90,13 +96,13 @@ set_parameters(new_params = "C:/Users/plexaaron/Documents/*parameters.yaml")
 
 ## 1. Providing habitat distribution
 
-Users can provide any type of habitat map that is compatible with the `terra:rast()` function. Typically, this is a TIFF file in the standard geographic coordinate system (WGS84). Acceptable entries in this SpatRaster range from zero (no habitat is available in a location) to one (the location is fully covered with habitat for a species).
+Users can provide any type of habitat map that is compatible with the `terra:rast()` function. Typically, this is a TIFF file in the standard geographic coordinate system (WGS84). Acceptable entries in this `SpatRaster` range from zero (no habitat is available in a location) to one (the location is fully covered with habitat for a species).
 
-Host availability is an important component of habitat quality for plant pathogens. Here, we provide two ways for providing maps of host availability for `geohabnet`. The first one is indented for using your data, and the latter is based on data sources for the global distribution of crop hosts.
+Host availability is an important component of habitat quality for plant pathogens. Here, we provide two ways for providing maps of host availability for `geohabnet`. The first one is intended for using your data, and the latter is based on data sources for the global distribution of crop hosts.
 
 -   **Your own data**. The `geohabnet` package is designed to accept raster files as inputs for the distribution of habitat availability. You can provide your raster file in two ways:
 
-To use `sensitivity_analysis()`, you can specify the absolute path or location of your raster file in the *Parameters.yaml* under `Host` (see example in the figure above).
+To use `sensitivity_analysis()`, you can specify the absolute path or location of your raster file in the *parameters.yaml* under `Habitat` (see example in the figure above).
 
 To use `msean()`, the user is required to read the habitat map directly in R. For example:
 
@@ -104,7 +110,7 @@ To use `msean()`, the user is required to read the habitat map directly in R. Fo
 hab.rast <- terra::rast("habitat-map-example.tif")
 ```
 
--   **Monfreda Dataset**. Monfreda et al. (2008) provides information for the geographic distribution of 172 crop categories. These maps can be used as a first approximation for the habitat quality of plant pests.
+-   **Monfreda Dataset[@monfreda2008]**. Monfreda et al. (2008) provides information for the geographic distribution of 172 crop categories. These maps can be used as a first approximation for the habitat quality of plant pests or pollinators.
 
 You can access this dataset directly in R using the `geodata` package. Run `geodata::monfredaCrops()` in your console to check which crops are available in the Monfreda dataset. You can use a SpatRaster of the crop of interest in `geohabnet` with the following code:
 
@@ -115,9 +121,11 @@ library(geohabnet)
 msean(rast = hab.rast)
 ```
 
-Alternatively, you can access the Monfreda dataset by downloading crop distribution maps from [EarthStat](http://www.earthstat.org/). You can then provide the location of the downloaded TIFF file in the *parameters.yaml* file when using `sensitivity_analysis()`.Note that an updated version of the Monfreda dataset is the [CROPGRIDS dataset] (https://doi.org/10.6084/m9.figshare.22491997), though data layers need to be transformed from harvested area to cropland fraction.
+Alternatively, you can access the Monfreda dataset by downloading crop distribution maps from [EarthStat](http://www.earthstat.org/). You can then provide the location of the downloaded TIFF file in the *parameters.yaml* file when using `sensitivity_analysis()`. Note that an updated version of the Monfreda dataset is the [@Tang2024], though data layers need to be transformed from harvested area to cropland fraction.
 
--   **MAPSPAM dataset**. This dataset provides information for the global distribution of 42 crops or crop groups (IFPRI 2019). You may want to use the harvested area or physical area for your analysis of habitat connectivity in `geohabnet`: You can access this dataset in R using the `geodata` package. Run `geodata::spamCrops()` in your console to check which crops are available in the MAPSPAM dataset. You can use a SpatRaster of the crop of interest in `geohabnet` with the following code:
+-   **MAPSPAM dataset**. This dataset provides information for the global distribution of 42 crops or crop groups (IFPRI 2019). You may want to use the harvested area or physical area for your analysis of habitat connectivity in `geohabnet`:
+
+You can access this dataset in R using the `geodata` package. Run `geodata::spamCrops()` in your console to check which crops are available in the MAPSPAM dataset. You can use a SpatRaster of the crop of interest in `geohabnet` with the following code:
 
 ```{r eval=FALSE}
 library(geodata)
@@ -133,7 +141,9 @@ Note that we convert the physical area of crop availability in hectares to the f
 
 Alternatively, you can access the MAPSPAM dataset by downloading crop distribution maps from [MAPSPAM](https://www.mapspam.info/). Note that newer versions of MAPSPAM are not available in the `geodata` package, as of October 10, 2025.
 
--   You may prefer that your analysis be based on both the Monfreda and MAPSPAM datasets. In this case, you may first get a spatRaster with host density for the target crop category from each dataset and then average them to generate a SpatRaster of the mean host availability. Another situation is that you need to add different crop categories into a SpatRaster because the habitat of a species ranges across multiple crop species.
+-   **Other data sources**. High resolution data layers for crops in the United States are available at [CroplandCROS](https://croplandcros.scinet.usda.gov/) [@USDA]. Maps of wild host species may be constructed from geographic occurrences in the Global Biodiversity Information Facility (GBIF[@GBIF], <https://www.gbif.org/>).
+
+-   **Other choices**. You may prefer that your analysis be based on both the Monfreda[@monfreda2008] and MAPSPAM datasets. In this case, you may first get a spatRaster with host density for the target crop category from each dataset and then average them to generate a `SpatRaster` of the mean host availability. Another situation is that you need to add different crop categories into a `SpatRaster` because the habitat of a species ranges across multiple crop species.
 
 ## 2. Selecting habitat threshold
 
@@ -153,7 +163,7 @@ In `geohabnet`, there are two aggregation strategies:
 
 ## 4. Selecting spatial resolution
 
-In `geohabnet`, the aggregation factor or granularity is the number of small grid cells used to generate or aggregate into a larger grid cell (horizontally and vertically). For example, the finest spatial resolution of the MAPSPAM and Monfreda datasets is 5 minutes, and a granularity value of 6 will result in maps with a spatial resolution of 0.5 degrees. Table 1 compares the spatial resolution and sizes of grid cells for different values of granularity that can be used to aggregate the maps from the MAPSPAM or Monfreda.
+In `geohabnet`, the aggregation factor or granularity is the number of small grid cells that are aggregated into larger grid cells in each direction (horizontally and vertically). For example, the finest spatial resolution of the MAPSPAM and Monfreda[@monfreda2008] datasets is 5 minutes, and a granularity value of 6 will result in maps with a spatial resolution of 0.5 degrees. Table 1 compares the spatial resolution and sizes of grid cells for different values of granularity that can be used to aggregate the maps from the MAPSPAM or Monfreda[@monfreda2008].
 
 **Table 1.** Spatial resolutions and their corresponding granularity.
 
@@ -173,11 +183,24 @@ You can choose the spatial resolution of the analysis using the `Resolution` par
 
 Analysis at finer (higher) spatial resolution can be more computationally expensive. For example, using a 6 CPU machine, a global analysis of host connectivity at one-degree resolution for coffee croplands can last 20-30 minutes, and for wheat croplands, more than two hours.
 
+## 5. Selecting strategy for the calculation of geographic distance
+
+For each pair of locations in the habitat map with values greater than the habitat threshold, the `sensitivity_analysis()` function will calculate the physical distances and use them to calculate the probability of species movement between locations based on their pairwise geographical proximity. Section 7 provides information about the functions used to calculate dispersal probabilities.
+
+There are two options to calculate the physical distance between locations.
+
+-   **Vincenty ellipsoid distance**. This option is highly accurate but more computationally expensive.
+-   **Geodesic distance**. This option is less computationally expensive and less accurate for large distances than the option above.
+
+You can set the distance option either as DistanceStrategy: “vincentyEllipsoid” or "geodesic". One of these options should be used as input to run the analysis.
+
+You can check supported methods in analysis by running dist_methods() in the console.
+
 ## 6. Selecting geographic extent
 
 The geographic extent refers to the rectangular area for analysis where there is (obviously) at least one grid cell with a habitat available. The geographic extent must be specified with four values representing the geographic limits of the area for analysis, following the order: minimum longitude, maximum longitude, minimum latitude, and maximum latitude. The geographic extent in `geohabnet` is specified in degrees, which are in decimal notation and have a negative sign for the southern and western hemispheres.
 
-In *Parameters.yaml*, two options are available to set the geographic extent of the analysis with the parameter `GeoExtent`.
+In *parameters.yaml*, two options are available to set the geographic extent of the analysis with the parameter `GeoExtent`.
 
 -   If you want to execute your analysis on a global extent, then you set `global: TRUE`.
 
@@ -189,9 +212,9 @@ In *Parameters.yaml*, two options are available to set the geographic extent of 
 
 ## 7. Selecting a dispersal kernel model
 
-In `geohabnet`, two dispersal kernel models are used to calculate the “relative likelihood” of species movement between locations. These dispersal kernels are also commonly used in movement ecology.
+Two dispersal kernel models are used to calculate the “relative likelihood” of species movement between locations. These dispersal kernels are also commonly used in movement ecology.
 
-In *Parameters.yaml*, set any of the following options under `DispersalKernelModels`:
+In *`parameters.yaml`*, set any of the following options under `DispersalKernelModels`:
 
 -   If you are interested in the inverse power law model, then set the dispersal parameter beta to any positive decimal value.
 -   If you are interested in the negative exponential model, then set the dispersal parameter gamma to any positive decimal value.
@@ -241,19 +264,19 @@ The `geohabnet` package provides the flexibility for the user to choose among se
 
 **Table 3.** Network metrics that are available in the `geohabnet` package.
 
-| Network metric | Function in `geohabnet` | Rationale |
-|------------------------|------------------------|------------------------|
-| *Betweenness* | `betweeness(crop_dm, we)` | Betweenness centrality emphasizes the importance of a node acting as a bridge by connecting parts of the network that would otherwise be separate. Paths with more weighted links (that is, “shortest paths”) imply faster species movement between different regions of the network. |
-| *Node strength* | `node_strength(crop_dm, we)` | Node strength measures the sum of the link weights of a location. **ADD INTERPRETATION** |
-| *Sum of nearest neighbors* | `nn_sum(crop_dm, we)` | **ADD DEFINITION** — **ADD INTERPRETATION** |
-| *Eigenvector centrality* | `ev(crop_dm, we)` | Eigenvector centrality measures how locations having many neighbors’ neighbors through long paths in the network can facilitate the flow of pathogen spread. A location in a network can be important, by this measure, because it connects to lots of locations (even though those locations may be less important in risking themselves) or connects to a few locations at high risk. |
-| *Closeness* | `closeness(crop_dm, we)` | Closeness centrality indicates (i) the relative importance that the spread of a species in a node can access or reach every other node in the host network, or (ii) how easily a species from a targeted location can invade every other location in the habitat landscape. |
-| *Degree* | `degree(crop_dm, we)` | Node degree measures the number of links of a location. **ADD INTERPRETATION** |
-| *Page rank* | `page_rank(crop_dm, we)` | **ADD DEFINITION** — **ADD INTERPRETATION** |
+| Network metric | Function in geohabnet | Definition in network analysis | Interpretation in geohabnet |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| **Degree** | `degree(crop_dm, we)` | Node degree measures the number of links of a target node. | Node degree measures a node's influence on its neighbors in a habitat network. In other words, nodes with more connections are more likely to both receive and propagate the species to others once they have it. |
+| **Node strength** | `node_strength(crop_dm, we)` | Node strength is the sum of link weights of a target node. | Node strength measures the likely inflow or outflow of a species into or out of each neighbor node in a habitat network. |
+| **Sum of nearest neighbors** | `nn_sum(crop_dm, we)` | It calculates the average nearest neighbor degree of a given node. | This network metric measures the influence of the nearest neighbors on a target node in a habitat network. |
+| **Eigenvector centrality** | `ev(crop_dm, we)` | Eigenvector centrality measures a node’s influence based not only on how many connections it has, but also on how important its neighbors are. A node connected to other highly connected nodes has a higher eigenvector centrality than one connected to less influential nodes. | Eigenvector centrality measures how locations having many neighbors’ neighbors through long paths in the network can facilitate the flow of species spread. A location in a network, for instance, can be important, by this measure, because it connects to lots of locations (even though those locations may be less important in risking themselves) or connects to a few locations at high risk. |
+| **Page rank** | `page_rank(crop_dm, we)` | PageRank is a variant of eigenvector centrality originally developed by Google to rank web pages. It measures the probability that a random walker will arrive at a given node, taking into account both the quantity and quality of incoming links and applying a “damping factor” to simulate random jumps. | PageRank can be interpreted in a similar way as eigenvector centrality. |
+| **Closeness** | `closeness(crop_dm, we)` | Closeness centrality measures how close a node is to all other nodes in the network. It is based on the inverse of the average shortest path distance from the node to every other node. | Closeness centrality indicates (i) the relative importance that the spread of a species in a node access or reaches every other node in the host network or (ii) how easily a species from a targeted location can invade every other location in the habitat landscape. |
+| **Betweenness** | `betweenness(crop_dm, we)` | Vertex betweenness quantifies how often a target node lies on the shortest paths between other pairs of nodes in a network. | Betweenness centrality emphasizes the importance of a node acting as a bridge by connecting parts of the network that otherwise be separate. Paths with more weighted links (that is, ‘shortest paths’) imply fast species movement between different regions of the network. |
 
-One or more of the supported metrics should be specified in the parameter `NetworkMetrics` for each dispersal kernel model used in the analysis. The user should assign a `weight` to each network metric, and the sum of the weights should equal 100. Figure 1 shows an example in which the user selected four network metrics for each dispersal model in the analysis.
+One or more of the supported metrics should be specified in the parameter `NetworkMetrics` for each dispersal kernel model used in the analysis. The user should assign a `weight` to each network metric (in percentage), and the sum of the weights should equal 100. Figure 1 shows an example in which the user selected four network metrics for each dispersal model in the analysis.
 
--   Note that naming the network metrics is uppercase/lowercase insensitive.
+Note that naming the network metrics is uppercase/lowercase insensitive.
 
 The `geohabnet` package also provides the user with a function for each network metric as listed in Table 3. Each network metric function can work independently if they are provided with an adjacency matrix.
 
@@ -269,12 +292,12 @@ The `sensitivity_analysis()` function provides three outcomes in two ways.
 
     -   A map of the difference in ranks between mean habitat connectivity and habitat availability.
 
-By default, all the maps will be produced. Users can choose to see a specific map by setting the parameters under `PriorityMaps` to `TRUE` or FALSE:
+By default, all the maps will be produced. Users can choose to see a specific map by setting the parameters under `PriorityMaps` to `TRUE` or FALSE.
 
 If the value above is set to `TRUE`, the outcomes will be calculated internally, and plots will be generated.
 
 -   Second, the `sensitivity_analysis()` function will automatically save the map of outcomes selected by the user in the current directory. The name of the saved files is in the following format: “type_xxxxx.tif”, where the type is one of the maps (for example, “mean_msd07.tif”). Users can specify the directory in which the raster files will be saved by specifying so in the `OutDir` parameter under `PriorityMaps`.
 
-Enjoy `geohabnet`!
+Enjoy `geohabnet`![@geohabnet-2]
 
 # References
