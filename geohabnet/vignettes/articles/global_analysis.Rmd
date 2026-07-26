@@ -1,6 +1,7 @@
 ---
 title: "Global Analysis"
 output: rmarkdown::pdf_document
+bibliography: references.bib
 ---
 
 ```{r, include = FALSE}
@@ -12,7 +13,7 @@ knitr::opts_chunk$set(
 
 Installation and loading
 
-`geohabnet` is currently a private package and thus requires an access to [github repo](https://github.com/GarrettLab/CroplandConnectivity) . Please request an access from Garrett,Karen \<karengarrett\@ufl.edu\> .
+`geohabnet`[@geohabnet] is an open source package The sample below is to download package from Github directly .
 
 Replace the auth token with your own token obtained from github.
 

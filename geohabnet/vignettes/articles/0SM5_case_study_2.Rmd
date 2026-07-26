@@ -3,6 +3,7 @@ title: "Case study 2: Yam and sorghum landscape connectivity in Sub-Saharan Afri
 author: "Romaric A. Mouafo-Tchinda"
 date: "2026-05-28"
 output: html_document
+bibliography: references.bib
 ---
 
 The scope of this vignette is to show how you can implement the crop landscape connectivity throughout a continent or region using MAPSPAM data in the `geohabnet` package.
@@ -35,9 +36,9 @@ afr_ext <- ext(-26, 58, -35, 26)
 westafr_ext <- ext(-18, 14, 3, 17)
 ```
 
-# Download the crop havested area files and plot the cropland density map
+# Download the crop harvested area files and plot the cropland density map
 
-You can use the crop_spam() function in the geodata package to download cropland data into MAPSPAM. Using this function, global map file data is extracted from "SPAM 2010 v2.0 Global Data (Updated 2020-07-15)", and sub-Saharan map file data is extracted from "SPAM 2017 v2.1 Sub-Saharan Africa (Updated 2020-12-21)". A new global map file has recently been made available via "SPAM 2020 v1.0 Global data (Updated 2024-04-16)", but is not yet taken into account by the function.You must download the raster file to your computer before using it in r, or upload it directly online. Note: MAPSPAM pixel values are expressed in hectares, so we divide them by 10,000 to convert them into square kilometers, to provide a uniform measure for comparing landscape across different regions.
+You can use the crop_spam() function in the geodata package[@geodata] to download cropland data into MAPSPAM. Using this function, global map file data is extracted from "SPAM 2010 v2.0 Global Data (Updated 2020-07-15)", and sub-Saharan map file data is extracted from "SPAM 2017 v2.1 Sub-Saharan Africa (Updated 2020-12-21)". A new global map file has recently been made available via "SPAM 2020 v1.0 Global data (Updated 2024-04-16)", but is not yet taken into account by the function.You must download the raster file to your computer before using it in r, or upload it directly online. Note: MAPSPAM pixel values are expressed in hectares, so we divide them by 10,000 to convert them into square kilometers, to provide a uniform measure for comparing landscape across different regions.
 
 Here we use the example of sorghum in the sub-African region and yam in West Africa.
 
@@ -60,11 +61,11 @@ plot(countriesLow, add=TRUE, border = "grey25")
 
 # Cropland connectivity
 
-You can use the sean() or msean() functions in the geohabnet package to perform sensitivity analysis of cropland connectivity. To perform this analysis, you can choose to use the default parameter values available in msean(), or you can customize the parameter values according to your understanding of the analysis and the cropping system you are working on.
+You can use the `sean()` or `msean()` functions in the package to perform sensitivity analysis of cropland connectivity. To perform this analysis, you can choose to use the default parameter values available in `msean()`, or you can customize the parameter values according to your understanding of the analysis and the cropping system you are working on.
 
 ## Sorghum landscape connectivity in the sub-African region
 
-In the fist analysis, we are using the default parameters values in msean(). The four default network metrics are betweeness centrality (weighted 50%), node strength (weighted 15%), Sum of nearest neighbors (weighted 15%), and eigenvector centrality (weighted 20%). The link_threshold and hd_threshold values equal to 0.00001 and 0.0025 respectively are well explained in Xing et al. (2020).
+In the fist analysis, we are using the default parameters values in `msean()`. The four default network metrics are betweeness centrality (weighted 50%), node strength (weighted 15%), Sum of nearest neighbors (weighted 15%), and eigenvector centrality (weighted 20%). The `link_threshold` and `hd_threshold` values equal to 0.00001 and 0.0025 respectively are well explained in Xing et al. (2020)[@xing2020].
 
 In the second analysis, we changed the betweeness centrality metric within the four network metrics with closeness centrality
 
@@ -109,7 +110,7 @@ plot(countriesLow, add=TRUE, border = "grey25")
 
 ## Yams landscape connectivity in the west African region
 
-Here in the first analysis, we changed the distance calculation method, the hd_threshold value, and the rating of the four default network metrics. In the second analysis, we changed the betweeness centrality with closeness centrality
+Here in the first analysis, we changed the distance calculation method, the `hd_threshold` value, and the rating of the four default network metrics. In the second analysis, we changed the betweeness centrality with closeness centrality
 
 ```{r fig.width=8, fig.height=6}
 #First analysis: customizing the parameter values

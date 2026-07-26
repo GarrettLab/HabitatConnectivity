@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 
 # Abstract
 
-Habitat connectivity can be used to analyse the potential spread of plant pathogen, pest, or any habitat-dependent species. Habitat connectivity of a species depends on the habitat availability (e.g., habitat availability for plant pests or pollinators or availability of favorable climate for plant species), and probability of movement of a species between habitat locations. In `geohabnet`, habitat connectivity indicates the importance of a habitat location in facilitating the spread of a species across a geographic region, relative to other locations in the same landscape. For plant pathogens and pests, the spatial distribution of habitat availability plays a crucial role for defining habitat availability and the establishment of the pest species. Locations with abundant habitats (e.g., plant hosts) may play a minor role in species spread if they are isolated. Yet, a location with limited habitat may play a major role in the spread of a species if it acts as a bridge between regions that would otherwise be separated. *geohabnet* [@geohabnet2025] provides the R-user community with a network-based approach to estimate habitat connectivity across the world. This package supports up to 10 parameters that has potential to influence habitat or landscape connectivity. The implementation of *geohabnet* [@geohabnet2025] expands the cropland connectivity method for plant pathogens proposed by [@xing2020] to a general way of calculating habitat connectivity for any species. The network-based framework is the same as the one proposed by [@xing2020]. However, *geohabnet* provides more flexibility to users to modify any parameter values in this framework.
+Habitat connectivity can be used to analyse the potential spread of plant pathogen, pest, or any habitat-dependent species. Habitat connectivity of a species depends on the habitat availability (e.g., habitat availability for plant pests or pollinators or availability of favorable climate for plant species), and probability of movement of a species between habitat locations. In `geohabnet`, habitat connectivity indicates the importance of a habitat location in facilitating the spread of a species across a geographic region, relative to other locations in the same landscape. For plant pathogens and pests, the spatial distribution of habitat availability plays a crucial role for defining habitat availability and the establishment of the pest species. Locations with abundant habitats (e.g., plant hosts) may play a minor role in species spread if they are isolated. Yet, a location with limited habitat may play a major role in the spread of a species if it acts as a bridge between regions that would otherwise be separated. *geohabnet* [@geohabnet-2] provides the R-user community with a network-based approach to estimate habitat connectivity across the world. This package supports up to 10 parameters that has potential to influence habitat or landscape connectivity. The implementation of the package expands the cropland connectivity method for plant pathogens proposed by [@xing2020] to a general way of calculating habitat connectivity for any species. The network-based framework is the same as the one proposed by [@xing2020]. However, this package provides more flexibility to users to modify any parameter values in this framework.
 
-Although this article focuses on the use of *geohabnet* [@geohabnet], it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009]; and [@config] provides a text based interface to control the parameters values for risk analysis in this context.
+Although this article focuses on the use of *geohabnet* [@geohabnet-2], it is useful to know for interested developers that package design is inspired from widely used Configuration-based design in software development [@sre_book], [@nash2009]; and [@config] provides a text based interface to control the parameters values for risk analysis in this context.
 
-The primary objective of this vignette is to help user being familiarized with *geohabnet* [@geohabnet], list its capabilities and get an intuition behind them. It also describes the implementation of the main functions in *geohabnet* to support this intuition. Throughout the article, we will be citing external sites and resources, which are relevant for the use of this package.
+The primary objective of this vignette is to help user being familiarized with *geohabnet* [@geohabnet; @geohabnet-2], list its capabilities and get an intuition behind them. It also describes the implementation of the main functions to support this intuition. Throughout the article, we will be citing external sites and resources, which are relevant for the use of this package.
 
 # Pre-requisites
 
@@ -31,7 +31,7 @@ The primary objective of this vignette is to help user being familiarized with *
 
 -   Raster - Raster is a digital encoding representation of geographic information as a grid of cells or pixels, where each cell contains a value representing a specific property or attribute of a location. Some details of a raster data include spatial resolution, dimensions, or geographic extent, which are useful in identification and processing. Here, we use raster to represent maps.
 
--   TIFF(Tag Image File Format) is a type of file that stores geographic information in the form of raster. [@geohabnet] has been tested using *.tif* and *.nc* files but it would be able to handle any raster type of file supported by the R package *terra* [@terra] .
+-   TIFF(Tag Image File Format) is a type of file that stores geographic information in the form of raster. [@geohabnet ; @geohabnet-2] has been tested using *.tif* and *.nc* files but it would be able to handle any raster type of file supported by the R package *terra* [@terra] .
 
 ## External materials
 
@@ -57,7 +57,7 @@ For estimating habitat connectivity for understanding the spread of plant pathog
 
 *geodata* provides a set of APIs to access the EARTHSTAT and MapSPAM datasets directly in R (see code below).
 
-The raster layers from the data sources listed above may need some transformation before using them in [@geohabnet]. A valid raster layer to be used is one that its entry values of each pixel range from 0 (no habitat available) to 1 (habitat is available in the entirety of the pixel). For example, data layers of cropland fraction from EARTHSTAT can be directly provided to functions without the need to re-scale its entries. However, data layers of harvested area from CROPGRIDS will need re-scaling the values of each grid cell in the raster (see an example of how to do this below).
+The raster layers from the data sources listed above may need some transformation before using them in the workflow/functions. A valid raster layer to be used is one that its entry values of each pixel range from 0 (no habitat available) to 1 (habitat is available in the entirety of the pixel). For example, data layers of cropland fraction from EARTHSTAT can be directly provided to functions without the need to re-scale its entries. However, data layers of harvested area from CROPGRIDS will need re-scaling the values of each grid cell in the raster (see an example of how to do this below).
 
 For visualization and plots, *geohabnet* uses *rnaturalearth* [rnaturalearth](#0).
 
@@ -116,7 +116,7 @@ At any point, you can access the help page using the following
 
 The section below illustrate how the habitat connectivity analysis can be conducted using the default set of values for the supported parameters. For this example, we use the raster layer for avocado harvested area from CROPGRIDS [@Tang2024] as a real-world case study for the habitat connectivity of avocado-specific pathogens. This example would run the analysis on global geographical extent relatively quickly since the crop presence around the world is relatively low.
 
-For the purposes of demonstration, the code below sets the habitat parameter programatically or directly in RStudio. Alternatively, the parameters can be fed via `parameters.yaml` in an interactive way using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
+For the purposes of demonstration, the code below sets the habitat parameter programmatically or directly in RStudio. Alternatively, the parameters can be fed via `parameters.yaml` in an interactive way using either the path or setting `iwindow = TRUE` for the windows prompt in `set_parameters()`
 
 ## Running your first habitat connectivity analysis
 
@@ -317,7 +317,7 @@ L is link weights and W is the original weights in an undirected graph. W' is th
 
 ### Geographical Extent
 
-Geographical extent is a subset of world map defined by coordinate reference system. The corresponding parameter to set the area in `sean()` and `sensitivity_analyis()` is `geoscale` and `GeoExtent` respectively. Default setting is `global = TRUE` which will ignore the value of `geoscale`. This will consider taking the world map into account using values from `global_scales()` . For non-global analysis, either set `global = FALSE` with or without the setting `geoscale`. By default, `geoscale` will be extracted from the extents from the input SpatRaster. We recommend using EPSG:4326 as coordinate reference system because the functions have been tested on it.
+Geographical extent is a subset of world map defined by coordinate reference system. The corresponding parameter to set the area in `sean()` and `sensitivity_analyis()` is `geoscale` and `GeoExtent` respectively. Default setting is `global = TRUE` which will ignore the value of `geoscale`. This will consider taking the world map into account using values from `global_scales()` . For non-global analysis, either set `global = FALSE` with or without the setting `geoscale`. By default, `geoscale` will be extracted from the extents from the input `SpatRaster`. We recommend using EPSG:4326 as coordinate reference system because the functions have been tested on it.
 
 1.  Using function
 
@@ -407,7 +407,7 @@ Checkout the adjacency matrices by running the code below -
 #final@rasters$global_rast[[1]]$east[[1]]$amatrix
 ```
 
-Set *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under the specified path in `OutDir` with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created. If the `outdir` is empty, the value is defaulted to `tempdir()` . This applies to corresponding parameter `outdir` in all the functions.
+Set parameters - *pmean, pvar, pdiff* to *FALSE* to skip the any of the calculation in `connectivity()` to skip this calculation. In `sean()` or `sensitivity_analysis()`, set `map = FALSE` to skip the generation of maps as an outcome. In case of global analysis, result of eastern and western geographic extents are merged using `terra::merge()` . The outcome of each of the operation are saved in the new directory *plots* under the specified path in `OutDir` with name *opt_datetime.tif*, where *opt* is one of the above suffixed by datetime of the file created. If the `outdir` is empty, the value is defaulted to `tempdir()` . This applies to corresponding parameter `outdir` in all the functions.
 
 # Computing
 

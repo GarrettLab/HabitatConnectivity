@@ -17,17 +17,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-Welcome to the user guide for geohabnet [@geohabnet], an R package for the analysis of habitat landscape connectivity!
+Welcome to the user guide for geohabnet [@geohabnet-2], an R package for the analysis of habitat landscape connectivity!
 
-This section is designed for users already familiar with R and RStudio. While RStudio is considered an interactive environment, using R from the CLI is not. The pre-print for this application paper can be accessed [here](https://arxiv.org/abs/2510.24955) [@geohabnet].
+This section is designed for users already familiar with R and RStudio. While RStudio is considered an interactive environment, using R from the CLI is not. The pre-print for this application paper can be accessed [here](https://arxiv.org/abs/2510.24955) [@geohabnet-2].
 
-The underlying theory for calculating habitat connectivity is based on network analysis. To get an idea of the concepts of habitat connectivity in `geohabnet`, users are recommended to check [@xing2020] – Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests. BioScience 70(9): 744-758.
+The underlying theory for calculating habitat connectivity is based on network analysis. To get an idea of the concepts of habitat connectivity in `geohabnet`, users are recommended to check Xing et al[@xing2020] – Global cropland connectivity: A risk factor for invasion and saturation by emerging pathogens and pests.
 
 # Installation and pre-requisites
 
 The `geohabnet` R package can be directly installed and loaded in RStudio using the following commands.
 
-Note that it is strongly recommended to haver R 4.5.1 as the minimum version of R to successfully install `geohabnet`.
+Note that it is strongly recommended to have R 4.5.1 as the minimum version of R to successfully install `geohabnet`.
 
 For the stable version published in CRAN:
 
@@ -60,7 +60,7 @@ library(geohabnet)
 
 # Getting started
 
-The landing page and documentation can be accessed using `?geohabnet`. This guide was written for geohabnet 2.3, which is available for download in CRAN and GitHub.
+The landing page and documentation can be accessed using `?geohabnet`. This guide was written for `geohabnet 2.3`, which is available for download in CRAN and GitHub.
 
 The help page for all the functions can be accessed with `?geohabnet::fun` or `help(geohabnet::fun)`, where fun needs to be changed to the name of a function of your interest. For example, `?geohabnet::msean()` or simply `?msean` will provide documentation for the function `msean()`.
 
@@ -96,9 +96,9 @@ set_parameters(new_params = "C:/Users/plexaaron/Documents/*parameters.yaml")
 
 ## 1. Providing habitat distribution
 
-Users can provide any type of habitat map that is compatible with the `terra:rast()` function. Typically, this is a TIFF file in the standard geographic coordinate system (WGS84). Acceptable entries in this SpatRaster range from zero (no habitat is available in a location) to one (the location is fully covered with habitat for a species).
+Users can provide any type of habitat map that is compatible with the `terra:rast()` function. Typically, this is a TIFF file in the standard geographic coordinate system (WGS84). Acceptable entries in this `SpatRaster` range from zero (no habitat is available in a location) to one (the location is fully covered with habitat for a species).
 
-Host availability is an important component of habitat quality for plant pathogens. Here, we provide two ways for providing maps of host availability for `geohabnet`. The first one is intented for using your data, and the latter is based on data sources for the global distribution of crop hosts.
+Host availability is an important component of habitat quality for plant pathogens. Here, we provide two ways for providing maps of host availability for `geohabnet`. The first one is intended for using your data, and the latter is based on data sources for the global distribution of crop hosts.
 
 -   **Your own data**. The `geohabnet` package is designed to accept raster files as inputs for the distribution of habitat availability. You can provide your raster file in two ways:
 
@@ -110,7 +110,7 @@ To use `msean()`, the user is required to read the habitat map directly in R. Fo
 hab.rast <- terra::rast("habitat-map-example.tif")
 ```
 
--   **Monfreda Dataset**. Monfreda et al. (2008) provides information for the geographic distribution of 172 crop categories. These maps can be used as a first approximation for the habitat quality of plant pests or pollinators.
+-   **Monfreda Dataset[@monfreda2008]**. Monfreda et al. (2008) provides information for the geographic distribution of 172 crop categories. These maps can be used as a first approximation for the habitat quality of plant pests or pollinators.
 
 You can access this dataset directly in R using the `geodata` package. Run `geodata::monfredaCrops()` in your console to check which crops are available in the Monfreda dataset. You can use a SpatRaster of the crop of interest in `geohabnet` with the following code:
 
@@ -121,7 +121,7 @@ library(geohabnet)
 msean(rast = hab.rast)
 ```
 
-Alternatively, you can access the Monfreda dataset by downloading crop distribution maps from [EarthStat](http://www.earthstat.org/). You can then provide the location of the downloaded TIFF file in the *parameters.yaml* file when using `sensitivity_analysis()`. Note that an updated version of the Monfreda dataset is the [CROPGRIDS dataset] (<https://doi.org/10.6084/m9.figshare.22491997>), though data layers need to be transformed from harvested area to cropland fraction.
+Alternatively, you can access the Monfreda dataset by downloading crop distribution maps from [EarthStat](http://www.earthstat.org/). You can then provide the location of the downloaded TIFF file in the *parameters.yaml* file when using `sensitivity_analysis()`. Note that an updated version of the Monfreda dataset is the [@Tang2024], though data layers need to be transformed from harvested area to cropland fraction.
 
 -   **MAPSPAM dataset**. This dataset provides information for the global distribution of 42 crops or crop groups (IFPRI 2019). You may want to use the harvested area or physical area for your analysis of habitat connectivity in `geohabnet`:
 
@@ -141,9 +141,9 @@ Note that we convert the physical area of crop availability in hectares to the f
 
 Alternatively, you can access the MAPSPAM dataset by downloading crop distribution maps from [MAPSPAM](https://www.mapspam.info/). Note that newer versions of MAPSPAM are not available in the `geodata` package, as of October 10, 2025.
 
--   **Other data sources**. High resolution data layers for crops in the United States are available at [CroplandCROS](https://croplandcros.scinet.usda.gov/). Maps of wild host species may be constructed from geographic occurrences in the Global Biodiversity Information Facility (GBIF, <https://www.gbif.org/>).
+-   **Other data sources**. High resolution data layers for crops in the United States are available at [CroplandCROS](https://croplandcros.scinet.usda.gov/) [@USDA]. Maps of wild host species may be constructed from geographic occurrences in the Global Biodiversity Information Facility (GBIF[@GBIF], <https://www.gbif.org/>).
 
--   **Other choices**. You may prefer that your analysis be based on both the Monfreda and MAPSPAM datasets. In this case, you may first get a spatRaster with host density for the target crop category from each dataset and then average them to generate a SpatRaster of the mean host availability. Another situation is that you need to add different crop categories into a SpatRaster because the habitat of a species ranges across multiple crop species.
+-   **Other choices**. You may prefer that your analysis be based on both the Monfreda[@monfreda2008] and MAPSPAM datasets. In this case, you may first get a spatRaster with host density for the target crop category from each dataset and then average them to generate a `SpatRaster` of the mean host availability. Another situation is that you need to add different crop categories into a `SpatRaster` because the habitat of a species ranges across multiple crop species.
 
 ## 2. Selecting habitat threshold
 
@@ -163,7 +163,7 @@ In `geohabnet`, there are two aggregation strategies:
 
 ## 4. Selecting spatial resolution
 
-In `geohabnet`, the aggregation factor or granularity is the number of small grid cells that are aggregated into larger grid cells in each direction (horizontally and vertically). For example, the finest spatial resolution of the MAPSPAM and Monfreda datasets is 5 minutes, and a granularity value of 6 will result in maps with a spatial resolution of 0.5 degrees. Table 1 compares the spatial resolution and sizes of grid cells for different values of granularity that can be used to aggregate the maps from the MAPSPAM or Monfreda.
+In `geohabnet`, the aggregation factor or granularity is the number of small grid cells that are aggregated into larger grid cells in each direction (horizontally and vertically). For example, the finest spatial resolution of the MAPSPAM and Monfreda[@monfreda2008] datasets is 5 minutes, and a granularity value of 6 will result in maps with a spatial resolution of 0.5 degrees. Table 1 compares the spatial resolution and sizes of grid cells for different values of granularity that can be used to aggregate the maps from the MAPSPAM or Monfreda[@monfreda2008].
 
 **Table 1.** Spatial resolutions and their corresponding granularity.
 
@@ -212,9 +212,9 @@ In *parameters.yaml*, two options are available to set the geographic extent of 
 
 ## 7. Selecting a dispersal kernel model
 
-In `geohabnet`, two dispersal kernel models are used to calculate the “relative likelihood” of species movement between locations. These dispersal kernels are also commonly used in movement ecology.
+Two dispersal kernel models are used to calculate the “relative likelihood” of species movement between locations. These dispersal kernels are also commonly used in movement ecology.
 
-In *parameters.yaml*, set any of the following options under `DispersalKernelModels`:
+In *`parameters.yaml`*, set any of the following options under `DispersalKernelModels`:
 
 -   If you are interested in the inverse power law model, then set the dispersal parameter beta to any positive decimal value.
 -   If you are interested in the negative exponential model, then set the dispersal parameter gamma to any positive decimal value.
@@ -298,6 +298,6 @@ If the value above is set to `TRUE`, the outcomes will be calculated internally,
 
 -   Second, the `sensitivity_analysis()` function will automatically save the map of outcomes selected by the user in the current directory. The name of the saved files is in the following format: “type_xxxxx.tif”, where the type is one of the maps (for example, “mean_msd07.tif”). Users can specify the directory in which the raster files will be saved by specifying so in the `OutDir` parameter under `PriorityMaps`.
 
-Enjoy `geohabnet`!
+Enjoy `geohabnet`![@geohabnet-2]
 
 # References

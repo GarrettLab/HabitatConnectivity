@@ -71,7 +71,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Case study 1</h1>
                         <h4 data-toc-skip class="author">A. I. Plex</h4>
             
-            <h4 data-toc-skip class="date">11 June, 2026</h4>
+            <h4 data-toc-skip class="date">26 July, 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GarrettLab/HabitatConnectivity/blob/HEAD/vignettes/articles/0SM4_case_study_1.Rmd" class="external-link"><code>vignettes/articles/0SM4_case_study_1.Rmd</code></a></small>
       <div class="d-none name"><code>0SM4_case_study_1.Rmd</code></div>
@@ -81,10 +81,11 @@
     
 <p>The objective of this vignette is to illustrate the underlying
 assumptions to calculate habitat connectivity in the
-<code>geohabnet</code> package using a simple example. If you are
-interested in a particular step in in the habitat connectivity analysis,
-you can skip some sections. However, we recommend beginners to look at
-the material in sequence of sections in the vignette.</p>
+<code>geohabnet</code> <span class="citation">(Keshav, Plex, and Garrett
+2026)</span> ] package using a simple example. If you are interested in
+a particular step in in the habitat connectivity analysis, you can skip
+some sections. However, we recommend beginners to look at the material
+in sequence of sections in the vignette.</p>
 <div class="section level2">
 <h2 id="creating-a-hypothetical-habitat-landscape">Creating a hypothetical habitat landscape<a class="anchor" aria-label="anchor" href="#creating-a-hypothetical-habitat-landscape"></a>
 </h2>
@@ -239,9 +240,9 @@ the igraph package in R.</p>
 <span>                           weighted<span class="op">=</span><span class="cn">T</span><span class="op">)</span> <span class="co">#entries will be considered link weights in the network</span></span>
 <span><span class="co"># Checking the content of the graph object</span></span>
 <span><span class="va">habitatnet</span></span></code></pre></div>
-<pre><code><span><span class="co">## IGRAPH 94383c7 U-W- 7 11 -- </span></span>
+<pre><code><span><span class="co">## IGRAPH 53be64f U-W- 7 11 -- </span></span>
 <span><span class="co">## + attr: weight (e/n)</span></span>
-<span><span class="co">## + edges from 94383c7:</span></span>
+<span><span class="co">## + edges from 53be64f:</span></span>
 <span><span class="co">##  [1] 1--2 1--3 2--3 2--4 3--4 3--5 3--6 3--7 4--5 4--6 5--6</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Visualizing the graph object</span></span>
@@ -407,14 +408,15 @@ the highest betweenness centrality (as expected).</p>
 <p><img src="0SM4_case_study_1_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 </div>
 <div class="section level2">
-<h2 id="reproducing-the-cartoon-example-from-xing-et-al--2020">Reproducing the cartoon example from Xing et al. (2020)<a class="anchor" aria-label="anchor" href="#reproducing-the-cartoon-example-from-xing-et-al--2020"></a>
+<h2 id="reproducing-the-cartoon-example-from-xing-et-al--2020xing2020">Reproducing the cartoon example from Xing et al. (2020)<span class="citation">(Xing et al. 2020)</span><a class="anchor" aria-label="anchor" href="#reproducing-the-cartoon-example-from-xing-et-al--2020xing2020"></a>
 </h2>
 <p><a href="https://doi.org/10.1093/biosci/biaa067" class="external-link">Xing et al
-(2020)</a> provided the foundation for the mathematical framework we
-used in geohabnet to conduct a habitat connectivity analysis. Figure 3
-in that paper illustrates cropland connectivity for a simple
-hypothetical example. Let’s try to replicate this network using the
-knowledge you get above.</p>
+(2020)</a><span class="citation">(Xing et al. 2020)</span> provided the
+foundation for the mathematical framework we used in geohabnet to
+conduct a habitat connectivity analysis. Figure 3 in that paper
+illustrates cropland connectivity for a simple hypothetical example.
+Let’s try to replicate this network using the knowledge you get
+above.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/" class="external-link">viridis</a></span><span class="op">)</span></span></code></pre></div>
@@ -511,15 +513,15 @@ knowledge you get above.</p>
 <p><img src="0SM4_case_study_1_files/figure-html/unnamed-chunk-10-4.png" width="1250"></p>
 </div>
 <div class="section level2">
-<h2 id="illustrating-the-functionality-of-geohabnet">Illustrating the functionality of geohabnet<a class="anchor" aria-label="anchor" href="#illustrating-the-functionality-of-geohabnet"></a>
+<h2 id="illustrating-the-functionality-of-geohabnetgeohabnet-2">Illustrating the functionality of geohabnet<span class="citation">(Keshav, Plex, and Garrett 2026)</span><a class="anchor" aria-label="anchor" href="#illustrating-the-functionality-of-geohabnetgeohabnet-2"></a>
 </h2>
 <p>While you can conduct a habitat connectivity analysis running all
 lines of code provided above, <code>geohabnet</code> offers this
 functionality and more with a single function in R.</p>
-<p>In our hypothetical example above from Xing et al 2020, you will only
-need to provide the SpatRaster object indicating the habitat density
-distribution to the <code>msean</code> function and specify all the
-parameters available in this function as you wish.</p>
+<p>In our hypothetical example above from Xing et al 2020 <span class="citation">(Xing et al. 2020)</span>, you will only need to
+provide the <code>SpatRaster</code> object indicating the habitat
+density distribution to the <code>msean</code> function and specify all
+the parameters available in this function as you wish.</p>
 <p>Lets first install the <code>geohabnet</code> package and then call
 the library in our environment. Then use the <code>msean</code> function
 to conduct a habitat connectivity analysis using the map of habitat
@@ -584,11 +586,11 @@ density called <code>xing.rast</code>.</p>
 <span>     main <span class="op">=</span> <span class="st">"I) Mean connectivity - Habitat density"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="0SM4_case_study_1_files/figure-html/unnamed-chunk-11-22.png" width="1250"></p>
 <p>As you noticed, there are many parameters that can be modified in the
-<code>msean</code> function. This is because geohabnet is flexible so
-you can apply it to any pest or pathogen species. <code>geohabnet</code>
-takes all these parameters as inputs and conduct a sensitiviy analysis
-across these parameters to provide output maps. Play around with
-different parameter values and see what happens…</p>
+<code>msean</code> function. This is because functions in the package is
+flexible so you can apply it to any pest or pathogen species.
+<code>geohabnet</code> takes all these parameters as inputs and conduct
+a sensitivity analysis across these parameters to provide output maps.
+Play around with different parameter values and see what happens…</p>
 <blockquote>
 <blockquote>
 <p><strong>Note</strong> that in the code above, we explicitly extract
@@ -601,6 +603,19 @@ connectivity in the “Plots” panel in RStudio for you and do not have to
 deal with plotting.</p>
 </blockquote>
 </blockquote>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-geohabnet-2" class="csl-entry">
+Keshav, Krishna, Aaron Plex, and Karen Garrett. 2026. <span>“Geohabnet:
+Geographical Risk Analysis Based on Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
+</div>
+<div id="ref-xing2020" class="csl-entry">
+Xing, Yanru, John F Hernandez Nopsa, Kelsey F Andersen, Jorge L
+Andrade-Piedra, Fenton D Beed, Guy Blomme, Mónica Carvajal-Yepes, et al.
+2020. <span>“Global Cropland Connectivity: A Risk Factor for Invasion
+and Saturation by Emerging Pathogens and Pests.”</span>
+<em>BioScience</em> 70 (9): 744–58. <a href="https://doi.org/10.1093/biosci/biaa067" class="external-link">https://doi.org/10.1093/biosci/biaa067</a>.
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

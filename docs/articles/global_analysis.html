@@ -78,10 +78,9 @@
     
     
 <p>Installation and loading</p>
-<p><code>geohabnet</code> is currently a private package and thus
-requires an access to <a href="https://github.com/GarrettLab/CroplandConnectivity" class="external-link">github
-repo</a> . Please request an access from Garrett,Karen
-&lt;karengarrett@ufl.edu&gt; .</p>
+<p><code>geohabnet</code><span class="citation">(Keshav, Plex, and
+Garrett 2026)</span> is an open source package The sample below is to
+download package from Github directly .</p>
 <p>Replace the auth token with your own token obtained from github.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://garrettlab.github.io/HabitatConnectivity/">"geohabnet"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -112,6 +111,12 @@ for new analysis. If the threshold is too big, then it may result in
 valid cells to produce connectivity.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sean.html">sean</a></span><span class="op">(</span>link_threshold <span class="op">=</span> <span class="fl">0.0000015</span>, rast <span class="op">=</span> <span class="va">myrast</span>, res <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-geohabnet" class="csl-entry">
+Keshav, Krishna, Aaron Plex, and Karen Garrett. 2026. <span>“Geohabnet:
+Geographical Risk Analysis Based on Habitat Connectivity.”</span> <a href="https://garrettlab.github.io/HabitatConnectivity/">https://garrettlab.github.io/HabitatConnectivity/</a>.
+</div>
+</div>
   </main>
 </div>
 
